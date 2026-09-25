@@ -18,3 +18,20 @@ Verificado em 25/09/2026.
 Capturas: [foco no celular](screenshots/foco-mobile.png), [progresso no celular](screenshots/progresso-mobile.png) e [foco no desktop](screenshots/foco-desktop.png).
 
 Pendente: execução no Android físico, comportamento com tela bloqueada, notificações e avaliação por usuários. Os testes do navegador não comprovam esses aspectos nativos.
+
+## Refatoração e onboarding
+
+- TypeScript e formatação Prettier: passaram.
+- Nove testes de domínio: passaram, incluindo migração de registros antigos, persistência do onboarding e limites de data local no progresso.
+- Exportações web e Hermes Android: passaram com NativeWind, Poppins e Lucide.
+- Introdução: avançar pelas três etapas, voltar, pular, concluir e reabrir pelos ajustes.
+- Conclusão persistida: a introdução não reaparece após recarregar.
+- Movimento reduzido e tema terracota: mantidos ao recarregar.
+- Tela de 320 px: conteúdo com 320 px, sem transbordamento horizontal.
+- Fundo do modal: atributo `aria-hidden` confirmado no navegador; flags nativas configuradas. Leitor de tela em Android físico ainda não testado.
+- Demonstração de 10 segundos: conclusão verificada após refatoração e onboarding.
+- Migração no navegador com registro sintético antigo: preservou 1 sessão, 1.234 segundos restantes e tema lavanda; não interrompeu a sessão pausada com o onboarding.
+- Cancelamento de reinício, retomada e nova pausa: verificados.
+- Dados sintéticos de histórico removidos antes de capturar as telas finais. Sem erros capturados no navegador.
+
+Capturas atuais: [foco](screenshots/foco-atual.png), [progresso](screenshots/progresso-atual.png), [introdução](screenshots/onboarding-inicio.png) e [introdução em 320 px](screenshots/onboarding-320.png).

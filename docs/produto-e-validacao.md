@@ -42,14 +42,14 @@ Usar a demonstração de 10 segundos para verificar entendimento e impressão in
 
 Registrar por participante, sem informações pessoais desnecessárias:
 
-| Observação | Registro |
-| --- | --- |
-| Situação em que tentaria usar | |
-| Conseguiu iniciar sozinho? | |
-| Onde hesitou ou pediu ajuda? | |
-| Mascote: companhia, distração ou indiferença? Por quê? | |
-| O que esperava ao terminar? | |
-| Em que situação voltaria a usar? | |
-| Principal melhoria sugerida | |
+| Observação                                             | Registro |
+| ------------------------------------------------------ | -------- |
+| Situação em que tentaria usar                          |          |
+| Conseguiu iniciar sozinho?                             |          |
+| Onde hesitou ou pediu ajuda?                           |          |
+| Mascote: companhia, distração ou indiferença? Por quê? |          |
+| O que esperava ao terminar?                            |          |
+| Em que situação voltaria a usar?                       |          |
+| Principal melhoria sugerida                            |          |
 
 Este teste investiga compreensão e apelo inicial. Retenção exige uso ao longo do tempo; antes disso, implementar e testar alertas com tela bloqueada. Uma apresentação elogiada não comprova retenção, receita ou adequação ao mercado.

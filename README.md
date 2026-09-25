@@ -1,6 +1,6 @@
 # Pomodog
 
-Protótipo funcional de um companheiro de foco: timer Pomodoro, cachorro animado, personalização discreta e progresso sem punições. Interface em português, com armazenamento local e sem cadastro.
+Protótipo funcional de um companheiro de foco: timer Pomodoro, cachorro animado, onboarding, personalização discreta e progresso sem punições. Interface em português, com armazenamento local e sem cadastro.
 
 ## Experimentar
 
@@ -12,6 +12,8 @@ npm run web
 ```
 
 Abra o endereço exibido no terminal. Para apresentar rapidamente o ciclo completo, use **Experimentar em 10 segundos** e depois **Começar a focar**. A demonstração não altera o histórico.
+
+Na primeira abertura, a introdução mostra três passos curtos. É possível pular ou rever em **Ajustes → Rever introdução**. Uma sessão restaurada em andamento não é interrompida pelo onboarding automático.
 
 Para abrir no Android com Expo Go compatível com o SDK instalado:
 
@@ -30,6 +32,8 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 - Três cores de interface e coleira; opção de reduzir movimento, respeitando também a configuração do sistema.
 - Sessões de foco concluídas, minutos do dia e histórico dos últimos sete dias; armazenamento das últimas 1.000 sessões.
 - Preferências e sessão atual salvas no dispositivo. Descansos e demonstrações não contam como foco.
+- Onboarding com voltar, pular e conclusão persistida localmente.
+- Poppins empacotada, ícones Lucide e estilos Tailwind via NativeWind para Android e web.
 
 ## Limites desta versão
 
@@ -43,20 +47,30 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 ```sh
 npm run typecheck
 npm test
+npm run format:check
 npm run export:web
-npx expo export --platform android --output-dir dist-android
+npm run export:android
 ```
 
-Os testes do timer cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de demonstrações/descansos e rejeição de dados inválidos.
+Os nove testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de demonstrações/descansos, migração de dados antigos, onboarding persistido, dados inválidos e progresso entre datas locais.
 
 `npm audit` identificou 10 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível de Expo; não foi aplicada. Reavaliar antes de distribuição.
 
 ## Organização
 
-- `App.tsx`: telas, controles e persistência local.
+- `App.tsx`: fontes e providers; `src/Pomodog.tsx`: composição das telas.
+- `src/features/`: foco, progresso, ajustes e onboarding.
+- `src/components/ui/`: componentes reutilizáveis por composição.
+- `src/hooks/`, `src/domain/` e `src/storage/`: estado, regras e persistência separados da interface.
 - `src/Dog.tsx`: ilustração original e animação do mascote.
 - `src/timer.ts`: regras do timer e validação do estado salvo.
 - `tests/timer.test.ts`: testes das regras de tempo.
 - [Produto e validação](docs/produto-e-validacao.md): hipóteses e roteiro para avaliações.
+- [Arquitetura e bundle](docs/arquitetura.md): escolhas, responsabilidades e custo das dependências.
+- [Próximas etapas](docs/proximas-etapas.md): nome do mascote, autonomia e defesa em profundidade.
+
+## Histórico de desenvolvimento
+
+Repositório privado: [filipebteixeira98/pomodog](https://github.com/filipebteixeira98/pomodog). Commits incrementais seguem Conventional Commits, em inglês. Use `npm run format` para formatar alterações e execute os checks antes de cada commit.
 
 Configuração baseada na documentação do Expo consultada via Context7: [templates](https://github.com/expo/expo/blob/main/docs/pages/more/create-expo.mdx) e [suporte web](https://github.com/expo/expo/blob/main/docs/pages/workflow/web.mdx).
