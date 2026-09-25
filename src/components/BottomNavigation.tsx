@@ -1,13 +1,15 @@
 import { Pressable, View } from "react-native";
 import ChartNoAxesColumnIncreasing from "lucide-react-native/icons/chart-no-axes-column-increasing";
 import PawPrint from "lucide-react-native/icons/paw-print";
+import SlidersHorizontal from "lucide-react-native/icons/sliders-horizontal";
 
 import { Text } from "./ui/Text";
 
-export type Tab = "focus" | "progress";
+export type Tab = "focus" | "progress" | "settings";
 const tabs = [
   { id: "focus", label: "Meu foco", Icon: PawPrint },
   { id: "progress", label: "Meu progresso", Icon: ChartNoAxesColumnIncreasing },
+  { id: "settings", label: "Ajustes", Icon: SlidersHorizontal },
 ] as const;
 
 export function BottomNavigation({

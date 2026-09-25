@@ -7,19 +7,23 @@ import { AppHeader } from "./components/AppHeader";
 import { BottomNavigation, type Tab } from "./components/BottomNavigation";
 import { ResetConfirmation } from "./components/ResetConfirmation";
 import { Text } from "./components/ui/Text";
+import { localSession, type CustomerSession } from "./domain/customer";
 import { themes } from "./domain/preferences";
 import { FocusScreen } from "./features/focus/FocusScreen";
 import { Onboarding } from "./features/onboarding/Onboarding";
 import { ProgressScreen } from "./features/progress/ProgressScreen";
-import { SettingsSheet } from "./features/settings/SettingsSheet";
+import { SettingsScreen } from "./features/settings/SettingsScreen";
 import { usePomodoro } from "./hooks/usePomodoro";
 import { useReducedMotion } from "./hooks/useReducedMotion";
 
-export function Pomodog() {
+export function Pomodog({
+  session = localSession,
+}: {
+  session?: CustomerSession;
+}) {
   const model = usePomodoro();
   const systemReducedMotion = useReducedMotion();
   const [tab, setTab] = useState<Tab>("focus");
-  const [settings, setSettings] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [replayOnboarding, setReplayOnboarding] = useState(false);
   const accent = themes[model.preferences.theme].color;
@@ -34,20 +38,15 @@ export function Pomodog() {
       <StatusBar style="dark" />
       <View
         className="w-full max-w-[640px] flex-1 self-center"
-        aria-hidden={showOnboarding || settings || confirmReset}
-        accessibilityElementsHidden={showOnboarding || settings || confirmReset}
+        aria-hidden={showOnboarding || confirmReset}
+        accessibilityElementsHidden={showOnboarding || confirmReset}
         importantForAccessibility={
-          showOnboarding || settings || confirmReset
-            ? "no-hide-descendants"
-            : "auto"
+          showOnboarding || confirmReset ? "no-hide-descendants" : "auto"
         }
       >
-        <AppHeader
-          accent={accent}
-          disabled={!model.ready}
-          onSettings={() => setSettings(true)}
-        />
+        <AppHeader accent={accent} />
         <ScrollView
+          key={tab}
           contentContainerClassName="gap-[18px] px-[22px] pb-6 pt-3"
           showsVerticalScrollIndicator={false}
         >
@@ -70,29 +69,26 @@ export function Pomodog() {
               onToggle={model.toggle}
               onReset={() => setConfirmReset(true)}
             />
-          ) : (
+          ) : tab === "progress" ? (
             <ProgressScreen
               sessions={model.timer.sessions}
               accent={accent}
               onFocus={() => setTab("focus")}
             />
+          ) : (
+            <SettingsScreen
+              session={session}
+              preferences={model.preferences}
+              onChange={model.updatePreferences}
+              busy={model.busy || !model.ready}
+              systemReducedMotion={systemReducedMotion}
+              accent={accent}
+              onReplayOnboarding={() => setReplayOnboarding(true)}
+            />
           )}
         </ScrollView>
         <BottomNavigation value={tab} onChange={setTab} accent={accent} />
       </View>
-      <SettingsSheet
-        visible={settings}
-        onClose={() => setSettings(false)}
-        preferences={model.preferences}
-        onChange={model.updatePreferences}
-        busy={model.busy}
-        systemReducedMotion={systemReducedMotion}
-        accent={accent}
-        onReplayOnboarding={() => {
-          setSettings(false);
-          setReplayOnboarding(true);
-        }}
-      />
       <ResetConfirmation
         visible={confirmReset}
         onClose={() => setConfirmReset(false)}
