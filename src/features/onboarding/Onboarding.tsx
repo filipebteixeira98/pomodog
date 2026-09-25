@@ -7,15 +7,16 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import ArrowRight from "lucide-react-native/icons/arrow-right";
-import Target from "lucide-react-native/icons/target";
 import Coffee from "lucide-react-native/icons/coffee";
-import Sprout from "lucide-react-native/icons/sprout";
 import PawPrint from "lucide-react-native/icons/paw-print";
-import { Dog } from "../../Dog";
+import Sprout from "lucide-react-native/icons/sprout";
+import Target from "lucide-react-native/icons/target";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import { Button, TextButton } from "../../components/ui/Button";
 import { Text } from "../../components/ui/Text";
+import { Dog } from "../../Dog";
 
 const steps = [
   {

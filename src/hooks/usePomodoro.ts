@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { AppState } from "react-native";
+
 import { defaultPreferences, type Preferences } from "../domain/preferences";
 import { loadPrototype, savePrototype } from "../storage/prototype";
 import { initialTimer, timerReducer, type Mode } from "../timer";

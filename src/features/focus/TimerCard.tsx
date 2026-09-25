@@ -1,11 +1,12 @@
 import { Pressable, View } from "react-native";
-import Play from "lucide-react-native/icons/play";
 import Pause from "lucide-react-native/icons/pause";
-import { Dog } from "../../Dog";
-import { clockText, type Mode, type Timer } from "../../timer";
+import Play from "lucide-react-native/icons/play";
+
 import { Button, TextButton } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { Text } from "../../components/ui/Text";
+import { Dog } from "../../Dog";
+import { clockText, type Mode, type Timer } from "../../timer";
 
 type Props = {
   timer: Timer;

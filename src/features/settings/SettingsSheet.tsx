@@ -1,14 +1,15 @@
 import { Switch, View } from "react-native";
+
+import { Button } from "../../components/ui/Button";
+import { ChoiceGroup } from "../../components/ui/ChoiceGroup";
+import { Sheet } from "../../components/ui/Sheet";
+import { Text } from "../../components/ui/Text";
 import {
   breakDurations,
   focusDurations,
   themes,
   type Preferences,
 } from "../../domain/preferences";
-import { Button } from "../../components/ui/Button";
-import { ChoiceGroup } from "../../components/ui/ChoiceGroup";
-import { Sheet } from "../../components/ui/Sheet";
-import { Text } from "../../components/ui/Text";
 
 type Props = {
   visible: boolean;

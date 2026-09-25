@@ -1,6 +1,7 @@
 import { Pressable, View } from "react-native";
 import PawPrint from "lucide-react-native/icons/paw-print";
 import SlidersHorizontal from "lucide-react-native/icons/sliders-horizontal";
+
 import { Text } from "./ui/Text";
 
 export function AppHeader({

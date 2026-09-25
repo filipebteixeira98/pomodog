@@ -1,10 +1,12 @@
 import "./global.css";
+
 import { ActivityIndicator, View } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
 import { Poppins_400Regular } from "@expo-google-fonts/poppins/400Regular";
 import { Poppins_500Medium } from "@expo-google-fonts/poppins/500Medium";
 import { Poppins_600SemiBold } from "@expo-google-fonts/poppins/600SemiBold";
+import { useFonts } from "expo-font";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 import { Pomodog } from "./src/Pomodog";
 
 export default function App() {

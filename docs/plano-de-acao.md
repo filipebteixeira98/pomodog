@@ -2,13 +2,13 @@
 
 Implementação gradual, com Conventional Commits em inglês. Preservar Android/web, os dados já salvos e o uso sem conta.
 
-| Etapa | Entrega e critério de conclusão | Estado |
-| --- | --- | --- |
-| 1 | Imports ordenados automaticamente pelo Prettier, preservando imports com efeitos colaterais, e verificação reproduzível | Em implementação |
-| 2 | Ajustes como terceira aba; preferências e introdução acessíveis ali; área de perfil recebe identidade real quando disponível e mostra modo local sem conta | Planejada |
-| 3 | Mascote com nome centralizado, entrada animada, movimento do corpo/cauda e caixas de diálogo; navegação manual e movimento reduzido | Planejada |
-| 4 | Exportar/apagar dados locais, confirmação de exclusão, validação e recuperação segura de armazenamento corrompido; sem telemetria | Planejada |
-| 5 | Testes de regressão, navegador, exportações web/Android, atualização das decisões e envio dos commits | Planejada |
+| Etapa | Entrega e critério de conclusão                                                                                                                            | Estado           |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| 1     | Imports ordenados automaticamente pelo Prettier, preservando imports com efeitos colaterais, e verificação reproduzível                                    | Em implementação |
+| 2     | Ajustes como terceira aba; preferências e introdução acessíveis ali; área de perfil recebe identidade real quando disponível e mostra modo local sem conta | Planejada        |
+| 3     | Mascote com nome centralizado, entrada animada, movimento do corpo/cauda e caixas de diálogo; navegação manual e movimento reduzido                        | Planejada        |
+| 4     | Exportar/apagar dados locais, confirmação de exclusão, validação e recuperação segura de armazenamento corrompido; sem telemetria                          | Planejada        |
+| 5     | Testes de regressão, navegador, exportações web/Android, atualização das decisões e envio dos commits                                                      | Planejada        |
 
 ## Limites e dependências explícitas
 

@@ -1,12 +1,13 @@
 import { View } from "react-native";
-import PawPrint from "lucide-react-native/icons/paw-print";
 import Check from "lucide-react-native/icons/check";
-import type { Session } from "../../timer";
-import { summarizeDay, summarizeWeek } from "../../domain/progress";
+import PawPrint from "lucide-react-native/icons/paw-print";
+
 import { ScreenIntro } from "../../components/ScreenIntro";
+import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { Text } from "../../components/ui/Text";
-import { Button } from "../../components/ui/Button";
+import { summarizeDay, summarizeWeek } from "../../domain/progress";
+import type { Session } from "../../timer";
 
 export function ProgressScreen({
   sessions,

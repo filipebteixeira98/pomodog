@@ -1,6 +1,7 @@
 import { Pressable, View } from "react-native";
-import PawPrint from "lucide-react-native/icons/paw-print";
 import ChartNoAxesColumnIncreasing from "lucide-react-native/icons/chart-no-axes-column-increasing";
+import PawPrint from "lucide-react-native/icons/paw-print";
+
 import { Text } from "./ui/Text";
 
 export type Tab = "focus" | "progress";

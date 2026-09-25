@@ -1,9 +1,10 @@
 import type { ComponentProps } from "react";
 import { View } from "react-native";
 import PawPrint from "lucide-react-native/icons/paw-print";
-import { summarizeDay } from "../../domain/progress";
+
 import { ScreenIntro } from "../../components/ScreenIntro";
 import { Text } from "../../components/ui/Text";
+import { summarizeDay } from "../../domain/progress";
 import { TimerCard } from "./TimerCard";
 
 export function FocusScreen(props: ComponentProps<typeof TimerCard>) {

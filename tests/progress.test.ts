@@ -1,5 +1,6 @@
-import test from "node:test";
 import assert from "node:assert/strict";
+import test from "node:test";
+
 import { summarizeDay, summarizeWeek } from "../src/domain/progress.ts";
 
 test("daily progress follows local calendar dates across a month boundary", () => {
