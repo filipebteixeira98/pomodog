@@ -35,8 +35,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types tests/timer.test.ts",
-    "export:web": "expo export --platform web"
+    "test": "node --experimental-strip-types tests/run.mts",
+    "export:web": "expo export --platform web",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "export:android": "expo export --platform android --output-dir dist-android"
   },
   "private": true
 }

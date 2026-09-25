@@ -12,6 +12,7 @@ import { Text } from "./components/ui/Text";
 import { FocusScreen } from "./features/focus/FocusScreen";
 import { ProgressScreen } from "./features/progress/ProgressScreen";
 import { SettingsSheet } from "./features/settings/SettingsSheet";
+import { Onboarding } from "./features/onboarding/Onboarding";
 
 export function Pomodog() {
   const model = usePomodoro();
@@ -19,13 +20,27 @@ export function Pomodog() {
   const [tab, setTab] = useState<Tab>("focus");
   const [settings, setSettings] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [replayOnboarding, setReplayOnboarding] = useState(false);
   const accent = themes[model.preferences.theme].color;
   const reducedMotion = model.preferences.reduceMotion || systemReducedMotion;
+  const showOnboarding =
+    model.ready &&
+    (replayOnboarding ||
+      (!model.onboardingComplete && model.timer.status === "idle"));
 
   return (
     <SafeAreaView className="flex-1 bg-canvas">
       <StatusBar style="dark" />
-      <View className="w-full max-w-[640px] flex-1 self-center">
+      <View
+        className="w-full max-w-[640px] flex-1 self-center"
+        aria-hidden={showOnboarding || settings || confirmReset}
+        accessibilityElementsHidden={showOnboarding || settings || confirmReset}
+        importantForAccessibility={
+          showOnboarding || settings || confirmReset
+            ? "no-hide-descendants"
+            : "auto"
+        }
+      >
         <AppHeader
           accent={accent}
           disabled={!model.ready}
@@ -72,6 +87,10 @@ export function Pomodog() {
         busy={model.busy}
         systemReducedMotion={systemReducedMotion}
         accent={accent}
+        onReplayOnboarding={() => {
+          setSettings(false);
+          setReplayOnboarding(true);
+        }}
       />
       <ResetConfirmation
         visible={confirmReset}
@@ -83,6 +102,16 @@ export function Pomodog() {
         accent={accent}
         reducedMotion={reducedMotion}
       />
+      {showOnboarding && (
+        <Onboarding
+          accent={accent}
+          reducedMotion={reducedMotion}
+          onFinish={() => {
+            model.completeOnboarding();
+            setReplayOnboarding(false);
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 }

@@ -7,6 +7,7 @@ import { initialTimer, timerReducer, type Mode } from "../timer";
 export function usePomodoro() {
   const [timer, dispatch] = useReducer(timerReducer, initialTimer);
   const [preferences, setPreferences] = useState(defaultPreferences);
+  const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
   const queue = useRef(Promise.resolve());
@@ -21,6 +22,7 @@ export function usePomodoro() {
         if (!mounted || !saved) return;
         dispatch({ type: "restore", value: saved.timer, now: Date.now() });
         setPreferences(saved.preferences);
+        setOnboardingComplete(saved.onboardingComplete);
       })
       .catch(() => {
         if (mounted) setStorageError(true);
@@ -35,7 +37,11 @@ export function usePomodoro() {
 
   useEffect(() => {
     if (!ready) return;
-    const saved = { timer: latestTimer.current, preferences };
+    const saved = {
+      timer: latestTimer.current,
+      preferences,
+      onboardingComplete,
+    };
     queue.current = queue.current
       .then(() => savePrototype(saved))
       .catch(() => setStorageError(true));
@@ -43,6 +49,7 @@ export function usePomodoro() {
   }, [
     ready,
     preferences,
+    onboardingComplete,
     timer.status,
     timer.deadline,
     timer.duration,
@@ -88,6 +95,8 @@ export function usePomodoro() {
   return {
     timer,
     preferences,
+    onboardingComplete,
+    completeOnboarding: () => setOnboardingComplete(true),
     ready,
     busy,
     storageError,

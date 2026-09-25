@@ -1,4 +1,4 @@
-import { dayKey, type Session } from "../timer";
+import { dayKey, type Session } from "../timer.ts";
 
 export function summarizeDay(sessions: Session[], date = Date.now()) {
   const completed = sessions.filter(

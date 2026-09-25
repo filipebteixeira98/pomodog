@@ -18,6 +18,7 @@ type Props = {
   busy: boolean;
   systemReducedMotion: boolean;
   accent: string;
+  onReplayOnboarding: () => void;
 };
 
 export function SettingsSheet({
@@ -28,6 +29,7 @@ export function SettingsSheet({
   busy,
   systemReducedMotion,
   accent,
+  onReplayOnboarding,
 }: Props) {
   return (
     <Sheet
@@ -106,6 +108,9 @@ export function SettingsSheet({
         O timer se atualiza ao voltar ao aplicativo. Esta versão ainda não envia
         alertas com a tela bloqueada e não reproduz música.
       </Text>
+      <Button accent={accent} secondary onPress={onReplayOnboarding}>
+        Rever introdução
+      </Button>
       <Button accent={accent} onPress={onClose}>
         Pronto, vamos lá
       </Button>
