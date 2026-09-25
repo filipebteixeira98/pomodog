@@ -17,26 +17,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, TextButton } from "../../components/ui/Button";
 import { Text } from "../../components/ui/Text";
 import { Dog } from "../../Dog";
+import { mascot } from "../../domain/mascot";
+import { SpeechBubble } from "./SpeechBubble";
 
 const steps = [
   {
-    title: "Um foco de cada vez.",
+    title: `Oi! Eu sou ${mascot.name}.`,
     description:
-      "Escolha uma tarefa pequena. Toque em “Começar a focar” e deixe o resto para depois. Seu companheiro fica por aqui.",
+      "Vou fazer companhia a você. Escolha uma tarefa pequena e toque em “Começar a focar”. Vamos dar esse primeiro passo juntos?",
     tip: "Comece com 25 minutos. Ajuste quando quiser.",
     Icon: Target,
   },
   {
-    title: "Seu ritmo tem espaço.",
+    title: "Vamos no seu ritmo?",
     description:
-      "Precisa parar? Pause e retome quando puder. Ao concluir o foco, prepare um descanso e dê uma pausa para você também.",
+      "Enquanto você foca, fico quietinho. Precisa parar? Pause e retome quando puder. Depois de concluir, escolha um descanso para nós dois.",
     tip: "Foco, descanso e um novo começo. Sem pressa.",
     Icon: Coffee,
   },
   {
-    title: "Voltar já é progresso.",
+    title: "Cada volta conta.",
     description:
-      "Veja seus minutos em “Meu progresso”. Cada sessão concluída conta, sem perder conquistas por deixar um dia passar.",
+      "Você encontra suas conquistas em “Meu progresso” e pode mudar o nosso cantinho em “Ajustes”. Ficarei feliz em ver você voltar!",
     tip: "Seu progresso fica salvo neste dispositivo.",
     Icon: Sprout,
   },
@@ -52,6 +54,8 @@ export function Onboarding({
   onFinish: () => void;
 }) {
   const [index, setIndex] = useState(0);
+  const [motionPaused, setMotionPaused] = useState(false);
+  const calm = reducedMotion || motionPaused;
   const transition = useRef(new Animated.Value(1)).current;
   const scroll = useRef<ScrollView>(null);
   const step = steps[index];
@@ -59,8 +63,8 @@ export function Onboarding({
 
   useEffect(() => {
     scroll.current?.scrollTo({ y: 0, animated: false });
-    transition.setValue(reducedMotion ? 1 : 0);
-    if (reducedMotion) return;
+    transition.setValue(calm ? 1 : 0);
+    if (calm) return;
     const animation = Animated.timing(transition, {
       toValue: 1,
       duration: 280,
@@ -68,7 +72,7 @@ export function Onboarding({
     });
     animation.start();
     return () => animation.stop();
-  }, [index, reducedMotion, transition]);
+  }, [index, calm, transition]);
 
   return (
     <Modal
@@ -110,27 +114,18 @@ export function Onboarding({
                 ],
               }}
             >
-              <View className="items-center gap-5">
-                <Text variant="eyebrow" style={{ color: accent }}>
-                  UM COMPANHEIRO PARA COMEÇAR
-                </Text>
+              <View className="items-center gap-3">
+                <SpeechBubble title={step.title} accent={accent}>
+                  {step.description}
+                </SpeechBubble>
                 <Dog
+                  key={index}
                   accent={accent}
                   resting={index === 1}
                   celebrating={last}
-                  reducedMotion={reducedMotion}
+                  reducedMotion={calm}
+                  expressive
                 />
-                <View
-                  className="items-center gap-3"
-                  accessibilityLiveRegion="polite"
-                >
-                  <Text variant="title" className="text-center">
-                    {step.title}
-                  </Text>
-                  <Text className="text-center text-[14px] leading-6">
-                    {step.description}
-                  </Text>
-                </View>
                 <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
                   <step.Icon color={accent} size={22} />
                   <Text variant="caption" className="flex-1 text-ink">
@@ -140,7 +135,16 @@ export function Onboarding({
               </View>
             </Animated.View>
           </ScrollView>
-          <View className="gap-4 px-7 pb-5 pt-3">
+          <View className="gap-3 px-7 pb-4 pt-2">
+            {!reducedMotion ? (
+              <TextButton onPress={() => setMotionPaused((value) => !value)}>
+                {motionPaused ? "Ativar movimentos" : "Pausar movimentos"}
+              </TextButton>
+            ) : (
+              <Text variant="caption" className="text-center">
+                Movimento reduzido está ativado.
+              </Text>
+            )}
             <View
               accessibilityRole="progressbar"
               accessibilityLabel="Progresso da introdução"
