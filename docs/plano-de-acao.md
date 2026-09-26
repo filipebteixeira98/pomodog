@@ -59,3 +59,7 @@ Manter o plano para andamento; próximas etapas para pendências e decisões; ar
 ## Ajuste pontual do onboarding
 
 Removido o controle local de pausar/ativar movimentos e seu estado duplicado. A preferência permanece em Ajustes e respeita movimento reduzido do sistema. Esta entrega não altera a sequência de animação corporal e Pencil.
+
+## Navegação do onboarding por gestos
+
+Implementada navegação horizontal para avançar/voltar, removendo Continuar e Voltar. Mantidos Pular e o botão final Ir para meu foco. Indicativo curto com ícone e pontos acionáveis oferecem orientação e alternativa acessível. Sem avanço automático. A próxima entrega planejada continua sendo animação corporal.

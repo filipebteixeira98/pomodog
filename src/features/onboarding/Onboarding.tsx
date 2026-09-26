@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   Modal,
+  PanResponder,
   Platform,
   Pressable,
   ScrollView,
@@ -9,16 +10,23 @@ import {
 } from "react-native";
 import ArrowRight from "lucide-react-native/icons/arrow-right";
 import Coffee from "lucide-react-native/icons/coffee";
+import MoveHorizontal from "lucide-react-native/icons/move-horizontal";
 import PawPrint from "lucide-react-native/icons/paw-print";
 import Sprout from "lucide-react-native/icons/sprout";
 import Target from "lucide-react-native/icons/target";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button, TextButton } from "#src/components/ui/Button";
+import { Button } from "#src/components/ui/Button";
 import { Text } from "#src/components/ui/Text";
 import { Dog } from "#src/Dog";
 import { mascot } from "#src/domain/mascot";
 import { SpeechBubble } from "#src/features/onboarding/SpeechBubble";
+
+const webSwipeStyle = {
+  overflow: "hidden",
+  touchAction: "pan-y",
+  userSelect: "none",
+} as const;
 
 const steps = [
   {
@@ -55,9 +63,43 @@ export function Onboarding({
 }) {
   const [index, setIndex] = useState(0);
   const transition = useRef(new Animated.Value(1)).current;
+  const drag = useRef(new Animated.Value(0)).current;
   const scroll = useRef<ScrollView>(null);
   const step = steps[index];
   const last = index === steps.length - 1;
+
+  const swipe = useMemo(() => {
+    const reset = () => {
+      if (reducedMotion) return drag.setValue(0);
+      Animated.timing(drag, {
+        toValue: 0,
+        duration: 180,
+        useNativeDriver: false,
+      }).start();
+    };
+    return PanResponder.create({
+      onMoveShouldSetPanResponder: (_, { dx, dy, numberActiveTouches }) =>
+        numberActiveTouches === 1 &&
+        Math.abs(dx) > 12 &&
+        Math.abs(dx) > Math.abs(dy) * 1.5,
+      onPanResponderGrant: () => drag.stopAnimation(),
+      onPanResponderMove: (_, { dx }) => {
+        if (!reducedMotion) drag.setValue(Math.max(-100, Math.min(100, dx)));
+      },
+      onPanResponderRelease: (_, { dx, dy }) => {
+        if (Math.abs(dx) >= 55 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          setIndex((current) =>
+            Math.max(
+              0,
+              Math.min(steps.length - 1, current + (dx < 0 ? 1 : -1)),
+            ),
+          );
+        }
+        reset();
+      },
+      onPanResponderTerminate: reset,
+    });
+  }, [drag, reducedMotion]);
 
   useEffect(() => {
     scroll.current?.scrollTo({ y: 0, animated: false });
@@ -66,7 +108,7 @@ export function Onboarding({
     const animation = Animated.timing(transition, {
       toValue: 1,
       duration: 280,
-      useNativeDriver: Platform.OS !== "web",
+      useNativeDriver: false,
     });
     animation.start();
     return () => animation.stop();
@@ -94,84 +136,85 @@ export function Onboarding({
               <Text variant="caption">Pular</Text>
             </Pressable>
           </View>
-          <ScrollView
-            ref={scroll}
-            contentContainerClassName="grow justify-center px-7 py-4"
-            showsVerticalScrollIndicator={false}
+          <View
+            className="flex-1 overflow-hidden"
+            {...swipe.panHandlers}
+            style={Platform.OS === "web" ? webSwipeStyle : undefined}
           >
-            <Animated.View
-              style={{
-                opacity: transition,
-                transform: [
-                  {
-                    translateY: transition.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [12, 0],
-                    }),
-                  },
-                ],
-              }}
+            <ScrollView
+              ref={scroll}
+              contentContainerClassName="grow justify-center px-7 py-4"
+              showsVerticalScrollIndicator={false}
             >
-              <View className="items-center gap-3">
-                <SpeechBubble title={step.title} accent={accent}>
-                  {step.description}
-                </SpeechBubble>
-                <Dog
-                  key={index}
-                  accent={accent}
-                  resting={index === 1}
-                  celebrating={last}
-                  reducedMotion={reducedMotion}
-                  expressive
-                />
-                <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
-                  <step.Icon color={accent} size={22} />
-                  <Text variant="caption" className="flex-1 text-ink">
-                    {step.tip}
-                  </Text>
+              <Animated.View
+                style={{
+                  opacity: transition,
+                  transform: [
+                    { translateX: drag },
+                    {
+                      translateY: transition.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [12, 0],
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <View className="items-center gap-3">
+                  <SpeechBubble title={step.title} accent={accent}>
+                    {step.description}
+                  </SpeechBubble>
+                  <Dog
+                    key={index}
+                    accent={accent}
+                    resting={index === 1}
+                    celebrating={last}
+                    reducedMotion={reducedMotion}
+                    expressive
+                  />
+                  <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
+                    <step.Icon color={accent} size={22} />
+                    <Text variant="caption" className="flex-1 text-ink">
+                      {step.tip}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </Animated.View>
-          </ScrollView>
+              </Animated.View>
+            </ScrollView>
+          </View>
           <View className="gap-3 px-7 pb-4 pt-2">
-            <View
-              accessibilityRole="progressbar"
-              accessibilityLabel="Progresso da introdução"
-              accessibilityValue={{
-                min: 1,
-                max: steps.length,
-                now: index + 1,
-                text: `Etapa ${index + 1} de ${steps.length}`,
-              }}
-              className="flex-row items-center justify-center gap-2"
-            >
+            <View className="flex-row items-center justify-center">
               {steps.map((_, dot) => (
-                <View
+                <Pressable
                   key={dot}
-                  className={`h-1.5 rounded-full ${dot === index ? "w-6" : "w-1.5"}`}
-                  style={{
-                    backgroundColor: dot === index ? accent : "#DDE1D5",
-                  }}
-                />
+                  accessibilityRole="button"
+                  accessibilityLabel={`Ir para etapa ${dot + 1} de ${steps.length}`}
+                  accessibilityState={{ selected: dot === index }}
+                  onPress={() => setIndex(dot)}
+                  className="h-11 w-11 items-center justify-center"
+                >
+                  <View
+                    className={`h-1.5 rounded-full ${dot === index ? "w-6" : "w-1.5"}`}
+                    style={{
+                      backgroundColor: dot === index ? accent : "#DDE1D5",
+                    }}
+                  />
+                </Pressable>
               ))}
             </View>
-            <Button
-              accent={accent}
-              onPress={() =>
-                last ? onFinish() : setIndex((current) => current + 1)
-              }
-              icon={<ArrowRight color="#FFFFFF" size={18} />}
-            >
-              {last ? "Ir para meu foco" : "Continuar"}
-            </Button>
-            {index > 0 ? (
-              <TextButton onPress={() => setIndex((current) => current - 1)}>
-                Voltar
-              </TextButton>
+            {last ? (
+              <Button
+                accent={accent}
+                onPress={onFinish}
+                icon={<ArrowRight color="#FFFFFF" size={18} />}
+              >
+                Ir para meu foco
+              </Button>
             ) : (
-              <Text variant="caption" className="py-3 text-center">
-                Leva menos de um minuto. No seu tempo.
-              </Text>
+              <View className="min-h-12 flex-row items-center justify-center gap-2">
+                <MoveHorizontal size={20} color={accent} />
+                <Text variant="caption">Deslize para explorar</Text>
+              </View>
             )}
           </View>
         </View>

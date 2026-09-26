@@ -71,3 +71,12 @@ Capturas: [diálogos](screenshots/onboarding-dialogos.png), [320 px](screenshots
 ## Simplificação do onboarding
 
 Removidos o botão de pausar/ativar movimentos, o aviso local e o estado temporário correspondente. Revisão do fluxo confirmou que mascote e transições continuam recebendo a preferência combinada de Ajustes e sistema. TypeScript, Prettier e `git diff --check` passaram. Sem nova verificação em dispositivo; capturas anteriores documentam a versão anterior ao ajuste.
+
+## Onboarding por swipe
+
+- TypeScript e exports web/Android passaram após a mudança; sem dependências adicionais.
+- Chromium: arraste real avançou da primeira para a segunda etapa. Sequência de eventos de arraste verificou retorno, limites e rejeição de deslocamentos curtos, inclusive com movimento reduzido ativado (etapas observadas: 1, 1, 2, 1, 2, 3, 3).
+- Pontos acionáveis navegaram entre etapas. Botão final concluiu a introdução e o estado persistiu ao recarregar; Continuar e Voltar foram removidos.
+- Tela de 320 px sem transbordamento; nenhuma exceção capturada na sessão de teste.
+- [Primeira etapa em 320 px](screenshots/onboarding-swipe-320.png) e [última etapa](screenshots/onboarding-swipe-final.png).
+- Gestos por toque em Android físico e leitor de tela nativo permanecem pendentes; a verificação de navegador não os substitui.

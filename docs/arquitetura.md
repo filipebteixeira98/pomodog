@@ -77,3 +77,7 @@ O foreground mantém o desenho dentro do círculo seguro central de 66/108 da á
 `assets/brand/preview.png` é uma prancha de revisão, não uma captura de dispositivo. Mudanças de splash/ícone exigem novo build nativo; exportar JavaScript não aplica nem comprova esses recursos no Android instalado.
 
 Referência consultada via Context7: [splash e ícone no Expo](https://docs.expo.dev/develop/user-interface/splash-screen-and-app-icon/).
+
+## Gestos no onboarding
+
+PanResponder reconhece deslocamento horizontal predominante de um dedo; 55 px confirmam a troca, limitada às três etapas. Arrastes menores ou cancelados retornam à posição inicial. A rolagem vertical continua disponível em telas baixas. Animated acompanha o arraste com driver JavaScript, também usado pela transição do mesmo elemento para evitar mistura de drivers. Movimento reduzido remove deslocamento e transição, preservando navegação. Pontos com área de 44 × 44 permitem acesso por teclado/leitor de tela sem botões textuais de avanço/retorno.
