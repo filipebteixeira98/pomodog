@@ -80,3 +80,11 @@ Removidos o botão de pausar/ativar movimentos, o aviso local e o estado tempor�
 - Tela de 320 px sem transbordamento; nenhuma exceção capturada na sessão de teste.
 - [Primeira etapa em 320 px](screenshots/onboarding-swipe-320.png) e [última etapa](screenshots/onboarding-swipe-final.png).
 - Gestos por toque em Android físico e leitor de tela nativo permanecem pendentes; a verificação de navegador não os substitui.
+
+## Correção do swipe no Android
+
+- O usuário relatou falha em emulador e aparelho. No emulador conectado (`emulator-5554`, Expo Go), o detector manual não avançou a primeira etapa com `adb shell input swipe`.
+- Após substituir a detecção nativa por `ScrollView` horizontal paginado, os mesmos gestos avançaram à segunda e à terceira etapa. Gesto inverso retornou à segunda, com indicador sincronizado e remoção do botão final.
+- Capturas inspecionadas: [última etapa Android](screenshots/onboarding-android-final.png) e [retorno Android](screenshots/onboarding-android-retorno.png).
+- TypeScript e exports web/Android passaram. Mantida a implementação de arraste da web; conteúdo compartilhado entre plataformas.
+- Ainda pendentes: confirmação em aparelho físico, iOS, leitor de tela e rolagem em telas menores. Essa verificação em Expo Go não valida splash/ícone de release nem os demais recursos nativos do backlog.

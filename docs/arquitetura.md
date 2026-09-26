@@ -80,4 +80,6 @@ Referência consultada via Context7: [splash e ícone no Expo](https://docs.expo
 
 ## Gestos no onboarding
 
-PanResponder reconhece deslocamento horizontal predominante de um dedo; 55 px confirmam a troca, limitada às três etapas. Arrastes menores ou cancelados retornam à posição inicial. A rolagem vertical continua disponível em telas baixas. Animated acompanha o arraste com driver JavaScript, também usado pela transição do mesmo elemento para evitar mistura de drivers. Movimento reduzido remove deslocamento e transição, preservando navegação. Pontos com área de 44 × 44 permitem acesso por teclado/leitor de tela sem botões textuais de avanço/retorno.
+No Android/iOS, um `ScrollView` horizontal com `pagingEnabled` controla as três páginas; cada página possui rolagem vertical independente com `nestedScrollEnabled`. A largura vem do layout real e é reaplicada em mudanças de viewport. Ao terminar o movimento, o índice sincroniza indicadores e botão final. Os pontos também navegam pelo pager; com movimento reduzido, essa navegação programática não anima. Mascotes fora da página ativa ficam sem animação e seu conteúdo não entra na navegação do leitor de tela.
+
+Na web, PanResponder mantém o arraste por mouse/toque, com limiar de 55 px e rejeição de movimentos predominantemente verticais. O conteúdo das etapas é compartilhado. A separação evita a disputa entre o detector JavaScript e o ScrollView nativo que impedia o swipe no Android. Não foram adicionadas dependências.

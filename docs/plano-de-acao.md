@@ -63,3 +63,7 @@ Removido o controle local de pausar/ativar movimentos e seu estado duplicado. A 
 ## Navegação do onboarding por gestos
 
 Implementada navegação horizontal para avançar/voltar, removendo Continuar e Voltar. Mantidos Pular e o botão final Ir para meu foco. Indicativo curto com ícone e pontos acionáveis oferecem orientação e alternativa acessível. Sem avanço automático. A próxima entrega planejada continua sendo animação corporal.
+
+## Correção do swipe nativo
+
+Substituído o detector manual por paginação nativa no Android/iOS. Avanço até a última etapa e retorno com indicador sincronizado verificados no emulador Android conectado via Expo Go. Web preserva seu detector. Confirmação em aparelho físico e iOS permanece pendente.

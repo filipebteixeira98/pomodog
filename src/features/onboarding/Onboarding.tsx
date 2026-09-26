@@ -65,6 +65,8 @@ export function Onboarding({
   const transition = useRef(new Animated.Value(1)).current;
   const drag = useRef(new Animated.Value(0)).current;
   const scroll = useRef<ScrollView>(null);
+  const pager = useRef<ScrollView>(null);
+  const [pageWidth, setPageWidth] = useState(0);
   const step = steps[index];
   const last = index === steps.length - 1;
 
@@ -102,6 +104,7 @@ export function Onboarding({
   }, [drag, reducedMotion]);
 
   useEffect(() => {
+    if (Platform.OS !== "web") return;
     scroll.current?.scrollTo({ y: 0, animated: false });
     transition.setValue(reducedMotion ? 1 : 0);
     if (reducedMotion) return;
@@ -113,6 +116,45 @@ export function Onboarding({
     animation.start();
     return () => animation.stop();
   }, [index, reducedMotion, transition]);
+
+  function goToPage(page: number) {
+    if (Platform.OS !== "web") {
+      pager.current?.scrollTo({
+        x: page * pageWidth,
+        animated: !reducedMotion,
+      });
+    }
+    setIndex(page);
+  }
+
+  useEffect(() => {
+    if (Platform.OS !== "web" && pageWidth > 0) {
+      pager.current?.scrollTo({ x: index * pageWidth, animated: false });
+    }
+    // Keep the current page aligned when the viewport changes, not during gestures.
+  }, [pageWidth]);
+
+  const renderStep = (step: (typeof steps)[number], page: number) => (
+    <View className="items-center gap-3">
+      <SpeechBubble title={step.title} accent={accent}>
+        {step.description}
+      </SpeechBubble>
+      <Dog
+        key={page}
+        accent={accent}
+        resting={page === 1}
+        celebrating={page === steps.length - 1}
+        reducedMotion={reducedMotion || page !== index}
+        expressive
+      />
+      <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
+        <step.Icon color={accent} size={22} />
+        <Text variant="caption" className="flex-1 text-ink">
+          {step.tip}
+        </Text>
+      </View>
+    </View>
+  );
 
   return (
     <Modal
@@ -136,52 +178,75 @@ export function Onboarding({
               <Text variant="caption">Pular</Text>
             </Pressable>
           </View>
-          <View
-            className="flex-1 overflow-hidden"
-            {...swipe.panHandlers}
-            style={Platform.OS === "web" ? webSwipeStyle : undefined}
-          >
-            <ScrollView
-              ref={scroll}
-              contentContainerClassName="grow justify-center px-7 py-4"
-              showsVerticalScrollIndicator={false}
+          {Platform.OS !== "web" ? (
+            <View
+              className="flex-1"
+              onLayout={(event) => setPageWidth(event.nativeEvent.layout.width)}
             >
-              <Animated.View
-                style={{
-                  opacity: transition,
-                  transform: [
-                    { translateX: drag },
-                    {
-                      translateY: transition.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [12, 0],
-                      }),
-                    },
-                  ],
-                }}
+              {pageWidth > 0 && (
+                <ScrollView
+                  ref={pager}
+                  horizontal
+                  pagingEnabled
+                  directionalLockEnabled
+                  showsHorizontalScrollIndicator={false}
+                  bounces={false}
+                  overScrollMode="never"
+                  onMomentumScrollEnd={(event) => {
+                    const page = Math.round(
+                      event.nativeEvent.contentOffset.x / pageWidth,
+                    );
+                    setIndex(Math.max(0, Math.min(steps.length - 1, page)));
+                  }}
+                >
+                  {steps.map((item, page) => (
+                    <ScrollView
+                      key={item.title}
+                      style={{ width: pageWidth }}
+                      contentContainerClassName="grow justify-center px-7 py-4"
+                      showsVerticalScrollIndicator={false}
+                      nestedScrollEnabled
+                      accessibilityElementsHidden={page !== index}
+                      importantForAccessibility={
+                        page === index ? "auto" : "no-hide-descendants"
+                      }
+                    >
+                      {renderStep(item, page)}
+                    </ScrollView>
+                  ))}
+                </ScrollView>
+              )}
+            </View>
+          ) : (
+            <View
+              className="flex-1 overflow-hidden"
+              {...swipe.panHandlers}
+              style={Platform.OS === "web" ? webSwipeStyle : undefined}
+            >
+              <ScrollView
+                ref={scroll}
+                contentContainerClassName="grow justify-center px-7 py-4"
+                showsVerticalScrollIndicator={false}
               >
-                <View className="items-center gap-3">
-                  <SpeechBubble title={step.title} accent={accent}>
-                    {step.description}
-                  </SpeechBubble>
-                  <Dog
-                    key={index}
-                    accent={accent}
-                    resting={index === 1}
-                    celebrating={last}
-                    reducedMotion={reducedMotion}
-                    expressive
-                  />
-                  <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
-                    <step.Icon color={accent} size={22} />
-                    <Text variant="caption" className="flex-1 text-ink">
-                      {step.tip}
-                    </Text>
-                  </View>
-                </View>
-              </Animated.View>
-            </ScrollView>
-          </View>
+                <Animated.View
+                  style={{
+                    opacity: transition,
+                    transform: [
+                      { translateX: drag },
+                      {
+                        translateY: transition.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [12, 0],
+                        }),
+                      },
+                    ],
+                  }}
+                >
+                  {renderStep(step, index)}
+                </Animated.View>
+              </ScrollView>
+            </View>
+          )}
           <View className="gap-3 px-7 pb-4 pt-2">
             <View className="flex-row items-center justify-center">
               {steps.map((_, dot) => (
@@ -190,7 +255,7 @@ export function Onboarding({
                   accessibilityRole="button"
                   accessibilityLabel={`Ir para etapa ${dot + 1} de ${steps.length}`}
                   accessibilityState={{ selected: dot === index }}
-                  onPress={() => setIndex(dot)}
+                  onPress={() => goToPage(dot)}
                   className="h-11 w-11 items-center justify-center"
                 >
                   <View
