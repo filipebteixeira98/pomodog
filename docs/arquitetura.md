@@ -83,3 +83,7 @@ Referência consultada via Context7: [splash e ícone no Expo](https://docs.expo
 No Android/iOS, um `ScrollView` horizontal com `pagingEnabled` controla as três páginas; cada página possui rolagem vertical independente com `nestedScrollEnabled`. A largura vem do layout real e é reaplicada em mudanças de viewport. Ao terminar o movimento, o índice sincroniza indicadores e botão final. Os pontos também navegam pelo pager; com movimento reduzido, essa navegação programática não anima. Mascotes fora da página ativa ficam sem animação e seu conteúdo não entra na navegação do leitor de tela.
 
 Na web, PanResponder mantém o arraste por mouse/toque, com limiar de 55 px e rejeição de movimentos predominantemente verticais. O conteúdo das etapas é compartilhado. A separação evita a disputa entre o detector JavaScript e o ScrollView nativo que impedia o swipe no Android. Não foram adicionadas dependências.
+
+## Separação de Perfil e Ajustes
+
+A navegação inferior possui quatro abas: Foco, Progresso, Ajustes e Perfil. Ajustes concentra durações, tema, movimento reduzido e acesso à introdução. `src/features/profile/` contém a tela de perfil, identidade/modo local, controles de dados e confirmação de exclusão. A tela usa composição por `children`; ações de exportação e exclusão permanecem coordenadas pela raiz e pelo hook de persistência. A mudança não cria autenticação nem altera armazenamento.

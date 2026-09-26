@@ -46,7 +46,7 @@ const steps = [
   {
     title: "Cada volta conta.",
     description:
-      "Veja suas conquistas em “Meu progresso” e personalize nosso cantinho em “Ajustes”.",
+      "Veja suas conquistas em “Progresso” e personalize nosso cantinho em “Ajustes”.",
     tip: "Seu progresso fica salvo neste dispositivo.",
     Icon: Sprout,
   },

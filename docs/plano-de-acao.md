@@ -71,3 +71,7 @@ Substituído o detector manual por paginação nativa no Android/iOS. Avanço at
 ## Diálogos mais curtos
 
 Reduzidas as três falas do mascote para cerca de 12 palavras cada: iniciar uma tarefa, pausar/retomar e descansar, encontrar progresso e personalização. Mantidos títulos, dicas e navegação.
+
+## Separação de Perfil e Ajustes
+
+Criada a aba Perfil, reunindo Modo Local/Sua Conta e Seus dados, suas escolhas. Ajustes mantém somente preferências e introdução. Atualizados nomes curtos da navegação (Foco, Progresso, Ajustes, Perfil), orientação do onboarding e aviso de recuperação de dados. Entrega independente; animação corporal continua como próxima frente planejada.

@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Switch, View } from "react-native";
 
 import { ScreenIntro } from "#src/components/ScreenIntro";
@@ -6,18 +5,14 @@ import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { ChoiceGroup } from "#src/components/ui/ChoiceGroup";
 import { Text } from "#src/components/ui/Text";
-import type { CustomerSession } from "#src/domain/customer";
 import {
   breakDurations,
   focusDurations,
   themes,
   type Preferences,
 } from "#src/domain/preferences";
-import { CustomerCard } from "#src/features/settings/CustomerCard";
 
 type Props = {
-  children?: ReactNode;
-  session: CustomerSession;
   preferences: Preferences;
   onChange: (patch: Partial<Preferences>) => void;
   busy: boolean;
@@ -27,8 +22,6 @@ type Props = {
 };
 
 export function SettingsScreen({
-  children,
-  session,
   preferences,
   onChange,
   busy,
@@ -44,7 +37,6 @@ export function SettingsScreen({
         title="Do seu jeito."
         subtitle="Pequenos ajustes para se sentir em casa."
       />
-      <CustomerCard session={session} accent={accent} />
       <Card className="gap-5">
         <View className="gap-2">
           <Text variant="label">Tempo de foco</Text>
@@ -117,7 +109,6 @@ export function SettingsScreen({
           Rever introdução
         </Button>
       </Card>
-      {children}
     </>
   );
 }

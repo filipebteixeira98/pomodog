@@ -12,9 +12,10 @@ import { serializeExport } from "#src/domain/exportData";
 import { themes } from "#src/domain/preferences";
 import { FocusScreen } from "#src/features/focus/FocusScreen";
 import { Onboarding } from "#src/features/onboarding/Onboarding";
+import { EraseDataConfirmation } from "#src/features/profile/EraseDataConfirmation";
+import { LocalDataCard } from "#src/features/profile/LocalDataCard";
+import { ProfileScreen } from "#src/features/profile/ProfileScreen";
 import { ProgressScreen } from "#src/features/progress/ProgressScreen";
-import { EraseDataConfirmation } from "#src/features/settings/EraseDataConfirmation";
-import { LocalDataCard } from "#src/features/settings/LocalDataCard";
 import { SettingsScreen } from "#src/features/settings/SettingsScreen";
 import { usePomodoro } from "#src/hooks/usePomodoro";
 import { useReducedMotion } from "#src/hooks/useReducedMotion";
@@ -94,7 +95,7 @@ export function Pomodog({
               className="rounded-xl bg-[#F9E8CB] p-3 text-[#785621]"
             >
               {model.storageBlocked
-                ? "Não foi possível ler seus dados salvos. Eles foram preservados e o salvamento está suspenso. Você pode continuar temporariamente ou apagar os dados em Ajustes para recomeçar."
+                ? "Não foi possível ler seus dados salvos. Eles foram preservados e o salvamento está suspenso. Você pode continuar temporariamente ou apagar os dados em Perfil para recomeçar."
                 : "Não foi possível salvar seus dados. O progresso pode não permanecer ao fechar o aplicativo."}
             </Text>
           )}
@@ -114,16 +115,17 @@ export function Pomodog({
               accent={accent}
               onFocus={() => setTab("focus")}
             />
-          ) : (
+          ) : tab === "settings" ? (
             <SettingsScreen
-              session={session}
               preferences={model.preferences}
               onChange={model.updatePreferences}
               busy={model.busy || !model.ready}
               systemReducedMotion={systemReducedMotion}
               accent={accent}
               onReplayOnboarding={() => setReplayOnboarding(true)}
-            >
+            />
+          ) : (
+            <ProfileScreen session={session} accent={accent}>
               <LocalDataCard
                 accent={accent}
                 onExport={exportData}
@@ -138,7 +140,7 @@ export function Pomodog({
                 eraseDisabled={!model.ready || model.isErasing}
                 notice={dataNotice}
               />
-            </SettingsScreen>
+            </ProfileScreen>
           )}
         </ScrollView>
         <BottomNavigation value={tab} onChange={setTab} accent={accent} />

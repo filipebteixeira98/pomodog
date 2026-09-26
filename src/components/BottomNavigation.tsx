@@ -2,14 +2,16 @@ import { Pressable, View } from "react-native";
 import ChartNoAxesColumnIncreasing from "lucide-react-native/icons/chart-no-axes-column-increasing";
 import PawPrint from "lucide-react-native/icons/paw-print";
 import SlidersHorizontal from "lucide-react-native/icons/sliders-horizontal";
+import UserRound from "lucide-react-native/icons/user-round";
 
 import { Text } from "#src/components/ui/Text";
 
-export type Tab = "focus" | "progress" | "settings";
+export type Tab = "focus" | "progress" | "settings" | "profile";
 const tabs = [
-  { id: "focus", label: "Meu foco", Icon: PawPrint },
-  { id: "progress", label: "Meu progresso", Icon: ChartNoAxesColumnIncreasing },
+  { id: "focus", label: "Foco", Icon: PawPrint },
+  { id: "progress", label: "Progresso", Icon: ChartNoAxesColumnIncreasing },
   { id: "settings", label: "Ajustes", Icon: SlidersHorizontal },
+  { id: "profile", label: "Perfil", Icon: UserRound },
 ] as const;
 
 export function BottomNavigation({

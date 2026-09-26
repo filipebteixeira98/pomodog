@@ -92,3 +92,10 @@ Removidos o botão de pausar/ativar movimentos, o aviso local e o estado tempor�
 ## Revisão dos diálogos
 
 As três descrições foram reduzidas, preservando os nomes dos controles e as instruções essenciais. Revisão textual e formatação verificadas; nenhuma lógica de navegação alterada. Capturas anteriores ainda mostram os textos antigos. O efeito na compreensão e experiência precisa de avaliação com usuários.
+
+## Perfil separado de Ajustes
+
+- Navegador em 320 px: quatro abas legíveis e sem transbordamento horizontal; Perfil contém identidade/modo local e controles de dados, ausentes em Ajustes.
+- Download JSON efetuado pela nova tela; confirmação de exclusão aberta e cancelada sem apagar dados. Preferências e Rever introdução continuam em Ajustes.
+- TypeScript e exportações web/Android passaram. Sem alteração na persistência nem no contrato de identidade. Não houve nova validação em dispositivo nativo nesta entrega.
+- Captura atual: [Perfil em 320 px](screenshots/perfil-320.png). Capturas anteriores de Ajustes representam a organização anterior.
