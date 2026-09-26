@@ -32,7 +32,7 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 - Três cores de interface e coleira; opção de reduzir movimento, respeitando também a configuração do sistema.
 - Sessões de foco concluídas, minutos do dia e histórico dos últimos sete dias; armazenamento das últimas 1.000 sessões.
 - Preferências e sessão atual salvas no dispositivo. Descansos e demonstrações não contam como foco.
-- Onboarding com voltar, pular, pausar movimentos e conclusão persistida localmente.
+- Onboarding com voltar, pular e conclusão persistida localmente; animações seguem Ajustes e a preferência do sistema.
 - Navegação inferior com Meu foco, Meu progresso e Ajustes. Perfil preparado para receber uma identidade autenticada; atualmente, modo local.
 - Exportação JSON e exclusão com confirmação em Ajustes; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
 - Ícone do Nino, versões adaptativa/monocromática para Android e splash nativa configurada; validação visual em release pendente.

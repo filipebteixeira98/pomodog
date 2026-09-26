@@ -67,3 +67,7 @@ Capturas: [diálogos](screenshots/onboarding-dialogos.png), [320 px](screenshots
 - Exportações web (759 KB de JavaScript, favicon incluído) e Hermes Android (2,9 MB) passaram.
 - Pendente: build Android de release, abertura a frio, transição após carregamento de fontes e aparência em launchers/ícones temáticos. Expo Go e exportação JS não substituem essas verificações.
 - Instalação reportou 12 avisos moderados nas dependências; não foi aplicada correção forçada incompatível.
+
+## Simplificação do onboarding
+
+Removidos o botão de pausar/ativar movimentos, o aviso local e o estado temporário correspondente. Revisão do fluxo confirmou que mascote e transições continuam recebendo a preferência combinada de Ajustes e sistema. TypeScript, Prettier e `git diff --check` passaram. Sem nova verificação em dispositivo; capturas anteriores documentam a versão anterior ao ajuste.

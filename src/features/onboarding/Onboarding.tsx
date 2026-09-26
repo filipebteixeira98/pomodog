@@ -54,8 +54,6 @@ export function Onboarding({
   onFinish: () => void;
 }) {
   const [index, setIndex] = useState(0);
-  const [motionPaused, setMotionPaused] = useState(false);
-  const calm = reducedMotion || motionPaused;
   const transition = useRef(new Animated.Value(1)).current;
   const scroll = useRef<ScrollView>(null);
   const step = steps[index];
@@ -63,8 +61,8 @@ export function Onboarding({
 
   useEffect(() => {
     scroll.current?.scrollTo({ y: 0, animated: false });
-    transition.setValue(calm ? 1 : 0);
-    if (calm) return;
+    transition.setValue(reducedMotion ? 1 : 0);
+    if (reducedMotion) return;
     const animation = Animated.timing(transition, {
       toValue: 1,
       duration: 280,
@@ -72,7 +70,7 @@ export function Onboarding({
     });
     animation.start();
     return () => animation.stop();
-  }, [index, calm, transition]);
+  }, [index, reducedMotion, transition]);
 
   return (
     <Modal
@@ -123,7 +121,7 @@ export function Onboarding({
                   accent={accent}
                   resting={index === 1}
                   celebrating={last}
-                  reducedMotion={calm}
+                  reducedMotion={reducedMotion}
                   expressive
                 />
                 <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
@@ -136,15 +134,6 @@ export function Onboarding({
             </Animated.View>
           </ScrollView>
           <View className="gap-3 px-7 pb-4 pt-2">
-            {!reducedMotion ? (
-              <TextButton onPress={() => setMotionPaused((value) => !value)}>
-                {motionPaused ? "Ativar movimentos" : "Pausar movimentos"}
-              </TextButton>
-            ) : (
-              <Text variant="caption" className="text-center">
-                Movimento reduzido está ativado.
-              </Text>
-            )}
             <View
               accessibilityRole="progressbar"
               accessibilityLabel="Progresso da introdução"

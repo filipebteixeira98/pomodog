@@ -55,3 +55,7 @@ Manter o plano para andamento; próximas etapas para pendências e decisões; ar
 1. **Ícone e splash:** assets derivados do Nino, ícone adaptativo/monocromático Android, favicon e configuração nativa implementados. Verificações de arquivos, tipos, testes e exports registradas; inspeção em build de release ainda pendente.
 2. **Animação corporal:** próxima implementação, em commit próprio.
 3. **Pencil:** depois das animações, registrar layouts atuais, paleta, tipografia, componentes reutilizáveis e templates.
+
+## Ajuste pontual do onboarding
+
+Removido o controle local de pausar/ativar movimentos e seu estado duplicado. A preferência permanece em Ajustes e respeita movimento reduzido do sistema. Esta entrega não altera a sequência de animação corporal e Pencil.
