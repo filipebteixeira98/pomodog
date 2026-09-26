@@ -32,21 +32,21 @@ const steps = [
   {
     title: `Oi! Eu sou ${mascot.name}.`,
     description:
-      "Vou fazer companhia a você. Escolha uma tarefa pequena e toque em “Começar a focar”. Vamos dar esse primeiro passo juntos?",
+      "Escolha uma tarefa e toque em “Começar a focar”. Vou com você!",
     tip: "Comece com 25 minutos. Ajuste quando quiser.",
     Icon: Target,
   },
   {
     title: "Vamos no seu ritmo?",
     description:
-      "Enquanto você foca, fico quietinho. Precisa parar? Pause e retome quando puder. Depois de concluir, escolha um descanso para nós dois.",
+      "Pause e retome quando precisar. Ao terminar, escolha um descanso para nós.",
     tip: "Foco, descanso e um novo começo. Sem pressa.",
     Icon: Coffee,
   },
   {
     title: "Cada volta conta.",
     description:
-      "Você encontra suas conquistas em “Meu progresso” e pode mudar o nosso cantinho em “Ajustes”. Ficarei feliz em ver você voltar!",
+      "Veja suas conquistas em “Meu progresso” e personalize nosso cantinho em “Ajustes”.",
     tip: "Seu progresso fica salvo neste dispositivo.",
     Icon: Sprout,
   },

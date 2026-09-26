@@ -67,3 +67,7 @@ Implementada navegação horizontal para avançar/voltar, removendo Continuar e 
 ## Correção do swipe nativo
 
 Substituído o detector manual por paginação nativa no Android/iOS. Avanço até a última etapa e retorno com indicador sincronizado verificados no emulador Android conectado via Expo Go. Web preserva seu detector. Confirmação em aparelho físico e iOS permanece pendente.
+
+## Diálogos mais curtos
+
+Reduzidas as três falas do mascote para cerca de 12 palavras cada: iniciar uma tarefa, pausar/retomar e descansar, encontrar progresso e personalização. Mantidos títulos, dicas e navegação.
