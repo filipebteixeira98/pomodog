@@ -28,11 +28,13 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 - Foco de 15, 25 ou 50 minutos e descanso de 5, 10 ou 15 minutos.
 - Início, pausa, retomada e reinício com confirmação de descarte.
 - Contagem baseada no horário final, recuperada ao retornar ao aplicativo ou reabri-lo.
-- Cachorro vetorial original com estados de espera, companhia e celebração.
+- Nino (nome provisório): cachorro vetorial original com entrada animada, movimento do corpo e da cauda e diálogos no onboarding.
 - Três cores de interface e coleira; opção de reduzir movimento, respeitando também a configuração do sistema.
 - Sessões de foco concluídas, minutos do dia e histórico dos últimos sete dias; armazenamento das últimas 1.000 sessões.
 - Preferências e sessão atual salvas no dispositivo. Descansos e demonstrações não contam como foco.
-- Onboarding com voltar, pular e conclusão persistida localmente.
+- Onboarding com voltar, pular, pausar movimentos e conclusão persistida localmente.
+- Navegação inferior com Meu foco, Meu progresso e Ajustes. Perfil preparado para receber uma identidade autenticada; atualmente, modo local.
+- Exportação JSON e exclusão com confirmação em Ajustes; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
 - Poppins empacotada, ícones Lucide e estilos Tailwind via NativeWind para Android e web.
 
 ## Limites desta versão
@@ -52,9 +54,9 @@ npm run export:web
 npm run export:android
 ```
 
-Os nove testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de demonstrações/descansos, migração de dados antigos, onboarding persistido, dados inválidos e progresso entre datas locais.
+Os 16 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de demonstrações/descansos, migração de dados antigos, onboarding persistido, dados inválidos, progresso entre datas locais, identidade, exportação e exclusão serializada sem sobrescrever registros corrompidos.
 
-`npm audit` identificou 10 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível de Expo; não foi aplicada. Reavaliar antes de distribuição.
+`npm audit` identificou 11 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível com o SDK instalado; não foi aplicada. Reavaliar antes de distribuição.
 
 ## Organização
 
@@ -67,10 +69,11 @@ Os nove testes cobrem passagem do tempo em segundo plano, pausa/retomada, restau
 - `tests/timer.test.ts`: testes das regras de tempo.
 - [Produto e validação](docs/produto-e-validacao.md): hipóteses e roteiro para avaliações.
 - [Arquitetura e bundle](docs/arquitetura.md): escolhas, responsabilidades e custo das dependências.
-- [Próximas etapas](docs/proximas-etapas.md): nome do mascote, autonomia e defesa em profundidade.
+- [Plano de ação](docs/plano-de-acao.md): etapas desta entrega.
+- [Próximas etapas](docs/proximas-etapas.md): autenticação opcional, validação nativa e integrações futuras.
 
 ## Histórico de desenvolvimento
 
-Repositório privado: [filipebteixeira98/pomodog](https://github.com/filipebteixeira98/pomodog). Commits incrementais seguem Conventional Commits, em inglês. Use `npm run format` para formatar alterações e execute os checks antes de cada commit.
+Repositório privado: [filipebteixeira98/pomodog](https://github.com/filipebteixeira98/pomodog). Commits incrementais seguem Conventional Commits, em inglês. Use `npm run format` para formatar alterações e ordenar imports automaticamente e execute os checks antes de cada commit.
 
 Configuração baseada na documentação do Expo consultada via Context7: [templates](https://github.com/expo/expo/blob/main/docs/pages/more/create-expo.mdx) e [suporte web](https://github.com/expo/expo/blob/main/docs/pages/workflow/web.mdx).

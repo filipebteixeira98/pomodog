@@ -49,3 +49,11 @@ A composição melhora manutenção, mas a adoção de NativeWind e suas depend�
 - [tailwind-merge e compatibilidade](https://github.com/dcastil/tailwind-merge)
 
 Documentação consultada via Context7; versões instaladas registradas no lockfile.
+
+## Evolução de 26/09/2026
+
+A fila de persistência foi isolada em `src/storage/prototypeStore.ts`, com adaptador injetável para testes. Leituras, gravações e exclusão são serializadas. Registros inválidos bloqueiam novas gravações até exclusão explícita. A validação remove campos desconhecidos, limita o histórico e rejeita versões futuras.
+
+A exportação usa Blob/download na web e cache local com folha de compartilhamento no nativo (`expo-file-system` e `expo-sharing`). A exclusão também remove o arquivo temporário nativo; cópias já exportadas permanecem sob controle do usuário. Não há criptografia própria nem sincronização.
+
+Bundle atual: JavaScript web 758 KB, CSS 13 KB, fontes 470 KB e Hermes Android 2,9 MB, sem compressão. O fluxo nativo de compartilhamento ainda precisa de teste em dispositivo. Imports são ordenados pelo plugin Prettier, preservando imports de efeitos colaterais.

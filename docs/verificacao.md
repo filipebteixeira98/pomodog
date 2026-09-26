@@ -35,3 +35,17 @@ Pendente: execução no Android físico, comportamento com tela bloqueada, notif
 - Dados sintéticos de histórico removidos antes de capturar as telas finais. Sem erros capturados no navegador.
 
 Capturas atuais: [foco](screenshots/foco-atual.png), [progresso](screenshots/progresso-atual.png), [introdução](screenshots/onboarding-inicio.png) e [introdução em 320 px](screenshots/onboarding-320.png).
+
+## Diálogos, ajustes e autonomia — 26/09/2026
+
+- TypeScript e os 16 testes passaram, incluindo fila de escrita/exclusão, corrupção, versões futuras, limites, exportação e identidade.
+- Exportações web (758 KB de JavaScript) e Hermes Android (2,9 MB) passaram.
+- Nino entra em cena, move o corpo e a cauda; transformações da cauda variaram durante a animação e ficaram estáveis ao pausar movimentos.
+- Ajustes acessíveis pela terceira aba, com preferências e modo local. Identidade autenticada coberta por teste do contrato; não há serviço de login integrado.
+- Download real de JSON verificado: versão, data, timer e preferências legíveis.
+- Cancelar exclusão preservou o tema; confirmar restaurou padrões e histórico vazio após recarregar.
+- Registro corrompido permaneceu intacto com aviso e exportação bloqueada. Exclusão explícita permitiu salvar novamente e preservou uma chave não pertencente ao aplicativo.
+- Layout de 320 px sem transbordamento horizontal. Nova sessão Chromium carregou a versão final sem erros capturados.
+- Android físico e compartilhamento nativo ainda pendentes. `npm audit`: 11 avisos moderados transitivos, nenhum alto/crítico; correção automática incompatível com o SDK não aplicada.
+
+Capturas: [diálogos](screenshots/onboarding-dialogos.png), [320 px](screenshots/onboarding-dialogos-320.png) e [aba Ajustes](screenshots/ajustes-aba.png).
