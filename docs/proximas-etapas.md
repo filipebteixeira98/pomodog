@@ -34,9 +34,10 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 ## Organização e identidade visual
 
 - Migração para aliases concluída: `#src/*`, `#tests/*`, `#app` e `#styles`. Mantidos imports com efeitos colaterais e compatibilidade entre app, testes e exportações. Detalhes em [Arquitetura](arquitetura.md).
-- Usar Pencil para acompanhar layouts e registrar templates, paleta de cores e componentes customizados. A integração ainda não foi configurada/verificada.
+- Ordem acordada: ícone/splash → animação corporal → Pencil.
+- Após as animações, usar Pencil para acompanhar layouts e registrar templates, paleta, tipografia e componentes reutilizáveis. A integração ainda não foi configurada/verificada.
 - Melhorar a animação articulada da estrutura do corpo do mascote. O movimento atual de entrada, corpo e cauda é uma base, não a animação corporal completa desejada. Preservar movimento reduzido e avaliar desempenho.
-- Gerar ícone e splash screen após estabelecer a direção visual; ainda não há novos assets produzidos para essa etapa.
+- Ícone e splash implementados com o desenho atual do Nino, fonte vetorial editável e PNGs regeneráveis. Validar recortes do launcher, ícone temático e abertura a frio em build Android de release; Expo Go não comprova a aparência final.
 
 ## Progresso, cuidado e notificações
 

@@ -57,3 +57,13 @@ Capturas: [diálogos](screenshots/onboarding-dialogos.png), [320 px](screenshots
 - Exportações web e Hermes Android passaram, incluindo CSS e módulos específicos de plataforma; tamanhos aproximados mantidos em 758 KB de JavaScript web e 2,9 MB de Hermes.
 - Formatação e `git diff --check` passaram. Nenhuma dependência nova e nenhuma alteração de comportamento planejada.
 - Esta refatoração foi validada por compilação, testes e exports; não inclui novo teste em navegador ou Android físico.
+
+## Ícone e splash screen
+
+- PNGs inspecionados: ícone 1024 × 1024 opaco, foreground e máscara monocromática 1024 × 1024 com alpha, splash 512 × 512 e favicon 64 × 64.
+- Desenho do foreground dentro do círculo seguro: raio máximo de pixels visíveis 269,85 px, inferior ao limite de 312,89 px no canvas de 1024 px.
+- Prancha de revisão visual inspecionada: [ícone, máscara circular e marca da splash](../assets/brand/preview.png). Trata-se de prévia gráfica, não screenshot nativo.
+- TypeScript, 16 testes e resolução do config plugin via `expo config --type prebuild` passaram.
+- Exportações web (759 KB de JavaScript, favicon incluído) e Hermes Android (2,9 MB) passaram.
+- Pendente: build Android de release, abertura a frio, transição após carregamento de fontes e aparência em launchers/ícones temáticos. Expo Go e exportação JS não substituem essas verificações.
+- Instalação reportou 12 avisos moderados nas dependências; não foi aplicada correção forçada incompatível.

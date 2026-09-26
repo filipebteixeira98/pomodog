@@ -27,17 +27,17 @@ Nino permanece provisório. Os controles locais, as três abas, os diálogos ani
 
 ## Próximo ciclo — sequência proposta
 
-Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma proposta de execução, não uma indicação de funcionalidades implementadas. A primeira implementação, migração de imports relativos para aliases, foi concluída. As demais frentes permanecem planejadas.
+Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma proposta de execução, não uma indicação de funcionalidades implementadas. A primeira implementação, migração de imports relativos para aliases, foi concluída. A frente visual foi reordenada por preferência do usuário: ícone/splash, animação corporal e, por último, Pencil.
 
-| Ordem | Frente                 | Entregas planejadas                                                                                                                                                               | Estado    |
-| ----- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| 1     | Organização técnica    | Substituir imports relativos por aliases, manter ordenação automática e validar resolução em testes e exports web/Android                                                         | Concluída |
-| 2     | Identidade visual      | Registrar layouts, templates, paleta e componentes customizados no Pencil; melhorar animação da estrutura do corpo; gerar ícone e splash screen                                   | Planejada |
-| 3     | Progresso e incentivo  | Ampliar dashboard e estatísticas; interação de alimentar pets e frases gentis de incentivo                                                                                        | Planejada |
-| 4     | Lembretes opcionais    | Lembretes de rotina, alimentação e inatividade; definir notificações locais versus push, frequência e controles do usuário                                                        | Planejada |
-| 5     | Contas e sincronização | Diagramas UML de classes/casos de uso e modelo lógico; Firebase/Firestore separados para homologação e produção; Google OAuth via MCP Firebase; exclusão de conta e dados remotos | Planejada |
-| 6     | Monetização e social   | Personalização paga de mascotes, outros animais e nomes; compartilhamento em redes sociais; depois, pontuação, descoberta de amigos e ciclos em conjunto                          | Planejada |
-| 7     | Publicação             | Título, descrição e screenshots para Google Play Console, coerentes com a versão entregue                                                                                         | Planejada |
+| Ordem | Frente                 | Entregas planejadas                                                                                                                                                               | Estado       |
+| ----- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 1     | Organização técnica    | Substituir imports relativos por aliases, manter ordenação automática e validar resolução em testes e exports web/Android                                                         | Concluída    |
+| 2     | Identidade visual      | Ícone e splash implementados; depois melhorar animação corporal; por último registrar layouts, templates, paleta, tipografia e componentes no Pencil                              | Em andamento |
+| 3     | Progresso e incentivo  | Ampliar dashboard e estatísticas; interação de alimentar pets e frases gentis de incentivo                                                                                        | Planejada    |
+| 4     | Lembretes opcionais    | Lembretes de rotina, alimentação e inatividade; definir notificações locais versus push, frequência e controles do usuário                                                        | Planejada    |
+| 5     | Contas e sincronização | Diagramas UML de classes/casos de uso e modelo lógico; Firebase/Firestore separados para homologação e produção; Google OAuth via MCP Firebase; exclusão de conta e dados remotos | Planejada    |
+| 6     | Monetização e social   | Personalização paga de mascotes, outros animais e nomes; compartilhamento em redes sociais; depois, pontuação, descoberta de amigos e ciclos em conjunto                          | Planejada    |
+| 7     | Publicação             | Título, descrição e screenshots para Google Play Console, coerentes com a versão entregue                                                                                         | Planejada    |
 
 Analytics, eventos e heatmaps são uma frente transversal com decisão pendente de privacidade; não habilitar coleta apenas por constarem no backlog. Definir escopo antes de posicionar sua implementação na sequência. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
 
@@ -48,4 +48,10 @@ Analytics, eventos e heatmaps são uma frente transversal com decisão pendente 
 3. Atualizar os documentos pertinentes no mesmo commit, distinguindo planejado, implementado e verificado.
 4. Criar o commit correspondente em inglês, seguindo Conventional Commits, e enviá-lo ao repositório remoto antes de iniciar a próxima funcionalidade.
 
-Manter o plano para andamento; próximas etapas para pendências e decisões; arquitetura para mudanças técnicas/modelo de dados; verificação para evidências e limitações; produto e validação para hipóteses e decisões de experiência. Este registro é uma atualização documental, sem implementação das novas funcionalidades.
+Manter o plano para andamento; próximas etapas para pendências e decisões; arquitetura para mudanças técnicas/modelo de dados; verificação para evidências e limitações; produto e validação para hipóteses e decisões de experiência. As entregas realizadas estão identificadas pelo estado e pelas evidências registradas.
+
+## Entregas da identidade visual
+
+1. **Ícone e splash:** assets derivados do Nino, ícone adaptativo/monocromático Android, favicon e configuração nativa implementados. Verificações de arquivos, tipos, testes e exports registradas; inspeção em build de release ainda pendente.
+2. **Animação corporal:** próxima implementação, em commit próprio.
+3. **Pencil:** depois das animações, registrar layouts atuais, paleta, tipografia, componentes reutilizáveis e templates.

@@ -1,13 +1,18 @@
 import "#styles";
 
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Platform, View } from "react-native";
 import { Poppins_400Regular } from "@expo-google-fonts/poppins/400Regular";
 import { Poppins_500Medium } from "@expo-google-fonts/poppins/500Medium";
 import { Poppins_600SemiBold } from "@expo-google-fonts/poppins/600SemiBold";
 import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { Pomodog } from "#src/Pomodog";
+
+if (Platform.OS !== "web") {
+  void SplashScreen.preventAutoHideAsync().catch(() => {});
+}
 
 export default function App() {
   const [loaded, error] = useFonts({
@@ -25,7 +30,13 @@ export default function App() {
       </View>
     );
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider
+      onLayout={() => {
+        if (Platform.OS !== "web") {
+          void SplashScreen.hideAsync().catch(() => {});
+        }
+      }}
+    >
       <Pomodog />
     </SafeAreaProvider>
   );

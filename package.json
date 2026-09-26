@@ -10,6 +10,7 @@
     "expo-file-system": "~57.0.7",
     "expo-font": "~57.0.4",
     "expo-sharing": "~57.0.22",
+    "expo-splash-screen": "~57.0.9",
     "expo-status-bar": "~57.0.1",
     "lucide-react-native": "^1.48.0",
     "nativewind": "^4.2.7",
@@ -29,6 +30,7 @@
     "@types/react": "~19.2.2",
     "babel-preset-expo": "~57.0.0",
     "prettier": "^3.9.9",
+    "sharp": "^0.35.4",
     "tailwindcss": "^3.4.19",
     "typescript": "~6.0.3"
   },
@@ -42,7 +44,8 @@
     "export:web": "expo export --platform web",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "export:android": "expo export --platform android --output-dir dist-android"
+    "export:android": "expo export --platform android --output-dir dist-android",
+    "assets:generate": "node scripts/generate-brand-assets.mjs"
   },
   "private": true,
   "imports": {

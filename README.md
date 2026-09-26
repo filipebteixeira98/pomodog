@@ -35,6 +35,7 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 - Onboarding com voltar, pular, pausar movimentos e conclusão persistida localmente.
 - Navegação inferior com Meu foco, Meu progresso e Ajustes. Perfil preparado para receber uma identidade autenticada; atualmente, modo local.
 - Exportação JSON e exclusão com confirmação em Ajustes; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
+- Ícone do Nino, versões adaptativa/monocromática para Android e splash nativa configurada; validação visual em release pendente.
 - Poppins empacotada, ícones Lucide e estilos Tailwind via NativeWind para Android e web.
 
 ## Limites desta versão
@@ -56,7 +57,7 @@ npm run export:android
 
 Os 16 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de demonstrações/descansos, migração de dados antigos, onboarding persistido, dados inválidos, progresso entre datas locais, identidade, exportação e exclusão serializada sem sobrescrever registros corrompidos.
 
-`npm audit` identificou 11 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível com o SDK instalado; não foi aplicada. Reavaliar antes de distribuição.
+`npm audit` identificou 12 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível com o SDK instalado; não foi aplicada. Reavaliar antes de distribuição.
 
 ## Organização
 
@@ -77,3 +78,7 @@ Os 16 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restaura
 Repositório privado: [filipebteixeira98/pomodog](https://github.com/filipebteixeira98/pomodog). Commits incrementais seguem Conventional Commits, em inglês. Use `npm run format` para formatar alterações e ordenar imports automaticamente e execute os checks antes de cada commit.
 
 Configuração baseada na documentação do Expo consultada via Context7: [templates](https://github.com/expo/expo/blob/main/docs/pages/more/create-expo.mdx) e [suporte web](https://github.com/expo/expo/blob/main/docs/pages/workflow/web.mdx).
+
+## Assets da marca
+
+Fonte vetorial e PNGs em `assets/brand/`. Para regenerar: `npm run assets:generate`. Veja a [prancha de revisão](assets/brand/preview.png). Ícone e splash nativa requerem novo build; Expo Go não reproduz integralmente a splash final.
