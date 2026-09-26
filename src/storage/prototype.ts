@@ -1,21 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {
-  parseSavedPrototype,
-  type SavedPrototype,
-} from "../domain/savedPrototype";
+import { createPrototypeStore } from "./prototypeStore";
 
-// Keep the existing key so the first prototype's history survives the refactor.
-const STORAGE_KEY = "pomodog.prototype.v1";
-
-export async function loadPrototype(): Promise<SavedPrototype | null> {
-  const raw = await AsyncStorage.getItem(STORAGE_KEY);
-  if (!raw) return null;
-  const saved = parseSavedPrototype(JSON.parse(raw));
-  if (!saved) throw new Error("Invalid saved prototype");
-  return saved;
-}
-
-export async function savePrototype(value: SavedPrototype) {
-  await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(value));
-}
+const store = createPrototypeStore(AsyncStorage);
+export const loadPrototype = store.load;
+export const savePrototype = store.save;
+export const erasePrototype = store.erase;

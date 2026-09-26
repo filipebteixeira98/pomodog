@@ -2,7 +2,12 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import { AppState } from "react-native";
 
 import { defaultPreferences, type Preferences } from "../domain/preferences";
-import { loadPrototype, savePrototype } from "../storage/prototype";
+import { clearExportFile } from "../storage/exportFile";
+import {
+  erasePrototype,
+  loadPrototype,
+  savePrototype,
+} from "../storage/prototype";
 import { initialTimer, timerReducer, type Mode } from "../timer";
 
 export function usePomodoro() {
@@ -11,7 +16,9 @@ export function usePomodoro() {
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
-  const queue = useRef(Promise.resolve());
+  const [storageBlocked, setStorageBlocked] = useState(false);
+  const [isErasing, setIsErasing] = useState(false);
+  const operationLock = useRef(false);
   const latestTimer = useRef(timer);
   latestTimer.current = timer;
   const busy = timer.status === "running" || timer.status === "paused";
@@ -26,7 +33,10 @@ export function usePomodoro() {
         setOnboardingComplete(saved.onboardingComplete);
       })
       .catch(() => {
-        if (mounted) setStorageError(true);
+        if (mounted) {
+          setStorageError(true);
+          setStorageBlocked(true);
+        }
       })
       .finally(() => {
         if (mounted) setReady(true);
@@ -37,18 +47,17 @@ export function usePomodoro() {
   }, []);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || storageBlocked || operationLock.current) return;
     const saved = {
       timer: latestTimer.current,
       preferences,
       onboardingComplete,
     };
-    queue.current = queue.current
-      .then(() => savePrototype(saved))
-      .catch(() => setStorageError(true));
+    savePrototype(saved).catch(() => setStorageError(true));
     // Persist transitions only; running sessions recover their remaining time from the deadline.
   }, [
     ready,
+    storageBlocked,
     preferences,
     onboardingComplete,
     timer.status,
@@ -61,7 +70,9 @@ export function usePomodoro() {
 
   useEffect(() => {
     if (!ready || timer.status !== "running") return;
-    const tick = () => dispatch({ type: "tick", now: Date.now() });
+    const tick = () => {
+      if (!operationLock.current) dispatch({ type: "tick", now: Date.now() });
+    };
     const interval = setInterval(tick, 250);
     const listener = AppState.addEventListener("change", (state) => {
       if (state === "active") tick();
@@ -77,12 +88,14 @@ export function usePomodoro() {
     seconds = (mode === "focus" ? preferences.focus : preferences.rest) * 60,
     demo = false,
   ) {
-    if (ready) dispatch({ type: "configure", mode, seconds, demo });
+    if (ready && !operationLock.current)
+      dispatch({ type: "configure", mode, seconds, demo });
   }
 
   function updatePreferences(patch: Partial<Preferences>) {
     if (
       !ready ||
+      operationLock.current ||
       (busy && (patch.focus !== undefined || patch.rest !== undefined))
     )
       return;
@@ -93,8 +106,40 @@ export function usePomodoro() {
       configure("break", patch.rest * 60);
   }
 
+  async function eraseData() {
+    if (operationLock.current) return;
+    operationLock.current = true;
+    setIsErasing(true);
+    try {
+      await clearExportFile();
+      await erasePrototype();
+      dispatch({
+        type: "restore",
+        value: { ...initialTimer, sessions: [] },
+        now: Date.now(),
+      });
+      setPreferences({ ...defaultPreferences });
+      setOnboardingComplete(false);
+      setStorageError(false);
+      setStorageBlocked(false);
+    } finally {
+      operationLock.current = false;
+      setIsErasing(false);
+    }
+  }
+
+  function snapshot() {
+    if (!ready || storageBlocked || operationLock.current)
+      throw new Error("Local data unavailable");
+    return { timer: latestTimer.current, preferences, onboardingComplete };
+  }
+
   return {
     timer,
+    storageBlocked,
+    isErasing,
+    eraseData,
+    snapshot,
     preferences,
     onboardingComplete,
     completeOnboarding: () => setOnboardingComplete(true),
@@ -104,12 +149,14 @@ export function usePomodoro() {
     configure,
     updatePreferences,
     toggle: () => {
-      if (ready)
+      if (ready && !operationLock.current)
         dispatch({
           type: timer.status === "running" ? "pause" : "start",
           now: Date.now(),
         });
     },
-    reset: () => dispatch({ type: "reset" }),
+    reset: () => {
+      if (!operationLock.current) dispatch({ type: "reset" });
+    },
   };
 }

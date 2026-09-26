@@ -11,6 +11,6 @@
       "name": "Pomodog",
       "description": "Um pequeno companheiro para o seu tempo de foco."
     },
-    "plugins": ["expo-font"]
+    "plugins": ["expo-font", "expo-sharing"]
   }
 }

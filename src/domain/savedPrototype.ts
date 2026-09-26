@@ -14,6 +14,8 @@ export type SavedPrototype = {
 export function parseSavedPrototype(value: unknown): SavedPrototype | null {
   if (!value || typeof value !== "object") return null;
   const saved = value as Partial<SavedPrototype>;
+  const version = (value as { schemaVersion?: unknown }).schemaVersion;
+  if (version !== undefined && version !== 1) return null;
   const timer = parseTimer(saved.timer);
   if (!timer) return null;
   return {

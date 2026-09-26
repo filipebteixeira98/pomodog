@@ -81,6 +81,12 @@ export function timerReducer(timer: Timer, action: Action): Timer {
       };
     case "configure":
       if (timer.status === "running" || timer.status === "paused") return timer;
+      if (
+        !Number.isFinite(action.seconds) ||
+        action.seconds <= 0 ||
+        action.seconds > 7200
+      )
+        return timer;
       return {
         ...timer,
         mode: action.mode,
@@ -107,24 +113,54 @@ export function parseTimer(raw: unknown): Timer | null {
     t.remaining > t.duration ||
     typeof t.demo !== "boolean" ||
     !Array.isArray(t.sessions) ||
-    (t.status === "running"
-      ? !Number.isFinite(t.deadline)
-      : t.deadline !== null)
+    (t.status === "completed" && t.remaining !== 0) ||
+    (t.status === "idle" && t.remaining !== t.duration) ||
+    (t.status === "running" ? !validTimestamp(t.deadline) : t.deadline !== null)
   )
     return null;
+  const seen = new Set<string>();
+  const sessions: Session[] = [];
+  for (const candidate of t.sessions.slice(-1000)) {
+    if (!validSession(candidate) || seen.has(candidate.id)) continue;
+    seen.add(candidate.id);
+    sessions.push({
+      id: candidate.id,
+      endedAt: candidate.endedAt,
+      seconds: candidate.seconds,
+    });
+  }
   return {
-    ...t,
-    sessions: t.sessions
-      .filter(
-        (s) =>
-          s &&
-          typeof s.id === "string" &&
-          Number.isFinite(s.endedAt) &&
-          Number.isFinite(s.seconds) &&
-          s.seconds > 0,
-      )
-      .slice(-1000),
+    mode: t.mode,
+    status: t.status,
+    duration: t.duration,
+    remaining: t.remaining,
+    deadline: t.deadline,
+    demo: t.demo,
+    sessions,
   };
+}
+
+function validSession(value: unknown): value is Session {
+  if (!value || typeof value !== "object") return false;
+  const session = value as Session;
+  return (
+    typeof session.id === "string" &&
+    session.id.length > 0 &&
+    session.id.length <= 128 &&
+    validTimestamp(session.endedAt) &&
+    Number.isFinite(session.seconds) &&
+    session.seconds > 0 &&
+    session.seconds <= 7200
+  );
+}
+
+function validTimestamp(value: unknown): value is number {
+  return (
+    typeof value === "number" &&
+    Number.isFinite(value) &&
+    value >= 0 &&
+    value <= 8_640_000_000_000_000
+  );
 }
 
 export function clockText(seconds: number): string {

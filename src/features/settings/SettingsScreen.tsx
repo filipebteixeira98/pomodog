@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Switch, View } from "react-native";
 
 import { ScreenIntro } from "../../components/ScreenIntro";
@@ -15,6 +16,7 @@ import {
 import { CustomerCard } from "./CustomerCard";
 
 type Props = {
+  children?: ReactNode;
   session: CustomerSession;
   preferences: Preferences;
   onChange: (patch: Partial<Preferences>) => void;
@@ -25,6 +27,7 @@ type Props = {
 };
 
 export function SettingsScreen({
+  children,
   session,
   preferences,
   onChange,
@@ -114,6 +117,7 @@ export function SettingsScreen({
           Rever introdução
         </Button>
       </Card>
+      {children}
     </>
   );
 }
