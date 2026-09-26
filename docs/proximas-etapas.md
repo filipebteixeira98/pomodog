@@ -33,7 +33,7 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 
 ## Organização e identidade visual
 
-- Migrar imports relativos para aliases, preservando imports com efeitos colaterais e compatibilidade entre app, testes e exportações.
+- Migração para aliases concluída: `#src/*`, `#tests/*`, `#app` e `#styles`. Mantidos imports com efeitos colaterais e compatibilidade entre app, testes e exportações. Detalhes em [Arquitetura](arquitetura.md).
 - Usar Pencil para acompanhar layouts e registrar templates, paleta de cores e componentes customizados. A integração ainda não foi configurada/verificada.
 - Melhorar a animação articulada da estrutura do corpo do mascote. O movimento atual de entrada, corpo e cauda é uma base, não a animação corporal completa desejada. Preservar movimento reduzido e avaliar desempenho.
 - Gerar ícone e splash screen após estabelecer a direção visual; ainda não há novos assets produzidos para essa etapa.

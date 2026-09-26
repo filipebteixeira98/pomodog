@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { serializeExport } from "../src/domain/exportData.ts";
-import { defaultPreferences } from "../src/domain/preferences.ts";
+import { serializeExport } from "#src/domain/exportData.ts";
+import { defaultPreferences } from "#src/domain/preferences.ts";
 import {
   createPrototypeStore,
   MAX_STORAGE_LENGTH,
   STORAGE_KEY,
-} from "../src/storage/prototypeStore.ts";
-import { initialTimer, parseTimer, timerReducer } from "../src/timer.ts";
+} from "#src/storage/prototypeStore.ts";
+import { initialTimer, parseTimer, timerReducer } from "#src/timer.ts";
 
 const saved = {
   timer: initialTimer,

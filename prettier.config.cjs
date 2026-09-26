@@ -8,7 +8,7 @@ module.exports = {
     "^react-native$",
     "<THIRD_PARTY_MODULES>",
     "",
-    "^[.]",
+    "^#",
   ],
   importOrderTypeScriptVersion: "6.0.0",
   // Side-effect imports (CSS, registration and test entrypoints) remain in place.

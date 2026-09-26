@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
-import { Text } from "../../components/ui/Text";
-import { mascot } from "../../domain/mascot";
+import { Text } from "#src/components/ui/Text";
+import { mascot } from "#src/domain/mascot";
 
 export function SpeechBubble({
   title,

@@ -1,6 +1,6 @@
-import { Button } from "../../components/ui/Button";
-import { Sheet } from "../../components/ui/Sheet";
-import { Text } from "../../components/ui/Text";
+import { Button } from "#src/components/ui/Button";
+import { Sheet } from "#src/components/ui/Sheet";
+import { Text } from "#src/components/ui/Text";
 
 export function EraseDataConfirmation({
   visible,

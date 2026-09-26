@@ -1,6 +1,6 @@
 import { Pressable, View } from "react-native";
 
-import { Text } from "./Text";
+import { Text } from "#src/components/ui/Text";
 
 type Option<T> = {
   value: T;

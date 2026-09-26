@@ -2,7 +2,7 @@ import { memo, useEffect, useRef } from "react";
 import { Animated, Easing, Platform, View } from "react-native";
 import Svg, { Circle, Ellipse, G, Path, Rect } from "react-native-svg";
 
-import { mascot } from "./domain/mascot";
+import { mascot } from "#src/domain/mascot";
 
 type Props = {
   resting: boolean;

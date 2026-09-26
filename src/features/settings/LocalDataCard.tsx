@@ -3,9 +3,9 @@ import Download from "lucide-react-native/icons/download";
 import ShieldCheck from "lucide-react-native/icons/shield-check";
 import Trash from "lucide-react-native/icons/trash";
 
-import { Button } from "../../components/ui/Button";
-import { Card } from "../../components/ui/Card";
-import { Text } from "../../components/ui/Text";
+import { Button } from "#src/components/ui/Button";
+import { Card } from "#src/components/ui/Card";
+import { Text } from "#src/components/ui/Text";
 
 type Props = {
   accent: string;

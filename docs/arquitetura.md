@@ -57,3 +57,13 @@ A fila de persistência foi isolada em `src/storage/prototypeStore.ts`, com adap
 A exportação usa Blob/download na web e cache local com folha de compartilhamento no nativo (`expo-file-system` e `expo-sharing`). A exclusão também remove o arquivo temporário nativo; cópias já exportadas permanecem sob controle do usuário. Não há criptografia própria nem sincronização.
 
 Bundle atual: JavaScript web 758 KB, CSS 13 KB, fontes 470 KB e Hermes Android 2,9 MB, sem compressão. O fluxo nativo de compartilhamento ainda precisa de teste em dispositivo. Imports são ordenados pelo plugin Prettier, preservando imports de efeitos colaterais.
+
+## Aliases de imports
+
+Imports internos usam `#src/*` para código em `src/`, `#tests/*` para testes, `#app` para `App.tsx` e `#styles` para `global.css`. Exemplo: `import { Button } from "#src/components/ui/Button"`.
+
+Os mapeamentos em `tsconfig.json` atendem TypeScript e Metro; os equivalentes em `package.json#imports` permitem executar os testes diretamente no Node, que não interpreta `tsconfig.paths`. Manter ambos sincronizados ao adicionar aliases. Não foi adicionada dependência de resolução nem plugin Babel.
+
+Imports executados diretamente pelo Node mantêm a extensão `.ts`. Imports específicos de plataforma, como `#src/storage/exportFile`, permanecem sem extensão para selecionar `.web.ts` na web e `.ts` no Android. O Prettier separa aliases internos de dependências externas e preserva a posição de imports com efeitos colaterais. O CSS tem declaração explícita em `global.d.ts`. Reiniciar Expo CLI após modificar os mapeamentos.
+
+Referências consultadas via Context7: [aliases no Expo](https://docs.expo.dev/guides/typescript/) e [TypeScript no Node](https://nodejs.org/docs/latest-v24.x/api/typescript.html).

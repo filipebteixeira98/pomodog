@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Pressable } from "react-native";
 
-import { Text } from "./Text";
+import { Text } from "#src/components/ui/Text";
 
 type Props = {
   children: ReactNode;

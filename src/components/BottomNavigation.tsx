@@ -3,7 +3,7 @@ import ChartNoAxesColumnIncreasing from "lucide-react-native/icons/chart-no-axes
 import PawPrint from "lucide-react-native/icons/paw-print";
 import SlidersHorizontal from "lucide-react-native/icons/sliders-horizontal";
 
-import { Text } from "./ui/Text";
+import { Text } from "#src/components/ui/Text";
 
 export type Tab = "focus" | "progress" | "settings";
 const tabs = [

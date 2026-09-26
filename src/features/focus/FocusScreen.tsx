@@ -2,10 +2,10 @@ import type { ComponentProps } from "react";
 import { View } from "react-native";
 import PawPrint from "lucide-react-native/icons/paw-print";
 
-import { ScreenIntro } from "../../components/ScreenIntro";
-import { Text } from "../../components/ui/Text";
-import { summarizeDay } from "../../domain/progress";
-import { TimerCard } from "./TimerCard";
+import { ScreenIntro } from "#src/components/ScreenIntro";
+import { Text } from "#src/components/ui/Text";
+import { summarizeDay } from "#src/domain/progress";
+import { TimerCard } from "#src/features/focus/TimerCard";
 
 export function FocusScreen(props: ComponentProps<typeof TimerCard>) {
   const { timer, accent } = props;

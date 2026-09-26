@@ -1,7 +1,7 @@
 import {
   parseSavedPrototype,
   type SavedPrototype,
-} from "../domain/savedPrototype.ts";
+} from "#src/domain/savedPrototype.ts";
 
 export const STORAGE_KEY = "pomodog.prototype.v1";
 export const MAX_STORAGE_LENGTH = 1_000_000;

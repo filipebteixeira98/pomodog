@@ -1,9 +1,9 @@
 import { View } from "react-native";
 import UserRound from "lucide-react-native/icons/user-round";
 
-import { Card } from "../../components/ui/Card";
-import { Text } from "../../components/ui/Text";
-import { customerSummary, type CustomerSession } from "../../domain/customer";
+import { Card } from "#src/components/ui/Card";
+import { Text } from "#src/components/ui/Text";
+import { customerSummary, type CustomerSession } from "#src/domain/customer";
 
 export function CustomerCard({
   session,

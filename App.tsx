@@ -1,4 +1,4 @@
-import "./global.css";
+import "#styles";
 
 import { ActivityIndicator, View } from "react-native";
 import { Poppins_400Regular } from "@expo-google-fonts/poppins/400Regular";
@@ -7,7 +7,7 @@ import { Poppins_600SemiBold } from "@expo-google-fonts/poppins/600SemiBold";
 import { useFonts } from "expo-font";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { Pomodog } from "./src/Pomodog";
+import { Pomodog } from "#src/Pomodog";
 
 export default function App() {
   const [loaded, error] = useFonts({

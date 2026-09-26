@@ -1,19 +1,19 @@
 import type { ReactNode } from "react";
 import { Switch, View } from "react-native";
 
-import { ScreenIntro } from "../../components/ScreenIntro";
-import { Button } from "../../components/ui/Button";
-import { Card } from "../../components/ui/Card";
-import { ChoiceGroup } from "../../components/ui/ChoiceGroup";
-import { Text } from "../../components/ui/Text";
-import type { CustomerSession } from "../../domain/customer";
+import { ScreenIntro } from "#src/components/ScreenIntro";
+import { Button } from "#src/components/ui/Button";
+import { Card } from "#src/components/ui/Card";
+import { ChoiceGroup } from "#src/components/ui/ChoiceGroup";
+import { Text } from "#src/components/ui/Text";
+import type { CustomerSession } from "#src/domain/customer";
 import {
   breakDurations,
   focusDurations,
   themes,
   type Preferences,
-} from "../../domain/preferences";
-import { CustomerCard } from "./CustomerCard";
+} from "#src/domain/preferences";
+import { CustomerCard } from "#src/features/settings/CustomerCard";
 
 type Props = {
   children?: ReactNode;

@@ -1,6 +1,6 @@
-import { Button } from "./ui/Button";
-import { Sheet } from "./ui/Sheet";
-import { Text } from "./ui/Text";
+import { Button } from "#src/components/ui/Button";
+import { Sheet } from "#src/components/ui/Sheet";
+import { Text } from "#src/components/ui/Text";
 
 export function ResetConfirmation({
   visible,

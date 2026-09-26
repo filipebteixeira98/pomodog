@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { initialTimer, parseTimer, timerReducer } from "../src/timer.ts";
+import { initialTimer, parseTimer, timerReducer } from "#src/timer.ts";
 
 test("elapsed wall time catches up after backgrounding and only records completion once", () => {
   const running = timerReducer(initialTimer, { type: "start", now: 1000 });

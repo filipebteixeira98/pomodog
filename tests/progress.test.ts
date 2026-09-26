@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { summarizeDay, summarizeWeek } from "../src/domain/progress.ts";
+import { summarizeDay, summarizeWeek } from "#src/domain/progress.ts";
 
 test("daily progress follows local calendar dates across a month boundary", () => {
   const now = new Date(2026, 9, 1, 12).getTime();

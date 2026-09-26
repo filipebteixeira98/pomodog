@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import { Text } from "./ui/Text";
+import { Text } from "#src/components/ui/Text";
 
 export function ScreenIntro({
   eyebrow,

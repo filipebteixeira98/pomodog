@@ -1,9 +1,9 @@
-import { parseTimer, type Timer } from "../timer.ts";
 import {
   defaultPreferences,
   parsePreferences,
   type Preferences,
-} from "./preferences.ts";
+} from "#src/domain/preferences.ts";
+import { parseTimer, type Timer } from "#src/timer.ts";
 
 export type SavedPrototype = {
   timer: Timer;

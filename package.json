@@ -44,5 +44,11 @@
     "format:check": "prettier --check .",
     "export:android": "expo export --platform android --output-dir dist-android"
   },
-  "private": true
+  "private": true,
+  "imports": {
+    "#src/*": "./src/*",
+    "#tests/*": "./tests/*",
+    "#app": "./App.tsx",
+    "#styles": "./global.css"
+  }
 }

@@ -49,3 +49,11 @@ Capturas atuais: [foco](screenshots/foco-atual.png), [progresso](screenshots/pro
 - Android físico e compartilhamento nativo ainda pendentes. `npm audit`: 11 avisos moderados transitivos, nenhum alto/crítico; correção automática incompatível com o SDK não aplicada.
 
 Capturas: [diálogos](screenshots/onboarding-dialogos.png), [320 px](screenshots/onboarding-dialogos-320.png) e [aba Ajustes](screenshots/ajustes-aba.png).
+
+## Migração para aliases
+
+- Imports relativos removidos de `App.tsx`, `index.ts`, `src/` e `tests/`; aliases internos ordenados pelo Prettier.
+- TypeScript e os 16 testes existentes passaram com resolução nativa de subpaths no Node.
+- Exportações web e Hermes Android passaram, incluindo CSS e módulos específicos de plataforma; tamanhos aproximados mantidos em 758 KB de JavaScript web e 2,9 MB de Hermes.
+- Formatação e `git diff --check` passaram. Nenhuma dependência nova e nenhuma alteração de comportamento planejada.
+- Esta refatoração foi validada por compilação, testes e exports; não inclui novo teste em navegador ou Android físico.

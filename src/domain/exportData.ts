@@ -1,4 +1,7 @@
-import { parseSavedPrototype, type SavedPrototype } from "./savedPrototype.ts";
+import {
+  parseSavedPrototype,
+  type SavedPrototype,
+} from "#src/domain/savedPrototype.ts";
 
 export function serializeExport(
   value: SavedPrototype,

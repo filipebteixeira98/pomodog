@@ -3,6 +3,12 @@
   "compilerOptions": {
     "strict": true,
     "allowImportingTsExtensions": true,
-    "types": ["react", "node"]
+    "types": ["react", "node"],
+    "paths": {
+      "#src/*": ["./src/*"],
+      "#tests/*": ["./tests/*"],
+      "#app": ["./App.tsx"],
+      "#styles": ["./global.css"]
+    }
   }
 }

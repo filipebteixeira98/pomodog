@@ -14,11 +14,11 @@ import Sprout from "lucide-react-native/icons/sprout";
 import Target from "lucide-react-native/icons/target";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button, TextButton } from "../../components/ui/Button";
-import { Text } from "../../components/ui/Text";
-import { Dog } from "../../Dog";
-import { mascot } from "../../domain/mascot";
-import { SpeechBubble } from "./SpeechBubble";
+import { Button, TextButton } from "#src/components/ui/Button";
+import { Text } from "#src/components/ui/Text";
+import { Dog } from "#src/Dog";
+import { mascot } from "#src/domain/mascot";
+import { SpeechBubble } from "#src/features/onboarding/SpeechBubble";
 
 const steps = [
   {

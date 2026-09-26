@@ -4,9 +4,9 @@ import test from "node:test";
 import {
   defaultPreferences,
   parsePreferences,
-} from "../src/domain/preferences.ts";
-import { parseSavedPrototype } from "../src/domain/savedPrototype.ts";
-import { initialTimer } from "../src/timer.ts";
+} from "#src/domain/preferences.ts";
+import { parseSavedPrototype } from "#src/domain/savedPrototype.ts";
+import { initialTimer } from "#src/timer.ts";
 
 test("legacy saves keep timer, history and preferences when onboarding is introduced", () => {
   const timer = {

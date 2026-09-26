@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { customerSummary, localSession } from "../src/domain/customer.ts";
+import { customerSummary, localSession } from "#src/domain/customer.ts";
 
 test("local mode never invents a customer identity", () => {
   assert.equal(customerSummary(localSession).title, "Seu espaço, sem conta");

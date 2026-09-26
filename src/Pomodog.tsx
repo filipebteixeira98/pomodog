@@ -3,22 +3,22 @@ import { ScrollView, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { AppHeader } from "./components/AppHeader";
-import { BottomNavigation, type Tab } from "./components/BottomNavigation";
-import { ResetConfirmation } from "./components/ResetConfirmation";
-import { Text } from "./components/ui/Text";
-import { localSession, type CustomerSession } from "./domain/customer";
-import { serializeExport } from "./domain/exportData";
-import { themes } from "./domain/preferences";
-import { FocusScreen } from "./features/focus/FocusScreen";
-import { Onboarding } from "./features/onboarding/Onboarding";
-import { ProgressScreen } from "./features/progress/ProgressScreen";
-import { EraseDataConfirmation } from "./features/settings/EraseDataConfirmation";
-import { LocalDataCard } from "./features/settings/LocalDataCard";
-import { SettingsScreen } from "./features/settings/SettingsScreen";
-import { usePomodoro } from "./hooks/usePomodoro";
-import { useReducedMotion } from "./hooks/useReducedMotion";
-import { exportFile } from "./storage/exportFile";
+import { AppHeader } from "#src/components/AppHeader";
+import { BottomNavigation, type Tab } from "#src/components/BottomNavigation";
+import { ResetConfirmation } from "#src/components/ResetConfirmation";
+import { Text } from "#src/components/ui/Text";
+import { localSession, type CustomerSession } from "#src/domain/customer";
+import { serializeExport } from "#src/domain/exportData";
+import { themes } from "#src/domain/preferences";
+import { FocusScreen } from "#src/features/focus/FocusScreen";
+import { Onboarding } from "#src/features/onboarding/Onboarding";
+import { ProgressScreen } from "#src/features/progress/ProgressScreen";
+import { EraseDataConfirmation } from "#src/features/settings/EraseDataConfirmation";
+import { LocalDataCard } from "#src/features/settings/LocalDataCard";
+import { SettingsScreen } from "#src/features/settings/SettingsScreen";
+import { usePomodoro } from "#src/hooks/usePomodoro";
+import { useReducedMotion } from "#src/hooks/useReducedMotion";
+import { exportFile } from "#src/storage/exportFile";
 
 export function Pomodog({
   session = localSession,

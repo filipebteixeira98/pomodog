@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import PawPrint from "lucide-react-native/icons/paw-print";
 
-import { Text } from "./ui/Text";
+import { Text } from "#src/components/ui/Text";
 
 export function AppHeader({ accent }: { accent: string }) {
   return (

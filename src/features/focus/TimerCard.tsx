@@ -2,11 +2,11 @@ import { Pressable, View } from "react-native";
 import Pause from "lucide-react-native/icons/pause";
 import Play from "lucide-react-native/icons/play";
 
-import { Button, TextButton } from "../../components/ui/Button";
-import { Card } from "../../components/ui/Card";
-import { Text } from "../../components/ui/Text";
-import { Dog } from "../../Dog";
-import { clockText, type Mode, type Timer } from "../../timer";
+import { Button, TextButton } from "#src/components/ui/Button";
+import { Card } from "#src/components/ui/Card";
+import { Text } from "#src/components/ui/Text";
+import { Dog } from "#src/Dog";
+import { clockText, type Mode, type Timer } from "#src/timer";
 
 type Props = {
   timer: Timer;

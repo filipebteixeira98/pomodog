@@ -1,14 +1,14 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { AppState } from "react-native";
 
-import { defaultPreferences, type Preferences } from "../domain/preferences";
-import { clearExportFile } from "../storage/exportFile";
+import { defaultPreferences, type Preferences } from "#src/domain/preferences";
+import { clearExportFile } from "#src/storage/exportFile";
 import {
   erasePrototype,
   loadPrototype,
   savePrototype,
-} from "../storage/prototype";
-import { initialTimer, timerReducer, type Mode } from "../timer";
+} from "#src/storage/prototype";
+import { initialTimer, timerReducer, type Mode } from "#src/timer";
 
 export function usePomodoro() {
   const [timer, dispatch] = useReducer(timerReducer, initialTimer);
