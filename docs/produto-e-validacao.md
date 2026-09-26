@@ -53,3 +53,14 @@ Registrar por participante, sem informações pessoais desnecessárias:
 | Principal melhoria sugerida                            |          |
 
 Este teste investiga compreensão e apelo inicial. Retenção exige uso ao longo do tempo; antes disso, implementar e testar alertas com tela bloqueada. Uma apresentação elogiada não comprova retenção, receita ou adequação ao mercado.
+
+## Hipóteses do próximo ciclo
+
+As novas propostas estão organizadas no [Plano de ação](plano-de-acao.md), com decisões pendentes em [Próximas etapas](proximas-etapas.md). Ainda precisam de validação:
+
+- Animação corporal mais expressiva e interação de alimentar pets aumentam a sensação de companhia sem distrair ou gerar obrigação.
+- Estatísticas mais completas e lembretes gentis ajudam a retomar a rotina sem cobrança excessiva.
+- Outros animais, personalização e nomes têm valor suficiente para justificar uma oferta paga.
+- Compartilhamento, pontuação e ciclos com amigos incentivam uso sem comparações punitivas.
+
+A sugestão de analytics/heatmaps está em discussão e não altera a coleta da versão atual. Antes de instrumentar, definir consentimento, finalidade e eventos; observação e entrevistas permanecem o método vigente. Login e sincronização devem ser opcionais, preservando a experiência sem conta.
