@@ -74,3 +74,7 @@ Revisar mensagens de privacidade e documentação de produto antes de qualquer c
 Preparar título, descrição e screenshots para Google Play Console com base no aplicativo realmente entregue, sem anunciar capacidades futuras como disponíveis. A preparação dos materiais não equivale a publicar na loja.
 
 Continuam pendentes a seleção/licenciamento de LoFi, validação em Android físico, notificações e experimentos de monetização. O novo backlog não descarta essas decisões anteriores.
+
+## Sequência de hábitos entregue
+
+Card Seu ritmo implementado antes da alimentação, conforme nova prioridade. Próxima funcionalidade continua sendo alimentação opcional do Nino, seguida de ampliação das frases gentis. Pencil permanece em standby.

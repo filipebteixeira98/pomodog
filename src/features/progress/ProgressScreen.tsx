@@ -6,7 +6,12 @@ import PawPrint from "lucide-react-native/icons/paw-print";
 import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
-import { summarizeDay, summarizeProgress } from "#src/domain/progress";
+import {
+  summarizeDay,
+  summarizeProgress,
+  summarizeStreak,
+} from "#src/domain/progress";
+import { StreakCard } from "#src/features/progress/StreakCard";
 import type { Session } from "#src/timer";
 
 export function ProgressScreen({
@@ -28,6 +33,7 @@ export function ProgressScreen({
     .slice(0, 5);
   return (
     <>
+      <StreakCard streak={summarizeStreak(completed, now)} />
       <Card>
         <Text variant="eyebrow">SEU DIA, ATÉ AQUI</Text>
         <Text

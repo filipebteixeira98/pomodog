@@ -125,3 +125,7 @@ Pencil colocado em standby por decisão do usuário. A frente Progresso e incent
 3. Frases gentis de incentivo: ampliar mensagens contextuais após a interação de cuidado.
 
 Cada funcionalidade mantém documentação, validação e commit próprio.
+
+## Sequência de dias com foco
+
+Adicionado card Seu ritmo antes do resumo diário, com fundo pêssego pastel, chama e sete marcadores. A sequência conta dias locais consecutivos com ao menos uma sessão concluída, incluindo hoje quando houver sessão ou partindo de ontem enquanto hoje ainda está aberto. Dias sem foco encerram a sequência sem apagar conquistas. Entrega priorizada antes da alimentação do Nino; Pencil permanece em standby.

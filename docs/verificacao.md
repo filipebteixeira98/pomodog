@@ -161,3 +161,7 @@ Removidos dois filhos JSX explícitos `{" "}` em Scenery e Head de Artwork.tsx. 
 ## Dashboard semanal — 27/09/2026
 
 TypeScript e 20 testes passaram. Novos cenários cobrem histórico vazio, limites do período entre anos, exclusão de registros futuros, dias distintos e arredondamento após soma. Estado vazio inspecionado no navegador em 320 × 720: estatísticas legíveis e média exibida como travessão. Cálculos com histórico preenchido verificados nos testes; inspeção visual nativa pendente. Sem mudanças no armazenamento ou telemetria.
+
+## Card de sequência
+
+TypeScript e 23 testes passaram, também com TZ=America/New_York para exercitar transição de horário de verão. Cenários cobrem virada de ano, mais de sete dias, múltiplas sessões no mesmo dia, tolerância durante hoje, interrupção, reinício, histórico vazio e registros futuros. Estado inicial inspecionado no navegador a 320 px: fundo pastel, chama e marcadores legíveis. Contagens preenchidas verificadas nos testes; inspeção em dispositivo nativo pendente.

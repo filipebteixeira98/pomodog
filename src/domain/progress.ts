@@ -39,3 +39,27 @@ export function summarizeProgress(sessions: Session[], now = Date.now()) {
       : 0,
   };
 }
+
+/** A day counts once. Today's unfinished day does not break yesterday's streak. */
+export function summarizeStreak(sessions: Session[], now = Date.now()) {
+  const completed = sessions.filter((session) => session.endedAt <= now);
+  const activeDates = new Set(
+    completed.map((session) => dayKey(session.endedAt)),
+  );
+  const cursor = new Date(now);
+  cursor.setHours(12, 0, 0, 0);
+  if (!activeDates.has(dayKey(now))) cursor.setDate(cursor.getDate() - 1);
+  let count = 0;
+  while (activeDates.has(dayKey(cursor.getTime()))) {
+    count++;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return {
+    count,
+    days: summarizeWeek(completed, now).map(({ date, count }) => ({
+      date,
+      completed: count > 0,
+      today: dayKey(date.getTime()) === dayKey(now),
+    })),
+  };
+}

@@ -117,3 +117,7 @@ Referência consultada via Context7: [Animated no React Native](https://reactnat
 ## Estatísticas de Progresso
 
 summarizeProgress considera hoje e os seis dias anteriores no calendário local, exclui registros futuros e calcula minutos totais, sessões, dias distintos e duração média. Totais são arredondados após somar segundos. Sem sessões, a interface usa travessão para a média. O gráfico ajusta a escala ao maior valor do período; lista recente ordena por conclusão. Os cálculos usam o histórico local existente, sem adicionar coleta ou armazenamento.
+
+## Sequência de foco
+
+summarizeStreak deriva a sequência do histórico local disponível (limitado a 1.000 sessões), sem novo estado persistido. Deduplica dias, exclui registros futuros e percorre datas com setDate, sem subtrair intervalos fixos de 24 horas. A contagem não é limitada aos sete marcadores. StreakCard apresenta estado inicial, singular/plural, ícone e descrições acessíveis por data; marcadores completos usam check além da cor.
