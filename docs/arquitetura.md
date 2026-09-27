@@ -105,3 +105,11 @@ Perfil não oferece mais exportação nem explica formatos de arquivo. A ação 
 `src/features/tour/GuidedTour.tsx` recebe referências estáveis para controles e container. `measureInWindow` posiciona uma máscara em quatro partes, borda de destaque e explicação acima ou abaixo do alvo. Medições são atualizadas apenas enquanto o tour está montado e liberadas no fechamento; a raiz ajusta o scroll conforme etapa e viewport. O painel possui rolagem em telas pequenas/fontes ampliadas. Não há biblioteca adicional.
 
 A camada de fundo bloqueia interação e fica fora da navegação assistiva. Web mantém foco nos controles do guia, permite Escape e tenta devolver o foco anterior; Android usa o botão Voltar. Não há animações do tour e o mascote fica estático durante a explicação. O tour não executa ações do timer. Aceitar Mostrar como funciona conclui o onboarding usando a persistência existente; etapas do tour são temporárias e ele só reabre por escolha explícita. Validação de acessibilidade nativa ainda necessária.
+
+## Mascote articulado
+
+`src/Dog.tsx` compõe as camadas; `src/features/mascot/Artwork.tsx` guarda a ilustração e `useDogMotion.ts` controla o ciclo de vida das animações. Um palco de 360 × 230 é escalado uniformemente dentro do espaço disponível, mantendo os pivôs de cabeça, patas, tronco e cauda alinhados em telas menores.
+
+Animated transforma Views que contêm SVGs estáticos, usando driver nativo em Android/iOS e sem atualizar estado React a cada frame. Respiração e gestos têm ciclos separados; gestos incluem pausas e amplitudes menores fora da introdução/comemoração. Movimento reduzido zera todas as transformações. AppState interrompe os ciclos em segundo plano e reinicia ao retornar; cleanup remove listener e encerra animações. Mascotes fora da página ativa e atrás do onboarding/tour ficam imóveis.
+
+Referência consultada via Context7: [Animated no React Native](https://reactnative.dev/docs/animated).

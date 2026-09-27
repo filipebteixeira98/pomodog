@@ -143,3 +143,13 @@ TypeScript e formatação passaram. No navegador, confirmados ausência do aviso
 - Revisão do código confirmou remoção do fluxo Rever introdução e sublinhado desativado somente em Reiniciar sessão.
 - Imagem da splash inspecionada: contém somente o mascote, sem texto. Fundo do plugin atualizado para #EEF0E6 e prancha regenerada pelo script de assets.
 - A configuração nativa exige novo build. Não foi validada abertura em dispositivo nesta alteração; Expo Go não comprova o resultado final, conforme documentação do Expo consultada via Context7.
+
+## Animação corporal — 27/09/2026
+
+- TypeScript, 17 testes existentes, formatação dos arquivos alterados e diff passaram. Exports web (766 KB de JavaScript) e Android (2,9 MB de Hermes) concluídos, sem dependências novas.
+- No navegador, amostradas 20 poses da introdução em quatro segundos: cabeça, tronco, ambas as patas e cauda apresentaram transformações distintas.
+- Durante sessão de foco, tronco e cabeça respiram; patas e cauda permanecem paradas. Sessão pausada após a verificação.
+- Com Reduzir animações ativo, todas as seis camadas permaneceram na transformação identidade em duas medições separadas por 1,5 segundo.
+- Inspecionada composição em Foco a 320 × 568 e introdução em viewport maior. Comemoração acessada em viewport de 320 × 568; conteúdo da introdução continua rolável. Nenhum erro capturado na sessão de navegador.
+- Revisão dos ciclos incluiu reset antes de reiniciar loops interrompidos, cleanup de animações/listener e imobilização do mascote atrás do onboarding.
+- ADB não encontrou aparelho/emulador conectado. Aparência, retomada após segundo plano e desempenho/FPS nativos ainda precisam de verificação em dispositivo; exportar o bundle não comprova esses comportamentos.

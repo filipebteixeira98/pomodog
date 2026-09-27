@@ -110,7 +110,9 @@ export function Pomodog({
                 tourTargets={targets}
                 timer={model.timer}
                 accent={accent}
-                reducedMotion={reducedMotion || tourStep !== null}
+                reducedMotion={
+                  reducedMotion || showOnboarding || tourStep !== null
+                }
                 ready={model.ready}
                 onConfigure={model.configure}
                 onToggle={model.toggle}

@@ -28,7 +28,7 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 - Foco de 15, 25 ou 50 minutos e descanso de 5, 10 ou 15 minutos.
 - Início, pausa, retomada e reinício com confirmação de descarte.
 - Contagem baseada no horário final, recuperada ao retornar ao aplicativo ou reabri-lo.
-- Nino (nome provisório): cachorro vetorial original com entrada animada, movimento do corpo e da cauda e diálogos no onboarding.
+- Nino (nome provisório): cachorro vetorial original com entrada animada, respiração do tronco, cabeça e patas articuladas, cauda animada e diálogos no onboarding.
 - Três cores de interface e coleira; opção de reduzir movimento, respeitando também a configuração do sistema.
 - Sessões de foco concluídas, minutos do dia e histórico dos últimos sete dias; armazenamento das últimas 1.000 sessões.
 - Preferências e sessão atual salvas no dispositivo. Descansos não contam como foco.
@@ -65,7 +65,7 @@ Os 17 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restaura
 - `src/features/`: foco, progresso, ajustes e onboarding.
 - `src/components/ui/`: componentes reutilizáveis por composição.
 - `src/hooks/`, `src/domain/` e `src/storage/`: estado, regras e persistência separados da interface.
-- `src/Dog.tsx`: ilustração original e animação do mascote.
+- `src/Dog.tsx` e `src/features/mascot/`: composição, ilustração original e animação articulada do mascote.
 - `src/timer.ts`: regras do timer e validação do estado salvo.
 - `tests/timer.test.ts`: testes das regras de tempo.
 - [Produto e validação](docs/produto-e-validacao.md): hipóteses e roteiro para avaliações.

@@ -32,7 +32,7 @@ Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma p
 | Ordem | Frente                 | Entregas planejadas                                                                                                                                                               | Estado       |
 | ----- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | 1     | Organização técnica    | Substituir imports relativos por aliases, manter ordenação automática e validar resolução em testes e exports web/Android                                                         | Concluída    |
-| 2     | Identidade visual      | Ícone e splash implementados; depois melhorar animação corporal; por último registrar layouts, templates, paleta, tipografia e componentes no Pencil                              | Em andamento |
+| 2     | Identidade visual      | Ícone, splash e animação corporal implementados; próxima entrega: registrar layouts, templates, paleta, tipografia e componentes no Pencil                                        | Em andamento |
 | 3     | Progresso e incentivo  | Ampliar dashboard e estatísticas; interação de alimentar pets e frases gentis de incentivo                                                                                        | Planejada    |
 | 4     | Lembretes opcionais    | Lembretes de rotina, alimentação e inatividade; definir notificações locais versus push, frequência e controles do usuário                                                        | Planejada    |
 | 5     | Contas e sincronização | Diagramas UML de classes/casos de uso e modelo lógico; Firebase/Firestore separados para homologação e produção; Google OAuth via MCP Firebase; exclusão de conta e dados remotos | Planejada    |
@@ -53,8 +53,8 @@ Manter o plano para andamento; próximas etapas para pendências e decisões; ar
 ## Entregas da identidade visual
 
 1. **Ícone e splash:** assets derivados do Nino, ícone adaptativo/monocromático Android, favicon e configuração nativa implementados. Verificações de arquivos, tipos, testes e exports registradas; inspeção em build de release ainda pendente.
-2. **Animação corporal:** próxima implementação, em commit próprio.
-3. **Pencil:** depois das animações, registrar layouts atuais, paleta, tipografia, componentes reutilizáveis e templates.
+2. **Animação corporal:** implementada com tronco, cabeça, patas e cauda articulados. Validada na web; inspeção e desempenho em dispositivo nativo pendentes.
+3. **Pencil:** próxima implementação: registrar layouts atuais, paleta, tipografia, componentes reutilizáveis e templates.
 
 ## Ajuste pontual do onboarding
 
@@ -107,3 +107,7 @@ Implementadas três etapas sobre componentes reais: Foco/Descanso, botão da ses
 ## Simplificação de controles e splash — 27/09/2026
 
 Reiniciar sessão passou a aparecer sem sublinhado. Removido Rever introdução de Ajustes e seu estado de reabertura; após exclusão dos dados locais a introdução continua aparecendo automaticamente. Rever tour guiado permanece disponível. Splash com fundo verde pastel soft (#EEF0E6), mantendo somente o mascote, sem texto. A imagem já não continha o nome do aplicativo; a tela de carregamento do Expo Go não representa a splash final. Validação em novo build nativo permanece pendente.
+
+## Animação corporal do Nino — 27/09/2026
+
+Desenho separado em camadas articuladas sobre coordenadas compartilhadas: tronco com respiração, cabeça inclinada e patas alternadas, além da cauda. Introdução e comemoração usam gestos mais expressivos; sessões em andamento mantêm respiração lenta. Menos movimento mantém pose neutra. Animações param em segundo plano, ao desmontar e no mascote encoberto pelo onboarding. Sem dependências novas. Próxima frente: Pencil, com validação visual nativa desta entrega ainda pendente.
