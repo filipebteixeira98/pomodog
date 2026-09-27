@@ -126,3 +126,13 @@ TypeScript, formatação e diff verificados. No navegador, Perfil apresenta apen
 ## Rever introdução com ícone
 
 TypeScript e formatação passaram. No navegador, confirmados ausência do aviso técnico em Ajustes, ícone no botão Rever introdução e reabertura/fechamento do onboarding pelo mesmo fluxo. Sem alteração no timer ou nas notificações.
+
+## Tour guiado — 27/09/2026
+
+- TypeScript, 17 testes existentes e exports web/Android passaram; nenhuma dependência adicionada.
+- Navegador: entrada pelo botão Mostrar como funciona na última etapa do onboarding e por Rever tour guiado em Ajustes. Avançar, voltar, concluir e pular verificados.
+- Timer permaneceu ocioso após concluir o tour; onboarding ficou concluído no armazenamento local ao aceitar a oferta.
+- Telas de 500 × 757 e 320 × 568 inspecionadas; destaque do botão acompanha a rolagem. Preferência de movimento reduzido ativada na verificação de tela pequena.
+- Foco de teclado inicia em Próximo, Shift+Tab retorna a Pular tour e Escape fecha. Sessão de navegador sem erros capturados.
+- Capturas: [modos](screenshots/tour-modos-320.png), [sessão](screenshots/tour-sessao-320.png), [navegação](screenshots/tour-navegacao.png).
+- Sem emulador/aparelho conectado na consulta ADB desta entrega: posicionamento, botão Voltar e leitor de tela nativos ainda precisam de validação em dispositivo.

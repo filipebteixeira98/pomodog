@@ -66,3 +66,5 @@ As novas propostas estão organizadas no [Plano de ação](plano-de-acao.md), co
 A sugestão de analytics/heatmaps está em discussão e não altera a coleta da versão atual. Antes de instrumentar, definir consentimento, finalidade e eventos; observação e entrevistas permanecem o método vigente. Login e sincronização devem ser opcionais, preservando a experiência sem conta.
 
 A tela de Foco concentra timer, controles e uma fala curta do mascote. O resumo diário fica apenas em Progresso; os cabeçalhos promocionais foram removidos das telas. Avaliar se essa simplificação facilita iniciar uma sessão, sem assumir melhoria de usabilidade antes dos testes com pessoas.
+
+O tour guiado é opcional, oferecido na última etapa da introdução e em Ajustes. Avaliar se seus três destaques ajudam a localizar os controles sem tornar o primeiro uso demorado. Não considerar a conclusão do tour como prova de compreensão.

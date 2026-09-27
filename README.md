@@ -13,7 +13,7 @@ npm run web
 
 Abra o endereço exibido no terminal e toque em **Começar a focar**. Ajuste as durações em **Ajustes** e acompanhe as sessões em **Progresso**.
 
-Na primeira abertura, a introdução mostra três passos curtos. É possível pular ou rever em **Ajustes → Rever introdução**. Uma sessão restaurada em andamento não é interrompida pelo onboarding automático.
+Na primeira abertura, a introdução mostra três passos curtos. É possível pular ou rever em **Ajustes → Rever introdução**. Uma sessão restaurada em andamento não é interrompida pelo onboarding automático. Na última etapa, **Mostrar como funciona** abre um tour opcional dos controles reais. Você também pode acessá-lo em **Ajustes → Rever tour guiado**.
 
 Para abrir no Android com Expo Go compatível com o SDK instalado:
 

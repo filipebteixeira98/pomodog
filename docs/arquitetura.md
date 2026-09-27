@@ -99,3 +99,9 @@ A navegação inferior possui quatro abas: Foco, Progresso, Ajustes e Perfil. Aj
 ## Exportação retirada da interface
 
 Perfil não oferece mais exportação nem explica formatos de arquivo. A ação e o estado de exportação foram removidos da raiz, assim como o snapshot do hook. Utilitários anteriores permanecem internos; a exclusão ainda limpa o arquivo temporário legado quando existir. Firebase/sincronização não foram habilitados nesta alteração.
+
+## Tour guiado
+
+`src/features/tour/GuidedTour.tsx` recebe referências estáveis para controles e container. `measureInWindow` posiciona uma máscara em quatro partes, borda de destaque e explicação acima ou abaixo do alvo. Medições são atualizadas apenas enquanto o tour está montado e liberadas no fechamento; a raiz ajusta o scroll conforme etapa e viewport. O painel possui rolagem em telas pequenas/fontes ampliadas. Não há biblioteca adicional.
+
+A camada de fundo bloqueia interação e fica fora da navegação assistiva. Web mantém foco nos controles do guia, permite Escape e tenta devolver o foco anterior; Android usa o botão Voltar. Não há animações do tour e o mascote fica estático durante a explicação. O tour não executa ações do timer. Aceitar Mostrar como funciona conclui o onboarding usando a persistência existente; etapas do tour são temporárias e ele só reabre por escolha explícita. Validação de acessibilidade nativa ainda necessária.

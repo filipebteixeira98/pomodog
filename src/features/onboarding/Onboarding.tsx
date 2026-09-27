@@ -56,10 +56,12 @@ export function Onboarding({
   accent,
   reducedMotion,
   onFinish,
+  onShowTour,
 }: {
   accent: string;
   reducedMotion: boolean;
   onFinish: () => void;
+  onShowTour: () => void;
 }) {
   const [index, setIndex] = useState(0);
   const transition = useRef(new Animated.Value(1)).current;
@@ -267,6 +269,11 @@ export function Onboarding({
                 </Pressable>
               ))}
             </View>
+            {last && (
+              <Button accent={accent} secondary onPress={onShowTour}>
+                Mostrar como funciona
+              </Button>
+            )}
             {last ? (
               <Button
                 accent={accent}

@@ -7,9 +7,11 @@ import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
 import { Dog } from "#src/Dog";
 import { mascot } from "#src/domain/mascot";
+import type { TourTargets } from "#src/features/tour/GuidedTour";
 import { clockText, type Mode, type Timer } from "#src/timer";
 
 type Props = {
+  tourTargets?: TourTargets;
   timer: Timer;
   accent: string;
   reducedMotion: boolean;
@@ -29,6 +31,7 @@ function sessionCopy(timer: Timer) {
 }
 
 export function TimerCard({
+  tourTargets,
   timer,
   accent,
   reducedMotion,
@@ -57,7 +60,11 @@ export function TimerCard({
 
   return (
     <Card className="items-center rounded-[28px] pb-6 pt-4">
-      <View className="mb-1 w-[250px] max-w-full flex-row rounded-2xl bg-soft p-1">
+      <View
+        ref={tourTargets?.modes}
+        collapsable={false}
+        className="mb-1 w-[250px] max-w-full flex-row rounded-2xl bg-soft p-1"
+      >
         {(["focus", "break"] as const).map((mode) => (
           <Pressable
             key={mode}
@@ -112,7 +119,11 @@ export function TimerCard({
           style={{ backgroundColor: accent, width: `${progress}%` }}
         />
       </View>
-      <View className="w-full max-w-[340px]">
+      <View
+        ref={tourTargets?.action}
+        collapsable={false}
+        className="w-full max-w-[340px]"
+      >
         {finished ? (
           <Button
             accent={accent}

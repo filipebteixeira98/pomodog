@@ -20,6 +20,7 @@ type Props = {
   systemReducedMotion: boolean;
   accent: string;
   onReplayOnboarding: () => void;
+  onReplayTour: () => void;
 };
 
 export function SettingsScreen({
@@ -29,6 +30,7 @@ export function SettingsScreen({
   systemReducedMotion,
   accent,
   onReplayOnboarding,
+  onReplayTour,
 }: Props) {
   return (
     <>
@@ -112,6 +114,14 @@ export function SettingsScreen({
           icon={<RotateCcw size={18} color={accent} />}
         >
           Rever introdução
+        </Button>
+        <Button
+          accent={accent}
+          secondary
+          onPress={onReplayTour}
+          icon={<RotateCcw size={18} color={accent} />}
+        >
+          Rever tour guiado
         </Button>
       </Card>
     </>
