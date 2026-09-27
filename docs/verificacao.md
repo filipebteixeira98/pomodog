@@ -165,3 +165,7 @@ TypeScript e 20 testes passaram. Novos cenários cobrem histórico vazio, limite
 ## Card de sequência
 
 TypeScript e 23 testes passaram, também com TZ=America/New_York para exercitar transição de horário de verão. Cenários cobrem virada de ano, mais de sete dias, múltiplas sessões no mesmo dia, tolerância durante hoje, interrupção, reinício, histórico vazio e registros futuros. Estado inicial inspecionado no navegador a 320 px: fundo pastel, chama e marcadores legíveis. Contagens preenchidas verificadas nos testes; inspeção em dispositivo nativo pendente.
+
+## Resumo semanal simplificado
+
+Removido somente o indicador Dias com foco da interface semanal. Minutos e sessões permanecem em duas colunas; média por sessão passa para uma linha própria. TypeScript, formatação e diff passaram. Sem alterações no cálculo da sequência; inspeção visual em dispositivo pendente.

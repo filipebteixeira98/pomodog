@@ -69,17 +69,10 @@ export function ProgressScreen({
             label="sessões concluídas"
             accent={accent}
           />
-          <Statistic
-            value={String(week.activeDays)}
-            label="dias com foco"
-            accent={accent}
-          />
-          <Statistic
-            value={week.count ? String(week.averageMinutes) : "—"}
-            label="min por sessão, em média"
-            accent={accent}
-          />
         </View>
+        <Text variant="caption" className="mt-4">
+          Média por sessão: {week.count ? `${week.averageMinutes} min` : "—"}
+        </Text>
         <View className="mb-4 mt-6 flex-row justify-between">
           {week.days.map(({ date, minutes }) => (
             <View

@@ -129,3 +129,7 @@ Cada funcionalidade mantém documentação, validação e commit próprio.
 ## Sequência de dias com foco
 
 Adicionado card Seu ritmo antes do resumo diário, com fundo pêssego pastel, chama e sete marcadores. A sequência conta dias locais consecutivos com ao menos uma sessão concluída, incluindo hoje quando houver sessão ou partindo de ontem enquanto hoje ainda está aberto. Dias sem foco encerram a sequência sem apagar conquistas. Entrega priorizada antes da alimentação do Nino; Pencil permanece em standby.
+
+## Simplificação do resumo semanal
+
+Removido o indicador Dias com foco do card Últimos 7 dias por preferência do usuário. Mantidos minutos, sessões concluídas e média por sessão; Seu ritmo continua mostrando a sequência de dias consecutivos. Minutos e sessões ficam em duas colunas, com média em uma linha abaixo.
