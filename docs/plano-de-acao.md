@@ -95,3 +95,7 @@ Padronizados os cabeçalhos conforme Modo Local: ícone em círculo e rótulo em
 ## Simplificação dos controles de dados
 
 Removidos Exportar meus dados, explicação sobre JSON e estado/ação de exportação da interface. Perfil mantém exclusão local. Direção futura: autenticação opcional com sincronização em Firebase; escopo, migração e exclusão remota ainda por implementar. Exportação pode ser reavaliada para integrações. A ausência atual de telemetria permanece.
+
+## Botão de revisão da introdução
+
+Removido de Ajustes o texto sobre atualização do timer, alertas e música. Adicionado ícone de retorno ao botão Rever introdução. Limitações continuam documentadas no README; comportamento do botão preservado.

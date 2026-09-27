@@ -1,4 +1,5 @@
 import { Switch, View } from "react-native";
+import RotateCcw from "lucide-react-native/icons/rotate-ccw";
 import Timer from "lucide-react-native/icons/timer";
 
 import { Button } from "#src/components/ui/Button";
@@ -104,11 +105,12 @@ export function SettingsScreen({
             trackColor={{ true: accent }}
           />
         </View>
-        <Text variant="caption">
-          O timer se atualiza ao voltar ao aplicativo. Esta versão ainda não
-          envia alertas com a tela bloqueada e não reproduz música.
-        </Text>
-        <Button accent={accent} secondary onPress={onReplayOnboarding}>
+        <Button
+          accent={accent}
+          secondary
+          onPress={onReplayOnboarding}
+          icon={<RotateCcw size={18} color={accent} />}
+        >
           Rever introdução
         </Button>
       </Card>

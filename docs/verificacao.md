@@ -122,3 +122,7 @@ TypeScript e formatação passaram. Capturas em 320 px verificadas: [Ajustes](sc
 ## Perfil sem exportação
 
 TypeScript, formatação e diff verificados. No navegador, Perfil apresenta apenas Apagar dados deste dispositivo; confirmada ausência de Exportar meus dados e JSON. Removida a referência a cópias exportadas na confirmação. Exclusão e limpeza do cache legado preservadas; nenhuma integração remota ativada.
+
+## Rever introdução com ícone
+
+TypeScript e formatação passaram. No navegador, confirmados ausência do aviso técnico em Ajustes, ícone no botão Rever introdução e reabertura/fechamento do onboarding pelo mesmo fluxo. Sem alteração no timer ou nas notificações.
