@@ -12,7 +12,6 @@ export function Canvas({ children }: { children: ReactNode }) {
 export function Scenery() {
   return (
     <Canvas>
-      {" "}
       <Circle cx="180" cy="112" r="99" fill="#ECEDE1" />
       <Circle cx="267" cy="48" r="18" fill="#F4DBA0" />
       <Path
@@ -92,7 +91,6 @@ export function Head({
 }) {
   return (
     <Canvas>
-      {" "}
       <Path
         d="M130 89 Q91 66 99 113 Q102 140 125 136"
         fill="#9C6B49"

@@ -153,3 +153,7 @@ TypeScript e formatação passaram. No navegador, confirmados ausência do aviso
 - Inspecionada composição em Foco a 320 × 568 e introdução em viewport maior. Comemoração acessada em viewport de 320 × 568; conteúdo da introdução continua rolável. Nenhum erro capturado na sessão de navegador.
 - Revisão dos ciclos incluiu reset antes de reiniciar loops interrompidos, cleanup de animações/listener e imobilização do mascote atrás do onboarding.
 - ADB não encontrou aparelho/emulador conectado. Aparência, retomada após segundo plano e desempenho/FPS nativos ainda precisam de verificação em dispositivo; exportar o bundle não comprova esses comportamentos.
+
+## Correção de texto no SVG — 27/09/2026
+
+Removidos dois filhos JSX explícitos `{" "}` em Scenery e Head de Artwork.tsx. Esses espaços eram nós de texto dentro do SVG e causavam “Text strings must be rendered within a <Text> component” no Expo Go; LogBoxData.js apenas reportava o erro. TypeScript, Prettier e diff passaram. Inspeção da árvore sintática de Artwork.tsx e Dog.tsx confirmou ausência de filhos JSX com texto literal. A validação anterior no navegador não detectou essa restrição nativa; confirmação em Expo Go após recarregar permanece pendente.

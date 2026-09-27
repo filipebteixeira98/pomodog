@@ -111,3 +111,7 @@ Reiniciar sessão passou a aparecer sem sublinhado. Removido Rever introdução 
 ## Animação corporal do Nino — 27/09/2026
 
 Desenho separado em camadas articuladas sobre coordenadas compartilhadas: tronco com respiração, cabeça inclinada e patas alternadas, além da cauda. Introdução e comemoração usam gestos mais expressivos; sessões em andamento mantêm respiração lenta. Menos movimento mantém pose neutra. Animações param em segundo plano, ao desmontar e no mascote encoberto pelo onboarding. Sem dependências novas. Próxima frente: Pencil, com validação visual nativa desta entrega ainda pendente.
+
+## Correção nativa do mascote — 27/09/2026
+
+Removidos espaços JSX explícitos das camadas de cenário e cabeça que provocavam erro de texto fora de Text no Expo Go. Correção pontual antes de Pencil, preservando desenho e animações.
