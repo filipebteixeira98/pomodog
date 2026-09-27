@@ -38,7 +38,7 @@ Não interpretar elogios como retenção ou intenção de compra como receita. N
 
 ## O que avaliar agora
 
-Usar a demonstração de 10 segundos para verificar entendimento e impressão inicial. Pedir também uma sessão normal para observar o início da atividade. O mascote tem três cores de coleira gratuitas para explorar preferências; isso não é um teste de disposição para pagar.
+Pedir para iniciar, pausar e retomar uma sessão normal para verificar entendimento e impressão inicial. A demonstração de 10 segundos foi removida. O mascote tem três cores de coleira gratuitas para explorar preferências; isso não é um teste de disposição para pagar.
 
 Registrar por participante, sem informações pessoais desnecessárias:
 
@@ -64,3 +64,5 @@ As novas propostas estão organizadas no [Plano de ação](plano-de-acao.md), co
 - Compartilhamento, pontuação e ciclos com amigos incentivam uso sem comparações punitivas.
 
 A sugestão de analytics/heatmaps está em discussão e não altera a coleta da versão atual. Antes de instrumentar, definir consentimento, finalidade e eventos; observação e entrevistas permanecem o método vigente. Login e sincronização devem ser opcionais, preservando a experiência sem conta.
+
+A tela de Foco concentra timer, controles e uma fala curta do mascote. O resumo diário fica apenas em Progresso; os cabeçalhos promocionais foram removidos das telas. Avaliar se essa simplificação facilita iniciar uma sessão, sem assumir melhoria de usabilidade antes dos testes com pessoas.

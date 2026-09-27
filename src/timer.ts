@@ -6,7 +6,6 @@ export type Timer = {
   duration: number;
   remaining: number;
   deadline: number | null;
-  demo: boolean;
   sessions: Session[];
 };
 
@@ -16,7 +15,6 @@ export const initialTimer: Timer = {
   duration: 1500,
   remaining: 1500,
   deadline: null,
-  demo: false,
   sessions: [],
 };
 
@@ -25,7 +23,7 @@ export type Action =
   | { type: "pause"; now: number }
   | { type: "tick"; now: number }
   | { type: "reset" }
-  | { type: "configure"; mode: Mode; seconds: number; demo?: boolean }
+  | { type: "configure"; mode: Mode; seconds: number }
   | { type: "restore"; value: Timer; now: number };
 
 export function reconcile(timer: Timer, now: number): Timer {
@@ -43,7 +41,7 @@ export function reconcile(timer: Timer, now: number): Timer {
     deadline: null,
     status: "completed",
     sessions:
-      timer.mode === "focus" && !timer.demo
+      timer.mode === "focus"
         ? [...timer.sessions, session].slice(-1000)
         : timer.sessions,
   };
@@ -92,7 +90,6 @@ export function timerReducer(timer: Timer, action: Action): Timer {
         mode: action.mode,
         duration: action.seconds,
         remaining: action.seconds,
-        demo: action.demo ?? false,
         deadline: null,
         status: "idle",
       };
@@ -101,7 +98,7 @@ export function timerReducer(timer: Timer, action: Action): Timer {
 
 export function parseTimer(raw: unknown): Timer | null {
   if (!raw || typeof raw !== "object") return null;
-  const t = raw as Timer;
+  const t = raw as Timer & { demo?: unknown };
   if (
     !["focus", "break"].includes(t.mode) ||
     !["idle", "running", "paused", "completed"].includes(t.status) ||
@@ -111,7 +108,7 @@ export function parseTimer(raw: unknown): Timer | null {
     !Number.isFinite(t.remaining) ||
     t.remaining < 0 ||
     t.remaining > t.duration ||
-    typeof t.demo !== "boolean" ||
+    (t.demo !== undefined && typeof t.demo !== "boolean") ||
     !Array.isArray(t.sessions) ||
     (t.status === "completed" && t.remaining !== 0) ||
     (t.status === "idle" && t.remaining !== t.duration) ||
@@ -129,13 +126,14 @@ export function parseTimer(raw: unknown): Timer | null {
       seconds: candidate.seconds,
     });
   }
+  // Retire saved demo sessions without adding them to focus history.
+  if (t.demo === true) return { ...initialTimer, sessions };
   return {
     mode: t.mode,
     status: t.status,
     duration: t.duration,
     remaining: t.remaining,
     deadline: t.deadline,
-    demo: t.demo,
     sessions,
   };
 }

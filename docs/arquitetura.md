@@ -87,3 +87,7 @@ Na web, PanResponder mantém o arraste por mouse/toque, com limiar de 55 px e re
 ## Separação de Perfil e Ajustes
 
 A navegação inferior possui quatro abas: Foco, Progresso, Ajustes e Perfil. Ajustes concentra durações, tema, movimento reduzido e acesso à introdução. `src/features/profile/` contém a tela de perfil, identidade/modo local, controles de dados e confirmação de exclusão. A tela usa composição por `children`; ações de exportação e exclusão permanecem coordenadas pela raiz e pelo hook de persistência. A mudança não cria autenticação nem altera armazenamento.
+
+## Simplificação da tela de Foco
+
+`FocusScreen` compõe somente `TimerCard`; o resumo diário é calculado apenas em Progresso, sem duplicação. Mensagens de estado curtas ficam no balão do mascote. O componente `ScreenIntro`, sem consumidores após remover cabeçalhos introdutórios, foi removido. A opção demo saiu do domínio e da configuração de sessões; `parseTimer` aceita o campo antigo somente para migrar uma demonstração para o estado inicial, preservando sessões concluídas e sem contabilizar a demonstração.

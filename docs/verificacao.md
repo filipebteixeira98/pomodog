@@ -99,3 +99,10 @@ As três descrições foram reduzidas, preservando os nomes dos controles e as i
 - Download JSON efetuado pela nova tela; confirmação de exclusão aberta e cancelada sem apagar dados. Preferências e Rever introdução continuam em Ajustes.
 - TypeScript e exportações web/Android passaram. Sem alteração na persistência nem no contrato de identidade. Não houve nova validação em dispositivo nativo nesta entrega.
 - Captura atual: [Perfil em 320 px](screenshots/perfil-320.png). Capturas anteriores de Ajustes representam a organização anterior.
+
+## Interface centrada no Pomodoro
+
+- TypeScript, 17 testes e exports web/Android passaram. Novo teste cobre migração de demonstração antiga sem perda nem incremento do histórico.
+- Navegador em 320 px: Foco sem demonstração, cabeçalho ou resumo diário; mensagem curta no balão do mascote. Início, pausa e preservação da sessão ao trocar abas verificados.
+- Progresso reúne minutos e sessões em Seu dia, até aqui, sem duplicação; largura de conteúdo igual à viewport (320 px).
+- Capturas: [Foco](screenshots/foco-minimalista-320.png) e [Progresso](screenshots/progresso-minimalista-320.png). Sem nova verificação em dispositivo nesta entrega.

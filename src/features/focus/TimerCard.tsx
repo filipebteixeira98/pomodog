@@ -6,6 +6,7 @@ import { Button, TextButton } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
 import { Dog } from "#src/Dog";
+import { mascot } from "#src/domain/mascot";
 import { clockText, type Mode, type Timer } from "#src/timer";
 
 type Props = {
@@ -13,34 +14,18 @@ type Props = {
   accent: string;
   reducedMotion: boolean;
   ready: boolean;
-  onConfigure: (mode: Mode, seconds?: number, demo?: boolean) => void;
+  onConfigure: (mode: Mode) => void;
   onToggle: () => void;
   onReset: () => void;
 };
 
 function sessionCopy(timer: Timer) {
-  if (timer.status === "completed")
-    return {
-      message: "Boa! Um momento dedicado a você.",
-      caption: "SESSÃO CONCLUÍDA",
-    };
-  if (timer.status === "paused")
-    return {
-      message: "Sem pressa. Continuamos quando quiser.",
-      caption: "UM RESPIRO NO CAMINHO",
-    };
-  if (timer.mode === "break")
-    return {
-      message: "Vamos recarregar as energias juntos.",
-      caption: "DESCANSAR TAMBÉM FAZ PARTE",
-    };
-  return {
-    message:
-      timer.status === "running"
-        ? "Pode focar. Eu fico aqui com você."
-        : "Um pequeno começo já faz diferença.",
-    caption: "UM PASSO DE CADA VEZ",
-  };
+  if (timer.status === "completed") return "Boa! Mais um passo juntos.";
+  if (timer.status === "paused") return "No seu tempo. Estou aqui.";
+  if (timer.mode === "break") return "Vamos descansar um pouco?";
+  return timer.status === "running"
+    ? "Pode focar. Estou com você."
+    : "Um pequeno começo. Vamos juntos?";
 }
 
 export function TimerCard({
@@ -94,6 +79,20 @@ export function TimerCard({
           </Pressable>
         ))}
       </View>
+      <View
+        className="mt-4 w-full items-center pb-3"
+        accessibilityLiveRegion="polite"
+      >
+        <View className="rounded-2xl border border-line bg-soft px-4 py-3">
+          <Text
+            className="text-center text-[14px] text-ink"
+            accessibilityLabel={`${mascot.name} diz: ${copy}`}
+          >
+            {copy}
+          </Text>
+        </View>
+        <View className="absolute bottom-1 h-4 w-4 rotate-45 border-b border-r border-line bg-soft" />
+      </View>
       <Dog
         accent={accent}
         resting={timer.status === "running"}
@@ -101,21 +100,11 @@ export function TimerCard({
         reducedMotion={reducedMotion}
       />
       <Text
-        variant="caption"
-        className="text-center"
-        accessibilityLiveRegion="polite"
-      >
-        {copy.message}
-      </Text>
-      <Text
         className="mt-2 font-sans text-[66px] leading-[90px] tracking-[-3px] text-ink"
         style={{ fontVariant: ["tabular-nums"] }}
         accessibilityLabel={`${Math.floor(Math.ceil(timer.remaining) / 60)} minutos e ${Math.ceil(timer.remaining) % 60} segundos restantes`}
       >
         {clockText(timer.remaining)}
-      </Text>
-      <Text variant="eyebrow" className="text-center text-[9px] leading-4">
-        {timer.demo ? "DEMONSTRAÇÃO · NÃO CONTA NO PROGRESSO" : copy.caption}
       </Text>
       <View className="mb-5 mt-5 h-1 w-4/5 overflow-hidden rounded-full bg-soft">
         <View
@@ -128,16 +117,12 @@ export function TimerCard({
           <Button
             accent={accent}
             onPress={() =>
-              onConfigure(
-                timer.demo || timer.mode === "break" ? "focus" : "break",
-              )
+              onConfigure(timer.mode === "focus" ? "break" : "focus")
             }
           >
-            {timer.demo
-              ? "Voltar ao foco"
-              : timer.mode === "focus"
-                ? "Preparar descanso"
-                : "Preparar próximo foco"}
+            {timer.mode === "focus"
+              ? "Preparar descanso"
+              : "Preparar próximo foco"}
           </Button>
         ) : (
           <Button
@@ -149,24 +134,7 @@ export function TimerCard({
             {primaryLabel}
           </Button>
         )}
-        {busy ? (
-          <TextButton onPress={onReset}>Reiniciar sessão</TextButton>
-        ) : (
-          !finished && (
-            <TextButton
-              disabled={!ready}
-              onPress={() =>
-                timer.demo
-                  ? onConfigure("focus")
-                  : onConfigure("focus", 10, true)
-              }
-            >
-              {timer.demo
-                ? "Sair da demonstração"
-                : "Experimentar em 10 segundos"}
-            </TextButton>
-          )
-        )}
+        {busy && <TextButton onPress={onReset}>Reiniciar sessão</TextButton>}
       </View>
     </Card>
   );

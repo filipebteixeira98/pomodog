@@ -2,7 +2,6 @@ import { View } from "react-native";
 import Check from "lucide-react-native/icons/check";
 import PawPrint from "lucide-react-native/icons/paw-print";
 
-import { ScreenIntro } from "#src/components/ScreenIntro";
 import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
@@ -21,14 +20,8 @@ export function ProgressScreen({
   const today = summarizeDay(sessions);
   return (
     <>
-      <ScreenIntro
-        accent={accent}
-        eyebrow="PEQUENOS PASSOS CONTAM"
-        title="Seu caminho até aqui."
-        subtitle="Presença vale mais que uma sequência perfeita."
-      />
       <Card>
-        <Text variant="eyebrow">HOJE</Text>
+        <Text variant="eyebrow">SEU DIA, ATÉ AQUI</Text>
         <Text
           className="mt-3 text-[54px] leading-[72px]"
           style={{ color: accent }}
@@ -84,10 +77,7 @@ export function ProgressScreen({
           <View className="gap-3 py-5">
             <PawPrint color={accent} size={30} />
             <Text variant="label">Seu primeiro passo ainda vem.</Text>
-            <Text>
-              Ao concluir um foco, ele aparece aqui. A demonstração não entra no
-              histórico.
-            </Text>
+            <Text>Ao concluir um foco, ele aparece aqui.</Text>
             <Button accent={accent} onPress={onFocus}>
               Preparar meu primeiro foco
             </Button>

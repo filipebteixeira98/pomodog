@@ -64,7 +64,6 @@ export function usePomodoro() {
     timer.deadline,
     timer.duration,
     timer.mode,
-    timer.demo,
     timer.sessions,
   ]);
 
@@ -86,10 +85,9 @@ export function usePomodoro() {
   function configure(
     mode: Mode,
     seconds = (mode === "focus" ? preferences.focus : preferences.rest) * 60,
-    demo = false,
   ) {
     if (ready && !operationLock.current)
-      dispatch({ type: "configure", mode, seconds, demo });
+      dispatch({ type: "configure", mode, seconds });
   }
 
   function updatePreferences(patch: Partial<Preferences>) {

@@ -23,11 +23,8 @@ test("pause and resume preserve fractional seconds and exclude paused time", () 
   assert.equal(resumed.deadline, 1508750);
 });
 
-test("demo and break sessions do not count as focus progress", () => {
-  for (const config of [
-    { mode: "break" as const, seconds: 300 },
-    { mode: "focus" as const, seconds: 10, demo: true },
-  ]) {
+test("break sessions do not count as focus progress", () => {
+  for (const config of [{ mode: "break" as const, seconds: 300 }]) {
     const ready = timerReducer(initialTimer, { type: "configure", ...config });
     const running = timerReducer(ready, { type: "start", now: 0 });
     assert.equal(
@@ -64,4 +61,24 @@ test("corrupt persisted timers are rejected and ongoing sessions cannot be recon
     timerReducer(running, { type: "configure", mode: "break", seconds: 300 }),
     running,
   );
+});
+
+test("legacy demos are retired without losing history or counting as focus", () => {
+  const sessions = [{ id: "previous", endedAt: 1000, seconds: 1500 }];
+  const saved = parseTimer({
+    ...initialTimer,
+    duration: 10,
+    remaining: 5,
+    status: "running",
+    deadline: 6000,
+    demo: true,
+    sessions,
+  });
+  assert.deepEqual(saved, { ...initialTimer, sessions });
+  assert.deepEqual(
+    timerReducer(initialTimer, { type: "restore", value: saved!, now: 10000 })
+      .sessions,
+    sessions,
+  );
+  assert.deepEqual(parseTimer({ ...initialTimer, demo: false }), initialTimer);
 });

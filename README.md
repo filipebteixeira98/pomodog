@@ -11,7 +11,7 @@ npm ci
 npm run web
 ```
 
-Abra o endereço exibido no terminal. Para apresentar rapidamente o ciclo completo, use **Experimentar em 10 segundos** e depois **Começar a focar**. A demonstração não altera o histórico.
+Abra o endereço exibido no terminal e toque em **Começar a focar**. Ajuste as durações em **Ajustes** e acompanhe as sessões em **Progresso**.
 
 Na primeira abertura, a introdução mostra três passos curtos. É possível pular ou rever em **Ajustes → Rever introdução**. Uma sessão restaurada em andamento não é interrompida pelo onboarding automático.
 
@@ -31,7 +31,7 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 - Nino (nome provisório): cachorro vetorial original com entrada animada, movimento do corpo e da cauda e diálogos no onboarding.
 - Três cores de interface e coleira; opção de reduzir movimento, respeitando também a configuração do sistema.
 - Sessões de foco concluídas, minutos do dia e histórico dos últimos sete dias; armazenamento das últimas 1.000 sessões.
-- Preferências e sessão atual salvas no dispositivo. Descansos e demonstrações não contam como foco.
+- Preferências e sessão atual salvas no dispositivo. Descansos não contam como foco.
 - Onboarding por swipe nos dois sentidos, indicação “Deslize para explorar”, pontos acessíveis e botão de entrada apenas na última etapa; permite pular e mantém a conclusão salva. Animações seguem Ajustes e sistema.
 - Navegação inferior com Foco, Progresso, Ajustes e Perfil. Perfil preparado para receber uma identidade autenticada; atualmente, modo local.
 - Exportação JSON e exclusão com confirmação em Perfil; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
@@ -55,7 +55,7 @@ npm run export:web
 npm run export:android
 ```
 
-Os 16 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de demonstrações/descansos, migração de dados antigos, onboarding persistido, dados inválidos, progresso entre datas locais, identidade, exportação e exclusão serializada sem sobrescrever registros corrompidos.
+Os 17 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de descansos e migração segura de demonstrações antigas, migração de dados antigos, onboarding persistido, dados inválidos, progresso entre datas locais, identidade, exportação e exclusão serializada sem sobrescrever registros corrompidos.
 
 `npm audit` identificou 12 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível com o SDK instalado; não foi aplicada. Reavaliar antes de distribuição.
 

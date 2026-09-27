@@ -1,6 +1,5 @@
 import { Switch, View } from "react-native";
 
-import { ScreenIntro } from "#src/components/ScreenIntro";
 import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { ChoiceGroup } from "#src/components/ui/ChoiceGroup";
@@ -31,12 +30,6 @@ export function SettingsScreen({
 }: Props) {
   return (
     <>
-      <ScreenIntro
-        accent={accent}
-        eyebrow="SEU CANTINHO"
-        title="Do seu jeito."
-        subtitle="Pequenos ajustes para se sentir em casa."
-      />
       <Card className="gap-5">
         <View className="gap-2">
           <Text variant="label">Tempo de foco</Text>
