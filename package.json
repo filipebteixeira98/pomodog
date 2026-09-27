@@ -7,6 +7,7 @@
     "@expo/metro-runtime": "~57.0.16",
     "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~57.0.25",
+    "expo-dev-client": "~57.0.19",
     "expo-file-system": "~57.0.7",
     "expo-font": "~57.0.4",
     "expo-notifications": "57.0.21",
@@ -36,9 +37,9 @@
     "typescript": "~6.0.3"
   },
   "scripts": {
-    "start": "expo start --go",
-    "android": "expo start --go --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android --device",
+    "ios": "expo run:ios --device",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types tests/run.mts",

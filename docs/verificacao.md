@@ -195,3 +195,7 @@ TypeScript, 34 testes e export Android passaram. Teste novo confirma preservaç�
 ## Canal e leitura de erros nativos
 
 TypeScript e 35 testes passaram. Novo teste cobre mensagem não enumerável, código nativo, causas encadeadas e ciclos. Configuração do canal omite sound; diagnóstico agora é string legível no console e selecionável no card de Ajustes somente em desenvolvimento. A origem exata da rejeição no aparelho continua sem confirmação; repetir ativação após recarregar e usar o diagnóstico caso persista.
+
+## Preparação do development build e limpeza da interface
+
+TypeScript, 34 testes e export Android (3,1 MB Hermes) passaram. Configuração Expo resolvida confirmou scheme pomodog, pacote com.filipebteixeira98.pomodog e plugin expo-dev-client. Detectados JDK 17 e SDK Android locais; Java padrão 25 documentado no guia. Removido teste de imports internos, pois o fluxo agora usa API pública e cliente próprio. Não houve compilação Gradle, instalação em aparelho ou teste de entrega de notificação nesta execução. Interface sem diagnóstico nativo, explicação de indisponibilidade ou banner global; falhas curtas ficam junto ao controle e detalhes permanecem no console.

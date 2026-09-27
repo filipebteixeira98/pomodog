@@ -43,10 +43,6 @@ export function Pomodog({
   }, [tourStep, viewport.width, viewport.height, viewport.fontScale]);
   const systemReducedMotion = useReducedMotion();
   const [tab, setTab] = useState<Tab>("focus");
-  useEffect(() => {
-    if (tab === "settings" && model.notificationNotice)
-      scroll.current?.scrollTo({ y: 0, animated: false });
-  }, [tab, model.notificationNotice]);
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmErase, setConfirmErase] = useState(false);
   const [dataNotice, setDataNotice] = useState("");
@@ -92,14 +88,6 @@ export function Pomodog({
           }
         >
           <AppHeader accent={accent} />
-          {model.notificationNotice && tab !== "settings" ? (
-            <Text
-              accessibilityRole="alert"
-              className="mx-[22px] rounded-xl bg-soft p-3"
-            >
-              {model.notificationNotice}
-            </Text>
-          ) : null}
           <ScrollView
             ref={scroll}
             scrollEnabled={tourStep === null}

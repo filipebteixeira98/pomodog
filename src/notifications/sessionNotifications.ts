@@ -1,19 +1,16 @@
 import { Platform } from "react-native";
-// Import local-only modules: the package entrypoint initializes remote push registration.
-import { cancelScheduledNotificationAsync } from "expo-notifications/build/cancelScheduledNotificationAsync";
-import { AndroidImportance } from "expo-notifications/build/NotificationChannelManager.types";
 import {
+  AndroidImportance,
+  cancelScheduledNotificationAsync,
   getPermissionsAsync,
-  requestPermissionsAsync,
-} from "expo-notifications/build/NotificationPermissions";
-import {
   IosAuthorizationStatus,
+  requestPermissionsAsync,
+  SchedulableTriggerInputTypes,
+  scheduleNotificationAsync,
+  setNotificationChannelAsync,
+  setNotificationHandler,
   type NotificationPermissionsStatus,
-} from "expo-notifications/build/NotificationPermissions.types";
-import { SchedulableTriggerInputTypes } from "expo-notifications/build/Notifications.types";
-import { setNotificationHandler } from "expo-notifications/build/NotificationsHandler";
-import { scheduleNotificationAsync } from "expo-notifications/build/scheduleNotificationAsync";
-import { setNotificationChannelAsync } from "expo-notifications/build/setNotificationChannelAsync";
+} from "expo-notifications";
 
 import { notificationOperation } from "#src/notifications/diagnostics";
 import {

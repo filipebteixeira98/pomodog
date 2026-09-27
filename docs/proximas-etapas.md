@@ -86,3 +86,7 @@ Dar petisco implementado na tela principal, reutilizando Nino e seu balão. Alim
 ## Aviso de conclusão implementado
 
 Aviso local opcional implementado com expo-notifications. Testar permissão concedida/negada, conclusão com tela bloqueada, pausa/retomada, reinício e desativação em Android/iOS. Essa nova entrega ainda não está coberta pela validação anterior do usuário. Lembretes recorrentes e push remoto seguem futuros. O Android pode agendar de forma inexata quando não há acesso a alarmes exatos; esta versão não solicita acesso especial para isso.
+
+## Próxima validação: cliente próprio Android
+
+Seguir development-build.md para compilar e instalar o Pomodog no aparelho via USB. Expo Go deixa de ser o ambiente suportado para validar notificações nesta configuração. Priorizar permissão e entrega com tela bloqueada, cancelamento/retomada e exclusão de dados antes de novos lembretes. Diagnóstico técnico foi retirado da interface conforme solicitado.

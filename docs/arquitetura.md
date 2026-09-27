@@ -149,3 +149,7 @@ notificationOperation envolve criação do canal, consulta/solicitação de perm
 ## Configuração mínima de áudio do canal
 
 O canal define nome e importância, omitindo sound: o Android mantém seu padrão. A implementação nativa instalada entra no tratamento de recursos/atributos de áudio quando o campo está presente; removê-lo evita esse caminho desnecessário. O conteúdo da notificação mantém som padrão. Diagnósticos em desenvolvimento extraem name/code/message/cause explicitamente (inclusive message não enumerável), limitam tamanho/profundidade e protegem contra ciclos. Não há stack ou diagnóstico técnico na interface de produção.
+
+## Fluxo nativo adotado: development build
+
+Após confirmação do provedor nativo ausente no Expo Go do aparelho, o projeto passou a usar expo-dev-client e a API pública de expo-notifications. Removidos imports internos, teste específico do contorno Expo Go e detecção/mensagem de provedor indisponível. Erros preservam causa e logs, mas a interface contém somente mensagens curtas. Não há diagnóstico técnico, banner global ou explicação de ambiente em Ajustes; na web o controle nativo não é renderizado. Scheme pomodog e identificador Android configurados; instruções em development-build.md.

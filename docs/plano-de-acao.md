@@ -153,3 +153,7 @@ Solicitação de permissão passou a enviar android: {} explicitamente. Falhas n
 ## Canal Android: som padrão e diagnóstico legível
 
 Removido sound explícito da criação do canal para herdar o padrão Android, evitando resolução de recurso/atributos de áudio pelo módulo nativo. Em desenvolvimento, erro nativo aparece como texto selecionável em Ajustes e string multilinha no console, incluindo causas encadeadas. A efetividade no aparelho ainda precisa de confirmação.
+
+## Preparação para development build
+
+Reorganizada integração de notificações para API pública e cliente próprio de desenvolvimento. Removidos contornos de Expo Go e detalhes técnicos da interface, preservando agendamento serializado, consentimento, cancelamento e logs úteis. Guia local de instalação por USB preparado. Próximo passo: compilar, instalar e validar avisos no aparelho; ainda não realizado nesta entrega.

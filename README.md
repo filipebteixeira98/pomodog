@@ -40,7 +40,7 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 
 ## Limites desta versão
 
-- Aviso local opcional de conclusão em **Ajustes → Avisar ao terminar** (Android/iOS). Requer permissão; agendamento é feito no sistema e pode funcionar com a tela bloqueada. Economia de bateria, permissões, modo silencioso e restrições do sistema podem atrasar ou silenciar o aviso. Não há garantia de alarme exato; validar esta entrega em dispositivo antes de um teste prolongado. Na web, a opção fica indisponível.
+- Aviso local opcional de conclusão em **Ajustes → Avisar ao terminar** (Android/iOS). Requer permissão; agendamento é feito no sistema e pode funcionar com a tela bloqueada. Economia de bateria, permissões, modo silencioso e restrições do sistema podem atrasar ou silenciar o aviso. Não há garantia de alarme exato; validar esta entrega em dispositivo antes de um teste prolongado. Na web, o controle não é exibido.
 - Sem LoFi, pagamentos, conta, sincronização ou telemetria remota. Bibliotecas musicais ainda precisam ser selecionadas e ter suas licenças verificadas.
 - Dados pertencem à instalação/navegador: limpar dados ou trocar de dispositivo não preserva o histórico.
 - Ainda não publicado, sem APK ou distribuição na loja. O endereço local depende do servidor em execução.
@@ -83,6 +83,6 @@ Configuração baseada na documentação do Expo consultada via Context7: [templ
 
 Fonte vetorial e PNGs em `assets/brand/`. Para regenerar: `npm run assets:generate`. Veja a [prancha de revisão](assets/brand/preview.png). Ícone e splash nativa requerem novo build; Expo Go não reproduz integralmente a splash final.
 
-### Executar no Expo Go
+### Executar no Android pessoal
 
-Use `npm start -- --clear` (o script fixa `expo start --go`) e leia o QR code no Expo Go. A tecla `s` alterna para development build e não corrige erros de notificações; esse modo exige um aplicativo próprio com expo-dev-client instalado e compilado. Não é necessário para o fluxo local atual.
+O fluxo de notificações agora usa development build, com expo-dev-client instalado. Siga [o guia de instalação e validação](docs/development-build.md). `npm run android` compila e instala no aparelho conectado; `npm start` inicia o Metro para o cliente próprio.

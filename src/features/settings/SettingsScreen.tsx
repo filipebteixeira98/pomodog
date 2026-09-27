@@ -40,15 +40,6 @@ export function SettingsScreen({
 }: Props) {
   return (
     <>
-      {notificationNotice ? (
-        <Card
-          className="bg-soft p-4"
-          accessibilityRole="alert"
-          accessibilityLiveRegion="polite"
-        >
-          <Text selectable>{notificationNotice}</Text>
-        </Card>
-      ) : null}
       <Card className="gap-5">
         <View className="gap-3">
           <View className="flex-row items-center gap-3">
@@ -122,25 +113,34 @@ export function SettingsScreen({
             trackColor={{ true: accent }}
           />
         </View>
-        <View className="gap-2">
-          <View className="flex-row items-center gap-3">
-            <View className="flex-1">
-              <Text variant="label">Avisar ao terminar</Text>
-              <Text variant="caption">
-                {notificationsSupported
-                  ? "Avise ao concluir foco ou descanso, inclusive com a tela bloqueada. Os ajustes do dispositivo podem atrasar a entrega."
-                  : "Disponível no aplicativo para Android e iOS."}
-              </Text>
+        {notificationsSupported && (
+          <View className="gap-2">
+            <View className="flex-row items-center gap-3">
+              <View className="flex-1">
+                <Text variant="label">Avisar ao terminar</Text>
+                <Text variant="caption">
+                  Receba um aviso ao concluir foco ou descanso.
+                </Text>
+              </View>
+              <Switch
+                accessibilityLabel="Avisar ao terminar a sessão"
+                value={preferences.sessionNotifications}
+                disabled={notificationBusy}
+                onValueChange={onNotificationsChange}
+                trackColor={{ true: accent }}
+              />
             </View>
-            <Switch
-              accessibilityLabel="Avisar ao terminar a sessão"
-              value={notificationsSupported && preferences.sessionNotifications}
-              disabled={notificationBusy || !notificationsSupported}
-              onValueChange={onNotificationsChange}
-              trackColor={{ true: accent }}
-            />
+            {notificationNotice ? (
+              <Text
+                accessibilityRole="alert"
+                accessibilityLiveRegion="polite"
+                variant="caption"
+              >
+                {notificationNotice}
+              </Text>
+            ) : null}
           </View>
-        </View>
+        )}
         <Button
           accent={accent}
           secondary

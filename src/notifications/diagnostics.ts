@@ -34,13 +34,8 @@ export async function notificationOperation<T>(
 }
 
 export function notificationErrorMessage(error: unknown) {
-  if (error instanceof NotificationFailure) {
-    const detail =
-      typeof __DEV__ !== "undefined" && __DEV__
-        ? `\n\nDiagnóstico (${error.stage}):\n${describeNativeError(error.cause)}`
-        : "";
-    return `${error.message} Tente novamente.${detail}`;
-  }
+  if (error instanceof NotificationFailure)
+    return `${error.message} Tente novamente.`;
   if (error instanceof Error && error.message === "notification-permission")
     return "Permita notificações nos ajustes do dispositivo para receber o aviso.";
   if (typeof __DEV__ !== "undefined" && __DEV__)
