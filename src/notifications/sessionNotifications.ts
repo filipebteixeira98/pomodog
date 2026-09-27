@@ -15,6 +15,7 @@ import { setNotificationHandler } from "expo-notifications/build/NotificationsHa
 import { scheduleNotificationAsync } from "expo-notifications/build/scheduleNotificationAsync";
 import { setNotificationChannelAsync } from "expo-notifications/build/setNotificationChannelAsync";
 
+import { notificationOperation } from "#src/notifications/diagnostics";
 import {
   createSessionScheduler,
   SESSION_NOTIFICATION_ID,
@@ -34,11 +35,13 @@ setNotificationHandler({
 
 async function channel() {
   if (Platform.OS === "android") {
-    await setNotificationChannelAsync(channelId, {
-      name: "Conclusão de sessões",
-      importance: AndroidImportance.HIGH,
-      sound: "default",
-    });
+    await notificationOperation("channel", () =>
+      setNotificationChannelAsync(channelId, {
+        name: "Conclusão de sessões",
+        importance: AndroidImportance.HIGH,
+        sound: "default",
+      }),
+    );
   }
 }
 
@@ -51,38 +54,49 @@ function allowed(permission: NotificationPermissionsStatus) {
 
 export async function requestSessionPermission() {
   await channel();
-  const current = await getPermissionsAsync();
+  const current = await notificationOperation(
+    "permissions",
+    getPermissionsAsync,
+  );
   if (allowed(current)) return true;
   if (!current.canAskAgain) return false;
   return allowed(
-    await requestPermissionsAsync({
-      ios: { allowAlert: true, allowSound: true, allowBadge: false },
-    }),
+    await notificationOperation("request", () =>
+      requestPermissionsAsync({
+        android: {},
+        ios: { allowAlert: true, allowSound: true, allowBadge: false },
+      }),
+    ),
   );
 }
 
 export const sessionNotifications = createSessionScheduler({
-  permitted: async () => allowed(await getPermissionsAsync()),
+  permitted: async () =>
+    allowed(await notificationOperation("permissions", getPermissionsAsync)),
   cancel: async () => {
-    await cancelScheduledNotificationAsync(SESSION_NOTIFICATION_ID);
+    await notificationOperation("cancel", () =>
+      cancelScheduledNotificationAsync(SESSION_NOTIFICATION_ID),
+    );
   },
   schedule: async (deadline, mode) => {
     await channel();
-    await scheduleNotificationAsync({
-      identifier: SESSION_NOTIFICATION_ID,
-      content: {
-        title: mode === "focus" ? "Seu foco terminou" : "Sua pausa terminou",
-        body:
-          mode === "focus"
-            ? "Mais um passo concluído. Que tal descansar um pouco?"
-            : "Vamos para o próximo foco? No seu ritmo.",
-        sound: "default",
-      },
-      trigger: {
-        type: SchedulableTriggerInputTypes.DATE,
-        date: new Date(deadline),
-        channelId,
-      },
-    });
+    await notificationOperation("schedule", () =>
+      scheduleNotificationAsync({
+        identifier: SESSION_NOTIFICATION_ID,
+        content: {
+          title: mode === "focus" ? "Seu foco terminou" : "Sua pausa terminou",
+          body:
+            mode === "focus"
+              ? "Mais um passo concluído. Que tal descansar um pouco?"
+              : "Vamos para o próximo foco? No seu ritmo.",
+          sound: "default",
+        },
+        trigger: {
+          type: SchedulableTriggerInputTypes.DATE,
+          date: new Date(deadline),
+          channelId,
+        },
+      }),
+    );
   },
 });

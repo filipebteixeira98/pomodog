@@ -141,3 +141,7 @@ Referência consultada via Context7: [Expo Notifications](https://docs.expo.dev/
 ## Compatibilidade de notificações com Expo Go
 
 O entrypoint de expo-notifications reexporta DevicePushTokenAutoRegistration.fx, que inicializa o listener de tokens e dispara o erro de push remoto no Expo Go Android. O adaptador importa diretamente os módulos locais em build/, sem carregar esse entrypoint. Não suprimimos LogBox nem modificamos node_modules. expo-notifications foi fixado em 57.0.21: esses caminhos internos precisam ser revisados em upgrades. Os scripts start/android usam --go explicitamente; a tecla s muda o destino para development build, que requer preparação separada.
+
+## Diagnóstico local de notificações
+
+notificationOperation envolve criação do canal, consulta/solicitação de permissão, cancelamento e agendamento. NotificationFailure preserva cause e etapa; em **DEV** registra código/mensagem/stack com prefixo [Pomodog notifications], sem conteúdo de notificações ou histórico. Interface apresenta mensagem por etapa, sem stack. Ajustes rola ao topo quando surge aviso. A configuração de permissão inclui android: {} para não passar undefined ao módulo Android; isso é correção preventiva, não evidência da causa específica relatada.

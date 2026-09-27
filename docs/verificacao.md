@@ -187,3 +187,7 @@ Roteiro em aparelho: ativar Avisar ao terminar e conceder permissão; concluir u
 ## Correção de Expo Go e destino do Metro
 
 TypeScript, 33 testes e export Android (3 MB de Hermes) passaram. Novo teste percorre os imports locais da versão instalada de expo-notifications, com resolução Android, e rejeita entrypoint geral e módulos de tokens/registro remoto. Inspeção encontrou 14 módulos locais sem dependência de push remoto. Duas tentativas de export de desenvolvimento com sourcemaps ficaram sem conclusão e foram interrompidas; não são evidência de sucesso. Export Android normal concluído. Ainda necessária confirmação de abertura e notificação local em Expo Go físico após reiniciar com npm start -- --clear. Scripts start/android fixam --go; s alterna para outro tipo de cliente e não é necessário para este fluxo.
+
+## Falha ao habilitar avisos: diagnóstico preservado
+
+TypeScript, 34 testes e export Android passaram. Teste novo confirma preservação da causa nativa e mensagem por etapa. Solicitação Android explícita adicionada; erro em Ajustes movido para o topo com rolagem ao aviso. Logs de desenvolvimento incluem etapa, código, mensagem e stack. Sem acesso ao erro original do aparelho, a causa raiz e a resolução da ativação ainda não estão confirmadas; repetir no Expo Go e coletar a linha [Pomodog notifications] se persistir.

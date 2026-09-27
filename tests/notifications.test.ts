@@ -5,6 +5,11 @@ import {
   defaultPreferences,
   parsePreferences,
 } from "#src/domain/preferences.ts";
+import {
+  notificationErrorMessage,
+  NotificationFailure,
+  notificationOperation,
+} from "#src/notifications/diagnostics.ts";
 import { createSessionScheduler } from "#src/notifications/sessionScheduler.ts";
 
 test("notifications are opt-in for old records and malformed flags", () => {
@@ -175,4 +180,23 @@ test("scheduler recovers its queue after a platform failure", async () => {
     false,
   );
   assert.equal(canceled, true);
+});
+
+test("notification failures preserve native cause and identify the failed operation", async () => {
+  const cause = Object.assign(new Error("Native channel failure"), {
+    code: "ERR_CHANNEL",
+  });
+  await assert.rejects(
+    notificationOperation("channel", async () => {
+      throw cause;
+    }),
+    (error) => {
+      assert.ok(error instanceof NotificationFailure);
+      assert.equal(error.cause, cause);
+      assert.equal(error.stage, "channel");
+      assert.match(notificationErrorMessage(error), /preparar o canal/);
+      return true;
+    },
+  );
+  assert.equal(await notificationOperation("request", async () => true), true);
 });

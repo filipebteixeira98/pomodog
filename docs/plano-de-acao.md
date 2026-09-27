@@ -145,3 +145,7 @@ Primeira entrega da frente Lembretes opcionais: opção Avisar ao terminar, desa
 ## Correção de inicialização no Expo Go
 
 Isolados imports locais de notificações para evitar inicialização de push remoto no Android Expo Go. Versão da dependência fixada e scripts direcionados a Expo Go. Mantidos avisos locais e a necessidade de validar entrega em dispositivo; development build não foi introduzido.
+
+## Diagnóstico de ativação dos avisos
+
+Solicitação de permissão passou a enviar android: {} explicitamente. Falhas nativas agora preservam causa e etapa, com logs apenas em desenvolvimento. Ajustes mostra o erro em card no topo e rola até ele. Ainda não há confirmação da causa da falha observada no aparelho: a mensagem anterior descartava o erro original.

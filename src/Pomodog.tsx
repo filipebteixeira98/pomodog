@@ -43,6 +43,10 @@ export function Pomodog({
   }, [tourStep, viewport.width, viewport.height, viewport.fontScale]);
   const systemReducedMotion = useReducedMotion();
   const [tab, setTab] = useState<Tab>("focus");
+  useEffect(() => {
+    if (tab === "settings" && model.notificationNotice)
+      scroll.current?.scrollTo({ y: 0, animated: false });
+  }, [tab, model.notificationNotice]);
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmErase, setConfirmErase] = useState(false);
   const [dataNotice, setDataNotice] = useState("");

@@ -40,6 +40,15 @@ export function SettingsScreen({
 }: Props) {
   return (
     <>
+      {notificationNotice ? (
+        <Card
+          className="bg-soft p-4"
+          accessibilityRole="alert"
+          accessibilityLiveRegion="polite"
+        >
+          <Text>{notificationNotice}</Text>
+        </Card>
+      ) : null}
       <Card className="gap-5">
         <View className="gap-3">
           <View className="flex-row items-center gap-3">
@@ -131,11 +140,6 @@ export function SettingsScreen({
               trackColor={{ true: accent }}
             />
           </View>
-          {notificationNotice ? (
-            <Text variant="caption" accessibilityRole="alert">
-              {notificationNotice}
-            </Text>
-          ) : null}
         </View>
         <Button
           accent={accent}

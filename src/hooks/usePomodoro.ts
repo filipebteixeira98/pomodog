@@ -3,6 +3,7 @@ import { AppState } from "react-native";
 
 import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
+import { notificationErrorMessage } from "#src/notifications/diagnostics";
 import {
   notificationsSupported,
   requestSessionPermission,
@@ -111,13 +112,7 @@ export function usePomodoro() {
           if (active) setNotificationNotice("");
         })
         .catch((error: unknown) => {
-          if (active)
-            setNotificationNotice(
-              error instanceof Error &&
-                error.message === "notification-permission"
-                ? "Permita notificações nos ajustes do dispositivo para receber o aviso."
-                : "Não foi possível atualizar o aviso. Confira as permissões do dispositivo.",
-            );
+          if (active) setNotificationNotice(notificationErrorMessage(error));
         });
     void sync();
     const subscription = AppState.addEventListener("change", (state) => {
@@ -166,11 +161,9 @@ export function usePomodoro() {
         sessionNotifications: enabled,
       }));
       setNotificationNotice("");
-    } catch {
+    } catch (error) {
       if (request === notificationRequest.current)
-        setNotificationNotice(
-          "Não foi possível alterar os avisos. Tente novamente.",
-        );
+        setNotificationNotice(notificationErrorMessage(error));
     } finally {
       permissionLock.current = false;
       setNotificationBusy(false);
