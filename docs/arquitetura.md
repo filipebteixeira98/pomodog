@@ -113,3 +113,7 @@ A camada de fundo bloqueia interação e fica fora da navegação assistiva. Web
 Animated transforma Views que contêm SVGs estáticos, usando driver nativo em Android/iOS e sem atualizar estado React a cada frame. Respiração e gestos têm ciclos separados; gestos incluem pausas e amplitudes menores fora da introdução/comemoração. Movimento reduzido zera todas as transformações. AppState interrompe os ciclos em segundo plano e reinicia ao retornar; cleanup remove listener e encerra animações. Mascotes fora da página ativa e atrás do onboarding/tour ficam imóveis.
 
 Referência consultada via Context7: [Animated no React Native](https://reactnative.dev/docs/animated).
+
+## Estatísticas de Progresso
+
+summarizeProgress considera hoje e os seis dias anteriores no calendário local, exclui registros futuros e calcula minutos totais, sessões, dias distintos e duração média. Totais são arredondados após somar segundos. Sem sessões, a interface usa travessão para a média. O gráfico ajusta a escala ao maior valor do período; lista recente ordena por conclusão. Os cálculos usam o histórico local existente, sem adicionar coleta ou armazenamento.

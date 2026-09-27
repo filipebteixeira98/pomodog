@@ -157,3 +157,7 @@ TypeScript e formatação passaram. No navegador, confirmados ausência do aviso
 ## Correção de texto no SVG — 27/09/2026
 
 Removidos dois filhos JSX explícitos `{" "}` em Scenery e Head de Artwork.tsx. Esses espaços eram nós de texto dentro do SVG e causavam “Text strings must be rendered within a <Text> component” no Expo Go; LogBoxData.js apenas reportava o erro. TypeScript, Prettier e diff passaram. Inspeção da árvore sintática de Artwork.tsx e Dog.tsx confirmou ausência de filhos JSX com texto literal. A validação anterior no navegador não detectou essa restrição nativa; confirmação em Expo Go após recarregar permanece pendente.
+
+## Dashboard semanal — 27/09/2026
+
+TypeScript e 20 testes passaram. Novos cenários cobrem histórico vazio, limites do período entre anos, exclusão de registros futuros, dias distintos e arredondamento após soma. Estado vazio inspecionado no navegador em 320 × 720: estatísticas legíveis e média exibida como travessão. Cálculos com histórico preenchido verificados nos testes; inspeção visual nativa pendente. Sem mudanças no armazenamento ou telemetria.

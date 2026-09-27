@@ -6,7 +6,7 @@ import PawPrint from "lucide-react-native/icons/paw-print";
 import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
-import { summarizeDay, summarizeWeek } from "#src/domain/progress";
+import { summarizeDay, summarizeProgress } from "#src/domain/progress";
 import type { Session } from "#src/timer";
 
 export function ProgressScreen({
@@ -18,7 +18,14 @@ export function ProgressScreen({
   accent: string;
   onFocus: () => void;
 }) {
-  const today = summarizeDay(sessions);
+  const now = Date.now();
+  const completed = sessions.filter((session) => session.endedAt <= now);
+  const today = summarizeDay(completed, now);
+  const week = summarizeProgress(completed, now);
+  const chartMaximum = Math.max(1, ...week.days.map((day) => day.minutes));
+  const recent = [...completed]
+    .sort((a, b) => b.endedAt - a.endedAt)
+    .slice(0, 5);
   return (
     <>
       <Card>
@@ -42,8 +49,33 @@ export function ProgressScreen({
       </Card>
       <Card>
         <Text variant="heading">Últimos 7 dias</Text>
+        <Text variant="caption" className="mt-1">
+          Incluindo hoje · apenas sessões concluídas
+        </Text>
+        <View className="mt-4 flex-row flex-wrap gap-y-4">
+          <Statistic
+            value={String(week.minutes)}
+            label="minutos de foco"
+            accent={accent}
+          />
+          <Statistic
+            value={String(week.count)}
+            label="sessões concluídas"
+            accent={accent}
+          />
+          <Statistic
+            value={String(week.activeDays)}
+            label="dias com foco"
+            accent={accent}
+          />
+          <Statistic
+            value={week.count ? String(week.averageMinutes) : "—"}
+            label="min por sessão, em média"
+            accent={accent}
+          />
+        </View>
         <View className="mb-4 mt-6 flex-row justify-between">
-          {summarizeWeek(sessions).map(({ date, minutes }) => (
+          {week.days.map(({ date, minutes }) => (
             <View
               key={date.toISOString()}
               accessible
@@ -56,7 +88,7 @@ export function ProgressScreen({
                   className="w-[18px] rounded-md"
                   style={{
                     height: minutes
-                      ? Math.max(8, Math.min(100, (minutes / 120) * 100))
+                      ? Math.max(4, (minutes / chartMaximum) * 100)
                       : 3,
                     backgroundColor: minutes ? accent : "#DFE4D7",
                   }}
@@ -69,12 +101,12 @@ export function ProgressScreen({
           ))}
         </View>
         <Text variant="caption">
-          Minutos de foco por dia · barras com teto de 120 min
+          Minutos por dia · escala ajustada ao maior valor
         </Text>
       </Card>
       <Card>
         <Text variant="heading">Pequenas conquistas</Text>
-        {sessions.length === 0 ? (
+        {recent.length === 0 ? (
           <View className="gap-3 py-5">
             <PawPrint color={accent} size={30} />
             <Text variant="label">Seu primeiro passo ainda vem.</Text>
@@ -84,31 +116,28 @@ export function ProgressScreen({
             </Button>
           </View>
         ) : (
-          sessions
-            .slice(-5)
-            .reverse()
-            .map((session) => (
-              <View
-                key={session.id}
-                className="flex-row items-center gap-3 border-b border-soft py-4"
-              >
-                <PawPrint color={accent} size={19} />
-                <View className="flex-1">
-                  <Text variant="label">
-                    {Math.round(session.seconds / 60)} minutos para você
-                  </Text>
-                  <Text variant="caption">
-                    {new Date(session.endedAt).toLocaleString("pt-BR", {
-                      day: "2-digit",
-                      month: "short",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Text>
-                </View>
-                <Check color={accent} size={18} />
+          recent.map((session) => (
+            <View
+              key={session.id}
+              className="flex-row items-center gap-3 border-b border-soft py-4"
+            >
+              <PawPrint color={accent} size={19} />
+              <View className="flex-1">
+                <Text variant="label">
+                  {Math.round(session.seconds / 60)} minutos para você
+                </Text>
+                <Text variant="caption">
+                  {new Date(session.endedAt).toLocaleString("pt-BR", {
+                    day: "2-digit",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Text>
               </View>
-            ))
+              <Check color={accent} size={18} />
+            </View>
+          ))
         )}
       </Card>
       <Card className="flex-row items-center gap-3 bg-soft p-4">
@@ -118,5 +147,28 @@ export function ProgressScreen({
         </Text>
       </Card>
     </>
+  );
+}
+
+function Statistic({
+  value,
+  label,
+  accent,
+}: {
+  value: string;
+  label: string;
+  accent: string;
+}) {
+  return (
+    <View
+      className="w-1/2 pr-3"
+      accessible
+      accessibilityLabel={`${value} ${label}`}
+    >
+      <Text variant="heading" style={{ color: accent }}>
+        {value}
+      </Text>
+      <Text variant="caption">{label}</Text>
+    </View>
   );
 }

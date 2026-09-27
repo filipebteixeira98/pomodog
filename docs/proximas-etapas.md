@@ -35,13 +35,13 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 
 - Migração para aliases concluída: `#src/*`, `#tests/*`, `#app` e `#styles`. Mantidos imports com efeitos colaterais e compatibilidade entre app, testes e exportações. Detalhes em [Arquitetura](arquitetura.md).
 - Ordem acordada: ícone/splash → animação corporal → Pencil.
-- Próxima implementação: usar Pencil para acompanhar layouts e registrar templates, paleta, tipografia e componentes reutilizáveis. A integração ainda não foi configurada/verificada.
+- Pencil em standby por decisão do usuário; retomar posteriormente para para acompanhar layouts e registrar templates, paleta, tipografia e componentes reutilizáveis. A integração ainda não foi configurada/verificada.
 - Animação articulada implementada: respiração do tronco, inclinação da cabeça, patas alternadas e cauda. Movimento reduzido verificado na web. Validar aparência e desempenho em dispositivo Android, incluindo retorno do segundo plano.
 - Ícone e splash implementados com o desenho atual do Nino, fonte vetorial editável e PNGs regeneráveis. Validar recortes do launcher, ícone temático e abertura a frio em build Android de release; Expo Go não comprova a aparência final.
 
 ## Progresso, cuidado e notificações
 
-- Definir quais estatísticas tornam o dashboard mais útil para compreender a rotina, antes de adicionar gráficos por quantidade.
+- Dashboard ampliado com totais, dias com foco e média por sessão nos últimos sete dias. Próxima entrega da frente prioritária: alimentação opcional do Nino, seguida de frases gentis de incentivo.
 - Introduzir alimentação dos pets e frases gentis como convites opcionais. Proposta de experiência: sem punições, perda de progresso ou culpa por ausência.
 - Planejar lembretes de rotina e inatividade com consentimento, horários, frequência controlável e desativação simples.
 - Avaliar notificações locais para os casos que não exigem servidor. Push remoto permanece uma possibilidade solicitada, com infraestrutura e tratamento de tokens ainda por definir.

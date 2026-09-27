@@ -32,8 +32,8 @@ Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma p
 | Ordem | Frente                 | Entregas planejadas                                                                                                                                                               | Estado       |
 | ----- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | 1     | Organização técnica    | Substituir imports relativos por aliases, manter ordenação automática e validar resolução em testes e exports web/Android                                                         | Concluída    |
-| 2     | Identidade visual      | Ícone, splash e animação corporal implementados; próxima entrega: registrar layouts, templates, paleta, tipografia e componentes no Pencil                                        | Em andamento |
-| 3     | Progresso e incentivo  | Ampliar dashboard e estatísticas; interação de alimentar pets e frases gentis de incentivo                                                                                        | Planejada    |
+| 2     | Identidade visual      | Ícone, splash e animação corporal implementados; Pencil em standby: layouts, templates, paleta, tipografia e componentes                                                          | Em andamento |
+| 3     | Progresso e incentivo  | Dashboard ampliado; próximas entregas: alimentação opcional e frases gentis de incentivo                                                                                          | Em andamento |
 | 4     | Lembretes opcionais    | Lembretes de rotina, alimentação e inatividade; definir notificações locais versus push, frequência e controles do usuário                                                        | Planejada    |
 | 5     | Contas e sincronização | Diagramas UML de classes/casos de uso e modelo lógico; Firebase/Firestore separados para homologação e produção; Google OAuth via MCP Firebase; exclusão de conta e dados remotos | Planejada    |
 | 6     | Monetização e social   | Personalização paga de mascotes, outros animais e nomes; compartilhamento em redes sociais; depois, pontuação, descoberta de amigos e ciclos em conjunto                          | Planejada    |
@@ -54,7 +54,7 @@ Manter o plano para andamento; próximas etapas para pendências e decisões; ar
 
 1. **Ícone e splash:** assets derivados do Nino, ícone adaptativo/monocromático Android, favicon e configuração nativa implementados. Verificações de arquivos, tipos, testes e exports registradas; inspeção em build de release ainda pendente.
 2. **Animação corporal:** implementada com tronco, cabeça, patas e cauda articulados. Validada na web; inspeção e desempenho em dispositivo nativo pendentes.
-3. **Pencil:** próxima implementação: registrar layouts atuais, paleta, tipografia, componentes reutilizáveis e templates.
+3. **Pencil:** em standby por preferência do usuário; retomar posteriormente para registrar layouts atuais, paleta, tipografia, componentes reutilizáveis e templates.
 
 ## Ajuste pontual do onboarding
 
@@ -115,3 +115,13 @@ Desenho separado em camadas articuladas sobre coordenadas compartilhadas: tronco
 ## Correção nativa do mascote — 27/09/2026
 
 Removidos espaços JSX explícitos das camadas de cenário e cabeça que provocavam erro de texto fora de Text no Expo Go. Correção pontual antes de Pencil, preservando desenho e animações.
+
+## Progresso e incentivo — prioridade atual
+
+Pencil colocado em standby por decisão do usuário. A frente Progresso e incentivo passa a ser a prioridade, em entregas separadas:
+
+1. Dashboard: implementados minutos, sessões, dias com foco e média por sessão nos últimos sete dias; gráfico com escala proporcional ao maior valor. Validação registrada em Verificação.
+2. Alimentação opcional do Nino: próxima funcionalidade; definir interação e persistência local, sem punição por ausência.
+3. Frases gentis de incentivo: ampliar mensagens contextuais após a interação de cuidado.
+
+Cada funcionalidade mantém documentação, validação e commit próprio.
