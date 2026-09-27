@@ -1,5 +1,19 @@
 import { Platform } from "react-native";
-import * as Notifications from "expo-notifications";
+// Import local-only modules: the package entrypoint initializes remote push registration.
+import { cancelScheduledNotificationAsync } from "expo-notifications/build/cancelScheduledNotificationAsync";
+import { AndroidImportance } from "expo-notifications/build/NotificationChannelManager.types";
+import {
+  getPermissionsAsync,
+  requestPermissionsAsync,
+} from "expo-notifications/build/NotificationPermissions";
+import {
+  IosAuthorizationStatus,
+  type NotificationPermissionsStatus,
+} from "expo-notifications/build/NotificationPermissions.types";
+import { SchedulableTriggerInputTypes } from "expo-notifications/build/Notifications.types";
+import { setNotificationHandler } from "expo-notifications/build/NotificationsHandler";
+import { scheduleNotificationAsync } from "expo-notifications/build/scheduleNotificationAsync";
+import { setNotificationChannelAsync } from "expo-notifications/build/setNotificationChannelAsync";
 
 import {
   createSessionScheduler,
@@ -9,7 +23,7 @@ import {
 const channelId = "pomodog-sessions";
 export const notificationsSupported = true;
 
-Notifications.setNotificationHandler({
+setNotificationHandler({
   handleNotification: async () => ({
     shouldShowBanner: true,
     shouldShowList: true,
@@ -20,43 +34,41 @@ Notifications.setNotificationHandler({
 
 async function channel() {
   if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync(channelId, {
+    await setNotificationChannelAsync(channelId, {
       name: "Conclusão de sessões",
-      importance: Notifications.AndroidImportance.HIGH,
+      importance: AndroidImportance.HIGH,
       sound: "default",
     });
   }
 }
 
-function allowed(permission: Notifications.NotificationPermissionsStatus) {
+function allowed(permission: NotificationPermissionsStatus) {
   return (
     permission.granted ||
-    permission.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
+    permission.ios?.status === IosAuthorizationStatus.PROVISIONAL
   );
 }
 
 export async function requestSessionPermission() {
   await channel();
-  const current = await Notifications.getPermissionsAsync();
+  const current = await getPermissionsAsync();
   if (allowed(current)) return true;
   if (!current.canAskAgain) return false;
   return allowed(
-    await Notifications.requestPermissionsAsync({
+    await requestPermissionsAsync({
       ios: { allowAlert: true, allowSound: true, allowBadge: false },
     }),
   );
 }
 
 export const sessionNotifications = createSessionScheduler({
-  permitted: async () => allowed(await Notifications.getPermissionsAsync()),
+  permitted: async () => allowed(await getPermissionsAsync()),
   cancel: async () => {
-    await Notifications.cancelScheduledNotificationAsync(
-      SESSION_NOTIFICATION_ID,
-    );
+    await cancelScheduledNotificationAsync(SESSION_NOTIFICATION_ID);
   },
   schedule: async (deadline, mode) => {
     await channel();
-    await Notifications.scheduleNotificationAsync({
+    await scheduleNotificationAsync({
       identifier: SESSION_NOTIFICATION_ID,
       content: {
         title: mode === "focus" ? "Seu foco terminou" : "Sua pausa terminou",
@@ -67,7 +79,7 @@ export const sessionNotifications = createSessionScheduler({
         sound: "default",
       },
       trigger: {
-        type: Notifications.SchedulableTriggerInputTypes.DATE,
+        type: SchedulableTriggerInputTypes.DATE,
         date: new Date(deadline),
         channelId,
       },

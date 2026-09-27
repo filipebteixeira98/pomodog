@@ -137,3 +137,7 @@ sessionScheduler serializa cancelamento/agendamento do identificador estável po
 A implementação .web não importa o módulo nativo e desabilita o controle. No nativo, handler permite banner/lista/som em primeiro plano; entrega em segundo plano fica a cargo do sistema. Não adicionamos SCHEDULE_EXACT_ALARM: a versão instalada do Expo usa setAndAllowWhileIdle quando não há acesso a alarmes exatos, sujeito a atraso. Nenhuma garantia de pontualidade, som ou entrega após encerramento forçado é assumida. Configuração do plugin requer rebuild para binários próprios; notificações locais são suportadas em Expo Go, ao contrário de push remoto Android.
 
 Referência consultada via Context7: [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/).
+
+## Compatibilidade de notificações com Expo Go
+
+O entrypoint de expo-notifications reexporta DevicePushTokenAutoRegistration.fx, que inicializa o listener de tokens e dispara o erro de push remoto no Expo Go Android. O adaptador importa diretamente os módulos locais em build/, sem carregar esse entrypoint. Não suprimimos LogBox nem modificamos node_modules. expo-notifications foi fixado em 57.0.21: esses caminhos internos precisam ser revisados em upgrades. Os scripts start/android usam --go explicitamente; a tecla s muda o destino para development build, que requer preparação separada.

@@ -141,3 +141,7 @@ Implementado Dar petisco junto ao Nino existente, usando o mesmo balão para res
 ## Aviso local de conclusão
 
 Primeira entrega da frente Lembretes opcionais: opção Avisar ao terminar, desativada por padrão, com permissão solicitada ao ativar. Agenda foco/descanso no sistema, cancela ao pausar/reiniciar/desativar/apagar dados e reagenda ao retomar. Notificações locais, sem tokens de push ou backend. Web informa indisponibilidade. Próximas entregas: validar o aviso com tela bloqueada em dispositivo e depois definir lembretes de rotina/alimentação/inatividade. Pencil permanece em standby.
+
+## Correção de inicialização no Expo Go
+
+Isolados imports locais de notificações para evitar inicialização de push remoto no Android Expo Go. Versão da dependência fixada e scripts direcionados a Expo Go. Mantidos avisos locais e a necessidade de validar entrega em dispositivo; development build não foi introduzido.

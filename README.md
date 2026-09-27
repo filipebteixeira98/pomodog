@@ -82,3 +82,7 @@ Configuração baseada na documentação do Expo consultada via Context7: [templ
 ## Assets da marca
 
 Fonte vetorial e PNGs em `assets/brand/`. Para regenerar: `npm run assets:generate`. Veja a [prancha de revisão](assets/brand/preview.png). Ícone e splash nativa requerem novo build; Expo Go não reproduz integralmente a splash final.
+
+### Executar no Expo Go
+
+Use `npm start -- --clear` (o script fixa `expo start --go`) e leia o QR code no Expo Go. A tecla `s` alterna para development build e não corrige erros de notificações; esse modo exige um aplicativo próprio com expo-dev-client instalado e compilado. Não é necessário para o fluxo local atual.
