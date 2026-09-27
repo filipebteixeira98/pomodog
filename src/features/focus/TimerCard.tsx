@@ -56,7 +56,7 @@ export function TimerCard({
   const PrimaryIcon = timer.status === "running" ? Pause : Play;
 
   return (
-    <Card className="items-center rounded-[28px] pb-2 pt-4">
+    <Card className="items-center rounded-[28px] pb-6 pt-4">
       <View className="mb-1 w-[250px] max-w-full flex-row rounded-2xl bg-soft p-1">
         {(["focus", "break"] as const).map((mode) => (
           <Pressable

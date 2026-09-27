@@ -1,4 +1,5 @@
 import { Switch, View } from "react-native";
+import Timer from "lucide-react-native/icons/timer";
 
 import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
@@ -32,7 +33,12 @@ export function SettingsScreen({
     <>
       <Card className="gap-5">
         <View className="gap-2">
-          <Text variant="label">Tempo de foco</Text>
+          <View className="flex-row items-center gap-3">
+            <View className="h-11 w-11 items-center justify-center rounded-full bg-soft">
+              <Timer size={23} color={accent} />
+            </View>
+            <Text variant="label">Tempo de foco</Text>
+          </View>
           <ChoiceGroup
             accent={accent}
             value={preferences.focus}

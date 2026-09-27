@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import Check from "lucide-react-native/icons/check";
+import CircleAlert from "lucide-react-native/icons/circle-alert";
 import PawPrint from "lucide-react-native/icons/paw-print";
 
 import { Button } from "#src/components/ui/Button";
@@ -110,9 +111,12 @@ export function ProgressScreen({
             ))
         )}
       </Card>
-      <Text variant="caption" className="text-center">
-        Histórico local das últimas 1.000 sessões, neste dispositivo.
-      </Text>
+      <Card className="flex-row items-center gap-3 bg-soft p-4">
+        <CircleAlert size={20} color={accent} />
+        <Text variant="caption" className="flex-1">
+          Histórico local das últimas 1.000 sessões, neste dispositivo.
+        </Text>
+      </Card>
     </>
   );
 }

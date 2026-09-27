@@ -83,3 +83,7 @@ Removida a demonstração de 10 segundos e consolidados minutos/sessões do dia 
 ## Sinalização de exclusão
 
 A ação Apagar dados deste dispositivo usa texto/ícone vermelho sobre fundo discreto. A confirmação Sim, apagar meus dados usa fundo vermelho; Manter meus dados permanece neutro. Sem alteração na lógica de exclusão.
+
+## Ajustes de espaçamento e sinalização
+
+Aumentado o padding inferior do card de Foco de 8 para 24 px. Aviso de histórico local em Progresso agora aparece em card discreto com ícone de exclamação. Tempo de foco em Ajustes recebeu ícone de timer em círculo, seguindo o padrão visual de Perfil. Sem mudanças de comportamento.

@@ -110,3 +110,7 @@ As três descrições foram reduzidas, preservando os nomes dos controles e as i
 ## Cor das ações destrutivas
 
 TypeScript e formatação passaram. No navegador, conferidas as cores computadas: ação de exclusão com texto vermelho `#B42318` sobre fundo discreto, confirmação com fundo vermelho e texto branco, cancelamento neutro. Confirmação aberta e cancelada sem apagar dados. Sem alteração no fluxo de persistência.
+
+## Espaçamento e ícones informativos
+
+TypeScript, formatação e revisão do diff passaram. Inspecionados no navegador em 320 px o [aviso de histórico local](screenshots/progresso-aviso-local.png) e o [ícone de Tempo de foco](screenshots/ajustes-icone-foco.png), sem transbordamento horizontal. Padding inferior do card de Foco aumentado para 24 px. Ajustes exclusivamente visuais, sem nova validação nativa.
