@@ -39,7 +39,7 @@ async function channel() {
       setNotificationChannelAsync(channelId, {
         name: "Conclusão de sessões",
         importance: AndroidImportance.HIGH,
-        sound: "default",
+        // Omit sound to inherit Android defaults without resolving a sound resource.
       }),
     );
   }

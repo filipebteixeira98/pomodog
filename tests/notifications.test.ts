@@ -6,6 +6,7 @@ import {
   parsePreferences,
 } from "#src/domain/preferences.ts";
 import {
+  describeNativeError,
   notificationErrorMessage,
   NotificationFailure,
   notificationOperation,
@@ -199,4 +200,17 @@ test("notification failures preserve native cause and identify the failed operat
     },
   );
   assert.equal(await notificationOperation("request", async () => true), true);
+});
+
+test("native diagnostics include non-enumerable messages and nested causes without cycles", () => {
+  const native = Object.assign(new Error("Native details"), {
+    code: "ERR_NATIVE",
+  });
+  const outer = new Error("Call rejected", { cause: native });
+  native.cause = outer;
+  const detail = describeNativeError(outer);
+  assert.match(detail, /Call rejected/);
+  assert.match(detail, /ERR_NATIVE/);
+  assert.match(detail, /Native details/);
+  assert.equal(detail.split("Call rejected").length, 2);
 });

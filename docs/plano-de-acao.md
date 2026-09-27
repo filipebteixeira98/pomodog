@@ -149,3 +149,7 @@ Isolados imports locais de notificações para evitar inicialização de push re
 ## Diagnóstico de ativação dos avisos
 
 Solicitação de permissão passou a enviar android: {} explicitamente. Falhas nativas agora preservam causa e etapa, com logs apenas em desenvolvimento. Ajustes mostra o erro em card no topo e rola até ele. Ainda não há confirmação da causa da falha observada no aparelho: a mensagem anterior descartava o erro original.
+
+## Canal Android: som padrão e diagnóstico legível
+
+Removido sound explícito da criação do canal para herdar o padrão Android, evitando resolução de recurso/atributos de áudio pelo módulo nativo. Em desenvolvimento, erro nativo aparece como texto selecionável em Ajustes e string multilinha no console, incluindo causas encadeadas. A efetividade no aparelho ainda precisa de confirmação.

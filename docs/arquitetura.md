@@ -145,3 +145,7 @@ O entrypoint de expo-notifications reexporta DevicePushTokenAutoRegistration.fx,
 ## Diagnóstico local de notificações
 
 notificationOperation envolve criação do canal, consulta/solicitação de permissão, cancelamento e agendamento. NotificationFailure preserva cause e etapa; em **DEV** registra código/mensagem/stack com prefixo [Pomodog notifications], sem conteúdo de notificações ou histórico. Interface apresenta mensagem por etapa, sem stack. Ajustes rola ao topo quando surge aviso. A configuração de permissão inclui android: {} para não passar undefined ao módulo Android; isso é correção preventiva, não evidência da causa específica relatada.
+
+## Configuração mínima de áudio do canal
+
+O canal define nome e importância, omitindo sound: o Android mantém seu padrão. A implementação nativa instalada entra no tratamento de recursos/atributos de áudio quando o campo está presente; removê-lo evita esse caminho desnecessário. O conteúdo da notificação mantém som padrão. Diagnósticos em desenvolvimento extraem name/code/message/cause explicitamente (inclusive message não enumerável), limitam tamanho/profundidade e protegem contra ciclos. Não há stack ou diagnóstico técnico na interface de produção.

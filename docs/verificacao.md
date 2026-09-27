@@ -191,3 +191,7 @@ TypeScript, 33 testes e export Android (3 MB de Hermes) passaram. Novo teste per
 ## Falha ao habilitar avisos: diagnóstico preservado
 
 TypeScript, 34 testes e export Android passaram. Teste novo confirma preservação da causa nativa e mensagem por etapa. Solicitação Android explícita adicionada; erro em Ajustes movido para o topo com rolagem ao aviso. Logs de desenvolvimento incluem etapa, código, mensagem e stack. Sem acesso ao erro original do aparelho, a causa raiz e a resolução da ativação ainda não estão confirmadas; repetir no Expo Go e coletar a linha [Pomodog notifications] se persistir.
+
+## Canal e leitura de erros nativos
+
+TypeScript e 35 testes passaram. Novo teste cobre mensagem não enumerável, código nativo, causas encadeadas e ciclos. Configuração do canal omite sound; diagnóstico agora é string legível no console e selecionável no card de Ajustes somente em desenvolvimento. A origem exata da rejeição no aparelho continua sem confirmação; repetir ativação após recarregar e usar o diagnóstico caso persista.

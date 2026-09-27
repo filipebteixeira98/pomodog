@@ -25,28 +25,58 @@ export async function notificationOperation<T>(
     return await operation();
   } catch (cause) {
     if (typeof __DEV__ !== "undefined" && __DEV__) {
-      // Local development diagnostics only. Never log notification content or user history.
-      const error = cause as {
-        code?: unknown;
-        message?: unknown;
-        stack?: unknown;
-      } | null;
-      console.warn(`[Pomodog notifications] ${stage}`, {
-        code: error?.code,
-        message: error?.message ?? String(cause),
-        stack: error?.stack,
-      });
+      console.warn(
+        `[Pomodog notifications] ${stage}\n${describeNativeError(cause)}`,
+      );
     }
     throw new NotificationFailure(stage, cause);
   }
 }
 
 export function notificationErrorMessage(error: unknown) {
-  if (error instanceof NotificationFailure)
-    return `${error.message} Tente novamente.`;
+  if (error instanceof NotificationFailure) {
+    const detail =
+      typeof __DEV__ !== "undefined" && __DEV__
+        ? `\n\nDiagnóstico (${error.stage}):\n${describeNativeError(error.cause)}`
+        : "";
+    return `${error.message} Tente novamente.${detail}`;
+  }
   if (error instanceof Error && error.message === "notification-permission")
     return "Permita notificações nos ajustes do dispositivo para receber o aviso.";
   if (typeof __DEV__ !== "undefined" && __DEV__)
     console.warn("[Pomodog notifications] unexpected", error);
   return "Não foi possível atualizar os avisos. Tente novamente.";
+}
+
+/** Explicit fields include non-enumerable Error.message; cap and guard cause cycles. */
+export function describeNativeError(value: unknown): string {
+  const seen = new Set<unknown>();
+  const lines: string[] = [];
+  let current = value;
+  for (
+    let depth = 0;
+    current != null && depth < 4 && !seen.has(current);
+    depth++
+  ) {
+    seen.add(current);
+    if (typeof current !== "object") {
+      lines.push(String(current));
+      break;
+    }
+    const error = current as {
+      name?: unknown;
+      code?: unknown;
+      message?: unknown;
+      cause?: unknown;
+    };
+    const parts = [error.name, error.code, error.message].filter(
+      (v) => typeof v === "string" && v.length,
+    );
+    lines.push(parts.length ? parts.join(": ") : "Erro nativo sem mensagem.");
+    current = error.cause;
+  }
+  return (lines.join("\nCausa: ") || "Erro nativo sem mensagem.").slice(
+    0,
+    4000,
+  );
 }

@@ -46,7 +46,7 @@ export function SettingsScreen({
           accessibilityRole="alert"
           accessibilityLiveRegion="polite"
         >
-          <Text>{notificationNotice}</Text>
+          <Text selectable>{notificationNotice}</Text>
         </Card>
       ) : null}
       <Card className="gap-5">
