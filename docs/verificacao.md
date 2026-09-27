@@ -118,3 +118,7 @@ TypeScript, formatação e revisão do diff passaram. Inspecionados no navegador
 ## Hierarquia de Perfil e Ajustes
 
 TypeScript e formatação passaram. Capturas em 320 px verificadas: [Ajustes](screenshots/ajustes-hierarquia.png) com PREFERÊNCIAS, subtítulo e rótulo de duração separado; [Perfil](screenshots/perfil-hierarquia.png) com PRIVACIDADE e subtítulo abaixo. Sem transbordamento horizontal. Mudança visual, sem alteração dos controles.
+
+## Perfil sem exportação
+
+TypeScript, formatação e diff verificados. No navegador, Perfil apresenta apenas Apagar dados deste dispositivo; confirmada ausência de Exportar meus dados e JSON. Removida a referência a cópias exportadas na confirmação. Exclusão e limpeza do cache legado preservadas; nenhuma integração remota ativada.

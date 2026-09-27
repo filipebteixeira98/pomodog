@@ -8,7 +8,6 @@ import { BottomNavigation, type Tab } from "#src/components/BottomNavigation";
 import { ResetConfirmation } from "#src/components/ResetConfirmation";
 import { Text } from "#src/components/ui/Text";
 import { localSession, type CustomerSession } from "#src/domain/customer";
-import { serializeExport } from "#src/domain/exportData";
 import { themes } from "#src/domain/preferences";
 import { FocusScreen } from "#src/features/focus/FocusScreen";
 import { Onboarding } from "#src/features/onboarding/Onboarding";
@@ -19,7 +18,6 @@ import { ProgressScreen } from "#src/features/progress/ProgressScreen";
 import { SettingsScreen } from "#src/features/settings/SettingsScreen";
 import { usePomodoro } from "#src/hooks/usePomodoro";
 import { useReducedMotion } from "#src/hooks/useReducedMotion";
-import { exportFile } from "#src/storage/exportFile";
 
 export function Pomodog({
   session = localSession,
@@ -31,7 +29,6 @@ export function Pomodog({
   const [tab, setTab] = useState<Tab>("focus");
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmErase, setConfirmErase] = useState(false);
-  const [exporting, setExporting] = useState(false);
   const [dataNotice, setDataNotice] = useState("");
   const [replayOnboarding, setReplayOnboarding] = useState(false);
   const accent = themes[model.preferences.theme].color;
@@ -41,22 +38,6 @@ export function Pomodog({
     (replayOnboarding ||
       (!model.onboardingComplete && model.timer.status === "idle"));
 
-  async function exportData() {
-    setExporting(true);
-    setDataNotice("");
-    try {
-      await exportFile(serializeExport(model.snapshot()));
-      setDataNotice(
-        "Arquivo preparado. Guarde a cópia no destino que preferir.",
-      );
-    } catch {
-      setDataNotice(
-        "Não foi possível exportar. Verifique se o dispositivo permite salvar ou compartilhar arquivos e tente novamente.",
-      );
-    } finally {
-      setExporting(false);
-    }
-  }
   async function eraseData() {
     setDataNotice("");
     try {
@@ -128,15 +109,10 @@ export function Pomodog({
             <ProfileScreen session={session} accent={accent}>
               <LocalDataCard
                 accent={accent}
-                onExport={exportData}
                 onErase={() => {
                   setDataNotice("");
                   setConfirmErase(true);
                 }}
-                exporting={exporting}
-                exportDisabled={
-                  !model.ready || model.storageBlocked || model.isErasing
-                }
                 eraseDisabled={!model.ready || model.isErasing}
                 notice={dataNotice}
               />

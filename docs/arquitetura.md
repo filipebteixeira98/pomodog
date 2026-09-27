@@ -86,7 +86,7 @@ Na web, PanResponder mantém o arraste por mouse/toque, com limiar de 55 px e re
 
 ## Separação de Perfil e Ajustes
 
-A navegação inferior possui quatro abas: Foco, Progresso, Ajustes e Perfil. Ajustes concentra durações, tema, movimento reduzido e acesso à introdução. `src/features/profile/` contém a tela de perfil, identidade/modo local, controles de dados e confirmação de exclusão. A tela usa composição por `children`; ações de exportação e exclusão permanecem coordenadas pela raiz e pelo hook de persistência. A mudança não cria autenticação nem altera armazenamento.
+A navegação inferior possui quatro abas: Foco, Progresso, Ajustes e Perfil. Ajustes concentra durações, tema, movimento reduzido e acesso à introdução. `src/features/profile/` contém a tela de perfil, identidade/modo local, controles de dados e confirmação de exclusão. A tela usa composição por `children`; a ação de exclusão permanece coordenada pela raiz e pelo hook de persistência. A mudança não cria autenticação nem altera armazenamento.
 
 ## Simplificação da tela de Foco
 
@@ -95,3 +95,7 @@ A navegação inferior possui quatro abas: Foco, Progresso, Ajustes e Perfil. Aj
 ## Botões destrutivos
 
 `Button` oferece a propriedade `destructive`, com vermelho centralizado em `destructiveColor` (`#B42318`). Com `secondary`, colore o texto e preserva fundo discreto; sem `secondary`, aplica fundo vermelho e texto branco. A ação de apagar dados e sua confirmação usam a variante, independentemente do tema escolhido.
+
+## Exportação retirada da interface
+
+Perfil não oferece mais exportação nem explica formatos de arquivo. A ação e o estado de exportação foram removidos da raiz, assim como o snapshot do hook. Utilitários anteriores permanecem internos; a exclusão ainda limpa o arquivo temporário legado quando existir. Firebase/sincronização não foram habilitados nesta alteração.

@@ -126,18 +126,11 @@ export function usePomodoro() {
     }
   }
 
-  function snapshot() {
-    if (!ready || storageBlocked || operationLock.current)
-      throw new Error("Local data unavailable");
-    return { timer: latestTimer.current, preferences, onboardingComplete };
-  }
-
   return {
     timer,
     storageBlocked,
     isErasing,
     eraseData,
-    snapshot,
     preferences,
     onboardingComplete,
     completeOnboarding: () => setOnboardingComplete(true),

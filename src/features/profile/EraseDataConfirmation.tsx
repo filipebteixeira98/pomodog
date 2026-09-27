@@ -30,7 +30,7 @@ export function EraseDataConfirmation({
       <Text variant="heading">Recomeçar neste dispositivo?</Text>
       <Text>
         Isso apaga seu histórico, a sessão atual e suas preferências do Pomodog.
-        Não é possível desfazer. Cópias que você já exportou não serão apagadas.
+        Não é possível desfazer.
       </Text>
       {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
       <Button

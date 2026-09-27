@@ -10,10 +10,10 @@ Atualizadas com as sugestões discutidas após a entrega de 26/09/2026. Sequênc
 
 Direção original e comportamento atual: uso local para quem não se autenticar, sem login obrigatório, sem coleta remota de dados de uso e sem telemetria, inclusive anônima. A nova sugestão de analytics requer uma decisão explícita sobre essa mudança, detalhada abaixo. A versão atual já não integra autenticação ou analytics; timer, preferências e histórico ficam no dispositivo.
 
-Exportação JSON, exclusão com confirmação e proteção de registros ilegíveis já foram implementadas. Próximas decisões:
+Exclusão com confirmação e proteção de registros ilegíveis estão disponíveis. A exportação JSON foi retirada da interface para simplificar o MVP; pode ser reavaliada junto a integrações futuras. Próximas decisões:
 
 1. Definir quais dados existem e explicitar o que sai do dispositivo em cada integração futura.
-2. Avaliar importação de backups e migrações quando necessárias.
+2. Definir migração dos dados locais para Firebase quando a pessoa optar por autenticação/sincronização.
 3. Manter o uso sem conta como fluxo completo. Uma eventual sincronização deve ser opcional e ter regras claras de migração e exclusão.
 4. Verificar dependências, crash reporting, música e distribuição para evitar coleta automática introduzida por integrações. Hospedagem e ferramentas de desenvolvimento devem ser avaliadas separadamente do código do app.
 

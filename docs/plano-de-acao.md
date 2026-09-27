@@ -91,3 +91,7 @@ Aumentado o padding inferior do card de Foco de 8 para 24 px. Aviso de históric
 ## Hierarquia dos cartões
 
 Padronizados os cabeçalhos conforme Modo Local: ícone em círculo e rótulo em caixa alta, seguidos de subtítulo. Dados usa PRIVACIDADE / Seus dados, suas escolhas; Ajustes usa PREFERÊNCIAS / No seu ritmo. Tempo de foco permanece como rótulo imediatamente acima das durações.
+
+## Simplificação dos controles de dados
+
+Removidos Exportar meus dados, explicação sobre JSON e estado/ação de exportação da interface. Perfil mantém exclusão local. Direção futura: autenticação opcional com sincronização em Firebase; escopo, migração e exclusão remota ainda por implementar. Exportação pode ser reavaliada para integrações. A ausência atual de telemetria permanece.

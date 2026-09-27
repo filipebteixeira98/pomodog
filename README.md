@@ -34,7 +34,7 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 - Preferências e sessão atual salvas no dispositivo. Descansos não contam como foco.
 - Onboarding por swipe nos dois sentidos, indicação “Deslize para explorar”, pontos acessíveis e botão de entrada apenas na última etapa; permite pular e mantém a conclusão salva. Animações seguem Ajustes e sistema.
 - Navegação inferior com Foco, Progresso, Ajustes e Perfil. Perfil preparado para receber uma identidade autenticada; atualmente, modo local.
-- Exportação JSON e exclusão com confirmação em Perfil; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
+- Exclusão de dados locais com confirmação em Perfil; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
 - Ícone do Nino, versões adaptativa/monocromática para Android e splash nativa configurada; validação visual em release pendente.
 - Poppins empacotada, ícones Lucide e estilos Tailwind via NativeWind para Android e web.
 
