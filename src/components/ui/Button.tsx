@@ -60,7 +60,8 @@ export function TextButton({
   children,
   onPress,
   disabled = false,
-}: Pick<Props, "children" | "onPress" | "disabled">) {
+  underline = true,
+}: Pick<Props, "children" | "onPress" | "disabled"> & { underline?: boolean }) {
   return (
     <Pressable
       accessibilityRole="button"
@@ -68,7 +69,7 @@ export function TextButton({
       onPress={onPress}
       className="min-h-11 items-center justify-center px-2"
     >
-      <Text variant="caption" className="underline">
+      <Text variant="caption" className={underline ? "underline" : undefined}>
         {children}
       </Text>
     </Pressable>

@@ -136,3 +136,10 @@ TypeScript e formatação passaram. No navegador, confirmados ausência do aviso
 - Foco de teclado inicia em Próximo, Shift+Tab retorna a Pular tour e Escape fecha. Sessão de navegador sem erros capturados.
 - Capturas: [modos](screenshots/tour-modos-320.png), [sessão](screenshots/tour-sessao-320.png), [navegação](screenshots/tour-navegacao.png).
 - Sem emulador/aparelho conectado na consulta ADB desta entrega: posicionamento, botão Voltar e leitor de tela nativos ainda precisam de validação em dispositivo.
+
+## Controles e fundo da splash — 27/09/2026
+
+- TypeScript, 17 testes existentes e git diff --check passaram.
+- Revisão do código confirmou remoção do fluxo Rever introdução e sublinhado desativado somente em Reiniciar sessão.
+- Imagem da splash inspecionada: contém somente o mascote, sem texto. Fundo do plugin atualizado para #EEF0E6 e prancha regenerada pelo script de assets.
+- A configuração nativa exige novo build. Não foi validada abertura em dispositivo nesta alteração; Expo Go não comprova o resultado final, conforme documentação do Expo consultada via Context7.

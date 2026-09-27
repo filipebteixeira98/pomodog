@@ -103,3 +103,7 @@ Removido de Ajustes o texto sobre atualização do timer, alertas e música. Adi
 ## Tour guiado opcional
 
 Implementadas três etapas sobre componentes reais: Foco/Descanso, botão da sessão e navegação inferior. Última tela do onboarding oferece Mostrar como funciona sem retirar Ir para meu foco; Ajustes oferece Rever tour guiado. Inclui avanço, retorno, conclusão e opção de pular. Não inicia sessões, não adiciona coleta de dados e não altera a próxima frente de animação corporal.
+
+## Simplificação de controles e splash — 27/09/2026
+
+Reiniciar sessão passou a aparecer sem sublinhado. Removido Rever introdução de Ajustes e seu estado de reabertura; após exclusão dos dados locais a introdução continua aparecendo automaticamente. Rever tour guiado permanece disponível. Splash com fundo verde pastel soft (#EEF0E6), mantendo somente o mascote, sem texto. A imagem já não continha o nome do aplicativo; a tela de carregamento do Expo Go não representa a splash final. Validação em novo build nativo permanece pendente.

@@ -46,17 +46,13 @@ export function Pomodog({
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmErase, setConfirmErase] = useState(false);
   const [dataNotice, setDataNotice] = useState("");
-  const [replayOnboarding, setReplayOnboarding] = useState(false);
   const accent = themes[model.preferences.theme].color;
   const reducedMotion = model.preferences.reduceMotion || systemReducedMotion;
   const showOnboarding =
-    model.ready &&
-    (replayOnboarding ||
-      (!model.onboardingComplete && model.timer.status === "idle"));
+    model.ready && !model.onboardingComplete && model.timer.status === "idle";
 
   function startTour() {
     model.completeOnboarding();
-    setReplayOnboarding(false);
     setTab("focus");
     setTourStep(0);
   }
@@ -133,7 +129,6 @@ export function Pomodog({
                 busy={model.busy || !model.ready}
                 systemReducedMotion={systemReducedMotion}
                 accent={accent}
-                onReplayOnboarding={() => setReplayOnboarding(true)}
                 onReplayTour={startTour}
               />
             ) : (
@@ -190,7 +185,6 @@ export function Pomodog({
             reducedMotion={reducedMotion}
             onFinish={() => {
               model.completeOnboarding();
-              setReplayOnboarding(false);
             }}
           />
         )}

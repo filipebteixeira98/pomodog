@@ -72,7 +72,7 @@ Referências consultadas via Context7: [aliases no Expo](https://docs.expo.dev/g
 
 `assets/brand/mascot-mark.svg` deriva do rosto vetorial original de `src/Dog.tsx`, preservando traços e cores. `npm run assets:generate` usa Sharp, somente como dependência de desenvolvimento, para produzir PNGs determinísticos: ícone opaco 1024 × 1024, foreground e máscara monocromática adaptativos 1024 × 1024, splash transparente 512 × 512 e favicon 64 × 64. Alterações futuras no rosto devem considerar também esta marca derivada.
 
-O foreground mantém o desenho dentro do círculo seguro central de 66/108 da área do ícone. O fundo do ícone é sálvia (`#4E6B55`); a splash usa creme (`#F8F7F2`) e imagem central de largura 200. `app.json` referencia os assets e o config plugin `expo-splash-screen`. No nativo, `App.tsx` impede ocultação automática e libera a splash após carregamento das fontes (ou erro) e layout da raiz. Não há atraso artificial. Na web permanece o carregamento atual e é adicionado favicon.
+O foreground mantém o desenho dentro do círculo seguro central de 66/108 da área do ícone. O fundo do ícone é sálvia (`#4E6B55`); a splash usa verde pastel suave (`#EEF0E6`, cor soft das telas), apenas com o mascote, sem texto, e imagem central de largura 200. `app.json` referencia os assets e o config plugin `expo-splash-screen`. No nativo, `App.tsx` impede ocultação automática e libera a splash após carregamento das fontes (ou erro) e layout da raiz. Não há atraso artificial. Na web permanece o carregamento atual e é adicionado favicon.
 
 `assets/brand/preview.png` é uma prancha de revisão, não uma captura de dispositivo. Mudanças de splash/ícone exigem novo build nativo; exportar JavaScript não aplica nem comprova esses recursos no Android instalado.
 

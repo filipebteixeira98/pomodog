@@ -19,7 +19,6 @@ type Props = {
   busy: boolean;
   systemReducedMotion: boolean;
   accent: string;
-  onReplayOnboarding: () => void;
   onReplayTour: () => void;
 };
 
@@ -29,7 +28,6 @@ export function SettingsScreen({
   busy,
   systemReducedMotion,
   accent,
-  onReplayOnboarding,
   onReplayTour,
 }: Props) {
   return (
@@ -107,14 +105,6 @@ export function SettingsScreen({
             trackColor={{ true: accent }}
           />
         </View>
-        <Button
-          accent={accent}
-          secondary
-          onPress={onReplayOnboarding}
-          icon={<RotateCcw size={18} color={accent} />}
-        >
-          Rever introdução
-        </Button>
         <Button
           accent={accent}
           secondary

@@ -4,7 +4,7 @@ import sharp from "sharp";
 
 const directory = new URL("../assets/brand/", import.meta.url);
 const mark = await readFile(new URL("mascot-mark.svg", directory));
-const canvas = "#F8F7F2";
+const canvas = "#EEF0E6";
 const sage = "#4E6B55";
 
 async function render(name, size, markWidth, background) {

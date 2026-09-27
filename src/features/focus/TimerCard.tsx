@@ -145,7 +145,11 @@ export function TimerCard({
             {primaryLabel}
           </Button>
         )}
-        {busy && <TextButton onPress={onReset}>Reiniciar sessão</TextButton>}
+        {busy && (
+          <TextButton onPress={onReset} underline={false}>
+            Reiniciar sessão
+          </TextButton>
+        )}
       </View>
     </Card>
   );
