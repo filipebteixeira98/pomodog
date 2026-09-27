@@ -79,3 +79,7 @@ Criada a aba Perfil, reunindo Modo Local/Sua Conta e Seus dados, suas escolhas. 
 ## Interface centrada no Pomodoro
 
 Removida a demonstração de 10 segundos e consolidados minutos/sessões do dia em Progresso, sob Seu dia, até aqui. Foco exibe apenas timer, controles e fala curta do mascote. Removidos cabeçalhos introdutórios de Foco, Progresso, Ajustes e Perfil, além da mensagem de rodapé do Foco. Demonstrações antigas salvas são convertidas em foco ocioso de 25 minutos, preservando histórico e preferências.
+
+## Sinalização de exclusão
+
+A ação Apagar dados deste dispositivo usa texto/ícone vermelho sobre fundo discreto. A confirmação Sim, apagar meus dados usa fundo vermelho; Manter meus dados permanece neutro. Sem alteração na lógica de exclusão.

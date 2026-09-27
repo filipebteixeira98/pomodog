@@ -91,3 +91,7 @@ A navegação inferior possui quatro abas: Foco, Progresso, Ajustes e Perfil. Aj
 ## Simplificação da tela de Foco
 
 `FocusScreen` compõe somente `TimerCard`; o resumo diário é calculado apenas em Progresso, sem duplicação. Mensagens de estado curtas ficam no balão do mascote. O componente `ScreenIntro`, sem consumidores após remover cabeçalhos introdutórios, foi removido. A opção demo saiu do domínio e da configuração de sessões; `parseTimer` aceita o campo antigo somente para migrar uma demonstração para o estado inicial, preservando sessões concluídas e sem contabilizar a demonstração.
+
+## Botões destrutivos
+
+`Button` oferece a propriedade `destructive`, com vermelho centralizado em `destructiveColor` (`#B42318`). Com `secondary`, colore o texto e preserva fundo discreto; sem `secondary`, aplica fundo vermelho e texto branco. A ação de apagar dados e sua confirmação usam a variante, independentemente do tema escolhido.

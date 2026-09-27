@@ -33,7 +33,12 @@ export function EraseDataConfirmation({
         Não é possível desfazer. Cópias que você já exportou não serão apagadas.
       </Text>
       {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
-      <Button accent={accent} disabled={pending} onPress={onConfirm}>
+      <Button
+        accent={accent}
+        destructive
+        disabled={pending}
+        onPress={onConfirm}
+      >
         {pending ? "Apagando…" : "Sim, apagar meus dados"}
       </Button>
       <Button accent={accent} secondary disabled={pending} onPress={onClose}>

@@ -106,3 +106,7 @@ As três descrições foram reduzidas, preservando os nomes dos controles e as i
 - Navegador em 320 px: Foco sem demonstração, cabeçalho ou resumo diário; mensagem curta no balão do mascote. Início, pausa e preservação da sessão ao trocar abas verificados.
 - Progresso reúne minutos e sessões em Seu dia, até aqui, sem duplicação; largura de conteúdo igual à viewport (320 px).
 - Capturas: [Foco](screenshots/foco-minimalista-320.png) e [Progresso](screenshots/progresso-minimalista-320.png). Sem nova verificação em dispositivo nesta entrega.
+
+## Cor das ações destrutivas
+
+TypeScript e formatação passaram. No navegador, conferidas as cores computadas: ação de exclusão com texto vermelho `#B42318` sobre fundo discreto, confirmação com fundo vermelho e texto branco, cancelamento neutro. Confirmação aberta e cancelada sem apagar dados. Sem alteração no fluxo de persistência.

@@ -3,7 +3,7 @@ import Download from "lucide-react-native/icons/download";
 import ShieldCheck from "lucide-react-native/icons/shield-check";
 import Trash from "lucide-react-native/icons/trash";
 
-import { Button } from "#src/components/ui/Button";
+import { Button, destructiveColor } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
 
@@ -54,9 +54,10 @@ export function LocalDataCard({
       <Button
         accent={accent}
         secondary
+        destructive
         disabled={eraseDisabled || exporting}
         onPress={onErase}
-        icon={<Trash size={18} color={accent} />}
+        icon={<Trash size={18} color={destructiveColor} />}
       >
         Apagar dados deste dispositivo
       </Button>
