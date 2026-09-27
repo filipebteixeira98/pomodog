@@ -40,7 +40,7 @@ Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa 
 
 ## Limites desta versão
 
-- Sem notificações ou som ao concluir com a tela bloqueada. Ao voltar, o timer recupera o tempo decorrido. Validar notificações e comportamento nativo antes de um teste prolongado de rotina.
+- Aviso local opcional de conclusão em **Ajustes → Avisar ao terminar** (Android/iOS). Requer permissão; agendamento é feito no sistema e pode funcionar com a tela bloqueada. Economia de bateria, permissões, modo silencioso e restrições do sistema podem atrasar ou silenciar o aviso. Não há garantia de alarme exato; validar esta entrega em dispositivo antes de um teste prolongado. Na web, a opção fica indisponível.
 - Sem LoFi, pagamentos, conta, sincronização ou telemetria remota. Bibliotecas musicais ainda precisam ser selecionadas e ter suas licenças verificadas.
 - Dados pertencem à instalação/navegador: limpar dados ou trocar de dispositivo não preserva o histórico.
 - Ainda não publicado, sem APK ou distribuição na loja. O endereço local depende do servidor em execução.

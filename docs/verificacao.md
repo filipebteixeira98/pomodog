@@ -173,3 +173,13 @@ Removido somente o indicador Dias com foco da interface semanal. Minutos e sess�
 ## Alimentação e incentivo
 
 TypeScript, 26 testes e export Android passaram. Novos testes cobrem alternância/contexto das frases, ausência de mutação do timer, persistência e descarte de metadados inválidos. No navegador em 320 px, petisco mostra reação e frase no balão existente. Durante foco em andamento, deadline e histórico permaneceram idênticos; após seis segundos o botão voltou a habilitar e a mensagem habitual reapareceu. Registro petCare confirmado no armazenamento local. Sessão de teste pausada ao final. Avaliação visual no Expo Go/dispositivo e anúncio por leitor de tela nativo pendentes.
+
+## Validação em dispositivo informada pelo usuário
+
+O usuário confirmou sucesso das implementações anteriores, incluindo alimentação/animações, em aparelho físico com Expo Go. Relato registrado como validação do usuário, sem atribuí-lo a execução automatizada. Não abrange o aviso de conclusão implementado depois.
+
+## Aviso local de conclusão
+
+TypeScript e 32 testes passaram; exports web (778 KB de JavaScript) e Android (3,1 MB de Hermes) concluídos. Cenários novos cobrem opt-in/migração, agendamento e substituição por deadline, pausa/reinício/desativação, conclusão sem repetição, permissão negada, corrida entre agendamento e cancelamento e recuperação após falha da plataforma. Navegador confirmou controle desativado na web. Não houve teste de entrega real de notificação nesta execução.
+
+Roteiro em aparelho: ativar Avisar ao terminar e conceder permissão; concluir um descanso com tela bloqueada; verificar ausência de aviso após pausar/reiniciar; retomar e conferir novo horário; desativar e apagar dados com aviso pendente. Repetir negando permissão e revogando-a nos ajustes do sistema. Conferir Android e binário próprio antes de afirmar pontualidade: o sistema pode usar alarmes inexatos e limitar som/entrega.

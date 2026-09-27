@@ -88,6 +88,14 @@ export function Pomodog({
           }
         >
           <AppHeader accent={accent} />
+          {model.notificationNotice && tab !== "settings" ? (
+            <Text
+              accessibilityRole="alert"
+              className="mx-[22px] rounded-xl bg-soft p-3"
+            >
+              {model.notificationNotice}
+            </Text>
+          ) : null}
           <ScrollView
             ref={scroll}
             scrollEnabled={tourStep === null}
@@ -133,6 +141,12 @@ export function Pomodog({
                 systemReducedMotion={systemReducedMotion}
                 accent={accent}
                 onReplayTour={startTour}
+                notificationNotice={model.notificationNotice}
+                notificationBusy={
+                  model.notificationBusy || !model.ready || model.isErasing
+                }
+                notificationsSupported={model.notificationsSupported}
+                onNotificationsChange={model.setSessionNotifications}
               />
             ) : (
               <ProfileScreen session={session} accent={accent}>

@@ -1,0 +1,178 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+
+import {
+  defaultPreferences,
+  parsePreferences,
+} from "#src/domain/preferences.ts";
+import { createSessionScheduler } from "#src/notifications/sessionScheduler.ts";
+
+test("notifications are opt-in for old records and malformed flags", () => {
+  const { sessionNotifications: _, ...old } = defaultPreferences;
+  assert.equal(parsePreferences(old)?.sessionNotifications, false);
+  assert.equal(
+    parsePreferences({ ...old, sessionNotifications: "true" })
+      ?.sessionNotifications,
+    false,
+  );
+  assert.equal(
+    parsePreferences({ ...old, sessionNotifications: true })
+      ?.sessionNotifications,
+    true,
+  );
+});
+
+test("scheduler replaces the alarm on resume and cancels on pause/reset/disable", async () => {
+  const calls: string[] = [];
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {
+        calls.push("cancel");
+      },
+      schedule: async (deadline, mode) => {
+        calls.push(`${mode}:${deadline}`);
+      },
+    },
+    () => 1000,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 2000, mode: "focus" },
+    true,
+  );
+  await scheduler.sync(
+    { status: "paused", deadline: null, mode: "focus" },
+    true,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 3000, mode: "focus" },
+    true,
+  );
+  await scheduler.sync({ status: "idle", deadline: null, mode: "focus" }, true);
+  await scheduler.sync(
+    { status: "running", deadline: 4000, mode: "break" },
+    true,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 4000, mode: "break" },
+    false,
+  );
+  assert.deepEqual(calls, [
+    "cancel",
+    "focus:2000",
+    "cancel",
+    "cancel",
+    "focus:3000",
+    "cancel",
+    "cancel",
+    "break:4000",
+    "cancel",
+  ]);
+});
+
+test("completion and expired restore do not cancel a due OS notification or repeat it", async () => {
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {
+        assert.fail("must allow delivery");
+      },
+      schedule: async () => {
+        assert.fail("must not replay");
+      },
+    },
+    () => 1000,
+  );
+  await scheduler.sync(
+    { status: "completed", deadline: null, mode: "focus" },
+    true,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 900, mode: "focus" },
+    true,
+  );
+});
+
+test("permission denial cancels pending alerts, disabled never asks for permission", async () => {
+  let canceled = 0;
+  let checks = 0;
+  const scheduler = createSessionScheduler({
+    permitted: async () => {
+      checks++;
+      return false;
+    },
+    cancel: async () => {
+      canceled++;
+    },
+    schedule: async () => {
+      assert.fail("permission denied");
+    },
+  });
+  await assert.rejects(
+    scheduler.sync(
+      { status: "running", deadline: Date.now() + 1000, mode: "focus" },
+      true,
+    ),
+    /notification-permission/,
+  );
+  await scheduler.sync(
+    { status: "idle", deadline: null, mode: "focus" },
+    false,
+  );
+  assert.equal(canceled, 2);
+  assert.equal(checks, 1);
+});
+
+test("late scheduling is serialized before a subsequent cancellation", async () => {
+  let finish!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
+  let scheduled = false;
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {
+        scheduled = false;
+      },
+      schedule: async () => {
+        await gate;
+        scheduled = true;
+      },
+    },
+    () => 0,
+  );
+  const start = scheduler.sync(
+    { status: "running", deadline: 2000, mode: "focus" },
+    true,
+  );
+  const pause = scheduler.sync(
+    { status: "paused", deadline: null, mode: "focus" },
+    true,
+  );
+  finish();
+  await Promise.all([start, pause]);
+  assert.equal(scheduled, false);
+});
+
+test("scheduler recovers its queue after a platform failure", async () => {
+  let fail = true;
+  let canceled = false;
+  const scheduler = createSessionScheduler({
+    permitted: async () => true,
+    cancel: async () => {
+      if (fail) throw new Error("native");
+      canceled = true;
+    },
+    schedule: async () => {},
+  });
+  await assert.rejects(
+    scheduler.sync({ status: "idle", deadline: null, mode: "focus" }, false),
+  );
+  fail = false;
+  await scheduler.sync(
+    { status: "idle", deadline: null, mode: "focus" },
+    false,
+  );
+  assert.equal(canceled, true);
+});

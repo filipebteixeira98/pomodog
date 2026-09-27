@@ -82,3 +82,7 @@ Card Seu ritmo implementado antes da alimentação, conforme nova prioridade. Al
 ## Alimentação com incentivo entregue
 
 Dar petisco implementado na tela principal, reutilizando Nino e seu balão. Alimentação e frases contextuais foram unidas nesta entrega, substituindo a proposta de card em Progresso. Validar frequência de uso, clareza e tempo de leitura antes de ampliar frases ou introduzir lembretes. Não há fome, penalidades ou notificações de alimentação.
+
+## Aviso de conclusão implementado
+
+Aviso local opcional implementado com expo-notifications. Testar permissão concedida/negada, conclusão com tela bloqueada, pausa/retomada, reinício e desativação em Android/iOS. Essa nova entrega ainda não está coberta pela validação anterior do usuário. Lembretes recorrentes e push remoto seguem futuros. O Android pode agendar de forma inexata quando não há acesso a alarmes exatos; esta versão não solicita acesso especial para isso.

@@ -20,6 +20,10 @@ type Props = {
   systemReducedMotion: boolean;
   accent: string;
   onReplayTour: () => void;
+  notificationNotice: string;
+  notificationBusy: boolean;
+  notificationsSupported: boolean;
+  onNotificationsChange: (enabled: boolean) => void;
 };
 
 export function SettingsScreen({
@@ -29,6 +33,10 @@ export function SettingsScreen({
   systemReducedMotion,
   accent,
   onReplayTour,
+  notificationNotice,
+  notificationBusy,
+  notificationsSupported,
+  onNotificationsChange,
 }: Props) {
   return (
     <>
@@ -104,6 +112,30 @@ export function SettingsScreen({
             onValueChange={(reduceMotion) => onChange({ reduceMotion })}
             trackColor={{ true: accent }}
           />
+        </View>
+        <View className="gap-2">
+          <View className="flex-row items-center gap-3">
+            <View className="flex-1">
+              <Text variant="label">Avisar ao terminar</Text>
+              <Text variant="caption">
+                {notificationsSupported
+                  ? "Avise ao concluir foco ou descanso, inclusive com a tela bloqueada. Os ajustes do dispositivo podem atrasar a entrega."
+                  : "Disponível no aplicativo para Android e iOS."}
+              </Text>
+            </View>
+            <Switch
+              accessibilityLabel="Avisar ao terminar a sessão"
+              value={notificationsSupported && preferences.sessionNotifications}
+              disabled={notificationBusy || !notificationsSupported}
+              onValueChange={onNotificationsChange}
+              trackColor={{ true: accent }}
+            />
+          </View>
+          {notificationNotice ? (
+            <Text variant="caption" accessibilityRole="alert">
+              {notificationNotice}
+            </Text>
+          ) : null}
         </View>
         <Button
           accent={accent}

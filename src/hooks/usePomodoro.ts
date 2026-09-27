@@ -3,6 +3,11 @@ import { AppState } from "react-native";
 
 import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
+import {
+  notificationsSupported,
+  requestSessionPermission,
+  sessionNotifications,
+} from "#src/notifications/sessionNotifications";
 import { clearExportFile } from "#src/storage/exportFile";
 import {
   erasePrototype,
@@ -20,6 +25,10 @@ export function usePomodoro() {
   const [storageError, setStorageError] = useState(false);
   const [storageBlocked, setStorageBlocked] = useState(false);
   const [isErasing, setIsErasing] = useState(false);
+  const [notificationNotice, setNotificationNotice] = useState("");
+  const [notificationBusy, setNotificationBusy] = useState(false);
+  const notificationRequest = useRef(0);
+  const permissionLock = useRef(false);
   const operationLock = useRef(false);
   const latestTimer = useRef(timer);
   latestTimer.current = timer;
@@ -87,6 +96,87 @@ export function usePomodoro() {
     };
   }, [ready, timer.status]);
 
+  useEffect(() => {
+    if (!ready || isErasing) return;
+    let active = true;
+    const sync = () =>
+      sessionNotifications
+        .sync(
+          { status: timer.status, deadline: timer.deadline, mode: timer.mode },
+          notificationsSupported &&
+            preferences.sessionNotifications &&
+            !storageBlocked,
+        )
+        .then(() => {
+          if (active) setNotificationNotice("");
+        })
+        .catch((error: unknown) => {
+          if (active)
+            setNotificationNotice(
+              error instanceof Error &&
+                error.message === "notification-permission"
+                ? "Permita notificações nos ajustes do dispositivo para receber o aviso."
+                : "Não foi possível atualizar o aviso. Confira as permissões do dispositivo.",
+            );
+        });
+    void sync();
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active") void sync();
+    });
+    return () => {
+      active = false;
+      subscription.remove();
+    };
+  }, [
+    ready,
+    isErasing,
+    storageBlocked,
+    preferences.sessionNotifications,
+    timer.status,
+    timer.deadline,
+    timer.mode,
+  ]);
+
+  async function setSessionNotifications(enabled: boolean) {
+    if (
+      !ready ||
+      operationLock.current ||
+      permissionLock.current ||
+      !notificationsSupported
+    )
+      return;
+    permissionLock.current = true;
+    setNotificationBusy(true);
+    const request = ++notificationRequest.current;
+    try {
+      if (enabled && !(await requestSessionPermission())) {
+        if (request === notificationRequest.current)
+          setNotificationNotice(
+            "Permita notificações nos ajustes do dispositivo para receber o aviso.",
+          );
+        return;
+      }
+      if (request !== notificationRequest.current || operationLock.current)
+        return;
+      if (!enabled) await sessionNotifications.sync(latestTimer.current, false);
+      if (request !== notificationRequest.current || operationLock.current)
+        return;
+      setPreferences((current) => ({
+        ...current,
+        sessionNotifications: enabled,
+      }));
+      setNotificationNotice("");
+    } catch {
+      if (request === notificationRequest.current)
+        setNotificationNotice(
+          "Não foi possível alterar os avisos. Tente novamente.",
+        );
+    } finally {
+      permissionLock.current = false;
+      setNotificationBusy(false);
+    }
+  }
+
   function configure(
     mode: Mode,
     seconds = (mode === "focus" ? preferences.focus : preferences.rest) * 60,
@@ -113,7 +203,9 @@ export function usePomodoro() {
     if (operationLock.current) return;
     operationLock.current = true;
     setIsErasing(true);
+    notificationRequest.current++;
     try {
+      await sessionNotifications.sync(latestTimer.current, false);
       await clearExportFile();
       await erasePrototype();
       dispatch({
@@ -134,6 +226,10 @@ export function usePomodoro() {
 
   return {
     timer,
+    notificationNotice,
+    notificationBusy,
+    notificationsSupported,
+    setSessionNotifications,
     feedPet: () => {
       if (!ready || operationLock.current) return null;
       const response = choosePetResponse(latestTimer.current, petCare);

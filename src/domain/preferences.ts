@@ -11,12 +11,14 @@ export type Preferences = {
   rest: number;
   theme: number;
   reduceMotion: boolean;
+  sessionNotifications: boolean;
 };
 export const defaultPreferences: Preferences = {
   focus: 25,
   rest: 5,
   theme: 0,
   reduceMotion: false,
+  sessionNotifications: false,
 };
 
 export function parsePreferences(value: unknown): Preferences | null {
@@ -36,5 +38,6 @@ export function parsePreferences(value: unknown): Preferences | null {
     rest: p.rest,
     theme: p.theme,
     reduceMotion: p.reduceMotion,
+    sessionNotifications: p.sessionNotifications === true,
   };
 }

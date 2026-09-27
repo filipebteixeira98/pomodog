@@ -4,3 +4,4 @@ import "#tests/progress.test.ts";
 import "#tests/customer.test.ts";
 import "#tests/storage.test.ts";
 import "#tests/petCare.test.ts";
+import "#tests/notifications.test.ts";

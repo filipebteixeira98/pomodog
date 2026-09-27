@@ -127,3 +127,13 @@ summarizeStreak deriva a sequência do histórico local disponível (limitado a 
 petCare é campo opcional do registro local existente: lastFedAt e lastMessageId. parsePetCare valida timestamp e identificador conhecido, descartando metadados opcionais inválidos sem perder timer/histórico. Dados antigos continuam válidos. usePomodoro salva a interação pela mesma fila de persistência e limpa o campo ao apagar dados. Nenhum serviço remoto participa.
 
 choosePetResponse escolhe frases predefinidas por estado do timer/histórico e alterna a última frase do grupo. TimerCard mantém apenas a reação temporária, com bloqueio imediato via ref, timeout de seis segundos e cleanup ao desmontar. O petisco não despacha ações no timer; Dog reutiliza a comemoração, enquanto o balão usa anúncio acessível polite. Movimento reduzido preserva pose estática e a resposta textual.
+
+## Notificações locais de conclusão
+
+expo-notifications ~57.0.21 e config plugin adicionados. Preferência sessionNotifications usa false como padrão, inclusive em dados antigos; somente a ativação explícita solicita permissão. Android cria canal pomodog-sessions com som padrão antes da solicitação. iOS solicita alerta e som, sem badge. Nenhum token remoto é solicitado.
+
+sessionScheduler serializa cancelamento/agendamento do identificador estável pomodog-session-end, evitando que operação atrasada deixe aviso após pausa/reinício. Agenda uma data absoluta, acompanha mudanças de status/deadline e reconcilia ao retornar ao app. Conclusão/restauração vencida não cancela nem repete aviso já devido, permitindo entrega pelo sistema. Apagar dados aguarda cancelamento e invalida solicitação de permissão pendente. Falhas aparecem em Ajustes e, nas outras telas, como aviso discreto.
+
+A implementação .web não importa o módulo nativo e desabilita o controle. No nativo, handler permite banner/lista/som em primeiro plano; entrega em segundo plano fica a cargo do sistema. Não adicionamos SCHEDULE_EXACT_ALARM: a versão instalada do Expo usa setAndAllowWhileIdle quando não há acesso a alarmes exatos, sujeito a atraso. Nenhuma garantia de pontualidade, som ou entrega após encerramento forçado é assumida. Configuração do plugin requer rebuild para binários próprios; notificações locais são suportadas em Expo Go, ao contrário de push remoto Android.
+
+Referência consultada via Context7: [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/).
