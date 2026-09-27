@@ -121,3 +121,9 @@ summarizeProgress considera hoje e os seis dias anteriores no calendário local,
 ## Sequência de foco
 
 summarizeStreak deriva a sequência do histórico local disponível (limitado a 1.000 sessões), sem novo estado persistido. Deduplica dias, exclui registros futuros e percorre datas com setDate, sem subtrair intervalos fixos de 24 horas. A contagem não é limitada aos sete marcadores. StreakCard apresenta estado inicial, singular/plural, ícone e descrições acessíveis por data; marcadores completos usam check além da cor.
+
+## Petisco e mensagens
+
+petCare é campo opcional do registro local existente: lastFedAt e lastMessageId. parsePetCare valida timestamp e identificador conhecido, descartando metadados opcionais inválidos sem perder timer/histórico. Dados antigos continuam válidos. usePomodoro salva a interação pela mesma fila de persistência e limpa o campo ao apagar dados. Nenhum serviço remoto participa.
+
+choosePetResponse escolhe frases predefinidas por estado do timer/histórico e alterna a última frase do grupo. TimerCard mantém apenas a reação temporária, com bloqueio imediato via ref, timeout de seis segundos e cleanup ao desmontar. O petisco não despacha ações no timer; Dog reutiliza a comemoração, enquanto o balão usa anúncio acessível polite. Movimento reduzido preserva pose estática e a resposta textual.

@@ -41,7 +41,7 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 
 ## Progresso, cuidado e notificações
 
-- Dashboard ampliado com totais, dias com foco e média por sessão nos últimos sete dias. Próxima entrega da frente prioritária: alimentação opcional do Nino, seguida de frases gentis de incentivo.
+- Dashboard ampliado com totais, dias com foco e média por sessão nos últimos sete dias. Alimentação opcional e frases gentis agora implementadas na tela de Foco; próxima etapa desta frente é validar a experiência.
 - Introduzir alimentação dos pets e frases gentis como convites opcionais. Proposta de experiência: sem punições, perda de progresso ou culpa por ausência.
 - Planejar lembretes de rotina e inatividade com consentimento, horários, frequência controlável e desativação simples.
 - Avaliar notificações locais para os casos que não exigem servidor. Push remoto permanece uma possibilidade solicitada, com infraestrutura e tratamento de tokens ainda por definir.
@@ -77,4 +77,8 @@ Continuam pendentes a seleção/licenciamento de LoFi, validação em Android f�
 
 ## Sequência de hábitos entregue
 
-Card Seu ritmo implementado antes da alimentação, conforme nova prioridade. Próxima funcionalidade continua sendo alimentação opcional do Nino, seguida de ampliação das frases gentis. Pencil permanece em standby.
+Card Seu ritmo implementado antes da alimentação, conforme nova prioridade. Alimentação opcional e frases contextuais foram implementadas na entrega subsequente. Pencil permanece em standby.
+
+## Alimentação com incentivo entregue
+
+Dar petisco implementado na tela principal, reutilizando Nino e seu balão. Alimentação e frases contextuais foram unidas nesta entrega, substituindo a proposta de card em Progresso. Validar frequência de uso, clareza e tempo de leitura antes de ampliar frases ou introduzir lembretes. Não há fome, penalidades ou notificações de alimentação.

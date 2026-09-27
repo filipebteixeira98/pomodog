@@ -1,3 +1,4 @@
+import { parsePetCare, type PetCare } from "#src/domain/petCare.ts";
 import {
   defaultPreferences,
   parsePreferences,
@@ -9,6 +10,7 @@ export type SavedPrototype = {
   timer: Timer;
   preferences: Preferences;
   onboardingComplete: boolean;
+  petCare?: PetCare;
 };
 
 export function parseSavedPrototype(value: unknown): SavedPrototype | null {
@@ -18,7 +20,9 @@ export function parseSavedPrototype(value: unknown): SavedPrototype | null {
   if (version !== undefined && version !== 1) return null;
   const timer = parseTimer(saved.timer);
   if (!timer) return null;
+  const petCare = parsePetCare(saved.petCare);
   return {
+    ...(petCare ? { petCare } : {}),
     timer,
     preferences: parsePreferences(saved.preferences) ?? defaultPreferences,
     // The original prototype did not have onboarding. Preserve its data on upgrade.

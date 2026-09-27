@@ -33,7 +33,7 @@ Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma p
 | ----- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | 1     | Organização técnica    | Substituir imports relativos por aliases, manter ordenação automática e validar resolução em testes e exports web/Android                                                         | Concluída    |
 | 2     | Identidade visual      | Ícone, splash e animação corporal implementados; Pencil em standby: layouts, templates, paleta, tipografia e componentes                                                          | Em andamento |
-| 3     | Progresso e incentivo  | Dashboard ampliado; próximas entregas: alimentação opcional e frases gentis de incentivo                                                                                          | Em andamento |
+| 3     | Progresso e incentivo  | Dashboard, sequência de dias e alimentação opcional com frases gentis implementados                                                                                               | Em andamento |
 | 4     | Lembretes opcionais    | Lembretes de rotina, alimentação e inatividade; definir notificações locais versus push, frequência e controles do usuário                                                        | Planejada    |
 | 5     | Contas e sincronização | Diagramas UML de classes/casos de uso e modelo lógico; Firebase/Firestore separados para homologação e produção; Google OAuth via MCP Firebase; exclusão de conta e dados remotos | Planejada    |
 | 6     | Monetização e social   | Personalização paga de mascotes, outros animais e nomes; compartilhamento em redes sociais; depois, pontuação, descoberta de amigos e ciclos em conjunto                          | Planejada    |
@@ -133,3 +133,7 @@ Adicionado card Seu ritmo antes do resumo diário, com fundo pêssego pastel, ch
 ## Simplificação do resumo semanal
 
 Removido o indicador Dias com foco do card Últimos 7 dias por preferência do usuário. Mantidos minutos, sessões concluídas e média por sessão; Seu ritmo continua mostrando a sequência de dias consecutivos. Minutos e sessões ficam em duas colunas, com média em uma linha abaixo.
+
+## Alimentação e incentivo na tela de Foco
+
+Implementado Dar petisco junto ao Nino existente, usando o mesmo balão para respostas contextuais. A reação dura seis segundos, bloqueia toques repetidos e respeita movimento reduzido. Não exige pontos, sessões ou pagamento e não modifica o timer. Última interação/frase guardadas localmente e removidas na exclusão dos dados. Frases variam entre primeiro passo, foco em andamento, descanso, conclusão, sequência e retorno. Essa entrega une alimentação e a primeira ampliação de incentivos. Pencil segue em standby; validar uso real antes de ampliar a mecânica.

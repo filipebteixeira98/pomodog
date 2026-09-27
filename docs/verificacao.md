@@ -169,3 +169,7 @@ TypeScript e 23 testes passaram, também com TZ=America/New_York para exercitar 
 ## Resumo semanal simplificado
 
 Removido somente o indicador Dias com foco da interface semanal. Minutos e sessões permanecem em duas colunas; média por sessão passa para uma linha própria. TypeScript, formatação e diff passaram. Sem alterações no cálculo da sequência; inspeção visual em dispositivo pendente.
+
+## Alimentação e incentivo
+
+TypeScript, 26 testes e export Android passaram. Novos testes cobrem alternância/contexto das frases, ausência de mutação do timer, persistência e descarte de metadados inválidos. No navegador em 320 px, petisco mostra reação e frase no balão existente. Durante foco em andamento, deadline e histórico permaneceram idênticos; após seis segundos o botão voltou a habilitar e a mensagem habitual reapareceu. Registro petCare confirmado no armazenamento local. Sessão de teste pausada ao final. Avaliação visual no Expo Go/dispositivo e anúncio por leitor de tela nativo pendentes.

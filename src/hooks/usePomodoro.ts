@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { AppState } from "react-native";
 
+import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
 import { clearExportFile } from "#src/storage/exportFile";
 import {
@@ -14,6 +15,7 @@ export function usePomodoro() {
   const [timer, dispatch] = useReducer(timerReducer, initialTimer);
   const [preferences, setPreferences] = useState(defaultPreferences);
   const [onboardingComplete, setOnboardingComplete] = useState(false);
+  const [petCare, setPetCare] = useState<PetCare>();
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
   const [storageBlocked, setStorageBlocked] = useState(false);
@@ -30,6 +32,7 @@ export function usePomodoro() {
         if (!mounted || !saved) return;
         dispatch({ type: "restore", value: saved.timer, now: Date.now() });
         setPreferences(saved.preferences);
+        setPetCare(saved.petCare);
         setOnboardingComplete(saved.onboardingComplete);
       })
       .catch(() => {
@@ -52,6 +55,7 @@ export function usePomodoro() {
       timer: latestTimer.current,
       preferences,
       onboardingComplete,
+      petCare,
     };
     savePrototype(saved).catch(() => setStorageError(true));
     // Persist transitions only; running sessions recover their remaining time from the deadline.
@@ -60,6 +64,7 @@ export function usePomodoro() {
     storageBlocked,
     preferences,
     onboardingComplete,
+    petCare,
     timer.status,
     timer.deadline,
     timer.duration,
@@ -118,6 +123,7 @@ export function usePomodoro() {
       });
       setPreferences({ ...defaultPreferences });
       setOnboardingComplete(false);
+      setPetCare(undefined);
       setStorageError(false);
       setStorageBlocked(false);
     } finally {
@@ -128,6 +134,12 @@ export function usePomodoro() {
 
   return {
     timer,
+    feedPet: () => {
+      if (!ready || operationLock.current) return null;
+      const response = choosePetResponse(latestTimer.current, petCare);
+      setPetCare(response.care);
+      return response.message;
+    },
     storageBlocked,
     isErasing,
     eraseData,

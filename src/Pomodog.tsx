@@ -116,6 +116,7 @@ export function Pomodog({
                 ready={model.ready}
                 onConfigure={model.configure}
                 onToggle={model.toggle}
+                onFeed={model.feedPet}
                 onReset={() => setConfirmReset(true)}
               />
             ) : tab === "progress" ? (

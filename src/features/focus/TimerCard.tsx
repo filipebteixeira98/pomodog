@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import { Pressable, View } from "react-native";
+import Bone from "lucide-react-native/icons/bone";
 import Pause from "lucide-react-native/icons/pause";
 import Play from "lucide-react-native/icons/play";
 
@@ -19,6 +21,7 @@ type Props = {
   onConfigure: (mode: Mode) => void;
   onToggle: () => void;
   onReset: () => void;
+  onFeed: () => string | null;
 };
 
 function sessionCopy(timer: Timer) {
@@ -39,10 +42,29 @@ export function TimerCard({
   onConfigure,
   onToggle,
   onReset,
+  onFeed,
 }: Props) {
+  const [petMessage, setPetMessage] = useState<string | null>(null);
+  const reaction = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (reaction.current !== null) clearTimeout(reaction.current);
+    },
+    [],
+  );
+  function feed() {
+    if (!ready || reaction.current !== null) return;
+    const message = onFeed();
+    if (!message) return;
+    setPetMessage(message);
+    reaction.current = setTimeout(() => {
+      reaction.current = null;
+      setPetMessage(null);
+    }, 6000);
+  }
   const busy = timer.status === "running" || timer.status === "paused";
   const finished = timer.status === "completed";
-  const copy = sessionCopy(timer);
+  const copy = petMessage ?? sessionCopy(timer);
   const progress = Math.max(
     0,
     Math.min(100, (1 - timer.remaining / timer.duration) * 100),
@@ -102,10 +124,23 @@ export function TimerCard({
       </View>
       <Dog
         accent={accent}
-        resting={timer.status === "running"}
-        celebrating={finished}
+        resting={timer.status === "running" && petMessage === null}
+        celebrating={finished || petMessage !== null}
         reducedMotion={reducedMotion}
       />
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Dar petisco para ${mascot.name}`}
+        accessibilityState={{ disabled: !ready || petMessage !== null }}
+        disabled={!ready || petMessage !== null}
+        onPress={feed}
+        className="min-h-11 flex-row items-center justify-center gap-2 rounded-full bg-soft px-4 active:opacity-80 disabled:opacity-60"
+      >
+        <Bone size={18} color={accent} />
+        <Text variant="label">
+          {petMessage ? `${mascot.name} gostou!` : "Dar petisco"}
+        </Text>
+      </Pressable>
       <Text
         className="mt-2 font-sans text-[66px] leading-[90px] tracking-[-3px] text-ink"
         style={{ fontVariant: ["tabular-nums"] }}
