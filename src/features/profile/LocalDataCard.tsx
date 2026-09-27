@@ -28,12 +28,13 @@ export function LocalDataCard({
 }: Props) {
   return (
     <Card className="gap-4">
-      <View className="flex-row items-center gap-2">
-        <ShieldCheck size={22} color={accent} />
-        <Text variant="heading" className="flex-1">
-          Seus dados, suas escolhas.
-        </Text>
+      <View className="flex-row items-center gap-3">
+        <View className="h-11 w-11 items-center justify-center rounded-full bg-soft">
+          <ShieldCheck size={23} color={accent} />
+        </View>
+        <Text variant="eyebrow">PRIVACIDADE</Text>
       </View>
+      <Text variant="heading">Seus dados, suas escolhas.</Text>
       <Text>
         Seu foco e suas preferências ficam neste dispositivo. Não coletamos
         telemetria de uso, nem anônima.

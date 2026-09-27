@@ -114,3 +114,7 @@ TypeScript e formatação passaram. No navegador, conferidas as cores computadas
 ## Espaçamento e ícones informativos
 
 TypeScript, formatação e revisão do diff passaram. Inspecionados no navegador em 320 px o [aviso de histórico local](screenshots/progresso-aviso-local.png) e o [ícone de Tempo de foco](screenshots/ajustes-icone-foco.png), sem transbordamento horizontal. Padding inferior do card de Foco aumentado para 24 px. Ajustes exclusivamente visuais, sem nova validação nativa.
+
+## Hierarquia de Perfil e Ajustes
+
+TypeScript e formatação passaram. Capturas em 320 px verificadas: [Ajustes](screenshots/ajustes-hierarquia.png) com PREFERÊNCIAS, subtítulo e rótulo de duração separado; [Perfil](screenshots/perfil-hierarquia.png) com PRIVACIDADE e subtítulo abaixo. Sem transbordamento horizontal. Mudança visual, sem alteração dos controles.
