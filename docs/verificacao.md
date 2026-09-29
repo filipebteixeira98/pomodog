@@ -202,4 +202,12 @@ TypeScript, 34 testes e export Android (3,1 MB Hermes) passaram. Configuração 
 
 ## Idempotência de agendamento e instrumentação `__DEV__`
 
-TypeScript, 47 testes e format:check passaram. Sincronização do scheduler tornou-se idempotente: `pending()` consulta pedido existente e compara deadline/mode antes de cancelar. Metadata `{ deadline, mode }` em `content.data` permite comparação sem depender de formato nativo. 13 novos testes cobrem idempotência, reschedule por deadline/mode diferente, opt-out, pause/reset/disable, resume, completed/expired, falhas de leitura e metadata inválida. Instrumentação `__DEV__` adicionada ao adaptador nativo com logs `[Pomodog notifications]` para diagnóstico em dispositivo. Validação física permanece pendente (ver `plans/001-device-evidence.md`).
+TypeScript, 47 testes e format:check passaram. Sincronização do scheduler tornou-se idempotente: `pending()` consulta pedido existente e compara deadline/mode antes de cancelar. Metadata `{ deadline, mode }` em `content.data` permite comparação sem depender de formato nativo. 13 novos testes cobrem idempotência, reschedule por deadline/mode diferente, opt-out, pause/reset/disable, resume, completed/expired, falhas de leitura e metadata inválida. Instrumentação `__DEV__` adicionada ao adaptador nativo com logs `[Pomodog notifications]` para diagnóstico em dispositivo. Validação física realizada em Pixel 7 (emulador) e Samsung g32 (fisico): foreground e background OK.
+
+## Remoção do botão "Pular tour" na última etapa
+
+O botão "Pular tour" foi removido da última etapa do tour guiado (`src/features/tour/GuidedTour.tsx`). Na etapa final, "Concluir tour" e "Pular tour" executavam a mesma ação (`onClose()`), tornando o segundo redundante. O botão agora aparece apenas nas etapas 0 e 1, onde oferece ação diferente de "Próximo".
+
+## Transição automática de modo ao concluir ciclo
+
+TypeScript, 48 testes e format:check passaram. `reconcile` em `src/timer.ts` agora troca automaticamente o modo ao concluir (foco → descanso, descanso → foco). O botão "Preparar descanso/próximo foco" foi removido de `TimerCard.tsx`; o usuário apenas toca "Começar" quando quiser iniciar o próximo ciclo. Teste novo em `tests/timer.test.ts` cobre a transição bidirecional.

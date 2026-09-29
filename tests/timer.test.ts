@@ -63,6 +63,18 @@ test("corrupt persisted timers are rejected and ongoing sessions cannot be recon
   );
 });
 
+test("completing focus auto-switches to break and vice versa", () => {
+  const focusRunning = timerReducer(initialTimer, { type: "start", now: 0 });
+  const focusDone = timerReducer(focusRunning, { type: "tick", now: 2000000 });
+  assert.equal(focusDone.status, "completed");
+  assert.equal(focusDone.mode, "break");
+
+  const breakRunning = timerReducer(focusDone, { type: "start", now: 3000000 });
+  const breakDone = timerReducer(breakRunning, { type: "tick", now: 5000000 });
+  assert.equal(breakDone.status, "completed");
+  assert.equal(breakDone.mode, "focus");
+});
+
 test("legacy demos are retired without losing history or counting as focus", () => {
   const sessions = [{ id: "previous", endedAt: 1000, seconds: 1500 }];
   const saved = parseTimer({

@@ -15,13 +15,13 @@ Abra o endereço exibido no terminal e toque em **Começar a focar**. Ajuste as 
 
 Na primeira abertura, a introdução mostra três passos curtos. É possível pular. A introdução aparece novamente após apagar os dados locais em Perfil. Uma sessão restaurada em andamento não é interrompida pelo onboarding automático. Na última etapa, **Mostrar como funciona** abre um tour opcional dos controles reais. Você também pode acessá-lo em **Ajustes → Rever tour guiado**.
 
-Para abrir no Android com Expo Go compatível com o SDK instalado:
+Para abrir no Android com development build (expo-dev-client):
 
 ```sh
-npm start
+npm run android
 ```
 
-Use o QR code no Expo Go, com celular e computador na mesma rede. O projeto usa Expo SDK 57, React Native 0.86 e TypeScript. A execução em dispositivo físico ainda precisa ser validada; a exportação do JavaScript Android não equivale a gerar ou testar um APK.
+O projeto usa Expo SDK 57, React Native 0.86 e TypeScript. O fluxo de notificações usa development build; siga [o guia de instalação e validação](docs/development-build.md). A exportação do JavaScript Android não equivale a gerar ou testar um APK.
 
 ## Funcionalidades
 

@@ -159,27 +159,14 @@ export function TimerCard({
         collapsable={false}
         className="w-full max-w-[340px]"
       >
-        {finished ? (
-          <Button
-            accent={accent}
-            onPress={() =>
-              onConfigure(timer.mode === "focus" ? "break" : "focus")
-            }
-          >
-            {timer.mode === "focus"
-              ? "Preparar descanso"
-              : "Preparar próximo foco"}
-          </Button>
-        ) : (
-          <Button
-            accent={accent}
-            disabled={!ready}
-            onPress={onToggle}
-            icon={<PrimaryIcon size={17} color="#FFFFFF" />}
-          >
-            {primaryLabel}
-          </Button>
-        )}
+        <Button
+          accent={accent}
+          disabled={!ready}
+          onPress={onToggle}
+          icon={<PrimaryIcon size={17} color="#FFFFFF" />}
+        >
+          {primaryLabel}
+        </Button>
         {busy && (
           <TextButton onPress={onReset} underline={false}>
             Reiniciar sessão

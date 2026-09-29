@@ -35,8 +35,10 @@ export function reconcile(timer: Timer, now: number): Timer {
     endedAt: timer.deadline,
     seconds: timer.duration,
   };
+  const nextMode: Mode = timer.mode === "focus" ? "break" : "focus";
   return {
     ...timer,
+    mode: nextMode,
     remaining: 0,
     deadline: null,
     status: "completed",
