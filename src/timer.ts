@@ -21,12 +21,16 @@ export const initialTimer: Timer = {
 export type Action =
   | { type: "start"; now: number }
   | { type: "pause"; now: number }
-  | { type: "tick"; now: number }
+  | { type: "tick"; now: number; nextDuration?: number }
   | { type: "reset" }
   | { type: "configure"; mode: Mode; seconds: number }
-  | { type: "restore"; value: Timer; now: number };
+  | { type: "restore"; value: Timer; now: number; nextDuration?: number };
 
-export function reconcile(timer: Timer, now: number): Timer {
+export function reconcile(
+  timer: Timer,
+  now: number,
+  nextDuration?: number,
+): Timer {
   if (timer.status !== "running" || timer.deadline === null) return timer;
   const remaining = Math.max(0, (timer.deadline - now) / 1000);
   if (remaining > 0) return { ...timer, remaining };
@@ -36,9 +40,11 @@ export function reconcile(timer: Timer, now: number): Timer {
     seconds: timer.duration,
   };
   const nextMode: Mode = timer.mode === "focus" ? "break" : "focus";
+  const duration = nextDuration ?? timer.duration;
   return {
     ...timer,
     mode: nextMode,
+    duration,
     remaining: 0,
     deadline: null,
     status: "completed",
@@ -52,9 +58,9 @@ export function reconcile(timer: Timer, now: number): Timer {
 export function timerReducer(timer: Timer, action: Action): Timer {
   switch (action.type) {
     case "restore":
-      return reconcile(action.value, action.now);
+      return reconcile(action.value, action.now, action.nextDuration);
     case "tick":
-      return reconcile(timer, action.now);
+      return reconcile(timer, action.now, action.nextDuration);
     case "start": {
       if (timer.status === "running") return timer;
       const remaining =

@@ -40,7 +40,15 @@ export function usePomodoro() {
     loadPrototype()
       .then((saved) => {
         if (!mounted || !saved) return;
-        dispatch({ type: "restore", value: saved.timer, now: Date.now() });
+        dispatch({
+          type: "restore",
+          value: saved.timer,
+          now: Date.now(),
+          nextDuration:
+            saved.timer.mode === "focus"
+              ? saved.preferences.rest * 60
+              : saved.preferences.focus * 60,
+        });
         setPreferences(saved.preferences);
         setPetCare(saved.petCare);
         setOnboardingComplete(saved.onboardingComplete);
@@ -85,7 +93,15 @@ export function usePomodoro() {
   useEffect(() => {
     if (!ready || timer.status !== "running") return;
     const tick = () => {
-      if (!operationLock.current) dispatch({ type: "tick", now: Date.now() });
+      if (!operationLock.current)
+        dispatch({
+          type: "tick",
+          now: Date.now(),
+          nextDuration:
+            timer.mode === "focus"
+              ? preferences.rest * 60
+              : preferences.focus * 60,
+        });
     };
     const interval = setInterval(tick, 250);
     const listener = AppState.addEventListener("change", (state) => {
