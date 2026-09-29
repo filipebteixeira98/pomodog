@@ -153,7 +153,7 @@ export function usePomodoro() {
       }
       if (request !== notificationRequest.current || operationLock.current)
         return;
-      if (!enabled) await sessionNotifications.sync(latestTimer.current, false);
+      await sessionNotifications.sync(latestTimer.current, enabled);
       if (request !== notificationRequest.current || operationLock.current)
         return;
       setPreferences((current) => ({

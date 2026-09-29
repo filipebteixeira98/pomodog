@@ -295,6 +295,50 @@ test("notification failures preserve native cause and identify the failed operat
   assert.equal(await notificationOperation("request", async () => true), true);
 });
 
+test("enabling notifications schedules for current session", async () => {
+  const calls: string[] = [];
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {
+        calls.push("cancel");
+      },
+      schedule: async (deadline, mode) => {
+        calls.push(`schedule:${mode}:${deadline}`);
+      },
+      pending: async () => null,
+    },
+    () => 1000,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 2000, mode: "focus" },
+    true,
+  );
+  assert.deepEqual(calls, ["cancel", "schedule:focus:2000"]);
+});
+
+test("opting out cancels without scheduling", async () => {
+  const calls: string[] = [];
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {
+        calls.push("cancel");
+      },
+      schedule: async () => {
+        calls.push("schedule");
+      },
+      pending: async () => null,
+    },
+    () => 1000,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 2000, mode: "focus" },
+    false,
+  );
+  assert.deepEqual(calls, ["cancel"]);
+});
+
 test("opt-out does not ask for permission and cancels", async () => {
   let checks = 0;
   let canceled = 0;
