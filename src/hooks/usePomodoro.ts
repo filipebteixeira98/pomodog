@@ -162,9 +162,6 @@ export function usePomodoro() {
       }
       if (request !== notificationRequest.current || operationLock.current)
         return;
-      await sessionNotifications.sync(latestTimer.current, enabled);
-      if (request !== notificationRequest.current || operationLock.current)
-        return;
       setNotificationNotice("");
     } catch (error) {
       if (request === notificationRequest.current) {

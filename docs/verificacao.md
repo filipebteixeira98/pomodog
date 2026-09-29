@@ -211,3 +211,7 @@ O botão "Pular tour" foi removido da última etapa do tour guiado (`src/feature
 ## Transição automática de modo ao concluir ciclo
 
 TypeScript, 48 testes e format:check passaram. `reconcile` em `src/timer.ts` agora troca automaticamente o modo ao concluir (foco → descanso, descanso → foco). O botão "Preparar descanso/próximo foco" foi removido de `TimerCard.tsx`; o usuário apenas toca "Começar" quando quiser iniciar o próximo ciclo. Teste novo em `tests/timer.test.ts` cobre a transição bidirecional.
+
+## Toggle otimista do switch de notificações
+
+O switch "Avisar ao terminar" atualiza a preferência otimisticamente antes da operação async, prevenindo flicker visual (switch "vai e volta" duas vezes). Se permissão for negada ou erro ocorrer, rollback para `false`. O agendamento da sessão atual é feito pelo `useEffect` que depende de `preferences.sessionNotifications`, não por chamada explícita em `setSessionNotifications`.
