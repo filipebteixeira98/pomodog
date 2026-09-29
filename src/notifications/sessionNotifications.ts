@@ -2,6 +2,7 @@ import { Platform } from "react-native";
 import {
   AndroidImportance,
   cancelScheduledNotificationAsync,
+  getAllScheduledNotificationsAsync,
   getPermissionsAsync,
   IosAuthorizationStatus,
   requestPermissionsAsync,
@@ -67,17 +68,29 @@ export async function requestSessionPermission() {
   );
 }
 
+function devLog(message: string) {
+  if (typeof __DEV__ !== "undefined" && __DEV__)
+    console.info(`[Pomodog notifications] ${message}`);
+}
+
 export const sessionNotifications = createSessionScheduler({
-  permitted: async () =>
-    allowed(await notificationOperation("permissions", getPermissionsAsync)),
+  permitted: async () => {
+    const result = await notificationOperation(
+      "permissions",
+      getPermissionsAsync,
+    );
+    devLog(`permitted=${allowed(result)}`);
+    return allowed(result);
+  },
   cancel: async () => {
     await notificationOperation("cancel", () =>
       cancelScheduledNotificationAsync(SESSION_NOTIFICATION_ID),
     );
+    devLog("cancelled");
   },
   schedule: async (deadline, mode) => {
     await channel();
-    await notificationOperation("schedule", () =>
+    const id = await notificationOperation("schedule", () =>
       scheduleNotificationAsync({
         identifier: SESSION_NOTIFICATION_ID,
         content: {
@@ -87,6 +100,7 @@ export const sessionNotifications = createSessionScheduler({
               ? "Mais um passo concluído. Que tal descansar um pouco?"
               : "Vamos para o próximo foco? No seu ritmo.",
           sound: "default",
+          data: { deadline, mode },
         },
         trigger: {
           type: SchedulableTriggerInputTypes.DATE,
@@ -95,5 +109,27 @@ export const sessionNotifications = createSessionScheduler({
         },
       }),
     );
+    devLog(`scheduled id=${id} mode=${mode} deadline=${deadline}`);
+  },
+  pending: async () => {
+    const all = await notificationOperation(
+      "schedule",
+      getAllScheduledNotificationsAsync,
+    );
+    const match = all.find((n) => n.identifier === SESSION_NOTIFICATION_ID);
+    if (!match) {
+      devLog("pending=none");
+      return null;
+    }
+    const data = match.content.data as { deadline?: unknown; mode?: unknown };
+    if (
+      typeof data?.deadline !== "number" ||
+      (data.mode !== "focus" && data.mode !== "break")
+    ) {
+      devLog("pending=invalid-metadata");
+      return null;
+    }
+    devLog(`pending mode=${data.mode} deadline=${data.deadline}`);
+    return { deadline: data.deadline, mode: data.mode };
   },
 });

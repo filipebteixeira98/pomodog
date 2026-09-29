@@ -61,7 +61,20 @@ android/ permanece ignorado pelo Git. Não use prebuild --clean sem revisar poss
 - Pause: o aviso anterior deve ser cancelado. Retome: deve acompanhar o novo término.
 - Verifique reinício, desativação e exclusão de dados com aviso pendente.
 - Negue/revogue a permissão e confira a mensagem curta em Ajustes.
+- Voltar ao app perto do término não cancela o aviso existente (idempotência).
 
-Erros técnicos ficam apenas no console de desenvolvimento, com prefixo [Pomodog notifications]. O Android pode atrasar ou silenciar avisos; esta versão não pede acesso especial a alarmes exatos.
+Erros técnicos ficam apenas no console de desenvolvimento, com prefixo [Pomodog notifications]. O Android pode atrasar ou silenciar avisos; esta versão não pede acesso especiais a alarmes exatos.
+
+### Diagnóstico `__DEV__`
+
+Em desenvolvimento, o console exibe logs `[Pomodog notifications]` com:
+- `permitted=true/false` — resultado da consulta de permissão
+- `cancelled` — cancelamento executado
+- `scheduled id=... mode=... deadline=...` — agendamento com identificador retornado
+- `pending mode=... deadline=...` — pedido pendente encontrado
+- `pending=none` — nenhum pedido pendente
+- `pending=invalid-metadata` — pedido sem metadata válida
+
+Esses logs não aparecem em produção. Não há diagnóstico técnico na interface.
 
 Referência: [development builds do Expo](https://docs.expo.dev/develop/development-builds/introduction/).

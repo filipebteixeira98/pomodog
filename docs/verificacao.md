@@ -199,3 +199,7 @@ TypeScript e 35 testes passaram. Novo teste cobre mensagem não enumerável, có
 ## Preparação do development build e limpeza da interface
 
 TypeScript, 34 testes e export Android (3,1 MB Hermes) passaram. Configuração Expo resolvida confirmou scheme pomodog, pacote com.filipebteixeira98.pomodog e plugin expo-dev-client. Detectados JDK 17 e SDK Android locais; Java padrão 25 documentado no guia. Removido teste de imports internos, pois o fluxo agora usa API pública e cliente próprio. Não houve compilação Gradle, instalação em aparelho ou teste de entrega de notificação nesta execução. Interface sem diagnóstico nativo, explicação de indisponibilidade ou banner global; falhas curtas ficam junto ao controle e detalhes permanecem no console.
+
+## Idempotência de agendamento e instrumentação `__DEV__`
+
+TypeScript, 47 testes e format:check passaram. Sincronização do scheduler tornou-se idempotente: `pending()` consulta pedido existente e compara deadline/mode antes de cancelar. Metadata `{ deadline, mode }` em `content.data` permite comparação sem depender de formato nativo. 13 novos testes cobrem idempotência, reschedule por deadline/mode diferente, opt-out, pause/reset/disable, resume, completed/expired, falhas de leitura e metadata inválida. Instrumentação `__DEV__` adicionada ao adaptador nativo com logs `[Pomodog notifications]` para diagnóstico em dispositivo. Validação física permanece pendente (ver `plans/001-device-evidence.md`).

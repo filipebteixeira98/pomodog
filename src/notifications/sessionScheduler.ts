@@ -5,6 +5,7 @@ export type NotificationAdapter = {
   permitted: () => Promise<boolean>;
   cancel: () => Promise<void>;
   schedule: (deadline: number, mode: Mode) => Promise<void>;
+  pending: () => Promise<{ deadline: number; mode: Mode } | null>;
 };
 
 /** Serialize native operations so a late schedule cannot survive a pause/reset. */
@@ -32,6 +33,19 @@ export function createSessionScheduler(
             timer.deadline <= now())
         )
           return;
+        if (
+          timer.status === "running" &&
+          timer.deadline !== null &&
+          timer.deadline > now()
+        ) {
+          const existing = await adapter.pending();
+          if (
+            existing !== null &&
+            existing.deadline === timer.deadline &&
+            existing.mode === timer.mode
+          )
+            return;
+        }
         await adapter.cancel();
         if (
           timer.status === "running" &&

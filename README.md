@@ -55,7 +55,7 @@ npm run export:web
 npm run export:android
 ```
 
-Os 17 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de descansos e migração segura de demonstrações antigas, migração de dados antigos, onboarding persistido, dados inválidos, progresso entre datas locais, identidade, exportação e exclusão serializada sem sobrescrever registros corrompidos.
+Os 47 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de descansos e migração segura de demonstrações antigas, migração de dados antigos, onboarding persistido, dados inválidos, progresso entre datas locais, identidade, exportação e exclusão serializada sem sobrescrever registros corrompidos, e idempotência de agendamento de notificações.
 
 `npm audit` identificou 12 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível com o SDK instalado; não foi aplicada. Reavaliar antes de distribuição.
 

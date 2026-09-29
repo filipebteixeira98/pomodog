@@ -8,4 +8,5 @@ export const sessionNotifications = createSessionScheduler({
   permitted: async () => false,
   cancel: async () => {},
   schedule: async () => {},
+  pending: async () => null,
 });

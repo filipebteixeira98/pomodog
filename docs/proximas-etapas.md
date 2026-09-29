@@ -44,7 +44,8 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 - Dashboard ampliado com totais, dias com foco e média por sessão nos últimos sete dias. Alimentação opcional e frases gentis agora implementadas na tela de Foco; próxima etapa desta frente é validar a experiência.
 - Introduzir alimentação dos pets e frases gentis como convites opcionais. Proposta de experiência: sem punições, perda de progresso ou culpa por ausência.
 - Planejar lembretes de rotina e inatividade com consentimento, horários, frequência controlável e desativação simples.
-- Avaliar notificações locais para os casos que não exigem servidor. Push remoto permanece uma possibilidade solicitada, com infraestrutura e tratamento de tokens ainda por definir.
+- Aviso local de conclusão implementado com expo-notifications. Sincronização idempotente: mesmo prazo/modo não cancela nem reagenda. Instrumentação `__DEV__` disponível para diagnóstico. Pendente: validação em dispositivo físico (ver `plans/001-device-evidence.md`).
+- Push remoto permanece uma possibilidade solicitada, com infraestrutura e tratamento de tokens ainda por definir.
 - Validar notificações e retorno ao app em Android físico, inclusive com tela bloqueada, antes de considerar a frente concluída.
 
 ## Contas, Firebase e modelo de dados
