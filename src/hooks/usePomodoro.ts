@@ -142,13 +142,22 @@ export function usePomodoro() {
       return;
     permissionLock.current = true;
     setNotificationBusy(true);
+    setPreferences((current) => ({
+      ...current,
+      sessionNotifications: enabled,
+    }));
     const request = ++notificationRequest.current;
     try {
       if (enabled && !(await requestSessionPermission())) {
-        if (request === notificationRequest.current)
+        if (request === notificationRequest.current) {
+          setPreferences((current) => ({
+            ...current,
+            sessionNotifications: false,
+          }));
           setNotificationNotice(
             "Permita notificações nos ajustes do dispositivo para receber o aviso.",
           );
+        }
         return;
       }
       if (request !== notificationRequest.current || operationLock.current)
@@ -156,14 +165,15 @@ export function usePomodoro() {
       await sessionNotifications.sync(latestTimer.current, enabled);
       if (request !== notificationRequest.current || operationLock.current)
         return;
-      setPreferences((current) => ({
-        ...current,
-        sessionNotifications: enabled,
-      }));
       setNotificationNotice("");
     } catch (error) {
-      if (request === notificationRequest.current)
+      if (request === notificationRequest.current) {
+        setPreferences((current) => ({
+          ...current,
+          sessionNotifications: false,
+        }));
         setNotificationNotice(notificationErrorMessage(error));
+      }
     } finally {
       permissionLock.current = false;
       setNotificationBusy(false);
