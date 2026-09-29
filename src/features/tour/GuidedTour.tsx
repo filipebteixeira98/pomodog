@@ -247,7 +247,7 @@ export function GuidedTour({
           {index > 0 && (
             <TextButton onPress={() => onChange(index - 1)}>Voltar</TextButton>
           )}
-          <TextButton onPress={onClose}>Pular tour</TextButton>
+          {index < 2 && <TextButton onPress={onClose}>Pular tour</TextButton>}
         </ScrollView>
       </View>
     </View>
