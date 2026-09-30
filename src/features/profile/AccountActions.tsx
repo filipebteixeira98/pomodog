@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { View } from "react-native";
+import LogOut from "lucide-react-native/icons/log-out";
 import Trash from "lucide-react-native/icons/trash";
+import TriangleAlert from "lucide-react-native/icons/triangle-alert";
 
 import { Button, destructiveColor } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
@@ -57,6 +59,7 @@ export function AccountActions({
               accent={accent}
               secondary
               disabled={busy}
+              icon={<LogOut size={18} color={accent} />}
               onPress={() => void onSignOut()}
             >
               Sair da conta
@@ -69,7 +72,7 @@ export function AccountActions({
         <Card className="gap-3 border-[#F4C7C3] bg-[#FFF1F0]">
           <View className="flex-row items-center gap-3">
             <View className="h-11 w-11 items-center justify-center rounded-full bg-[#FDE0DC]">
-              <Trash size={23} color={destructiveColor} />
+              <TriangleAlert size={23} color={destructiveColor} />
             </View>
             <Text variant="eyebrow" className="text-[#B42318]">
               EXCLUSÃO DE CONTA

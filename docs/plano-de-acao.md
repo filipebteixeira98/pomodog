@@ -177,3 +177,7 @@ Próximos passos: validar exclusão com conta de teste, cancelamento e retomada 
 ## Card de exclusão de conta
 
 A ação Excluir minha conta foi separada do card de sincronização e saída. Perfil autenticado exibe um card próprio com fundo vermelho suave, borda, ícone e aviso curto de irreversibilidade. Confirmação, reautenticação e retomada de exclusão pendente preservadas.
+
+## Ícones das ações de conta
+
+Card de exclusão usa triângulo de alerta, enquanto o botão mantém a lixeira. Sair da conta recebeu ícone de saída. Ajuste visual sem mudança nos fluxos de autenticação ou exclusão.
