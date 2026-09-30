@@ -1,8 +1,10 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { AppState } from "react-native";
+import type { User } from "firebase/auth";
 
 import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
+import { AccountSaveError, saveAccount } from "#src/firebase/accountData";
 import { notificationErrorMessage } from "#src/notifications/diagnostics";
 import {
   notificationsSupported,
@@ -11,19 +13,22 @@ import {
 } from "#src/notifications/sessionNotifications";
 import { clearExportFile } from "#src/storage/exportFile";
 import {
+  accountStore,
   erasePrototype,
   loadPrototype,
   savePrototype,
 } from "#src/storage/prototype";
 import { initialTimer, timerReducer, type Mode } from "#src/timer";
 
-export function usePomodoro() {
+export function usePomodoro(user: User | null = null) {
+  const account = useRef(user ? accountStore(user.uid) : null).current;
   const [timer, dispatch] = useReducer(timerReducer, initialTimer);
   const [preferences, setPreferences] = useState(defaultPreferences);
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [petCare, setPetCare] = useState<PetCare>();
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
+  const [syncError, setSyncError] = useState(false);
   const [storageBlocked, setStorageBlocked] = useState(false);
   const [isErasing, setIsErasing] = useState(false);
   const [notificationNotice, setNotificationNotice] = useState("");
@@ -37,7 +42,7 @@ export function usePomodoro() {
 
   useEffect(() => {
     let mounted = true;
-    loadPrototype()
+    (account ? account.load() : loadPrototype())
       .then((saved) => {
         if (!mounted || !saved) return;
         dispatch({
@@ -75,7 +80,17 @@ export function usePomodoro() {
       onboardingComplete,
       petCare,
     };
-    savePrototype(saved).catch(() => setStorageError(true));
+    if (account && user) {
+      saveAccount(user, account, saved)
+        .then(() => setSyncError(false))
+        .catch((error: unknown) => {
+          if (error instanceof AccountSaveError && error.stage === "local")
+            setStorageError(true);
+          else setSyncError(true);
+        });
+    } else {
+      savePrototype(saved).catch(() => setStorageError(true));
+    }
     // Persist transitions only; running sessions recover their remaining time from the deadline.
   }, [
     ready,
@@ -223,7 +238,7 @@ export function usePomodoro() {
     try {
       await sessionNotifications.sync(latestTimer.current, false);
       await clearExportFile();
-      await erasePrototype();
+      await (account ? account.erase() : erasePrototype());
       dispatch({
         type: "restore",
         value: { ...initialTimer, sessions: [] },
@@ -242,6 +257,7 @@ export function usePomodoro() {
 
   return {
     timer,
+    syncError,
     notificationNotice,
     notificationBusy,
     notificationsSupported,

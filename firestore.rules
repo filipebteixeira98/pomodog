@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+    match /users/{uid} {
+      allow read: if owner(uid);
+      allow create, update: if owner(uid)
+        && request.resource.data.keys().hasOnly(['displayName', 'email', 'createdAt', 'updatedAt'])
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 120
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.createdAt is int
+        && request.resource.data.updatedAt is int;
+      allow delete: if owner(uid);
+
+      match /sessions/{sessionId} {
+        allow read, delete: if owner(uid);
+        allow create, update: if owner(uid)
+          && request.resource.data.keys().hasOnly(['endedAt', 'seconds'])
+          && request.resource.data.endedAt is int
+          && request.resource.data.endedAt >= 0
+          && request.resource.data.seconds is int
+          && request.resource.data.seconds > 0
+          && request.resource.data.seconds <= 7200;
+      }
+      match /state/{documentId} {
+        allow read, delete: if owner(uid) && documentId == 'main';
+        allow create, update: if owner(uid) && documentId == 'main'
+          && request.resource.data.keys().hasOnly(['timer', 'preferences', 'onboardingComplete', 'petCare', 'updatedAt'])
+          && request.resource.data.updatedAt is int;
+      }
+    }
+  }
+}

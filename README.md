@@ -1,6 +1,6 @@
 # Pomodog
 
-Protótipo funcional de um companheiro de foco: timer Pomodoro, cachorro animado, onboarding, personalização discreta e progresso sem punições. Interface em português, com armazenamento local e sem cadastro.
+Protótipo funcional de um companheiro de foco: timer Pomodoro, cachorro animado, onboarding, personalização discreta e progresso sem punições. Interface em português, modo local e integração opcional com Google/Firebase em desenvolvimento.
 
 ## Experimentar
 
@@ -33,7 +33,7 @@ O projeto usa Expo SDK 57, React Native 0.86 e TypeScript. O fluxo de notificaç
 - Sessões de foco concluídas, minutos do dia e histórico dos últimos sete dias; armazenamento das últimas 1.000 sessões.
 - Preferências e sessão atual salvas no dispositivo. Descansos não contam como foco.
 - Onboarding por swipe nos dois sentidos, indicação “Deslize para explorar”, pontos acessíveis e botão de entrada apenas na última etapa; permite pular e mantém a conclusão salva. Animações seguem Ajustes e sistema.
-- Navegação inferior com Foco, Progresso, Ajustes e Perfil. Perfil preparado para receber uma identidade autenticada; atualmente, modo local.
+- Navegação inferior com Foco, Progresso, Ajustes e Perfil. Entrada Google e sincronização Firebase implementadas; validação completa com login real ainda pendente.
 - Exclusão de dados locais com confirmação em Perfil; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
 - Ícone do Nino, versões adaptativa/monocromática para Android e splash nativa configurada; validação visual em release pendente.
 - Poppins empacotada, ícones Lucide e estilos Tailwind via NativeWind para Android e web.
@@ -41,8 +41,8 @@ O projeto usa Expo SDK 57, React Native 0.86 e TypeScript. O fluxo de notificaç
 ## Limites desta versão
 
 - Aviso local opcional de conclusão em **Ajustes → Avisar ao terminar** (Android/iOS). Requer permissão; agendamento é feito no sistema e pode funcionar com a tela bloqueada. Economia de bateria, permissões, modo silencioso e restrições do sistema podem atrasar ou silenciar o aviso. Não há garantia de alarme exato; validar esta entrega em dispositivo antes de um teste prolongado. Na web, o controle não é exibido.
-- Sem LoFi, pagamentos, conta, sincronização ou telemetria remota. Bibliotecas musicais ainda precisam ser selecionadas e ter suas licenças verificadas.
-- Dados pertencem à instalação/navegador: limpar dados ou trocar de dispositivo não preserva o histórico.
+- Sem LoFi, pagamentos ou telemetria de uso. Bibliotecas musicais ainda precisam ser selecionadas e ter suas licenças verificadas.
+- Sem conta, dados pertencem à instalação/navegador. A integração de contas usa somente o projeto Firebase de desenvolvimento; produção e exclusão de conta ainda estão pendentes.
 - Ainda não publicado, sem APK ou distribuição na loja. O endereço local depende do servidor em execução.
 
 ## Verificação

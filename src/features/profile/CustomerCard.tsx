@@ -26,7 +26,9 @@ export function CustomerCard({
       <Text variant="heading">{summary.title}</Text>
       <Text>{summary.detail}</Text>
       <Text variant="caption">
-        O histórico de foco desta versão fica neste dispositivo.
+        {session.status === "guest"
+          ? "Seu histórico fica neste dispositivo até você entrar em uma conta."
+          : "Seu progresso é salvo nesta conta e neste dispositivo."}
       </Text>
     </Card>
   );

@@ -1,6 +1,7 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import { ScrollView, useWindowDimensions, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import type { User } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppHeader } from "#src/components/AppHeader";
@@ -22,11 +23,21 @@ import { useReducedMotion } from "#src/hooks/useReducedMotion";
 
 export function Pomodog({
   session = localSession,
+  user = null,
+  authBusy = false,
+  authNotice = "",
+  onSignIn = async () => {},
+  onSignOut = async () => {},
 }: {
   session?: CustomerSession;
+  user?: User | null;
+  authBusy?: boolean;
+  authNotice?: string;
+  onSignIn?: () => Promise<void>;
+  onSignOut?: () => Promise<void>;
 }) {
   const viewport = useWindowDimensions();
-  const model = usePomodoro();
+  const model = usePomodoro(user);
   const host = useRef<View>(null);
   const scroll = useRef<ScrollView>(null);
   const targets = useRef<TourTargets>({
@@ -141,16 +152,30 @@ export function Pomodog({
                 onNotificationsChange={model.setSessionNotifications}
               />
             ) : (
-              <ProfileScreen session={session} accent={accent}>
-                <LocalDataCard
-                  accent={accent}
-                  onErase={() => {
-                    setDataNotice("");
-                    setConfirmErase(true);
-                  }}
-                  eraseDisabled={!model.ready || model.isErasing}
-                  notice={dataNotice}
-                />
+              <ProfileScreen
+                session={session}
+                accent={accent}
+                authBusy={authBusy}
+                authNotice={
+                  authNotice ||
+                  (model.syncError
+                    ? "Seu progresso está salvo neste dispositivo, mas ainda não foi sincronizado."
+                    : "")
+                }
+                onSignIn={onSignIn}
+                onSignOut={onSignOut}
+              >
+                {session.status === "guest" && (
+                  <LocalDataCard
+                    accent={accent}
+                    onErase={() => {
+                      setDataNotice("");
+                      setConfirmErase(true);
+                    }}
+                    eraseDisabled={!model.ready || model.isErasing}
+                    notice={dataNotice}
+                  />
+                )}
               </ProfileScreen>
             )}
           </ScrollView>

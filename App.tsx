@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { useAccount } from "#src/firebase/useAccount";
 import { Pomodog } from "#src/Pomodog";
 
 if (Platform.OS !== "web") {
@@ -15,12 +16,13 @@ if (Platform.OS !== "web") {
 }
 
 export default function App() {
+  const account = useAccount();
   const [loaded, error] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_600SemiBold,
   });
-  if (!loaded && !error)
+  if ((!loaded && !error) || account.loading)
     return (
       <View className="flex-1 items-center justify-center bg-canvas">
         <ActivityIndicator
@@ -37,7 +39,15 @@ export default function App() {
         }
       }}
     >
-      <Pomodog />
+      <Pomodog
+        key={account.user?.uid ?? "guest"}
+        user={account.user}
+        session={account.session}
+        authBusy={account.busy}
+        authNotice={account.notice}
+        onSignIn={account.login}
+        onSignOut={account.logout}
+      />
     </SafeAreaProvider>
   );
 }

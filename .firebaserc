@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "pomodog-dev-2026",
+    "development": "pomodog-dev-2026"
+  },
+  "targets": {},
+  "etags": {}
+}

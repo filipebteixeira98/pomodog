@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "248701391721",
+    "project_id": "pomodog-dev-2026",
+    "storage_bucket": "pomodog-dev-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248701391721:android:4b25169bacec30d300e3f8",
+        "android_client_info": {
+          "package_name": "com.filipebteixeira98.pomodog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248701391721-h0d5g71jo5c8s98k753n3707jho96h8b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.filipebteixeira98.pomodog",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "248701391721-q59aerblmh758oah25sqk5ha208usb7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQW2W_WNNT16mzKkrQ8T5Sx5-UJbmCTmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248701391721-q59aerblmh758oah25sqk5ha208usb7q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

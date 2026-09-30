@@ -1,5 +1,23 @@
 # Arquitetura e escolhas do protótipo
 
+## Firebase e contas — 29/09/2026
+
+O projeto `pomodog-dev-2026` contém Firebase Authentication com Google e Cloud Firestore na região `southamerica-east1`. Apps Android e web foram registrados; o certificado Android de desenvolvimento foi cadastrado. As regras Firestore foram publicadas. O ambiente de produção ainda não foi configurado.
+
+Após autenticação, `prepareAccount` grava o perfil em `users/{uid}`, as sessões de foco em `users/{uid}/sessions/{sessionId}` e o estado em `users/{uid}/state/main`. O estado inclui timer sem histórico duplicado, preferências, onboarding e cuidados do mascote. A identidade de login fica no Firebase Authentication; o documento `users` contém os dados de perfil usados pela aplicação.
+
+A relação lógica usuário/sessões é 1:N, expressa pelo caminho da subcoleção. Não há chave estrangeira SQL ou exclusão em cascata automática. As regras exigem `request.auth.uid == uid` para leitura e escrita do perfil e das subcoleções. Trata-se de autorização por proprietário; papéis administrativos e RBAC ainda não foram implementados.
+
+O armazenamento local usa uma chave por UID. A importação combina histórico local e remoto sem repetir IDs; os dados de visitante só são removidos depois de salvar o resultado na nuvem e na chave da conta. A sincronização posterior serializa escritas remotas e preserva o salvamento local. As preferências da cópia local da conta têm precedência na conciliação inicial; conflitos entre dispositivos ainda precisam de validação específica.
+
+TypeScript, 52 testes e exportação Android passaram. O login Google e a gravação real no Firestore ainda não foram validados no aparelho; o build nativo exige baixar o plugin Google Services. Os testes atuais não exercitam as regras no emulador nem comprovam isolamento entre duas contas reais.
+
+## Botão de entrada com Google — 29/09/2026
+
+`GoogleSignInButton` apresenta fundo branco, borda discreta e formato arredondado. O símbolo oficial do Google é empacotado em `assets/brand/google-g.png`, sem download durante o uso. O alias `#assets/*` mantém imports internos sem caminhos relativos. O botão anuncia o estado ocupado, exibe indicador de carregamento e bloqueia novos toques durante a entrada. Esta alteração visual não comprova o funcionamento do OAuth, cuja validação nativa permanece pendente.
+
+Origem do símbolo: [diretrizes de identidade do Google](https://developers.google.com/identity/branding-guidelines).
+
 ## Responsabilidades
 
 | Parte                      | Responsabilidade                                             |

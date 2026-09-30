@@ -12,7 +12,10 @@ type StorageAdapter = {
 };
 
 /** Serializes reads, writes and deletion; unreadable data is never silently overwritten. */
-export function createPrototypeStore(storage: StorageAdapter) {
+export function createPrototypeStore(
+  storage: StorageAdapter,
+  key = STORAGE_KEY,
+) {
   let queue: Promise<unknown> = Promise.resolve();
   let blocked = false;
   function enqueue<T>(operation: () => Promise<T>): Promise<T> {
@@ -24,7 +27,7 @@ export function createPrototypeStore(storage: StorageAdapter) {
     load: () =>
       enqueue(async () => {
         try {
-          const raw = await storage.getItem(STORAGE_KEY);
+          const raw = await storage.getItem(key);
           if (raw === null) {
             blocked = false;
             return null;
@@ -47,13 +50,13 @@ export function createPrototypeStore(storage: StorageAdapter) {
         const saved = parseSavedPrototype(value);
         if (!saved) throw new Error("Invalid prototype");
         await storage.setItem(
-          STORAGE_KEY,
+          key,
           JSON.stringify({ schemaVersion: 1, ...saved }),
         );
       }),
     erase: () =>
       enqueue(async () => {
-        await storage.removeItem(STORAGE_KEY);
+        await storage.removeItem(key);
         blocked = false;
       }),
   };

@@ -25,10 +25,12 @@
         }
       ],
       "expo-notifications",
+      "@react-native-google-signin/google-signin",
       "expo-dev-client"
     ],
     "icon": "./assets/brand/icon.png",
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/adaptive-foreground.png",
         "monochromeImage": "./assets/brand/adaptive-monochrome.png",

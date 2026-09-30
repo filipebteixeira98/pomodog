@@ -5,6 +5,7 @@
     "allowImportingTsExtensions": true,
     "types": ["react", "node"],
     "paths": {
+      "#assets/*": ["./assets/*"],
       "#src/*": ["./src/*"],
       "#tests/*": ["./tests/*"],
       "#app": ["./App.tsx"],
