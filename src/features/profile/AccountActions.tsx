@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { View } from "react-native";
 import Trash from "lucide-react-native/icons/trash";
 
 import { Button, destructiveColor } from "#src/components/ui/Button";
@@ -60,22 +61,39 @@ export function AccountActions({
             >
               Sair da conta
             </Button>
-            <Button
-              accent={accent}
-              secondary
-              destructive
-              disabled={busy}
-              icon={<Trash size={18} color={destructiveColor} />}
-              onPress={() => setConfirmDelete(true)}
-            >
-              {deletionPending
-                ? "Concluir exclusão da conta"
-                : "Excluir minha conta"}
-            </Button>
           </>
         )}
         {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
       </Card>
+      {session.status === "authenticated" && (
+        <Card className="gap-3 border-[#F4C7C3] bg-[#FFF1F0]">
+          <View className="flex-row items-center gap-3">
+            <View className="h-11 w-11 items-center justify-center rounded-full bg-[#FDE0DC]">
+              <Trash size={23} color={destructiveColor} />
+            </View>
+            <Text variant="eyebrow" className="text-[#B42318]">
+              EXCLUSÃO DE CONTA
+            </Text>
+          </View>
+          <Text variant="heading">Excluir sua conta</Text>
+          <Text>
+            Sua conta e os dados vinculados serão apagados. Essa ação não pode
+            ser desfeita.
+          </Text>
+          <Button
+            accent={accent}
+            secondary
+            destructive
+            disabled={busy}
+            icon={<Trash size={18} color={destructiveColor} />}
+            onPress={() => setConfirmDelete(true)}
+          >
+            {deletionPending
+              ? "Concluir exclusão da conta"
+              : "Excluir minha conta"}
+          </Button>
+        </Card>
+      )}
       {session.status === "authenticated" && (
         <Sheet
           visible={confirmDelete}

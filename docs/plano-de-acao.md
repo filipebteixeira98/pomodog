@@ -173,3 +173,7 @@ Login Google e gravação foram validados pelo usuário; isolamento foi verifica
 Google OAuth e registro no Firestore foram confirmados pelo usuário em dispositivo físico. Implementada exclusão no Perfil com confirmação destrutiva, reautenticação Google da mesma conta, remoção paginada de sessões, estado, perfil, armazenamento local da conta e identidade Auth. Regras de proprietário já existentes continuam aplicadas. Falhas parciais suspendem sincronização neste dispositivo e permitem retomar. Validação física da exclusão permanece pendente; nenhuma conta real foi apagada durante desenvolvimento.
 
 Próximos passos: validar exclusão com conta de teste, cancelamento e retomada após falha. Produção, tela dedicada de login e coordenação de exclusão entre dispositivos continuam pendentes. Feedback é a próxima entrega de produto sugerida após essa validação.
+
+## Card de exclusão de conta
+
+A ação Excluir minha conta foi separada do card de sincronização e saída. Perfil autenticado exibe um card próprio com fundo vermelho suave, borda, ícone e aviso curto de irreversibilidade. Confirmação, reautenticação e retomada de exclusão pendente preservadas.
