@@ -1,6 +1,6 @@
 # Próximas etapas — decisões ainda abertas
 
-Atualizadas com as sugestões discutidas após a entrega de 26/09/2026. Sequência proposta em [Plano de ação](plano-de-acao.md).
+Atualizadas em 29/09/2026, incluindo Firebase e as novas propostas de experiência e monetização. Sequência proposta em [Plano de ação](plano-de-acao.md).
 
 ## Nome do mascote
 
@@ -8,12 +8,12 @@ Atualizadas com as sugestões discutidas após a entrega de 26/09/2026. Sequênc
 
 ## Autonomia e privacidade
 
-Direção original e comportamento atual: uso local para quem não se autenticar, sem login obrigatório, sem coleta remota de dados de uso e sem telemetria, inclusive anônima. A nova sugestão de analytics requer uma decisão explícita sobre essa mudança, detalhada abaixo. A versão atual já não integra autenticação ou analytics; timer, preferências e histórico ficam no dispositivo.
+Uso local para quem não se autenticar, sem login obrigatório e sem telemetria de uso, inclusive anônima. Google OAuth e sincronização Firebase foram implementados no ambiente de desenvolvimento, com validação real ainda pendente. Ao entrar, perfil, histórico e estado são enviados à conta. Analytics requer decisão explícita de privacidade antes da ativação.
 
 Exclusão com confirmação e proteção de registros ilegíveis estão disponíveis. A exportação JSON foi retirada da interface para simplificar o MVP; pode ser reavaliada junto a integrações futuras. Próximas decisões:
 
 1. Definir quais dados existem e explicitar o que sai do dispositivo em cada integração futura.
-2. Definir migração dos dados locais para Firebase quando a pessoa optar por autenticação/sincronização.
+2. Validar a migração implementada dos dados locais para Firebase, incluindo falhas, troca de conta e conflitos entre dispositivos.
 3. Manter o uso sem conta como fluxo completo. Uma eventual sincronização deve ser opcional e ter regras claras de migração e exclusão.
 4. Verificar dependências, crash reporting, música e distribuição para evitar coleta automática introduzida por integrações. Hospedagem e ferramentas de desenvolvimento devem ser avaliadas separadamente do código do app.
 
@@ -50,7 +50,8 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 
 ## Contas, Firebase e modelo de dados
 
-- Direção solicitada: autenticação Google OAuth com apoio do MCP Firebase e Firestore em ambientes separados de homologação e produção. Disponibilidade do MCP, projetos e configurações ainda precisam ser verificados na execução.
+- Google OAuth, Firestore e autorização por proprietário implementados em `pomodog-dev-2026`. Validar login, gravação, saída/troca de conta e isolamento entre dois usuários. Configurar produção separadamente; detalhes técnicos em [Arquitetura](arquitetura.md).
+- Criar tela dedicada de login com opções de OAuth, mantendo continuar sem conta. Google já possui botão em Perfil; novos provedores dependem de definição de plataformas e configuração própria.
 - Elaborar UML de classes e casos de uso e modelo lógico do banco ao definir contas/sincronização. Registrar depois em arquitetura as decisões efetivamente adotadas, inclusive separação entre ambientes e controle de acesso por usuário.
 - Definir quais dados sincronizar, migração do histórico local, conflitos e comportamento ao sair/trocar de conta. Preservar uso completo sem autenticação.
 - Sem conta, manter “Apagar dados deste dispositivo”. Com conta, oferecer também exclusão de conta e dados remotos, com escopo e confirmação claros.
@@ -69,6 +70,28 @@ Revisar mensagens de privacidade e documentação de produto antes de qualquer c
 - Planos pagos: escolher outros animais, personalizar mascotes e nomeá-los. Definir limites gratuitos/pagos e validar valor antes de implementar cobrança.
 - Compartilhamento em redes sociais: definir o conteúdo compartilhável e permitir ação explícita do usuário.
 - Pontuação e amigos: definir regras do score, descoberta de pessoas, privacidade e significado de completar ciclos juntos. Dependem das decisões de identidade e dados; propor progresso sem comparações punitivas.
+
+## Novas propostas — escopo e critérios antes de implementar
+
+Todas as propostas abaixo estão planejadas, sem implementação ou ativação de serviços nesta atualização. Compartilhamento e analytics consolidam itens anteriores; não criam tarefas duplicadas. A numeração preserva a lista do usuário, não estabelece prioridade.
+
+| Item | Proposta                                      | Primeira entrega e critérios                                                                                                                                                                                                                                                                                                          |
+| ---- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Atividades durante o descanso em planos pagos | Prototipar desenho livre, formas geométricas e sugestões opcionais. Permitir pular, encerrar e voltar ao foco; avaliar prazer e distração. Não prometer hiperfoco ou eficiência sem evidência.                                                                                                                                        |
+| 2    | Compartilhamento em redes sociais             | Criar prévia de cartão com progresso ou Nino e compartilhamento por ação explícita. Evitar publicar identidade/histórico sem escolha do usuário. Consolidar com a frente social existente.                                                                                                                                            |
+| 3    | Sneak peek e evolução do produto              | Mostrar novidades e prévias opcionais em espaço discreto, fora da sessão de foco. Separar recurso entregue de intenção futura, sem datas ou benefícios não confirmados. Avaliar interesse e retorno.                                                                                                                                  |
+| 4    | Curiosidades e notícias de neurociência       | Definir curadoria, fontes, datas e revisão editorial. Registrar o ciclo proposto “estímulo → feeder → preparação → repetição definitiva”, referido como “série real”, como hipótese conceitual. Esclarecer os termos e verificar a origem antes de exibir como conteúdo científico.                                                   |
+| 5    | Insights com inteligência artificial          | Definir perguntas úteis e prototipar com dados sintéticos. Antes de enviar dados reais, definir consentimento, minimização, fornecedor, custo e retenção. Apresentar sugestões opcionais, sem diagnóstico ou inferência de saúde.                                                                                                     |
+| 6    | Tela de login OAuth                           | Criar entrada dedicada com Google e opções futuras a definir; manter modo local acessível. Validar retorno OAuth, cancelamento, erros e troca de conta.                                                                                                                                                                               |
+| 7    | Feedback e comentários                        | Criar formulário curto com mensagem, envio explícito e confirmação. Permitir modo local; contato é opcional. Definir destino, proteção contra abuso e retenção, sem anexar logs automaticamente.                                                                                                                                      |
+| 8    | Backgrounds pagos                             | Definir catálogo, prévia e acesso por assinatura. Preservar legibilidade, contraste e desempenho; incluir restauração ao padrão e alternativa gratuita.                                                                                                                                                                               |
+| 9    | Experiência além da produtividade             | Avaliar companhia, descanso, prazer e autonomia como objetivos. Não reduzir sucesso a minutos ou sessões; validar textos e mecânicas sem pressão por desempenho.                                                                                                                                                                      |
+| 10   | Sonoplastia                                   | Prototipar sons de interação e transição, com controle de volume e opção de silenciar. Verificar licenças e respeitar ambiente de uso; não duplicar som de notificação.                                                                                                                                                               |
+| 11   | Analytics/PostHog, A/B e heatmaps             | Avaliar PostHog como candidato. Definir consentimento, eventos mínimos, hipótese e critérios de cada experimento. Verificar suporte nas plataformas escolhidas; heatmaps e gravação de sessões exigem avaliação própria de privacidade e utilidade.                                                                                   |
+| 12   | Semelhança e identificação                    | Esclarecer “sistemas parecidos”: pode significar padrões familiares de navegação, afinidade com mascotes ou grupos com objetivos semelhantes. Validar interpretação com o usuário antes de escolher uma funcionalidade ou mecanismo social.                                                                                           |
+| 13   | RevenueCat e Sentry                           | Avaliar RevenueCat para gerenciamento de compras/assinaturas e direitos de acesso; definir checkout conforme loja/plataforma. Avaliar Sentry para erros em produção, com sanitização de dados, política de coleta e separação entre ambientes. Validar restauração de compras, eventos repetidos e proteção de dados antes de lançar. |
+
+Dependências: validar contas e isolamento antes de recursos vinculados ao UID; definir oferta paga antes de assinatura e backgrounds; decidir política de dados antes de IA, PostHog e Sentry. Feedback pode começar por uma entrega pequena após estabilizar autenticação. Nenhum fornecedor foi integrado por constar nesta lista.
 
 ## Publicação e pendências preservadas
 

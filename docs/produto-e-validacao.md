@@ -14,6 +14,13 @@ Um companheiro de foco que ajuda a começar, torna as sessões agradáveis e cel
 
 ## Hipóteses ainda abertas
 
+- A experiência deve acolher companhia, descanso e prazer, mesmo quando produtividade não é a prioridade. Avaliar autonomia e bem-estar percebido sem exigir mais minutos de foco como único sinal de sucesso.
+- Atividades opcionais de desenho durante o descanso, sonoplastia e ambientes personalizáveis podem aumentar o prazer de uso. Comparar distração e retorno ao foco; não pressupor eficiência ou hiperfoco.
+- Prévias de novidades podem comunicar evolução sem interromper sessões. Interesse declarado não comprova retenção.
+- Feedback explícito e insights opcionais podem ajudar a adaptar a experiência. Validar utilidade antes de ampliar coleta ou enviar dados para serviços de IA.
+- Semelhança e identificação são hipóteses a esclarecer: padrões familiares, afinidade com mascotes e grupos semelhantes não são a mesma funcionalidade.
+- Conteúdo de neurociência exige fontes e revisão. O ciclo proposto “estímulo → feeder → preparação → repetição definitiva” ainda precisa de definição e evidência; não apresentar como método comprovado.
+
 - O cachorro incentiva o retorno depois da novidade inicial.
 - A personalização de ambientes e acessórios tem valor comercial.
 - Ambientação LoFi melhora a experiência. Escolher faixas e integração somente após verificar a licença de uso no aplicativo.
