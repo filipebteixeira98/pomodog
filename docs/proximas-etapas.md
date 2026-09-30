@@ -29,7 +29,7 @@ Planejar a partir de ameaças concretas: dados locais corrompidos, permissões e
 
 ## Antes de testar retenção por vários dias
 
-Validar Android físico, notificações ao terminar e comportamento com tela bloqueada. A avaliação atual cobre entendimento, visual e fluxo básico; não comprova retenção.
+Notificações ao terminar validadas em aparelho físico, inclusive com tela bloqueada. A avaliação funcional não comprova retenção; observar uso por vários dias.
 
 ## Organização e identidade visual
 
@@ -44,9 +44,9 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 - Dashboard ampliado com totais, dias com foco e média por sessão nos últimos sete dias. Alimentação opcional e frases gentis agora implementadas na tela de Foco; próxima etapa desta frente é validar a experiência.
 - Introduzir alimentação dos pets e frases gentis como convites opcionais. Proposta de experiência: sem punições, perda de progresso ou culpa por ausência.
 - Planejar lembretes de rotina e inatividade com consentimento, horários, frequência controlável e desativação simples.
-- Aviso local de conclusão implementado com expo-notifications. Sincronização idempotente: mesmo prazo/modo não cancela nem reagenda. Instrumentação `__DEV__` disponível para diagnóstico. Pendente: validação em dispositivo físico (ver `plans/001-device-evidence.md`).
+- Aviso local de conclusão implementado com expo-notifications. Sincronização idempotente: mesmo prazo/modo não cancela nem reagenda. Instrumentação `__DEV__` disponível para diagnóstico. Concluído: usuário confirmou entrega no aparelho físico, inclusive com tela bloqueada.
 - Push remoto permanece uma possibilidade solicitada, com infraestrutura e tratamento de tokens ainda por definir.
-- Validar notificações e retorno ao app em Android físico, inclusive com tela bloqueada, antes de considerar a frente concluída.
+- Aviso de conclusão concluído e validado no aparelho físico, inclusive com tela bloqueada. Lembretes adicionais e push remoto são entregas futuras.
 
 ## Contas, Firebase e modelo de dados
 
@@ -97,7 +97,7 @@ Dependências: validar contas e isolamento antes de recursos vinculados ao UID; 
 
 Preparar título, descrição e screenshots para Google Play Console com base no aplicativo realmente entregue, sem anunciar capacidades futuras como disponíveis. A preparação dos materiais não equivale a publicar na loja.
 
-Continuam pendentes a seleção/licenciamento de LoFi, validação em Android físico, notificações e experimentos de monetização. O novo backlog não descarta essas decisões anteriores.
+Continuam pendentes a seleção/licenciamento de LoFi, validação do build de release, lembretes adicionais/push remoto e experimentos de monetização. O novo backlog não descarta essas decisões anteriores.
 
 ## Sequência de hábitos entregue
 
@@ -109,11 +109,11 @@ Dar petisco implementado na tela principal, reutilizando Nino e seu balão. Alim
 
 ## Aviso de conclusão implementado
 
-Aviso local opcional implementado com expo-notifications. Testar permissão concedida/negada, conclusão com tela bloqueada, pausa/retomada, reinício e desativação em Android/iOS. Essa nova entrega ainda não está coberta pela validação anterior do usuário. Lembretes recorrentes e push remoto seguem futuros. O Android pode agendar de forma inexata quando não há acesso a alarmes exatos; esta versão não solicita acesso especial para isso.
+Aviso local opcional implementado com expo-notifications. Testar permissão concedida/negada, conclusão com tela bloqueada, pausa/retomada, reinício e desativação em Android/iOS. Usuário confirmou sucesso da entrega de conclusão no aparelho físico, inclusive com tela bloqueada. Os demais cenários do roteiro e iOS não foram detalhados no relato. Lembretes recorrentes e push remoto seguem futuros. O Android pode agendar de forma inexata quando não há acesso a alarmes exatos; esta versão não solicita acesso especial para isso.
 
-## Próxima validação: cliente próprio Android
+## Cliente próprio Android
 
-Seguir development-build.md para compilar e instalar o Pomodog no aparelho via USB. Expo Go deixa de ser o ambiente suportado para validar notificações nesta configuração. Priorizar permissão e entrega com tela bloqueada, cancelamento/retomada e exclusão de dados antes de novos lembretes. Diagnóstico técnico foi retirado da interface conforme solicitado.
+Seguir development-build.md para compilar e instalar o Pomodog no aparelho via USB. Expo Go deixa de ser o ambiente suportado para validar notificações nesta configuração. Entrega com tela bloqueada e exclusão de conta já validadas pelo usuário. Preservar roteiro de regressão de permissões e cancelamento/retomada para futuras alterações. Diagnóstico técnico foi retirado da interface conforme solicitado.
 
 ## Atualização: contas
 

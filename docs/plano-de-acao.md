@@ -29,19 +29,19 @@ Nino permanece provisório. Os controles locais, as três abas, os diálogos ani
 
 Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma proposta de execução, não uma indicação de funcionalidades implementadas. A primeira implementação, migração de imports relativos para aliases, foi concluída. A frente visual foi reordenada por preferência do usuário: ícone/splash, animação corporal e, por último, Pencil.
 
-| Ordem | Frente                 | Entregas e próximos passos                                                                                               | Estado       |
-| ----- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------ |
-| 1     | Organização técnica    | Aliases e imports ordenados; manter verificações                                                                         | Concluída    |
-| 2     | Identidade visual      | Ícone, splash e animação corporal implementados; validar release; Pencil em standby                                      | Em andamento |
-| 3     | Progresso e incentivo  | Dashboard, sequência, alimentação e frases implementados; avaliar experiência                                            | Implementada |
-| 4     | Lembretes opcionais    | Aviso de conclusão e idempotência implementados; completar evidências físicas; planejar rotina/alimentação/inatividade   | Em validação |
-| 5     | Contas e sincronização | Google OAuth e gravação validados no aparelho; exclusão validada no aparelho; tela OAuth, produção e diagramas pendentes | Em validação |
-| 6     | Monetização e social   | Mascotes e backgrounds pagos, atividades de descanso, compartilhamento; depois pontuação e amigos; avaliar RevenueCat    | Planejada    |
-| 7     | Publicação             | Título, descrição, screenshots e validação do build para Google Play Console                                             | Planejada    |
-| 8     | Experiência e conteúdo | Companhia além de produtividade, sonoplastia, sneak peeks e neurociência com fontes; esclarecer hipótese de semelhança   | Planejada    |
-| 9     | Feedback               | Formulário de comentários, envio explícito e destino dos relatos                                                         | Planejada    |
-| 10    | Insights e medição     | IA, PostHog, testes A/B e heatmaps condicionados à decisão de dados e consentimento                                      | Planejada    |
-| 11    | Erros em produção      | Avaliar Sentry, sanitização e configuração por ambiente                                                                  | Planejada    |
+| Ordem | Frente                 | Entregas e próximos passos                                                                                                  | Estado       |
+| ----- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 1     | Organização técnica    | Aliases e imports ordenados; manter verificações                                                                            | Concluída    |
+| 2     | Identidade visual      | Ícone, splash e animação corporal implementados; validar release; Pencil em standby                                         | Em andamento |
+| 3     | Progresso e incentivo  | Dashboard, sequência, alimentação e frases implementados; avaliar experiência                                               | Implementada |
+| 4     | Aviso de conclusão     | Aviso de conclusão validado no aparelho, inclusive com tela bloqueada; rotina/alimentação/inatividade e push remoto futuros | Concluída    |
+| 5     | Contas e sincronização | Google OAuth e gravação validados no aparelho; exclusão validada no aparelho; tela OAuth, produção e diagramas pendentes    | Em validação |
+| 6     | Monetização e social   | Mascotes e backgrounds pagos, atividades de descanso, compartilhamento; depois pontuação e amigos; avaliar RevenueCat       | Planejada    |
+| 7     | Publicação             | Título, descrição, screenshots e validação do build para Google Play Console                                                | Planejada    |
+| 8     | Experiência e conteúdo | Companhia além de produtividade, sonoplastia, sneak peeks e neurociência com fontes; esclarecer hipótese de semelhança      | Planejada    |
+| 9     | Feedback               | Formulário de comentários, envio explícito e destino dos relatos                                                            | Planejada    |
+| 10    | Insights e medição     | IA, PostHog, testes A/B e heatmaps condicionados à decisão de dados e consentimento                                         | Planejada    |
+| 11    | Erros em produção      | Avaliar Sentry, sanitização e configuração por ambiente                                                                     | Planejada    |
 
 Analytics, eventos e heatmaps são uma frente transversal com decisão pendente de privacidade; não habilitar coleta apenas por constarem no backlog. Definir escopo antes de posicionar sua implementação na sequência. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
 
@@ -144,7 +144,7 @@ Implementado Dar petisco junto ao Nino existente, usando o mesmo balão para res
 
 ## Aviso local de conclusão
 
-Primeira entrega da frente Lembretes opcionais: opção Avisar ao terminar, desativada por padrão, com permissão solicitada ao ativar. Agenda foco/descanso no sistema, cancela ao pausar/reiniciar/desativar/apagar dados e reagenda ao retomar. Notificações locais, sem tokens de push ou backend. Web informa indisponibilidade. Próximas entregas: validar o aviso com tela bloqueada em dispositivo e depois definir lembretes de rotina/alimentação/inatividade. Pencil permanece em standby.
+Primeira entrega da frente Lembretes opcionais: opção Avisar ao terminar, desativada por padrão, com permissão solicitada ao ativar. Agenda foco/descanso no sistema, cancela ao pausar/reiniciar/desativar/apagar dados e reagenda ao retomar. Notificações locais, sem tokens de push ou backend. Web informa indisponibilidade. Aviso validado pelo usuário no aparelho, inclusive com tela bloqueada. Próximas entregas: definir lembretes de rotina/alimentação/inatividade. Pencil permanece em standby.
 
 ## Correção de inicialização no Expo Go
 
@@ -181,3 +181,7 @@ A ação Excluir minha conta foi separada do card de sincronização e saída. P
 ## Ícones das ações de conta
 
 Card de exclusão usa triângulo de alerta, enquanto o botão mantém a lixeira. Sair da conta recebeu ícone de saída. Ajuste visual sem mudança nos fluxos de autenticação ou exclusão.
+
+## Validação das notificações de conclusão
+
+Usuário confirmou sucesso das notificações de conclusão em aparelho físico pessoal, inclusive com tela bloqueada. Essa funcionalidade está concluída. A frente de lembretes permanece aberta somente para recursos futuros: rotina, alimentação, inatividade e push remoto. O relato não confirma testes específicos de iOS ou todos os cenários de permissões.

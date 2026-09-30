@@ -223,3 +223,7 @@ O switch "Avisar ao terminar" atualiza a preferência otimisticamente antes da o
 - `npm run typecheck`, exportações Android e web aprovadas. Executar typecheck após exportação; o tsconfig atual também inclui arquivos gerados. Formatação verificada nos arquivos alterados.
 - Usuário confirmou login Google e registro no Firestore no aparelho. Usuário também confirmou funcionamento da exclusão em aparelho físico pessoal. O relato não detalha inspeção individual dos registros em Auth/Firestore, cancelamento ou falha de rede/retomada; esses cenários não devem ser considerados confirmados em dispositivo. O fluxo completo no emulador não foi testado, apenas as regras de acesso.
 - Exclusão em Firestore/Auth não é atômica; sincronização bloqueada neste dispositivo durante operação pendente. Dispositivos simultâneos exigem coordenação futura no servidor.
+
+## Confirmação do usuário: notificações de conclusão
+
+Usuário informou que notificações de conclusão já foram testadas com êxito no aparelho físico pessoal, inclusive com tela bloqueada. Funcionalidade marcada como concluída; evidência é relato do usuário, sem atribuição a teste automatizado. Não equivale à confirmação de iOS, push remoto ou de todos os cenários de permissões/cancelamento do roteiro anterior.
