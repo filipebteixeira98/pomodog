@@ -20,7 +20,7 @@ import {
 } from "#src/storage/prototype";
 import { initialTimer, timerReducer, type Mode } from "#src/timer";
 
-export function usePomodoro(user: User | null = null) {
+export function usePomodoro(user: User | null = null, accountLocked = false) {
   const account = useRef(user ? accountStore(user.uid) : null).current;
   const [timer, dispatch] = useReducer(timerReducer, initialTimer);
   const [preferences, setPreferences] = useState(defaultPreferences);
@@ -36,6 +36,9 @@ export function usePomodoro(user: User | null = null) {
   const notificationRequest = useRef(0);
   const permissionLock = useRef(false);
   const operationLock = useRef(false);
+  const accountLock = useRef(accountLocked);
+  accountLock.current = accountLocked;
+  const locked = () => operationLock.current || accountLock.current;
   const latestTimer = useRef(timer);
   latestTimer.current = timer;
   const busy = timer.status === "running" || timer.status === "paused";
@@ -73,7 +76,7 @@ export function usePomodoro(user: User | null = null) {
   }, []);
 
   useEffect(() => {
-    if (!ready || storageBlocked || operationLock.current) return;
+    if (!ready || storageBlocked || locked()) return;
     const saved = {
       timer: latestTimer.current,
       preferences,
@@ -94,6 +97,7 @@ export function usePomodoro(user: User | null = null) {
     // Persist transitions only; running sessions recover their remaining time from the deadline.
   }, [
     ready,
+    accountLocked,
     storageBlocked,
     preferences,
     onboardingComplete,
@@ -108,7 +112,7 @@ export function usePomodoro(user: User | null = null) {
   useEffect(() => {
     if (!ready || timer.status !== "running") return;
     const tick = () => {
-      if (!operationLock.current)
+      if (!locked())
         dispatch({
           type: "tick",
           now: Date.now(),
@@ -137,7 +141,8 @@ export function usePomodoro(user: User | null = null) {
           { status: timer.status, deadline: timer.deadline, mode: timer.mode },
           notificationsSupported &&
             preferences.sessionNotifications &&
-            !storageBlocked,
+            !storageBlocked &&
+            !accountLocked,
         )
         .then(() => {
           if (active) setNotificationNotice("");
@@ -156,6 +161,7 @@ export function usePomodoro(user: User | null = null) {
   }, [
     ready,
     isErasing,
+    accountLocked,
     storageBlocked,
     preferences.sessionNotifications,
     timer.status,
@@ -164,12 +170,7 @@ export function usePomodoro(user: User | null = null) {
   ]);
 
   async function setSessionNotifications(enabled: boolean) {
-    if (
-      !ready ||
-      operationLock.current ||
-      permissionLock.current ||
-      !notificationsSupported
-    )
+    if (!ready || locked() || permissionLock.current || !notificationsSupported)
       return;
     permissionLock.current = true;
     setNotificationBusy(true);
@@ -191,8 +192,7 @@ export function usePomodoro(user: User | null = null) {
         }
         return;
       }
-      if (request !== notificationRequest.current || operationLock.current)
-        return;
+      if (request !== notificationRequest.current || locked()) return;
       setNotificationNotice("");
     } catch (error) {
       if (request === notificationRequest.current) {
@@ -212,14 +212,13 @@ export function usePomodoro(user: User | null = null) {
     mode: Mode,
     seconds = (mode === "focus" ? preferences.focus : preferences.rest) * 60,
   ) {
-    if (ready && !operationLock.current)
-      dispatch({ type: "configure", mode, seconds });
+    if (ready && !locked()) dispatch({ type: "configure", mode, seconds });
   }
 
   function updatePreferences(patch: Partial<Preferences>) {
     if (
       !ready ||
-      operationLock.current ||
+      locked() ||
       (busy && (patch.focus !== undefined || patch.rest !== undefined))
     )
       return;
@@ -231,7 +230,7 @@ export function usePomodoro(user: User | null = null) {
   }
 
   async function eraseData() {
-    if (operationLock.current) return;
+    if (locked()) return;
     operationLock.current = true;
     setIsErasing(true);
     notificationRequest.current++;
@@ -263,7 +262,7 @@ export function usePomodoro(user: User | null = null) {
     notificationsSupported,
     setSessionNotifications,
     feedPet: () => {
-      if (!ready || operationLock.current) return null;
+      if (!ready || locked()) return null;
       const response = choosePetResponse(latestTimer.current, petCare);
       setPetCare(response.care);
       return response.message;
@@ -273,21 +272,23 @@ export function usePomodoro(user: User | null = null) {
     eraseData,
     preferences,
     onboardingComplete,
-    completeOnboarding: () => setOnboardingComplete(true),
-    ready,
-    busy,
+    completeOnboarding: () => {
+      if (!locked()) setOnboardingComplete(true);
+    },
+    ready: ready && !accountLocked,
+    busy: busy || accountLocked,
     storageError,
     configure,
     updatePreferences,
     toggle: () => {
-      if (ready && !operationLock.current)
+      if (ready && !locked())
         dispatch({
           type: timer.status === "running" ? "pause" : "start",
           now: Date.now(),
         });
     },
     reset: () => {
-      if (!operationLock.current) dispatch({ type: "reset" });
+      if (!locked()) dispatch({ type: "reset" });
     },
   };
 }

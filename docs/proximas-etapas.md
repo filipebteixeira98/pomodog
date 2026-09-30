@@ -8,7 +8,7 @@ Atualizadas em 29/09/2026, incluindo Firebase e as novas propostas de experiênc
 
 ## Autonomia e privacidade
 
-Uso local para quem não se autenticar, sem login obrigatório e sem telemetria de uso, inclusive anônima. Google OAuth e sincronização Firebase foram implementados no ambiente de desenvolvimento, com validação real ainda pendente. Ao entrar, perfil, histórico e estado são enviados à conta. Analytics requer decisão explícita de privacidade antes da ativação.
+Uso local para quem não se autenticar, sem login obrigatório e sem telemetria de uso, inclusive anônima. Google OAuth e sincronização Firebase foram implementados no ambiente de desenvolvimento, com login e registro validados pelo usuário no aparelho. Ao entrar, perfil, histórico e estado são enviados à conta. Analytics requer decisão explícita de privacidade antes da ativação.
 
 Exclusão com confirmação e proteção de registros ilegíveis estão disponíveis. A exportação JSON foi retirada da interface para simplificar o MVP; pode ser reavaliada junto a integrações futuras. Próximas decisões:
 
@@ -54,7 +54,7 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 - Criar tela dedicada de login com opções de OAuth, mantendo continuar sem conta. Google já possui botão em Perfil; novos provedores dependem de definição de plataformas e configuração própria.
 - Elaborar UML de classes e casos de uso e modelo lógico do banco ao definir contas/sincronização. Registrar depois em arquitetura as decisões efetivamente adotadas, inclusive separação entre ambientes e controle de acesso por usuário.
 - Definir quais dados sincronizar, migração do histórico local, conflitos e comportamento ao sair/trocar de conta. Preservar uso completo sem autenticação.
-- Sem conta, manter “Apagar dados deste dispositivo”. Com conta, oferecer também exclusão de conta e dados remotos, com escopo e confirmação claros.
+- Sem conta, manter “Apagar dados deste dispositivo”. Com conta, exclusão de conta e dados remotos implementada com confirmação e reautenticação; validar remoção em conta de teste.
 - Informar armazenamento exclusivamente local apenas quando isso corresponder ao fluxo real. Após integrações, explicar os dados enviados; não afirmar genericamente que nenhum dado é coletado se houver autenticação, sincronização ou analytics.
 
 ## Analytics, eventos e heatmaps — decisão pendente
@@ -114,3 +114,7 @@ Aviso local opcional implementado com expo-notifications. Testar permissão conc
 ## Próxima validação: cliente próprio Android
 
 Seguir development-build.md para compilar e instalar o Pomodog no aparelho via USB. Expo Go deixa de ser o ambiente suportado para validar notificações nesta configuração. Priorizar permissão e entrega com tela bloqueada, cancelamento/retomada e exclusão de dados antes de novos lembretes. Diagnóstico técnico foi retirado da interface conforme solicitado.
+
+## Atualização: contas
+
+Login Google e gravação no Firestore validados pelo usuário no aparelho. Exclusão autenticada implementada no Perfil, com confirmação, reautenticação e retomada após falha parcial. Validar em conta descartável a remoção de Auth, perfil, sessões e estado; cancelar a confirmação deve preservar dados. Testar interrupção de rede e retomada após reiniciar. Coordenação entre dispositivos exige fluxo futuro no servidor; a marca de exclusão atual é local. Tela dedicada de login, ambiente de produção e diagramas permanecem pendentes.

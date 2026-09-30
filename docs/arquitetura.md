@@ -173,3 +173,11 @@ O canal define nome e importância, omitindo sound: o Android mantém seu padrã
 ## Fluxo nativo adotado: development build
 
 Após confirmação do provedor nativo ausente no Expo Go do aparelho, o projeto passou a usar expo-dev-client e a API pública de expo-notifications. Removidos imports internos, teste específico do contorno Expo Go e detecção/mensagem de provedor indisponível. Erros preservam causa e logs, mas a interface contém somente mensagens curtas. Não há diagnóstico técnico, banner global ou explicação de ambiente em Ajustes; na web o controle nativo não é renderizado. Scheme pomodog e identificador Android configurados; instruções em development-build.md.
+
+## Exclusão autenticada de conta
+
+Perfil oferece exclusão somente à conta autenticada. A operação captura o UID atual, solicita reautenticação com a mesma conta Google e verifica a identidade antes de cada etapa. As regras existentes do Firestore permitem leitura e exclusão somente quando `request.auth.uid` corresponde ao proprietário do caminho; não existe parâmetro de UID escolhido pelo usuário.
+
+Após confirmação, a sincronização deste dispositivo é bloqueada e suas gravações pendentes são drenadas. Avisos locais são cancelados; sessões são removidas em páginas de 200 documentos, seguidas de `state/main` e `users/{uid}`. O armazenamento local dessa conta é apagado e a identidade Firebase Auth é excluída por último. O armazenamento de visitantes é independente.
+
+Firebase Auth e Firestore não oferecem transação conjunta. Uma falha pode deixar dados parcialmente removidos: uma marca local persistente mantém a sincronização suspensa e permite retomar pelo Perfil, inclusive após reabrir o aplicativo. A operação precisa de conexão. A coordenação cobre este dispositivo; outros dispositivos ativos não são bloqueados por essa marca local. Antes de ampliar sincronização simultânea ou volume de dados, adotar exclusão coordenada no servidor para impedir gravações concorrentes e limpar dados mesmo se o cliente encerrar.

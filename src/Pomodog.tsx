@@ -28,6 +28,9 @@ export function Pomodog({
   authNotice = "",
   onSignIn = async () => {},
   onSignOut = async () => {},
+  onDeleteAccount = async () => false,
+  accountLocked = false,
+  deletionPending = false,
 }: {
   session?: CustomerSession;
   user?: User | null;
@@ -35,9 +38,12 @@ export function Pomodog({
   authNotice?: string;
   onSignIn?: () => Promise<void>;
   onSignOut?: () => Promise<void>;
+  onDeleteAccount?: () => Promise<boolean>;
+  accountLocked?: boolean;
+  deletionPending?: boolean;
 }) {
   const viewport = useWindowDimensions();
-  const model = usePomodoro(user);
+  const model = usePomodoro(user, accountLocked);
   const host = useRef<View>(null);
   const scroll = useRef<ScrollView>(null);
   const targets = useRef<TourTargets>({
@@ -164,6 +170,9 @@ export function Pomodog({
                 }
                 onSignIn={onSignIn}
                 onSignOut={onSignOut}
+                onDeleteAccount={onDeleteAccount}
+                deletionPending={deletionPending}
+                reducedMotion={reducedMotion}
               >
                 {session.status === "guest" && (
                   <LocalDataCard

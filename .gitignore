@@ -45,3 +45,7 @@ yarn-error.*
 
 # Android JavaScript export
 dist-android/
+
+# Firebase emulator logs
+firestore-debug.log
+firebase-debug.log

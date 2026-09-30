@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 
 import { localSession, type CustomerSession } from "#src/domain/customer";
 import { flushAccount, prepareAccount } from "#src/firebase/accountData";
+import {
+  accountDeletionBlocked,
+  accountDeletionPending,
+} from "#src/firebase/accountDeletionState";
 import { auth } from "#src/firebase/auth";
+import { deleteOwnAccount } from "#src/firebase/deleteOwnAccount";
 import { signInWithGoogle, signOutGoogle } from "#src/firebase/googleSignIn";
 
 export function useAccount() {
@@ -12,6 +17,9 @@ export function useAccount() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [deletionPending, setDeletionPending] = useState(false);
+  const operation = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -24,13 +32,19 @@ export function useAccount() {
           setUser(null);
           setSession(localSession);
           setLoading(false);
+          setDeletionPending(false);
           return;
         }
         setLoading(true);
-        void prepareAccount(nextUser)
-          .then(() => {
+        void (async () => {
+          const pending = await accountDeletionPending(nextUser.uid);
+          if (!pending) await prepareAccount(nextUser);
+          return pending;
+        })()
+          .then((pending) => {
             if (!active || request !== generation) return;
             setUser(nextUser);
+            setDeletionPending(pending);
             setSession({
               status: "authenticated",
               customer: {
@@ -39,7 +53,9 @@ export function useAccount() {
                 ...(nextUser.email ? { email: nextUser.email } : {}),
               },
             });
-            setNotice("");
+            setNotice(
+              pending ? "A exclusão está pendente. Retome para concluir." : "",
+            );
           })
           .catch(() => {
             if (!active || request !== generation) return;
@@ -67,14 +83,17 @@ export function useAccount() {
   }, []);
 
   async function login() {
-    if (busy || loading) return;
+    if (operation.current || busy || loading) return;
+    operation.current = true;
     setBusy(true);
     setNotice("");
     let awaitingListener = false;
     try {
       if (auth.currentUser) {
         setLoading(true);
-        await prepareAccount(auth.currentUser);
+        const pending = await accountDeletionPending(auth.currentUser.uid);
+        if (!pending) await prepareAccount(auth.currentUser);
+        setDeletionPending(pending);
         setUser(auth.currentUser);
         setSession({
           status: "authenticated",
@@ -95,11 +114,13 @@ export function useAccount() {
     } finally {
       if (!awaitingListener) setLoading(false);
       setBusy(false);
+      operation.current = false;
     }
   }
 
   async function logout() {
-    if (busy || loading || !auth.currentUser) return;
+    if (operation.current || busy || loading || !auth.currentUser) return;
+    operation.current = true;
     setBusy(true);
     setNotice("");
     try {
@@ -109,8 +130,57 @@ export function useAccount() {
       setNotice("Não foi possível sair da conta. Tente novamente.");
     } finally {
       setBusy(false);
+      operation.current = false;
     }
   }
 
-  return { user, session, loading, busy, notice, login, logout };
+  async function removeAccount() {
+    const owner = auth.currentUser;
+    if (
+      operation.current ||
+      loading ||
+      !owner ||
+      session.status !== "authenticated" ||
+      session.customer.id !== owner.uid
+    )
+      return false;
+    operation.current = true;
+    setBusy(true);
+    setDeleting(true);
+    setNotice("");
+    try {
+      const removed = await deleteOwnAccount();
+      setNotice(removed ? "Sua conta foi excluída." : "Exclusão cancelada.");
+      return removed;
+    } catch (error) {
+      setDeletionPending(accountDeletionBlocked(owner.uid));
+      const code =
+        error && typeof error === "object" && "code" in error ? error.code : "";
+      setNotice(
+        code === "auth/user-mismatch"
+          ? "Confirme com a mesma conta Google do seu perfil."
+          : accountDeletionBlocked(owner.uid)
+            ? "Não foi possível concluir a exclusão. Alguns dados podem ter sido removidos. Retome para concluir."
+            : "Não foi possível excluir sua conta. Tente novamente.",
+      );
+      return false;
+    } finally {
+      setDeleting(false);
+      setBusy(false);
+      operation.current = false;
+    }
+  }
+
+  return {
+    user,
+    session,
+    loading,
+    busy,
+    notice,
+    login,
+    logout,
+    removeAccount,
+    deletionPending,
+    accountLocked: deleting || deletionPending,
+  };
 }

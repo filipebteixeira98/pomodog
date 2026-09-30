@@ -47,6 +47,9 @@ export default function App() {
         authNotice={account.notice}
         onSignIn={account.login}
         onSignOut={account.logout}
+        onDeleteAccount={account.removeAccount}
+        accountLocked={account.accountLocked}
+        deletionPending={account.deletionPending}
       />
     </SafeAreaProvider>
   );

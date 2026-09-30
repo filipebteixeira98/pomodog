@@ -12,6 +12,7 @@ import {
   parseSavedPrototype,
   type SavedPrototype,
 } from "#src/domain/savedPrototype";
+import { accountDeletionBlocked } from "#src/firebase/accountDeletionState";
 import { db } from "#src/firebase/client";
 import { mergeAccountData } from "#src/firebase/merge";
 import {
@@ -22,6 +23,10 @@ import {
 
 const knownSessions = new Map<string, Set<string>>();
 const queues = new Map<string, Promise<unknown>>();
+
+function assertWritable(uid: string) {
+  if (accountDeletionBlocked(uid)) throw new Error("account-deletion-pending");
+}
 
 export class AccountSaveError extends Error {
   constructor(
@@ -70,10 +75,12 @@ async function readRemote(uid: string) {
 
 async function writeSnapshot(user: User, saved: SavedPrototype) {
   const uid = user.uid;
+  assertWritable(uid);
   const known = knownSessions.get(uid) ?? new Set<string>();
   const missing = saved.timer.sessions.filter((item) => !known.has(item.id));
   for (let index = 0; index < missing.length; index += 450) {
     const chunk = missing.slice(index, index + 450);
+    assertWritable(uid);
     const batch = writeBatch(db);
     for (const session of chunk) {
       batch.set(sessionRef(uid, session.id), {
@@ -85,6 +92,7 @@ async function writeSnapshot(user: User, saved: SavedPrototype) {
     for (const session of chunk) known.add(session.id);
   }
   knownSessions.set(uid, known);
+  assertWritable(uid);
   await setDoc(doc(db, "users", uid, "state", "main"), {
     timer: { ...saved.timer, sessions: [] },
     preferences: saved.preferences,
@@ -95,6 +103,7 @@ async function writeSnapshot(user: User, saved: SavedPrototype) {
 }
 
 export async function prepareAccount(user: User) {
+  assertWritable(user.uid);
   const store = accountStore(user.uid);
   const [account, guest, cloud] = await Promise.all([
     store.load(),
@@ -102,6 +111,7 @@ export async function prepareAccount(user: User) {
     readRemote(user.uid),
   ]);
   const merged = mergeAccountData(account, cloud.remote, guest);
+  assertWritable(user.uid);
   knownSessions.set(user.uid, cloud.sessionIds);
   await setDoc(userRef(user.uid), {
     displayName: (user.displayName ?? "").slice(0, 120),
@@ -110,6 +120,7 @@ export async function prepareAccount(user: User) {
     updatedAt: Date.now(),
   });
   await writeSnapshot(user, merged);
+  assertWritable(user.uid);
   await store.save(merged);
   if (guest) await erasePrototype();
   return store;
@@ -120,6 +131,8 @@ export function saveAccount(
   store: ReturnType<typeof accountStore>,
   saved: SavedPrototype,
 ) {
+  if (accountDeletionBlocked(user.uid))
+    return Promise.reject(new Error("account-deletion-pending"));
   const localSave = store.save(saved).catch((error: unknown) => {
     throw new AccountSaveError("local", error);
   });

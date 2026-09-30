@@ -12,6 +12,9 @@ export function ProfileScreen({
   authNotice,
   onSignIn,
   onSignOut,
+  onDeleteAccount,
+  deletionPending,
+  reducedMotion,
 }: {
   session: CustomerSession;
   accent: string;
@@ -20,6 +23,9 @@ export function ProfileScreen({
   authNotice: string;
   onSignIn: () => Promise<void>;
   onSignOut: () => Promise<void>;
+  onDeleteAccount: () => Promise<boolean>;
+  deletionPending: boolean;
+  reducedMotion: boolean;
 }) {
   return (
     <>
@@ -31,6 +37,9 @@ export function ProfileScreen({
         notice={authNotice}
         onSignIn={onSignIn}
         onSignOut={onSignOut}
+        onDeleteAccount={onDeleteAccount}
+        deletionPending={deletionPending}
+        reducedMotion={reducedMotion}
       />
       {children}
     </>

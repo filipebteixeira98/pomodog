@@ -215,3 +215,11 @@ TypeScript, 48 testes e format:check passaram. `reconcile` em `src/timer.ts` ago
 ## Toggle otimista do switch de notificações
 
 O switch "Avisar ao terminar" atualiza a preferência otimisticamente antes da operação async, prevenindo flicker visual (switch "vai e volta" duas vezes). Se permissão for negada ou erro ocorrer, rollback para `false`. O agendamento da sessão atual é feito pelo `useEffect` que depende de `preferences.sessionNotifications`, não por chamada explícita em `setSessionNotifications`.
+
+## Exclusão autenticada de conta — 2026-09-30
+
+- `npm test`: 59 testes aprovados, incluindo confirmação cancelada, visitante, troca de identidade, tentativa concorrente, falha parcial/retomada e paginação de 451 sessões.
+- `npm run test:rules`: emulador local `demo-pomodog`; proprietário exclui perfil/sessões/estado, outra conta e visitante não podem ler ou excluir esses documentos. Requer Firebase CLI e Java; não acessa dados do projeto real.
+- `npm run typecheck`, exportações Android e web aprovadas. Executar typecheck após exportação; o tsconfig atual também inclui arquivos gerados. Formatação verificada nos arquivos alterados.
+- Usuário confirmou login Google e registro no Firestore no aparelho. Exclusão ainda precisa ser validada em conta descartável no development build: confirmar mesma conta Google, cancelar, concluir e verificar ausência em Auth/Firestore. Testar falha de rede e retomada pelo Perfil após reabrir. Nenhuma conta real foi excluída nesta entrega.
+- Exclusão em Firestore/Auth não é atômica; sincronização bloqueada neste dispositivo durante operação pendente. Dispositivos simultâneos exigem coordenação futura no servidor.

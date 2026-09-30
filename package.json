@@ -49,7 +49,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "export:android": "expo export --platform android --output-dir dist-android",
-    "assets:generate": "node scripts/generate-brand-assets.mjs"
+    "assets:generate": "node scripts/generate-brand-assets.mjs",
+    "test:rules": "firebase emulators:exec --config firebase.test.json --project demo-pomodog --only firestore \"node --experimental-strip-types tests/firestoreRules.mts\""
   },
   "private": true,
   "imports": {
