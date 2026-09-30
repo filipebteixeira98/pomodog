@@ -54,7 +54,7 @@ Validar Android físico, notificações ao terminar e comportamento com tela blo
 - Criar tela dedicada de login com opções de OAuth, mantendo continuar sem conta. Google já possui botão em Perfil; novos provedores dependem de definição de plataformas e configuração própria.
 - Elaborar UML de classes e casos de uso e modelo lógico do banco ao definir contas/sincronização. Registrar depois em arquitetura as decisões efetivamente adotadas, inclusive separação entre ambientes e controle de acesso por usuário.
 - Definir quais dados sincronizar, migração do histórico local, conflitos e comportamento ao sair/trocar de conta. Preservar uso completo sem autenticação.
-- Sem conta, manter “Apagar dados deste dispositivo”. Com conta, exclusão de conta e dados remotos implementada com confirmação e reautenticação; validar remoção em conta de teste.
+- Sem conta, manter “Apagar dados deste dispositivo”. Com conta, exclusão de conta e dados remotos implementada com confirmação e reautenticação; remoção validada pelo usuário em aparelho físico.
 - Informar armazenamento exclusivamente local apenas quando isso corresponder ao fluxo real. Após integrações, explicar os dados enviados; não afirmar genericamente que nenhum dado é coletado se houver autenticação, sincronização ou analytics.
 
 ## Analytics, eventos e heatmaps — decisão pendente
@@ -117,4 +117,4 @@ Seguir development-build.md para compilar e instalar o Pomodog no aparelho via U
 
 ## Atualização: contas
 
-Login Google e gravação no Firestore validados pelo usuário no aparelho. Exclusão autenticada implementada no Perfil, com confirmação, reautenticação e retomada após falha parcial. Validar em conta descartável a remoção de Auth, perfil, sessões e estado; cancelar a confirmação deve preservar dados. Testar interrupção de rede e retomada após reiniciar. Coordenação entre dispositivos exige fluxo futuro no servidor; a marca de exclusão atual é local. Tela dedicada de login, ambiente de produção e diagramas permanecem pendentes.
+Login Google e gravação no Firestore validados pelo usuário no aparelho. Exclusão autenticada implementada no Perfil, com confirmação, reautenticação e retomada após falha parcial. Usuário confirmou funcionamento da exclusão em aparelho físico pessoal. Cancelamento e interrupção de rede/retomada após reiniciar permanecem como cenários adicionais sem confirmação física. O fluxo completo no emulador não foi testado. Coordenação entre dispositivos exige fluxo futuro no servidor; a marca de exclusão atual é local. Tela dedicada de login, ambiente de produção e diagramas permanecem pendentes.
