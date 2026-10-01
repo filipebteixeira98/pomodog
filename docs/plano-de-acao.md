@@ -45,6 +45,47 @@ Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma p
 
 Analytics, eventos e heatmaps são uma frente transversal com decisão pendente de privacidade; não habilitar coleta apenas por constarem no backlog. Definir escopo antes de posicionar sua implementação na sequência. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
 
+## Andamento consolidado — 01/10/2026
+
+Esta tabela é o resumo atual; registros de entregas abaixo preservam o histórico. “Concluído” indica entrega realizada, sem implicar que recursos futuros da mesma frente também existem. “Em andamento” identifica implementação com validação específica pendente. “Pendente” identifica trabalho ainda não entregue; Pencil permanece em standby.
+
+| Estado       | Funcionalidade/recurso                            | Situação e próximo passo                                                                                                            |
+| ------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Concluído    | Timer, foco/descanso e armazenamento local        | Fluxo principal entregue; manter regressão ao alterar timer/persistência.                                                           |
+| Concluído    | Organização e interface                           | Aliases, imports ordenados, componentes reutilizáveis, abas e simplificação das telas entregues.                                    |
+| Concluído    | Onboarding e tour guiado                          | Introdução por swipe, diálogos curtos e tour opcional implementados.                                                                |
+| Concluído    | Ícone, splash e animação corporal                 | Assets e Nino articulado implementados; inspeção final do binário de release integra a frente de publicação.                        |
+| Concluído    | Dashboard e sequência de foco                     | Resumos diário/semanal e card Seu ritmo entregues.                                                                                  |
+| Concluído    | Alimentação e frases gentis                       | Dar petisco e respostas contextuais entregues na tela de Foco, sem punição.                                                         |
+| Concluído    | Notificações de conclusão                         | Entrega de foco/descanso confirmada em aparelho físico, inclusive bloqueado.                                                        |
+| Concluído    | Google OAuth, Firestore e acesso por proprietário | Login e gravação confirmados no aparelho; regras de isolamento verificadas no emulador.                                             |
+| Concluído    | Exclusão local e de conta                         | Exclusão autenticada confirmada no aparelho; sinalização destrutiva e ícones entregues.                                             |
+| Concluído    | Controle e texto de diagnóstico                   | Consentimento opcional e descrição sem ferramentas/detalhes de desenvolvimento entregues em Ajustes.                                |
+| Concluído    | Source maps de exports web/Android                | Upload e resolução de eventos sintéticos confirmados; não equivale a mapas de APK de release.                                       |
+| Em andamento | Diagnóstico JavaScript no aparelho                | Integração e evento sintético confirmados; validar captura no runtime e revogação no development build.                             |
+| Em andamento | Crashes Java/Kotlin Android                       | Implementados e testes nativos aprovados; validar crash real, reabertura, revogação e cache offline no aparelho/dashboard.          |
+| Pendente     | Incentivo à hidratação                            | Definir mensagem/toast opcional, momento e frequência sem interromper foco.                                                         |
+| Pendente     | Selo Beta                                         | Definir localização discreta junto ao nome do app e critério de retirada.                                                           |
+| Pendente     | Silenciamento de redes sociais                    | Investigar viabilidade/permissões por plataforma e restauração das preferências do sistema.                                         |
+| Pendente     | Escolhas de privacidade após onboarding           | Desenhar escolhas por categoria, recusa e revogação; preservar coleta opcional desligada por padrão.                                |
+| Pendente     | Feedback e comentários                            | Formulário curto, envio explícito, destino e confirmação; próxima entrega de produto sugerida anteriormente.                        |
+| Pendente     | Tela dedicada de login OAuth                      | Manter entrada Google já existente e modo local; definir outros provedores.                                                         |
+| Pendente     | Produção Firebase e diagramas                     | Separar ambientes, preparar configuração e documentar UML/modelo lógico.                                                            |
+| Pendente     | Sincronização e exclusão entre dispositivos       | Definir conflitos e coordenação remota da exclusão; cenários adicionais de falha/rede.                                              |
+| Pendente     | Lembretes adicionais e push remoto                | Rotina, alimentação e inatividade com consentimento/frequência; infraestrutura remota a definir.                                    |
+| Pendente     | Pencil — standby                                  | Registrar layouts, paleta, tipografia, componentes e templates quando retomado.                                                     |
+| Pendente     | LoFi e sonoplastia                                | Licenças, controles de som e experiência de descanso.                                                                               |
+| Pendente     | Personalizações e atividades pagas                | Outros pets/nomes, backgrounds, desenho livre/formas; validar valor e limites de acesso.                                            |
+| Pendente     | RevenueCat e assinaturas                          | Definir oferta, compras, restauração e direitos de acesso.                                                                          |
+| Pendente     | Compartilhamento, score e amigos                  | Compartilhamento explícito; definir pontuação, descoberta e ciclos em conjunto.                                                     |
+| Pendente     | Sneak peeks, conteúdo e identificação             | Novidades discretas; curadoria de neurociência; esclarecer hipótese de semelhança e reforçar experiência além da produtividade.     |
+| Pendente     | Insights com IA                                   | Definir utilidade, custo e política de dados antes de enviar dados reais.                                                           |
+| Pendente     | Analytics/PostHog, A/B e heatmaps                 | Definir hipóteses, eventos mínimos e consentimento; nenhuma coleta de uso ativa.                                                    |
+| Pendente     | Ampliação de crashes e símbolos                   | NDK/C++, ANR, iOS e mapping/símbolos de release exigem entregas próprias.                                                           |
+| Pendente     | Publicação e versão de release                    | Validar binário/assets, mapas do APK, retenção de diagnósticos, título/descrição/screenshots e fluxo de branches/PRs/versionamento. |
+
+As quatro novas propostas estão detalhadas em [Próximas etapas](proximas-etapas.md#novas-propostas--hidratação-beta-foco-e-consentimento). Planejamento apenas: nenhuma delas foi implementada nesta atualização.
+
 ## Regra de execução por funcionalidade
 
 1. Delimitar uma funcionalidade e seus critérios de conclusão; decompor cada frente da tabela em entregas pequenas.
@@ -201,3 +242,7 @@ Captura Java/Kotlin implementada com inicialização manual, consentimento próp
 ## Texto do consentimento em Ajustes
 
 Controle renomeado para “Ajudar a melhorar o aplicativo”. Descrição e rótulo de acessibilidade explicam envio opcional de informações sobre falhas, proteção de nome/e-mail/histórico e possibilidade de desativar, sem mencionar ferramentas ou ambiente de desenvolvimento.
+
+## Ampliação do planejamento — hábitos e privacidade
+
+Registrados incentivo à hidratação, selo Beta, avaliação de silenciamento de redes sociais e tela de escolhas de privacidade após onboarding. Todos pendentes, com critérios e decisões em Próximas etapas. A tela futura preserva consentimento opcional desligado por padrão e uso local completo; silenciamento depende de investigação de viabilidade por plataforma. Não houve mudança de código ou ativação de coleta nesta entrega.
