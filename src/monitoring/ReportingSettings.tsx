@@ -46,10 +46,10 @@ export function ReportingSettings({ accent }: { accent: string }) {
       </View>
       <View className="flex-row items-center gap-3">
         <Text variant="label" className="flex-1">
-          Enviar erros do aplicativo
+          Ajudar a melhorar o aplicativo
         </Text>
         <Switch
-          accessibilityLabel="Enviar erros do aplicativo ao Sentry"
+          accessibilityLabel="Permitir o envio de informações sobre falhas do aplicativo"
           value={enabled}
           disabled={busy || !ready}
           onValueChange={(value) => void change(value)}
@@ -57,9 +57,9 @@ export function ReportingSettings({ accent }: { accent: string }) {
         />
       </View>
       <Text variant="caption">
-        Ajude a corrigir falhas enviando relatórios técnicos ao Sentry. Não
-        enviamos seu nome, e-mail ou histórico de foco. Essa escolha vale apenas
-        neste dispositivo.
+        Permita o envio de informações sobre falhas para ajudar a melhorar o
+        aplicativo. Seu nome, e-mail e histórico de foco não são enviados. Você
+        pode desativar essa opção a qualquer momento neste dispositivo.
       </Text>
       {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
     </Card>

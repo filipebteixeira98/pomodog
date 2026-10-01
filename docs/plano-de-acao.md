@@ -197,3 +197,7 @@ Adicionados exports privados de web/Android com mapas e comandos de verificaçã
 ## Crashes nativos Android — 01/10/2026
 
 Captura Java/Kotlin implementada com inicialização manual, consentimento próprio na camada nativa associado ao mesmo controle em Ajustes, filtragem técnica e descarte do cache ao revogar. Plugin local preserva configuração no prebuild. A escolha JavaScript anterior não habilita automaticamente a nova coleta. **Em validação**: reinstalar build e confirmar crash real/revogação/reenvio no aparelho e dashboard. C/C++ (NDK), ANRs, iOS e símbolos/mapping de release permanecem fora desta entrega. Roteiro em [Sentry](sentry.md).
+
+## Texto do consentimento em Ajustes
+
+Controle renomeado para “Ajudar a melhorar o aplicativo”. Descrição e rótulo de acessibilidade explicam envio opcional de informações sobre falhas, proteção de nome/e-mail/histórico e possibilidade de desativar, sem mencionar ferramentas ou ambiente de desenvolvimento.

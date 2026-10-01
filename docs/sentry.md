@@ -4,7 +4,7 @@ Projeto `personal-dashboard/pomodog`, plataforma React Native, criado pelo MCP n
 
 ## Como ativar
 
-Em Ajustes, habilite **Enviar erros do aplicativo** no card Diagnóstico opcional. A opção começa desativada, é salva somente neste dispositivo e não acompanha a conta no Firestore. Desativar impede novos eventos; relatórios já enviados não são removidos do Sentry. Apagar dados locais ou concluir exclusão de conta desativa o envio neste aparelho.
+Em Ajustes, habilite **Ajudar a melhorar o aplicativo** no card Diagnóstico opcional. A opção começa desativada, é salva somente neste dispositivo e não acompanha a conta no Firestore. Desativar impede novos eventos; relatórios já enviados não são removidos do Sentry. Apagar dados locais ou concluir exclusão de conta desativa o envio neste aparelho.
 
 Os SDKs só são inicializados após restaurar consentimento válido ou salvar a ativação. Consentimento ilegível ou falha de leitura mantém envio desativado. JavaScript bloqueia novos eventos imediatamente em memória; a revogação nativa é concluída pela gravação na ponte Android. Gravações são serializadas e ativações já superadas são descartadas. Desativar fecha o cliente nativo e remove seu cache; eventos já enviados ou em trânsito não podem ser recuperados.
 
@@ -86,7 +86,7 @@ Se autorizado anteriormente, a captura começa em `Application.onCreate`, antes 
 ### Validar no aparelho
 
 1. Regenere e instale o development build usando os comandos acima. Expo Go não valida esta integração.
-2. Habilite **Enviar erros do aplicativo** em Ajustes e reabra o app; confirme que a escolha foi preservada.
+2. Habilite **Ajudar a melhorar o aplicativo** em Ajustes e reabra o app; confirme que a escolha foi preservada.
 3. Com o app aberto, execute o comando abaixo somente quando desejar encerrar o app intencionalmente para o teste; não faça o teste durante um ciclo que deseja preservar.
 
 ```sh
