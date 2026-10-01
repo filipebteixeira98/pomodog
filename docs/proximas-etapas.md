@@ -121,4 +121,8 @@ Login Google e gravação no Firestore validados pelo usuário no aparelho. Excl
 
 ## Sentry implementado
 
-Diagnóstico JavaScript opcional integrado ao projeto `personal-dashboard/pomodog`. Consentimento local separado do Firestore, desativado por padrão; evento sintético confirmado no dashboard. Pendentes: reinstalar development build e validar captura real no aparelho, configurar token de upload de source maps no pipeline e definir retenção dos eventos antes da distribuição pública. Crashes nativos não habilitados. Essa entrega não ativa PostHog, analytics, replay ou heatmaps. Ver [guia Sentry](sentry.md).
+Diagnóstico JavaScript opcional integrado ao projeto `personal-dashboard/pomodog`. Consentimento local separado do Firestore, desativado por padrão; evento sintético confirmado no dashboard. Pendentes: reinstalar development build e validar captura real no aparelho, usar upload de source maps já configurado/validado nos próximos builds e definir retenção dos eventos antes da distribuição pública. Crashes nativos não habilitados. Essa entrega não ativa PostHog, analytics, replay ou heatmaps. Ver [guia Sentry](sentry.md).
+
+## Source maps concluídos — exports web e Android
+
+Exports com mapas e verificação de debug IDs implementados para web/Android; Gradle preparado pelo plugin para mapas do APK. Validada resolução local para arquivo/linha original. Token disponibilizado localmente; upload/processamento concluídos e dois eventos sintéticos confirmados no dashboard com stack resolvida para App.tsx, linha 20. Preservar segredo no ambiente de futuros builds e usar os artefatos exatos distribuídos. Mapas do APK serão gerados/enviados pelo Gradle no próprio release, ainda não compilado.

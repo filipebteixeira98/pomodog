@@ -49,3 +49,7 @@ dist-android/
 # Firebase emulator logs
 firestore-debug.log
 firebase-debug.log
+
+# Private Sentry source maps and generated bundles
+dist-sentry/
+!.env.sentry-build-plugin.example

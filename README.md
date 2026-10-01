@@ -90,3 +90,7 @@ O fluxo de notificações agora usa development build, com expo-dev-client insta
 ## Diagnóstico de erros
 
 Sentry integrado para erros JavaScript. Envio opcional em Ajustes, desligado por padrão e independente da conta. [Configuração, privacidade e validação](docs/sentry.md). Reinstale development build após adicionar o SDK; uploads de source maps de release exigem SENTRY_AUTH_TOKEN no ambiente de build.
+
+### Source maps
+
+`npm run sentry:export:web` e `npm run sentry:export:android` geram bundles/mapas privados. `npm run sentry:check` verifica os IDs; `npm run sentry:upload` envia após configurar o token de build em `.env.sentry-build-plugin` (veja o arquivo `.example`). Mapas de APK são enviados pelo plugin Gradle no build de release. [Instruções e pendências](docs/sentry.md).

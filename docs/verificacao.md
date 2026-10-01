@@ -231,3 +231,19 @@ Usuário informou que notificações de conclusão já foram testadas com êxito
 ## Sentry — 01/10/2026
 
 SDK compatível instalado, plugin Expo resolvido, 67 testes aprovados, exportações Android/web aprovadas. Consentimento e filtragem cobertos por testes, incluindo opt-out durante opt-in/restore pendentes e preservação de debug IDs. Dois eventos sintéticos enviados pelo SDK browser no ambiente `integration-test`, confirmados pelo MCP como POMODOG-1. Evento final `877cb3233535492bb4be2f178f657f78` usa IP 0.0.0.0; nome, e-mail e histórico não enviados. Não foi teste de erro no aparelho nem validação de crashes nativos. Source maps não enviados por ausência de SENTRY_AUTH_TOKEN. Bundle Android passou de 4,8 MB a 6,2 MB e web de 1,8 MB a 2,8 MB (tamanhos exportados, sem compressão de transporte).
+
+## Source maps — 01/10/2026
+
+- Exports web e Android/Hermes com `--source-maps` aprovados; mapas privados em `dist-sentry/`.
+- `sentry:check` aprovou IDs web `ffe44462-5721-4cc1-81ff-eea9d0ce48de` e Android `a2243a78-50d5-46b5-a86d-2e75b4538bf6`, com marcadores correspondentes nos bundles.
+- Coordenadas web linha 192/coluna 387 e Hermes linha 1/coluna 1142719 resolveram para `/App.tsx`, linha 20. São coordenadas desses exports, não de APK compilado separadamente.
+- Troca proposital de debug ID em mapa de cada plataforma foi rejeitada, restaurando os artefatos após teste. `sentry:upload` sem token retornou falha explícita. Após credencial local ficar disponível, upload e processamento real concluídos para ambas as plataformas.
+- Prebuild Android concluído: plugin aplica `sentry.gradle` e gera propriedades sem credencial. Nenhum APK foi compilado/instalado nesta entrega.
+- Token local e artefatos ignorados pelo Git; modelo de configuração sem segredo versionado.
+
+### Resolução confirmada no Sentry
+
+- Evento web `14e7d3fbb2db4346b91bdaed6966c1b3`, ambiente `source-map-verification-web`: `/App.tsx:20:1`, função App.
+- Evento Android/Hermes `d7694cae989a40b292dfa2418e55ab62`, ambiente `source-map-verification-android`: `/App.tsx:20:1`.
+- Ambos agrupados em [POMODOG-2](https://personal-dashboard.sentry.io/issues/POMODOG-2), com trecho original de código, confirmados via MCP. Eventos construídos explicitamente com coordenadas dos exports; não foram erros provocados no runtime do aparelho.
+- Credencial usada somente no processo local de upload, com arquivo ignorado pelo Git. Nenhum token impresso ou versionado.

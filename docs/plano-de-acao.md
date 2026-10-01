@@ -188,4 +188,8 @@ Usuário confirmou sucesso das notificações de conclusão em aparelho físico 
 
 ## Diagnóstico opcional com Sentry — 01/10/2026
 
-Projeto `personal-dashboard/pomodog` criado via MCP. SDK, plugin Expo e Metro integrados; captura JavaScript global e falhas tratadas de conta, persistência e notificações. Controle em Ajustes desativado por padrão e salvo somente neste dispositivo; payload filtrado, sem identificação da conta ou histórico. Dois erros sintéticos chegaram ao dashboard; último com IP substituto. Crashes nativos desativados nesta entrega. Validação de runtime no aparelho e upload de source maps com segredo de build ainda pendentes. Instruções em [Sentry](sentry.md).
+Projeto `personal-dashboard/pomodog` criado via MCP. SDK, plugin Expo e Metro integrados; captura JavaScript global e falhas tratadas de conta, persistência e notificações. Controle em Ajustes desativado por padrão e salvo somente neste dispositivo; payload filtrado, sem identificação da conta ou histórico. Dois erros sintéticos chegaram ao dashboard; último com IP substituto. Crashes nativos desativados nesta entrega. Validação de runtime no aparelho permanece pendente. Source maps enviados e validados na entrega seguinte, registrada abaixo. Instruções em [Sentry](sentry.md).
+
+## Source maps — configuração de build
+
+Adicionados exports privados de web/Android com mapas e comandos de verificação/upload. Validada associação local ao código original e rejeição de IDs incompatíveis; plugin aplicado ao projeto Android gerado. Upload real concluído com token local; eventos sintéticos web/Android resolvidos no dashboard para App.tsx, linha 20. Mapas de exportação concluídos e validados; mapas do APK serão enviados no futuro build de release. Mapas do APK devem vir do próprio Gradle, não de export separado. Crashes nativos continuam pendentes. Detalhes em [Sentry](sentry.md).

@@ -28,13 +28,47 @@ npm start
 
 O primeiro comando atualiza arquivos nativos gerados. A variável desativa apenas upload de source maps durante o build local, não envio de erros em runtime.
 
-Para release, configure **SENTRY_AUTH_TOKEN** como segredo do ambiente de build, com acesso de upload de artefatos ao projeto. Não coloque token em `app.json`, no bundle ou em variável `EXPO_PUBLIC_*`. Retire `SENTRY_DISABLE_AUTO_UPLOAD=true` no build de release. O MCP não forneceu esse token; mapas e símbolos não foram enviados nesta entrega. Upload de source maps web precisa ser executado separadamente no pipeline. Atualize `release` em `src/monitoring/sentry.ts` e no script de verificação junto à versão do aplicativo até automatizarmos releases.
+### Source maps de exportações web e Android
+
+```sh
+npm run sentry:export:web
+npm run sentry:export:android
+npm run sentry:check
+npm run sentry:upload
+```
+
+Os exports usam `--source-maps` e ficam em `dist-sentry/web` e `dist-sentry/android`, ignorados pelo Git. Para verificar/enviar somente uma plataforma, use `npm run sentry:check -- web` ou `npm run sentry:upload -- android`.
+
+O script verifica mapas não vazios, IDs válidos e consistentes e o marcador `sentry-dbid-<id>` no bundle JavaScript/Hermes. IDs incompatíveis impedem upload. O script normaliza `debugId`/`debug_id` e chama o Sentry CLI instalado com o SDK, que valida e aguarda processamento dos artefatos. Não há dependência nova. Organização, projeto e URL vêm do plugin em `app.json`; a associação usa debug IDs, sem exigir criação manual de release.
+
+Não publique os arquivos `.map` nem a pasta `dist-sentry` diretamente na web: mapas incluem código-fonte. Distribua os mesmos bundles correspondentes aos mapas enviados, sem arquivos `.map`. Não recompile o JavaScript entre upload e distribuição. Upload e processamento concluídos com a credencial local; eventos sintéticos das duas plataformas foram resolvidos no dashboard.
+
+### Credencial de build
+
+Crie um **Organization Auth Token** para `personal-dashboard` em Settings → Auth Tokens, destinado a CI/source maps (`org:ci`). [Escopos oficiais](https://docs.sentry.io/api/permissions/).
+
+Copie `.env.sentry-build-plugin.example` para `.env.sentry-build-plugin` e preencha `SENTRY_AUTH_TOKEN` somente nesse arquivo local, ignorado pelo Git. Nunca envie token pelo chat, inclua-o no bundle ou use prefixo `EXPO_PUBLIC_*`. O script de upload lê esse arquivo apenas no processo de build; variável `SENTRY_AUTH_TOKEN` já definida no ambiente tem precedência. No futuro CI/EAS, configure o mesmo valor como segredo do ambiente. O MCP não expõe operação de upload ou emissão desse token. Nesta entrega, a credencial foi disponibilizada localmente e usada pelo CLI, sem impressão ou inclusão no repositório.
+
+Sem credencial, `sentry:upload` termina com erro antes de acessar o serviço; a coleta de erros do aplicativo permanece independente e funciona com o DSN público.
+
+### APK Android de release
+
+O plugin foi aplicado ao projeto Android gerado via `npx expo prebuild --platform android --no-install`; `android/app/build.gradle` aplica `sentry.gradle`, e `android/sentry.properties` identifica organização/projeto, sem token. Os diretórios nativos continuam gerados e ignorados pelo Git.
+
+Em um futuro build de release, use o token local ou segredo do ambiente e retire `SENTRY_DISABLE_AUTO_UPLOAD=true`. O Gradle/Sentry fará upload dos mapas do próprio APK. Para executar esse fluxo local e instalar no aparelho, use `npm run android -- --variant release` após configurar a credencial. **Não use mapas de `expo export` para substituir os do APK:** compilação Hermes/posições podem ser diferentes; o export Android serve ao bundle exportado/OTA. Não foi compilado nem instalado APK nesta entrega.
+
+Crashes nativos e seus símbolos continuam uma etapa separada, desativada. Atualize `release` em `src/monitoring/sentry.ts` e no script de verificação junto à versão do aplicativo até automatizarmos releases.
 
 ## Verificação
 
 - `npm test`: consentimento, revogação concorrente, restauração, falha de armazenamento e filtragem de dados.
 - `node --experimental-strip-types scripts/verify-sentry.mts --send`: envia um erro sintético explícito no ambiente `integration-test`, sem usar conta ou histórico. Requer rede e não altera consentimento do app. O script usa o transporte do SDK browser, separado do runtime React Native.
 - [POMODOG-1](https://personal-dashboard.sentry.io/issues/POMODOG-1): dois eventos sintéticos confirmados por MCP. O último usa IP substituto, sem localização ou identidade real no evento.
+- `node --experimental-strip-types scripts/verify-sentry.mts --send --source-maps web` (ou `android`): localiza coordenadas de `App.tsx` no mapa exportado e envia um evento sintético com debug ID. Requer mapas previamente enviados e não altera consentimento do app.
 - Validar no development build: opção desligada não envia, opção ligada envia um erro de teste controlado, desativação bloqueia próximos envios e reabrir preserva a escolha. Nenhum crash foi provocado no aparelho do usuário.
 
 Documentação consultada via Context7: [Expo](https://docs.sentry.io/platforms/react-native/guides/expo/), [dados coletados](https://docs.sentry.io/platforms/react-native/data-management/data-collected/), [filtragem de dados](https://docs.sentry.io/platforms/react-native/data-management/sensitive-data/).
+
+## Evidência de configuração dos source maps — 01/10/2026
+
+Web e Android/Hermes exportados com mapas; debug IDs conferidos. Resolução local de coordenadas compiladas retornou `/App.tsx`, linha 20, em ambas as plataformas. Mapas com ID trocado foram rejeitados antes de upload. Credencial e artefatos privados estão ignorados pelo Git. Upload sem token falhou explicitamente. Upload real concluído nas duas plataformas. Eventos web `14e7d3fbb2db4346b91bdaed6966c1b3` e Android `d7694cae989a40b292dfa2418e55ab62` foram confirmados via MCP em [POMODOG-2](https://personal-dashboard.sentry.io/issues/POMODOG-2), ambos resolvendo para `/App.tsx:20:1`, com contexto de código. São eventos sintéticos associados aos exports, não crashes reais de dispositivo.

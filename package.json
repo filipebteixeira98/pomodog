@@ -51,7 +51,11 @@
     "format:check": "prettier --check .",
     "export:android": "expo export --platform android --output-dir dist-android",
     "assets:generate": "node scripts/generate-brand-assets.mjs",
-    "test:rules": "firebase emulators:exec --config firebase.test.json --project demo-pomodog --only firestore \"node --experimental-strip-types tests/firestoreRules.mts\""
+    "test:rules": "firebase emulators:exec --config firebase.test.json --project demo-pomodog --only firestore \"node --experimental-strip-types tests/firestoreRules.mts\"",
+    "sentry:export:web": "expo export --platform web --source-maps --output-dir dist-sentry/web",
+    "sentry:export:android": "expo export --platform android --source-maps --output-dir dist-sentry/android",
+    "sentry:check": "node scripts/sentry-sourcemaps.mjs check",
+    "sentry:upload": "node scripts/sentry-sourcemaps.mjs upload"
   },
   "private": true,
   "imports": {

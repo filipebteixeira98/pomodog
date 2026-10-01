@@ -185,3 +185,7 @@ Firebase Auth e Firestore não oferecem transação conjunta. Uma falha pode dei
 ## Diagnóstico de erros
 
 `src/monitoring` centraliza consentimento, SDK, filtragem e interface opcional de Ajustes. Consentimento usa chave local independente, sem migração/sincronização com contas. SDK inicializado somente quando permitido; `beforeSend` verifica escolha vigente e reconstrói evento com campos técnicos permitidos. Captura falhas JavaScript globais via SDK/ErrorBoundary e falhas tratadas nos hooks de conta/timer. Sem nativo, sessões automáticas, replay, tracing, logs ou breadcrumbs. Mensagens controladas e stacks filtradas permitem localizar operação sem enviar payload original. Mapas usam debug IDs preservados; upload depende de segredo de build. Detalhes e limites em [Sentry](sentry.md).
+
+### Source maps no build
+
+Comandos `sentry:export:*` geram mapas privados por plataforma. `scripts/sentry-sourcemaps.mjs` verifica correspondência entre debug ID do mapa e marcador do bundle antes de chamar o Sentry CLI instalado com o SDK. Lê configuração pública do plugin e credencial somente de processo de build/arquivo ignorado. Export Android e mapa de APK são fluxos distintos; para APK, o Gradle integrado gera/envia seus próprios mapas. A filtragem de runtime preserva debug IDs; nenhuma configuração de coleta mudou nesta entrega.
