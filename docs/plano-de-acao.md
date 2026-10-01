@@ -27,6 +27,8 @@ Nino permanece provisório. Os controles locais, as três abas, os diálogos ani
 
 ## Próximo ciclo — sequência proposta
 
+Tabela de frentes históricas; consultar o andamento consolidado abaixo para os status atuais por funcionalidade.
+
 Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma proposta de execução, não uma indicação de funcionalidades implementadas. A primeira implementação, migração de imports relativos para aliases, foi concluída. A frente visual foi reordenada por preferência do usuário: ícone/splash, animação corporal e, por último, Pencil.
 
 | Ordem | Frente                 | Entregas e próximos passos                                                                                                   | Estado       |
@@ -47,44 +49,80 @@ Analytics, eventos e heatmaps são uma frente transversal com decisão pendente 
 
 ## Andamento consolidado — 01/10/2026
 
-Esta tabela é o resumo atual; registros de entregas abaixo preservam o histórico. “Concluído” indica entrega realizada, sem implicar que recursos futuros da mesma frente também existem. “Em andamento” identifica implementação com validação específica pendente. “Pendente” identifica trabalho ainda não entregue; Pencil permanece em standby.
+Formato obrigatório para as próximas consultas de andamento: **Funcionalidade/recurso | Entrega | Status | Próximos passos**, preservando itens separados quando têm entregas ou validações distintas. Não esconder tarefas em agrupamentos genéricos nem alterar status somente para reduzir a tabela.
 
-| Estado       | Funcionalidade/recurso                            | Situação e próximo passo                                                                                                            |
-| ------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Concluído    | Timer, foco/descanso e armazenamento local        | Fluxo principal entregue; manter regressão ao alterar timer/persistência.                                                           |
-| Concluído    | Organização e interface                           | Aliases, imports ordenados, componentes reutilizáveis, abas e simplificação das telas entregues.                                    |
-| Concluído    | Onboarding e tour guiado                          | Introdução por swipe, diálogos curtos e tour opcional implementados.                                                                |
-| Concluído    | Ícone, splash e animação corporal                 | Assets e Nino articulado implementados; inspeção final do binário de release integra a frente de publicação.                        |
-| Concluído    | Dashboard e sequência de foco                     | Resumos diário/semanal e card Seu ritmo entregues.                                                                                  |
-| Concluído    | Alimentação e frases gentis                       | Dar petisco e respostas contextuais entregues na tela de Foco, sem punição.                                                         |
-| Concluído    | Notificações de conclusão                         | Entrega de foco/descanso confirmada em aparelho físico, inclusive bloqueado.                                                        |
-| Concluído    | Google OAuth, Firestore e acesso por proprietário | Login e gravação confirmados no aparelho; regras de isolamento verificadas no emulador.                                             |
-| Concluído    | Exclusão local e de conta                         | Exclusão autenticada confirmada no aparelho; sinalização destrutiva e ícones entregues.                                             |
-| Concluído    | Controle e texto de diagnóstico                   | Consentimento opcional e descrição sem ferramentas/detalhes de desenvolvimento entregues em Ajustes.                                |
-| Concluído    | Source maps de exports web/Android                | Upload e resolução de eventos sintéticos confirmados; não equivale a mapas de APK de release.                                       |
-| Em andamento | Diagnóstico JavaScript no aparelho                | Integração e evento sintético confirmados; validar captura no runtime e revogação no development build.                             |
-| Em andamento | Crashes Java/Kotlin Android                       | Implementados e testes nativos aprovados; validar crash real, reabertura, revogação e cache offline no aparelho/dashboard.          |
-| Pendente     | Incentivo à hidratação                            | Definir mensagem/toast opcional, momento e frequência sem interromper foco.                                                         |
-| Pendente     | Selo Beta                                         | Definir localização discreta junto ao nome do app e critério de retirada.                                                           |
-| Pendente     | Silenciamento de redes sociais                    | Investigar viabilidade/permissões por plataforma e restauração das preferências do sistema.                                         |
-| Pendente     | Escolhas de privacidade após onboarding           | Desenhar escolhas por categoria, recusa e revogação; preservar coleta opcional desligada por padrão.                                |
-| Pendente     | Feedback e comentários                            | Formulário curto, envio explícito, destino e confirmação; próxima entrega de produto sugerida anteriormente.                        |
-| Pendente     | Tela dedicada de login OAuth                      | Manter entrada Google já existente e modo local; definir outros provedores.                                                         |
-| Pendente     | Produção Firebase e diagramas                     | Separar ambientes, preparar configuração e documentar UML/modelo lógico.                                                            |
-| Pendente     | Sincronização e exclusão entre dispositivos       | Definir conflitos e coordenação remota da exclusão; cenários adicionais de falha/rede.                                              |
-| Pendente     | Lembretes adicionais e push remoto                | Rotina, alimentação e inatividade com consentimento/frequência; infraestrutura remota a definir.                                    |
-| Pendente     | Pencil — standby                                  | Registrar layouts, paleta, tipografia, componentes e templates quando retomado.                                                     |
-| Pendente     | LoFi e sonoplastia                                | Licenças, controles de som e experiência de descanso.                                                                               |
-| Pendente     | Personalizações e atividades pagas                | Outros pets/nomes, backgrounds, desenho livre/formas; validar valor e limites de acesso.                                            |
-| Pendente     | RevenueCat e assinaturas                          | Definir oferta, compras, restauração e direitos de acesso.                                                                          |
-| Pendente     | Compartilhamento, score e amigos                  | Compartilhamento explícito; definir pontuação, descoberta e ciclos em conjunto.                                                     |
-| Pendente     | Sneak peeks, conteúdo e identificação             | Novidades discretas; curadoria de neurociência; esclarecer hipótese de semelhança e reforçar experiência além da produtividade.     |
-| Pendente     | Insights com IA                                   | Definir utilidade, custo e política de dados antes de enviar dados reais.                                                           |
-| Pendente     | Analytics/PostHog, A/B e heatmaps                 | Definir hipóteses, eventos mínimos e consentimento; nenhuma coleta de uso ativa.                                                    |
-| Pendente     | Ampliação de crashes e símbolos                   | NDK/C++, ANR, iOS e mapping/símbolos de release exigem entregas próprias.                                                           |
-| Pendente     | Publicação e versão de release                    | Validar binário/assets, mapas do APK, retenção de diagnósticos, título/descrição/screenshots e fluxo de branches/PRs/versionamento. |
+Concluído: entrega realizada, sem implicar implementação de expansões futuras. Em andamento: implementação ou preparação já iniciada, com trabalho/validação específica restante. Pendente: proposta ainda não entregue. Pencil permanece em standby. Testes adicionais de regressão não reabrem automaticamente funcionalidades que o usuário já validou.
 
-As quatro novas propostas estão detalhadas em [Próximas etapas](proximas-etapas.md#novas-propostas--hidratação-beta-foco-e-consentimento). Planejamento apenas: nenhuma delas foi implementada nesta atualização.
+Correção do resumo anterior: ícone/splash ainda exigem validação do release; sincronização requer cenários adicionais; defesa em profundidade tem medidas aplicadas e revisão restante; mapas do APK têm preparação de build, mas não validação de um release. Estes itens voltam a aparecer explicitamente em andamento. Diagramas, recursos pagos, sociais, conteúdo, medição e publicação foram desmembrados para preservar o escopo de cada proposta.
+
+| Funcionalidade/recurso                 | Entrega                                                                            | Status       | Próximos passos                                                                        |
+| -------------------------------------- | ---------------------------------------------------------------------------------- | ------------ | -------------------------------------------------------------------------------------- |
+| Pomodoro e modo local                  | Foco, descanso, pausa, retomada e histórico local.                                 | Concluído    | Manter regressão ao alterar o timer.                                                   |
+| Organização da codebase                | Aliases, imports ordenados e componentes reutilizáveis.                            | Concluído    | Manter o padrão nas próximas entregas.                                                 |
+| Navegação e telas                      | Foco, Progresso, Ajustes e Perfil; interface simplificada.                         | Concluído    | Avaliar clareza com participantes.                                                     |
+| Onboarding e tour guiado               | Swipe, diálogos curtos e orientação opcional.                                      | Concluído    | Avaliar compreensão e acessibilidade.                                                  |
+| Animação corporal do Nino              | Corpo articulado e movimento reduzido.                                             | Concluído    | Observar desempenho nas futuras versões.                                               |
+| Dashboard de progresso                 | Resumos diário/semanal, sessões, minutos e média.                                  | Concluído    | Avaliar utilidade das estatísticas.                                                    |
+| Sequência de dias com foco             | Card Seu ritmo com dias consecutivos e sete marcadores.                            | Concluído    | Observar incentivo sem pressão.                                                        |
+| Alimentação opcional                   | Dar petisco na tela de Foco, sem penalidades.                                      | Concluído    | Avaliar frequência e clareza da interação.                                             |
+| Frases gentis                          | Mensagens contextuais integradas ao cuidado do Nino.                               | Concluído    | Ampliar somente conforme avaliação de uso.                                             |
+| Notificações de conclusão              | Foco/descanso validados no aparelho, inclusive bloqueado.                          | Concluído    | Manter regressão de permissões e cancelamento.                                         |
+| Google OAuth                           | Login Google no Perfil validado no aparelho.                                       | Concluído    | Tela dedicada e outros provedores são itens separados.                                 |
+| Firestore de desenvolvimento           | Perfil, sessões e estado vinculados à conta; gravação validada.                    | Concluído    | Produção é uma entrega separada.                                                       |
+| Autorização por proprietário           | Regras limitam acesso ao próprio UID; testes de isolamento.                        | Concluído    | Manter testes ao mudar regras/modelo.                                                  |
+| Exclusão local e de conta              | Confirmação, reautenticação e exclusão própria; conta validada no aparelho.        | Concluído    | Coordenação entre dispositivos é uma entrega separada.                                 |
+| Consentimento em Ajustes               | Diagnóstico opcional e texto sem detalhes de desenvolvimento.                      | Concluído    | Preservar recusa e possibilidade de revogação.                                         |
+| Source maps de exports                 | Mapas web/Android enviados e eventos sintéticos resolvidos.                        | Concluído    | Usar os artefatos correspondentes ao código distribuído.                               |
+| Ícone e splash                         | Assets e configuração implementados.                                               | Em andamento | Validar recortes, ícone temático e abertura a frio no release.                         |
+| Sincronização e migração de dados      | Importação local/remota e fila de sincronização implementadas.                     | Em andamento | Validar falhas de rede, troca de conta e conflitos entre dispositivos.                 |
+| Defesa em profundidade                 | Validação de armazenamento, isolamento por UID e filtros de diagnóstico aplicados. | Em andamento | Revisar ameaças, permissões, dependências e artefatos antes de produção.               |
+| Diagnóstico JavaScript                 | Integração com Sentry e eventos sintéticos confirmados.                            | Em andamento | Validar captura real e revogação no development build.                                 |
+| Crashes Java/Kotlin Android            | Cliente nativo, consentimento e testes implementados.                              | Em andamento | Confirmar crash real, reabertura, revogação e cache offline no dashboard.              |
+| Source maps do APK                     | Upload pelo Gradle preparado.                                                      | Em andamento | Executar release e confirmar mapas do próprio APK; exports não substituem esse teste.  |
+| Incentivo à hidratação                 | Mensagem/toast planejado.                                                          | Pendente     | Definir convite opcional, frequência e momento de descanso.                            |
+| Selo Beta                              | Identificação do estágio do app planejada.                                         | Pendente     | Definir posição discreta e critério de retirada.                                       |
+| Silenciamento de redes sociais         | Redução de distrações durante foco proposta.                                       | Pendente     | Investigar viabilidade/permissões e restauração das preferências do sistema.           |
+| Privacidade após onboarding            | Tela de escolhas de coleta proposta.                                               | Pendente     | Separar categorias; manter diagnóstico desligado por padrão e recusa sem bloquear uso. |
+| Feedback e comentários                 | Formulário de avaliação planejado.                                                 | Pendente     | Definir destino, envio explícito e confirmação.                                        |
+| Tela dedicada de login OAuth           | Entrada dedicada e provedores adicionais propostos.                                | Pendente     | Manter Google existente e modo local; definir outros provedores.                       |
+| Firebase de produção                   | Ambiente separado de desenvolvimento planejado.                                    | Pendente     | Configurar projeto, credenciais públicas, regras e verificação de produção.            |
+| UML de classes                         | Diagrama solicitado.                                                               | Pendente     | Documentar entidades e responsabilidades atuais.                                       |
+| UML de casos de uso                    | Diagrama solicitado.                                                               | Pendente     | Documentar atores, fluxos e permissões.                                                |
+| Modelo lógico do banco                 | Modelo visual solicitado.                                                          | Pendente     | Representar users, sessões, estado e vínculos por UID.                                 |
+| Exclusão coordenada entre dispositivos | Ampliação da exclusão atual planejada.                                             | Pendente     | Evitar gravações concorrentes e concluir limpeza mesmo após encerramento do cliente.   |
+| Lembretes de rotina                    | Convites opcionais planejados.                                                     | Pendente     | Definir horários, frequência e desativação.                                            |
+| Lembretes de alimentação               | Convites de cuidado planejados.                                                    | Pendente     | Evitar culpa, punição e excesso de avisos.                                             |
+| Lembretes de inatividade / push remoto | Retorno ao app e infraestrutura remota propostos.                                  | Pendente     | Definir consentimento, frequência, tokens e backend.                                   |
+| Pencil                                 | Layouts e sistema visual planejados; em standby.                                   | Pendente     | Retomar templates, paleta, tipografia e componentes quando solicitado.                 |
+| Playlists LoFi                         | Ambientação musical proposta.                                                      | Pendente     | Verificar licenças, reprodução e controles.                                            |
+| Sonoplastia                            | Sons de interação e transição propostos.                                           | Pendente     | Prototipar, verificar licenças e permitir silenciar.                                   |
+| Mascotes e nomes em planos pagos       | Outros animais e personalizações propostos.                                        | Pendente     | Definir catálogo, limites gratuitos/pagos e valor percebido.                           |
+| Backgrounds pagos                      | Ambientes personalizáveis propostos.                                               | Pendente     | Definir catálogo, prévia, contraste e acesso.                                          |
+| Atividades durante o descanso          | Desenho livre, formas e sugestões em planos pagos propostos.                       | Pendente     | Prototipar com opção de pular; avaliar prazer e distração.                             |
+| RevenueCat e assinaturas               | Gestão de compras e acesso proposta.                                               | Pendente     | Definir oferta, integração, restauração e direitos de acesso.                          |
+| Compartilhamento social                | Cartão de progresso/mascote proposto.                                              | Pendente     | Criar prévia e compartilhamento por ação explícita.                                    |
+| Pontuação                              | Score proposto.                                                                    | Pendente     | Definir regras sem comparação punitiva.                                                |
+| Amigos e ciclos em conjunto            | Experiência social proposta.                                                       | Pendente     | Definir descoberta, privacidade e funcionamento das sessões.                           |
+| Sneak peeks e novidades                | Prévias de evolução propostas.                                                     | Pendente     | Definir espaço discreto fora da sessão de foco.                                        |
+| Curiosidades e neurociência            | Conteúdo editorial proposto.                                                       | Pendente     | Definir fontes e revisar o ciclo conceitual sugerido antes de divulgá-lo.              |
+| Semelhança e identificação             | Hipótese de sistemas/pessoas semelhantes registrada.                               | Pendente     | Esclarecer significado antes de escolher funcionalidade.                               |
+| Experiência além da produtividade      | Direção de companhia, descanso e autonomia registrada.                             | Pendente     | Traduzir objetivos em critérios e avaliar com usuários.                                |
+| Insights com IA                        | Sugestões personalizadas propostas.                                                | Pendente     | Definir utilidade, consentimento, dados mínimos, custo e fornecedor.                   |
+| Analytics / PostHog                    | Medição de uso proposta; não ativada.                                              | Pendente     | Definir finalidade, eventos, retenção, consentimento e exclusão.                       |
+| Testes A/B                             | Experimentos comparativos propostos.                                               | Pendente     | Definir hipóteses, métricas e critérios antes de instrumentar.                         |
+| Heatmaps                               | Mapas de interação propostos; não ativados.                                        | Pendente     | Avaliar utilidade, suporte e privacidade separadamente.                                |
+| Crashes C/C++ — NDK                    | Captura adicional ainda desativada.                                                | Pendente     | Definir filtragem, consentimento e símbolos do binário.                                |
+| ANRs                                   | Diagnóstico de travamentos ainda desativado.                                       | Pendente     | Definir captura e validação específica.                                                |
+| Crashes nativos iOS                    | Integração nativa não implementada.                                                | Pendente     | Preparar cliente, consentimento, símbolos e testes iOS.                                |
+| Mapping/símbolos nativos de release    | Upload separado dos mapas JavaScript planejado.                                    | Pendente     | Configurar mapping se habilitar R8 e símbolos correspondentes ao binário.              |
+| Retenção de diagnósticos               | Política antes de distribuição ainda por definir.                                  | Pendente     | Definir prazo e revisão dos dados enviados.                                            |
+| Materiais da Google Play Console       | Título, descrição e screenshots solicitados.                                       | Pendente     | Preparar materiais conforme recursos efetivamente disponíveis.                         |
+| Release e distribuição                 | Publicação do app planejada.                                                       | Pendente     | Validar binário, assinatura, assets e requisitos de distribuição.                      |
+| Branches e pull requests               | Fluxo de contribuição proposto.                                                    | Pendente     | Definir política e adotar por entrega; commits atuais continuam na main.               |
+| Versionamento e releases               | Minor, patch e número de versão discutidos.                                        | Pendente     | Definir convenção e alinhar versão do app/build/changelog.                             |
+| Validação de produto e monetização     | Roteiro qualitativo e hipóteses registrados.                                       | Pendente     | Testar com pessoas próximas por vários dias; validar retenção e disposição a pagar.    |
+
+Este quadro é o resumo vigente; tabelas anteriores registram etapas e frentes históricas. Novas propostas detalhadas em [Próximas etapas](proximas-etapas.md).
 
 ## Regra de execução por funcionalidade
 
