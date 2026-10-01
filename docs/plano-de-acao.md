@@ -80,7 +80,7 @@ Correção do resumo anterior: ícone/splash ainda exigem validação do release
 | Crashes Java/Kotlin Android            | Cliente nativo, consentimento e testes implementados.                              | Em andamento | Confirmar crash real, reabertura, revogação e cache offline no dashboard.              |
 | Source maps do APK                     | Upload pelo Gradle preparado.                                                      | Em andamento | Executar release e confirmar mapas do próprio APK; exports não substituem esse teste.  |
 | Incentivo à hidratação                 | Mensagem/toast planejado.                                                          | Pendente     | Definir convite opcional, frequência e momento de descanso.                            |
-| Selo Beta                              | Identificação do estágio do app planejada.                                         | Pendente     | Definir posição discreta e critério de retirada.                                       |
+| Selo Beta                              | Selo discreto ao lado do logotipo Pomodog no cabeçalho compartilhado.              | Concluído    | Retirar quando encerrar a fase beta; avaliar aparência no aparelho.                    |
 | Silenciamento de redes sociais         | Redução de distrações durante foco proposta.                                       | Pendente     | Investigar viabilidade/permissões e restauração das preferências do sistema.           |
 | Privacidade após onboarding            | Tela de escolhas de coleta proposta.                                               | Pendente     | Separar categorias; manter diagnóstico desligado por padrão e recusa sem bloquear uso. |
 | Feedback e comentários                 | Formulário de avaliação planejado.                                                 | Pendente     | Definir destino, envio explícito e confirmação.                                        |
@@ -284,3 +284,7 @@ Controle renomeado para “Ajudar a melhorar o aplicativo”. Descrição e rót
 ## Ampliação do planejamento — hábitos e privacidade
 
 Registrados incentivo à hidratação, selo Beta, avaliação de silenciamento de redes sociais e tela de escolhas de privacidade após onboarding. Todos pendentes, com critérios e decisões em Próximas etapas. A tela futura preserva consentimento opcional desligado por padrão e uso local completo; silenciamento depende de investigação de viabilidade por plataforma. Não houve mudança de código ou ativação de coleta nesta entrega.
+
+## Selo Beta entregue
+
+Adicionado selo Beta ao lado do logotipo no cabeçalho compartilhado entre as telas, com fundo pastel, borda discreta e descrição acessível “Versão beta, em desenvolvimento e testes”. Cabeçalho permite quebra de linha em espaços menores ou com fonte ampliada. Sem novo controle ou alteração de fluxo.

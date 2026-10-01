@@ -133,7 +133,7 @@ Reinstalar development build, habilitar novamente diagnóstico em Ajustes e exec
 
 ## Novas propostas — hidratação, beta, foco e consentimento
 
-Itens pendentes, registrados por solicitação do usuário. A ordem abaixo não altera a prioridade das entregas existentes e não representa implementação.
+Itens registrados por solicitação do usuário; selo Beta entregue posteriormente, conforme registro abaixo. Os demais permanecem pendentes. A ordem abaixo não altera a prioridade das entregas existentes e não representa implementação.
 
 | Funcionalidade                                     | Escopo inicial                                                                                              | Critérios e decisões antes da implementação                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -143,3 +143,7 @@ Itens pendentes, registrados por solicitação do usuário. A ordem abaixo não 
 | Tela de escolhas de privacidade após onboarding    | Apresentar de forma simples quais dados podem sair do dispositivo e permitir escolher categorias de coleta. | Diagnóstico opcional continua desligado por padrão; recusa não bloqueia uso local. Separar diagnóstico, sincronização mediante login e futuros analytics; não apresentar recursos futuros como coleta ativa. Escolhas independentes podem usar switches/checkboxes; radio/select somente para alternativas mutuamente exclusivas. Persistir escolhas antes de iniciar coleta e permitir revogação em Ajustes. Textos sem nomes de ferramentas ou detalhes de desenvolvimento. |
 
 A nova tela deve explicar coleta real e opcional, sem transformar ausência de resposta em consentimento. Não altera a decisão anterior de manter analytics, heatmaps e replay desativados. A escolha de componentes é parte do desenho da entrega, não uma funcionalidade já implementada.
+
+## Selo Beta implementado
+
+Selo Beta adicionado ao lado do logotipo Pomodog no cabeçalho das telas, com descrição acessível de desenvolvimento e testes. Decisão futura: remover ao encerrar a fase beta. Hidratação, silenciamento de redes sociais e escolhas de privacidade após onboarding permanecem pendentes.

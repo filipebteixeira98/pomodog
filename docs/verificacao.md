@@ -256,3 +256,7 @@ SDK compatível instalado, plugin Expo resolvido, 67 testes aprovados, exportaç
 - Consentimento Android/cache fora de backup; coleta anterior JavaScript não ativa automaticamente nova camada. Revogação fecha SDK e remove cache privado.
 - Nenhum dispositivo conectado segundo ADB. Nenhum APK foi instalado ou crash real gerado; confirmação nativa no dashboard e cenários offline/revogação permanecem pendentes.
 - NDK, ANRs, iOS e upload de mapping/símbolos de release não implementados nesta entrega.
+
+## Selo Beta no cabeçalho
+
+Selo implementado junto ao logotipo no AppHeader compartilhado, com descrição acessível e quebra de linha no grupo do cabeçalho. TypeScript, formatação e revisão de whitespace aprovados. Alteração visual sem mudança de lógica; não foram adicionados testes unitários nem realizada nova inspeção no aparelho.
