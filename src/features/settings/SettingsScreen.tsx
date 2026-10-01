@@ -12,6 +12,7 @@ import {
   themes,
   type Preferences,
 } from "#src/domain/preferences";
+import { ReportingSettings } from "#src/monitoring/ReportingSettings";
 
 type Props = {
   preferences: Preferences;
@@ -150,6 +151,7 @@ export function SettingsScreen({
           Rever tour guiado
         </Button>
       </Card>
+      <ReportingSettings accent={accent} />
     </>
   );
 }

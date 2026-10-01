@@ -227,3 +227,7 @@ O switch "Avisar ao terminar" atualiza a preferência otimisticamente antes da o
 ## Confirmação do usuário: notificações de conclusão
 
 Usuário informou que notificações de conclusão já foram testadas com êxito no aparelho físico pessoal, inclusive com tela bloqueada. Funcionalidade marcada como concluída; evidência é relato do usuário, sem atribuição a teste automatizado. Não equivale à confirmação de iOS, push remoto ou de todos os cenários de permissões/cancelamento do roteiro anterior.
+
+## Sentry — 01/10/2026
+
+SDK compatível instalado, plugin Expo resolvido, 67 testes aprovados, exportações Android/web aprovadas. Consentimento e filtragem cobertos por testes, incluindo opt-out durante opt-in/restore pendentes e preservação de debug IDs. Dois eventos sintéticos enviados pelo SDK browser no ambiente `integration-test`, confirmados pelo MCP como POMODOG-1. Evento final `877cb3233535492bb4be2f178f657f78` usa IP 0.0.0.0; nome, e-mail e histórico não enviados. Não foi teste de erro no aparelho nem validação de crashes nativos. Source maps não enviados por ausência de SENTRY_AUTH_TOKEN. Bundle Android passou de 4,8 MB a 6,2 MB e web de 1,8 MB a 2,8 MB (tamanhos exportados, sem compressão de transporte).

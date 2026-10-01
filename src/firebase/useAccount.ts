@@ -10,6 +10,7 @@ import {
 import { auth } from "#src/firebase/auth";
 import { deleteOwnAccount } from "#src/firebase/deleteOwnAccount";
 import { signInWithGoogle, signOutGoogle } from "#src/firebase/googleSignIn";
+import { reportError } from "#src/monitoring/sentry";
 
 export function useAccount() {
   const [user, setUser] = useState<User | null>(null);
@@ -57,7 +58,8 @@ export function useAccount() {
               pending ? "A exclusão está pendente. Retome para concluir." : "",
             );
           })
-          .catch(() => {
+          .catch((error: unknown) => {
+            reportError(error, "account.prepare");
             if (!active || request !== generation) return;
             setUser(null);
             setSession(localSession);
@@ -109,7 +111,8 @@ export function useAccount() {
         const signedIn = await signInWithGoogle();
         if (signedIn) awaitingListener = true;
       }
-    } catch {
+    } catch (error) {
+      reportError(error, "account.login");
       setNotice("Não foi possível entrar com Google. Tente novamente.");
     } finally {
       if (!awaitingListener) setLoading(false);
@@ -126,7 +129,8 @@ export function useAccount() {
     try {
       await flushAccount(auth.currentUser.uid);
       await signOutGoogle();
-    } catch {
+    } catch (error) {
+      reportError(error, "account.logout");
       setNotice("Não foi possível sair da conta. Tente novamente.");
     } finally {
       setBusy(false);
@@ -153,6 +157,7 @@ export function useAccount() {
       setNotice(removed ? "Sua conta foi excluída." : "Exclusão cancelada.");
       return removed;
     } catch (error) {
+      reportError(error, "account.delete");
       setDeletionPending(accountDeletionBlocked(owner.uid));
       const code =
         error && typeof error === "object" && "code" in error ? error.code : "";

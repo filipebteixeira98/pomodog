@@ -9,13 +9,15 @@ import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useAccount } from "#src/firebase/useAccount";
+import { MonitoringBoundary } from "#src/monitoring/MonitoringBoundary";
+import { withErrorMonitoring } from "#src/monitoring/sentry";
 import { Pomodog } from "#src/Pomodog";
 
 if (Platform.OS !== "web") {
   void SplashScreen.preventAutoHideAsync().catch(() => {});
 }
 
-export default function App() {
+function App() {
   const account = useAccount();
   const [loaded, error] = useFonts({
     Poppins_400Regular,
@@ -54,3 +56,11 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+
+export default withErrorMonitoring(function Root() {
+  return (
+    <MonitoringBoundary>
+      <App />
+    </MonitoringBoundary>
+  );
+});

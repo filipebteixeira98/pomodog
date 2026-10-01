@@ -86,3 +86,7 @@ Fonte vetorial e PNGs em `assets/brand/`. Para regenerar: `npm run assets:genera
 ### Executar no Android pessoal
 
 O fluxo de notificações agora usa development build, com expo-dev-client instalado. Siga [o guia de instalação e validação](docs/development-build.md). `npm run android` compila e instala no aparelho conectado; `npm start` inicia o Metro para o cliente próprio.
+
+## Diagnóstico de erros
+
+Sentry integrado para erros JavaScript. Envio opcional em Ajustes, desligado por padrão e independente da conta. [Configuração, privacidade e validação](docs/sentry.md). Reinstale development build após adicionar o SDK; uploads de source maps de release exigem SENTRY_AUTH_TOKEN no ambiente de build.

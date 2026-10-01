@@ -29,19 +29,19 @@ Nino permanece provisório. Os controles locais, as três abas, os diálogos ani
 
 Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma proposta de execução, não uma indicação de funcionalidades implementadas. A primeira implementação, migração de imports relativos para aliases, foi concluída. A frente visual foi reordenada por preferência do usuário: ícone/splash, animação corporal e, por último, Pencil.
 
-| Ordem | Frente                 | Entregas e próximos passos                                                                                                  | Estado       |
-| ----- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 1     | Organização técnica    | Aliases e imports ordenados; manter verificações                                                                            | Concluída    |
-| 2     | Identidade visual      | Ícone, splash e animação corporal implementados; validar release; Pencil em standby                                         | Em andamento |
-| 3     | Progresso e incentivo  | Dashboard, sequência, alimentação e frases implementados; avaliar experiência                                               | Implementada |
-| 4     | Aviso de conclusão     | Aviso de conclusão validado no aparelho, inclusive com tela bloqueada; rotina/alimentação/inatividade e push remoto futuros | Concluída    |
-| 5     | Contas e sincronização | Google OAuth e gravação validados no aparelho; exclusão validada no aparelho; tela OAuth, produção e diagramas pendentes    | Em validação |
-| 6     | Monetização e social   | Mascotes e backgrounds pagos, atividades de descanso, compartilhamento; depois pontuação e amigos; avaliar RevenueCat       | Planejada    |
-| 7     | Publicação             | Título, descrição, screenshots e validação do build para Google Play Console                                                | Planejada    |
-| 8     | Experiência e conteúdo | Companhia além de produtividade, sonoplastia, sneak peeks e neurociência com fontes; esclarecer hipótese de semelhança      | Planejada    |
-| 9     | Feedback               | Formulário de comentários, envio explícito e destino dos relatos                                                            | Planejada    |
-| 10    | Insights e medição     | IA, PostHog, testes A/B e heatmaps condicionados à decisão de dados e consentimento                                         | Planejada    |
-| 11    | Erros em produção      | Avaliar Sentry, sanitização e configuração por ambiente                                                                     | Planejada    |
+| Ordem | Frente                 | Entregas e próximos passos                                                                                                   | Estado       |
+| ----- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 1     | Organização técnica    | Aliases e imports ordenados; manter verificações                                                                             | Concluída    |
+| 2     | Identidade visual      | Ícone, splash e animação corporal implementados; validar release; Pencil em standby                                          | Em andamento |
+| 3     | Progresso e incentivo  | Dashboard, sequência, alimentação e frases implementados; avaliar experiência                                                | Implementada |
+| 4     | Aviso de conclusão     | Aviso de conclusão validado no aparelho, inclusive com tela bloqueada; rotina/alimentação/inatividade e push remoto futuros  | Concluída    |
+| 5     | Contas e sincronização | Google OAuth e gravação validados no aparelho; exclusão validada no aparelho; tela OAuth, produção e diagramas pendentes     | Em validação |
+| 6     | Monetização e social   | Mascotes e backgrounds pagos, atividades de descanso, compartilhamento; depois pontuação e amigos; avaliar RevenueCat        | Planejada    |
+| 7     | Publicação             | Título, descrição, screenshots e validação do build para Google Play Console                                                 | Planejada    |
+| 8     | Experiência e conteúdo | Companhia além de produtividade, sonoplastia, sneak peeks e neurociência com fontes; esclarecer hipótese de semelhança       | Planejada    |
+| 9     | Feedback               | Formulário de comentários, envio explícito e destino dos relatos                                                             | Planejada    |
+| 10    | Insights e medição     | IA, PostHog, testes A/B e heatmaps condicionados à decisão de dados e consentimento                                          | Planejada    |
+| 11    | Erros em produção      | Sentry JavaScript integrado com consentimento local e filtragem; evento confirmado no dashboard; validar runtime no aparelho | Em validação |
 
 Analytics, eventos e heatmaps são uma frente transversal com decisão pendente de privacidade; não habilitar coleta apenas por constarem no backlog. Definir escopo antes de posicionar sua implementação na sequência. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
 
@@ -166,7 +166,7 @@ Reorganizada integração de notificações para API pública e cliente próprio
 
 Registradas as 13 sugestões em [Próximas etapas](proximas-etapas.md#novas-propostas--escopo-e-critérios-antes-de-implementar), com escopo inicial, critérios e dependências. Compartilhamento e analytics foram consolidados com o backlog anterior. Estas propostas não alteram a decisão de manter Pencil em standby nem autorizam coleta automática.
 
-Login Google e gravação foram validados pelo usuário; isolamento foi verificado no emulador. Exclusão de conta validada pelo usuário em aparelho físico. Depois, priorizar uma entrega pequena de feedback; a ordem dos novos recursos será acordada antes da implementação. RevenueCat, Sentry, PostHog e IA estão apenas em avaliação.
+Login Google e gravação foram validados pelo usuário; isolamento foi verificado no emulador. Exclusão de conta validada pelo usuário em aparelho físico. Depois, priorizar uma entrega pequena de feedback; a ordem dos novos recursos será acordada antes da implementação. RevenueCat, PostHog e IA permanecem em avaliação. Sentry JavaScript integrado em entrega posterior, descrita abaixo.
 
 ## Entrega: exclusão de conta autenticada
 
@@ -185,3 +185,7 @@ Card de exclusão usa triângulo de alerta, enquanto o botão mantém a lixeira.
 ## Validação das notificações de conclusão
 
 Usuário confirmou sucesso das notificações de conclusão em aparelho físico pessoal, inclusive com tela bloqueada. Essa funcionalidade está concluída. A frente de lembretes permanece aberta somente para recursos futuros: rotina, alimentação, inatividade e push remoto. O relato não confirma testes específicos de iOS ou todos os cenários de permissões.
+
+## Diagnóstico opcional com Sentry — 01/10/2026
+
+Projeto `personal-dashboard/pomodog` criado via MCP. SDK, plugin Expo e Metro integrados; captura JavaScript global e falhas tratadas de conta, persistência e notificações. Controle em Ajustes desativado por padrão e salvo somente neste dispositivo; payload filtrado, sem identificação da conta ou histórico. Dois erros sintéticos chegaram ao dashboard; último com IP substituto. Crashes nativos desativados nesta entrega. Validação de runtime no aparelho e upload de source maps com segredo de build ainda pendentes. Instruções em [Sentry](sentry.md).

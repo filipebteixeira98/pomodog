@@ -7,3 +7,4 @@ import "#tests/petCare.test.ts";
 import "#tests/notifications.test.ts";
 import "#tests/accountData.test.ts";
 import "#tests/accountDeletion.test.ts";
+import "#tests/monitoring.test.ts";

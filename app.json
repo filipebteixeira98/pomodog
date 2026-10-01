@@ -26,7 +26,15 @@
       ],
       "expo-notifications",
       "@react-native-google-signin/google-signin",
-      "expo-dev-client"
+      "expo-dev-client",
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "personal-dashboard",
+          "project": "pomodog",
+          "url": "https://sentry.io/"
+        }
+      ]
     ],
     "icon": "./assets/brand/icon.png",
     "android": {

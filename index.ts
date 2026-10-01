@@ -1,6 +1,9 @@
 import { registerRootComponent } from "expo";
 
 import App from "#app";
+import { startMonitoring } from "#src/monitoring/sentry";
+
+void startMonitoring();
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,

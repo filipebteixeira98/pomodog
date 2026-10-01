@@ -23,6 +23,7 @@ import {
   reauthenticateWithGoogle,
   signOutGoogle,
 } from "#src/firebase/googleSignIn";
+import { setReportingEnabled } from "#src/monitoring/sentry";
 import { sessionNotifications } from "#src/notifications/sessionNotifications";
 import { accountStore } from "#src/storage/prototype";
 
@@ -68,6 +69,7 @@ export const deleteOwnAccount = createAccountDeletion({
   },
   finish: async (uid) => {
     // Identity is already gone. Cleanup must not report a failed account deletion.
+    await setReportingEnabled(false).catch(() => {});
     await finishAccountDeletion(uid).catch(() => {});
     await signOutGoogle().catch(() => {});
   },

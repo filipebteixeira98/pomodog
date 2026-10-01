@@ -118,3 +118,7 @@ Seguir development-build.md para compilar e instalar o Pomodog no aparelho via U
 ## Atualização: contas
 
 Login Google e gravação no Firestore validados pelo usuário no aparelho. Exclusão autenticada implementada no Perfil, com confirmação, reautenticação e retomada após falha parcial. Usuário confirmou funcionamento da exclusão em aparelho físico pessoal. Cancelamento e interrupção de rede/retomada após reiniciar permanecem como cenários adicionais sem confirmação física. O fluxo completo no emulador não foi testado. Coordenação entre dispositivos exige fluxo futuro no servidor; a marca de exclusão atual é local. Tela dedicada de login, ambiente de produção e diagramas permanecem pendentes.
+
+## Sentry implementado
+
+Diagnóstico JavaScript opcional integrado ao projeto `personal-dashboard/pomodog`. Consentimento local separado do Firestore, desativado por padrão; evento sintético confirmado no dashboard. Pendentes: reinstalar development build e validar captura real no aparelho, configurar token de upload de source maps no pipeline e definir retenção dos eventos antes da distribuição pública. Crashes nativos não habilitados. Essa entrega não ativa PostHog, analytics, replay ou heatmaps. Ver [guia Sentry](sentry.md).

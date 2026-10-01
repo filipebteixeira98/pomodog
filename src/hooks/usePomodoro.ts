@@ -5,6 +5,7 @@ import type { User } from "firebase/auth";
 import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
 import { AccountSaveError, saveAccount } from "#src/firebase/accountData";
+import { reportError, setReportingEnabled } from "#src/monitoring/sentry";
 import { notificationErrorMessage } from "#src/notifications/diagnostics";
 import {
   notificationsSupported,
@@ -61,7 +62,8 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
         setPetCare(saved.petCare);
         setOnboardingComplete(saved.onboardingComplete);
       })
-      .catch(() => {
+      .catch((error: unknown) => {
+        reportError(error, "storage.load");
         if (mounted) {
           setStorageError(true);
           setStorageBlocked(true);
@@ -87,12 +89,16 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
       saveAccount(user, account, saved)
         .then(() => setSyncError(false))
         .catch((error: unknown) => {
+          reportError(error, "account.save");
           if (error instanceof AccountSaveError && error.stage === "local")
             setStorageError(true);
           else setSyncError(true);
         });
     } else {
-      savePrototype(saved).catch(() => setStorageError(true));
+      savePrototype(saved).catch((error: unknown) => {
+        reportError(error, "storage.save");
+        setStorageError(true);
+      });
     }
     // Persist transitions only; running sessions recover their remaining time from the deadline.
   }, [
@@ -148,6 +154,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
           if (active) setNotificationNotice("");
         })
         .catch((error: unknown) => {
+          reportError(error, "notifications.sync");
           if (active) setNotificationNotice(notificationErrorMessage(error));
         });
     void sync();
@@ -195,6 +202,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
       if (request !== notificationRequest.current || locked()) return;
       setNotificationNotice("");
     } catch (error) {
+      reportError(error, "notifications.permission");
       if (request === notificationRequest.current) {
         setPreferences((current) => ({
           ...current,
@@ -236,6 +244,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     notificationRequest.current++;
     try {
       await sessionNotifications.sync(latestTimer.current, false);
+      await setReportingEnabled(false);
       await clearExportFile();
       await (account ? account.erase() : erasePrototype());
       dispatch({
