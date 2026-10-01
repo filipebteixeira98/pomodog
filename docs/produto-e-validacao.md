@@ -75,3 +75,7 @@ A sugestão de analytics/heatmaps está em discussão e não altera a coleta da 
 A tela de Foco concentra timer, controles e uma fala curta do mascote. O resumo diário fica apenas em Progresso; os cabeçalhos promocionais foram removidos das telas. Avaliar se essa simplificação facilita iniciar uma sessão, sem assumir melhoria de usabilidade antes dos testes com pessoas.
 
 O tour guiado é opcional, oferecido na última etapa da introdução e em Ajustes. Avaliar se seus três destaques ajudam a localizar os controles sem tornar o primeiro uso demorado. Não considerar a conclusão do tour como prova de compreensão.
+
+## Entrada com escolha de conta
+
+Antes da introdução, visitante no primeiro acesso vê “Seu foco começa com um pequeno passo”, arte do Nino e relógio Pomodoro, Google ou continuar sem conta. A frase enfatiza início simples e companhia, sem prometer produtividade ou criar urgência. Avaliar se as pessoas entendem os ciclos de foco/pausa e percebem que login é opcional. Clareza da entrada e interesse declarado não comprovam retenção.

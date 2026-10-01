@@ -57,11 +57,13 @@ export function Onboarding({
   reducedMotion,
   onFinish,
   onShowTour,
+  authenticated = false,
 }: {
   accent: string;
   reducedMotion: boolean;
   onFinish: () => void;
   onShowTour: () => void;
+  authenticated?: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const transition = useRef(new Animated.Value(1)).current;
@@ -152,7 +154,9 @@ export function Onboarding({
       <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
         <step.Icon color={accent} size={22} />
         <Text variant="caption" className="flex-1 text-ink">
-          {step.tip}
+          {last && authenticated
+            ? "Seu progresso fica salvo na sua conta."
+            : step.tip}
         </Text>
       </View>
     </View>

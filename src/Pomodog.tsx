@@ -1,5 +1,10 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
-import { ScrollView, useWindowDimensions, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import type { User } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,6 +23,7 @@ import { ProfileScreen } from "#src/features/profile/ProfileScreen";
 import { ProgressScreen } from "#src/features/progress/ProgressScreen";
 import { SettingsScreen } from "#src/features/settings/SettingsScreen";
 import { GuidedTour, type TourTargets } from "#src/features/tour/GuidedTour";
+import { WelcomeScreen } from "#src/features/welcome/WelcomeScreen";
 import { usePomodoro } from "#src/hooks/usePomodoro";
 import { useReducedMotion } from "#src/hooks/useReducedMotion";
 
@@ -63,10 +69,14 @@ export function Pomodog({
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmErase, setConfirmErase] = useState(false);
   const [dataNotice, setDataNotice] = useState("");
+  const [entryDismissed, setEntryDismissed] = useState(false);
   const accent = themes[model.preferences.theme].color;
   const reducedMotion = model.preferences.reduceMotion || systemReducedMotion;
   const showOnboarding =
-    model.ready && !model.onboardingComplete && model.timer.status === "idle";
+    model.ready &&
+    !model.onboardingComplete &&
+    model.timer.status === "idle" &&
+    !model.storageError;
 
   function startTour() {
     model.completeOnboarding();
@@ -78,11 +88,36 @@ export function Pomodog({
     setDataNotice("");
     try {
       await model.eraseData();
+      setEntryDismissed(false);
       setConfirmErase(false);
       setDataNotice("Os dados locais foram apagados.");
     } catch {
       setDataNotice("Não foi possível apagar os dados. Tente novamente.");
     }
+  }
+
+  if (!model.ready && !accountLocked) {
+    return (
+      <View className="flex-1 items-center justify-center bg-canvas">
+        <ActivityIndicator
+          accessibilityLabel="Preparando seu cantinho"
+          color={accent}
+        />
+      </View>
+    );
+  }
+
+  if (showOnboarding && !user && !entryDismissed && !model.storageError) {
+    return (
+      <WelcomeScreen
+        accent={accent}
+        reducedMotion={reducedMotion}
+        busy={authBusy}
+        notice={authNotice}
+        onSignIn={onSignIn}
+        onContinueLocally={() => setEntryDismissed(true)}
+      />
+    );
   }
 
   return (
@@ -223,6 +258,7 @@ export function Pomodog({
         />
         {showOnboarding && (
           <Onboarding
+            authenticated={user !== null}
             onShowTour={startTour}
             accent={accent}
             reducedMotion={reducedMotion}

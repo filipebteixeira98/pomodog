@@ -51,7 +51,7 @@ Notificações ao terminar validadas em aparelho físico, inclusive com tela blo
 ## Contas, Firebase e modelo de dados
 
 - Google OAuth, Firestore e autorização por proprietário implementados em `pomodog-dev-2026`. Validar login, gravação, saída/troca de conta e isolamento entre dois usuários. Configurar produção separadamente; detalhes técnicos em [Arquitetura](arquitetura.md).
-- Criar tela dedicada de login com opções de OAuth, mantendo continuar sem conta. Google já possui botão em Perfil; novos provedores dependem de definição de plataformas e configuração própria.
+- Tela dedicada de entrada implementada antes do onboarding, com Google e continuar sem conta. Botão também permanece em Perfil; novos provedores dependem de definição de plataformas e configuração própria.
 - Elaborar UML de classes e casos de uso e modelo lógico do banco ao definir contas/sincronização. Registrar depois em arquitetura as decisões efetivamente adotadas, inclusive separação entre ambientes e controle de acesso por usuário.
 - Definir quais dados sincronizar, migração do histórico local, conflitos e comportamento ao sair/trocar de conta. Preservar uso completo sem autenticação.
 - Sem conta, manter “Apagar dados deste dispositivo”. Com conta, exclusão de conta e dados remotos implementada com confirmação e reautenticação; remoção validada pelo usuário em aparelho físico.
@@ -147,3 +147,7 @@ A nova tela deve explicar coleta real e opcional, sem transformar ausência de r
 ## Selo Beta implementado
 
 Selo Beta adicionado ao lado do logotipo Pomodog no cabeçalho das telas, com descrição acessível de desenvolvimento e testes. Decisão futura: remover ao encerrar a fase beta. Hidratação, silenciamento de redes sociais e escolhas de privacidade após onboarding permanecem pendentes.
+
+## Tela de entrada entregue
+
+Google e continuar sem conta disponíveis antes da introdução no primeiro acesso. Headline curta, Nino e elementos Pomodoro reutilizam a identidade atual. Validar o novo ponto de entrada no aparelho; a autenticação Google existente já foi validada anteriormente. Outros provedores continuam pendentes. Tela de escolhas de privacidade após onboarding é outra entrega e permanece pendente.

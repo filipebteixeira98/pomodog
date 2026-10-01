@@ -193,3 +193,7 @@ Comandos `sentry:export:*` geram mapas privados por plataforma. `scripts/sentry-
 ### Crashes Java/Kotlin Android
 
 Plugin local `plugins/withNativeReporting.js` gera integração Kotlin e ponte React Native. Cliente nativo Sentry é iniciado em `Application.onCreate` somente com consentimento nativo válido, ou ao ativar em Ajustes. Consentimento/cache privados usam `noBackupFilesDir`; revogação fecha cliente e apaga cache. Filtro nativo reconstrói eventos/exceções/frames com campos permitidos. O filtro JavaScript não protege eventos nativos, por isso os clientes são independentes. NDK e ANR desativados; iOS não implementado. Validação real no aparelho pendente. Ver [Sentry](sentry.md).
+
+## Entrada e introdução
+
+Pomodog aguarda a leitura local antes de decidir a entrada. Visitante com introdução incompleta e timer ocioso vê WelcomeScreen; continuar sem conta libera o onboarding apenas em memória. Conta autenticada segue a introdução conforme seu estado salvo. GoogleSignInButton passou a ser componente compartilhado entre entrada e Perfil, reutilizando useAccount.login e seus estados de erro/ocupado. WelcomeArtwork compõe Dog existente com relógio SVG, sem assets remotos ou dependências novas. Ao apagar dados locais, a escolha transitória é reiniciada. Falha na leitura mantém a recuperação acessível; onboarding informa armazenamento na conta quando autenticado.

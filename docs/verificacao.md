@@ -260,3 +260,12 @@ SDK compatível instalado, plugin Expo resolvido, 67 testes aprovados, exportaç
 ## Selo Beta no cabeçalho
 
 Selo implementado junto ao logotipo no AppHeader compartilhado, com descrição acessível e quebra de linha no grupo do cabeçalho. TypeScript, formatação e revisão de whitespace aprovados. Alteração visual sem mudança de lógica; não foram adicionados testes unitários nem realizada nova inspeção no aparelho.
+
+## Tela de entrada antes do onboarding
+
+- TypeScript e 68 testes aprovados; exports web e Android/Hermes aprovados, sem dependências novas.
+- Navegador isolado, usando agent-browser: entrada inspecionada em 390 × 844 e 320 × 568; largura do documento de 320 px, sem transbordamento horizontal, botões de 272 px e rolagem para acesso em tela curta. Captura em [entrada-390.png](screenshots/entrada-390.png).
+- Tentativa de Google no ambiente local exibiu erro e liberou os dois botões; nenhuma conta foi autenticada neste teste. O login Google existente foi validado pelo usuário em entrega anterior; o novo ponto de entrada ainda requer confirmação no aparelho.
+- Com rede desligada no navegador, continuar sem conta abriu onboarding; pular introdução levou ao timer. Reabertura com rede restabelecida preservou onboarding concluído e acesso direto ao Foco.
+- Registro local inválido inserido somente no navegador isolado manteve aviso de recuperação e Perfil acessíveis, sem entrada/onboarding sobrepostos. Console sem erros não tratados registrados.
+- Não foram feitos testes de OAuth real, conta nova autenticada ou inspeção física desta tela nesta entrega.
