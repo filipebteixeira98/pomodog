@@ -44,7 +44,11 @@ export function createReportingConsent(adapter: Adapter) {
       }
       const save = writes
         .catch(() => {})
-        .then(() => adapter.write(value ? "enabled" : "disabled"));
+        .then(() => {
+          // A superseded activation must never initialize the native collector.
+          if (value && request !== revision) return;
+          return adapter.write(value ? "enabled" : "disabled");
+        });
       writes = save;
       await save;
       if (value && request === revision) {

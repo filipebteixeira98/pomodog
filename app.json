@@ -34,7 +34,8 @@
           "project": "pomodog",
           "url": "https://sentry.io/"
         }
-      ]
+      ],
+      "./plugins/withNativeReporting"
     ],
     "icon": "./assets/brand/icon.png",
     "android": {

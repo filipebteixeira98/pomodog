@@ -47,6 +47,19 @@ test("late opt-in cannot override a newer opt-out", async () => {
   assert.equal(f.initialized(), 0);
   assert.equal(f.stored(), "disabled");
 });
+test("superseded activation never reaches a native consent writer", async () => {
+  const values: string[] = [];
+  const consent = createReportingConsent({
+    read: async () => null,
+    write: async (value) => {
+      values.push(value);
+    },
+    initialize: () => assert.fail("cancelled activation must not initialize"),
+  });
+  await Promise.all([consent.set(true), consent.set(false)]);
+  assert.deepEqual(values, ["disabled"]);
+  assert.equal(consent.enabled(), false);
+});
 test("failed storage cannot enable reporting", async () => {
   const consent = createReportingConsent({
     read: async () => {

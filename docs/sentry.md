@@ -6,7 +6,7 @@ Projeto `personal-dashboard/pomodog`, plataforma React Native, criado pelo MCP n
 
 Em Ajustes, habilite **Enviar erros do aplicativo** no card Diagnóstico opcional. A opção começa desativada, é salva somente neste dispositivo e não acompanha a conta no Firestore. Desativar impede novos eventos; relatórios já enviados não são removidos do Sentry. Apagar dados locais ou concluir exclusão de conta desativa o envio neste aparelho.
 
-O SDK só é inicializado após restaurar consentimento válido ou salvar a ativação. Consentimento ilegível ou falha de leitura mantém envio desativado. A revogação é imediata em memória; gravações são serializadas para que uma ativação atrasada não reverta a revogação.
+Os SDKs só são inicializados após restaurar consentimento válido ou salvar a ativação. Consentimento ilegível ou falha de leitura mantém envio desativado. JavaScript bloqueia novos eventos imediatamente em memória; a revogação nativa é concluída pela gravação na ponte Android. Gravações são serializadas e ativações já superadas são descartadas. Desativar fecha o cliente nativo e remove seu cache; eventos já enviados ou em trânsito não podem ser recuperados.
 
 ## O que é enviado
 
@@ -14,7 +14,9 @@ Erros JavaScript não tratados, falhas de renderização e falhas tratadas em lo
 
 O filtro permite apenas campos técnicos: remove identidade Firebase, nome, e-mail, histórico, dados extras, requisições, logs, breadcrumbs e conteúdo de linhas de código. IP é substituído por `0.0.0.0` para impedir enriquecimento automático de localização no evento. Sentry continua sendo o destinatário da conexão de rede; não se promete anonimato absoluto. Não há analytics de uso, replay, heatmaps, perfilamento ou tracing de performance.
 
-Crashes nativos Java/Kotlin/Swift/NDK e armazenamento offline nativo estão desativados (`enableNative: false`), para manter o mesmo filtro JavaScript antes do envio. Essa entrega cobre diagnóstico JavaScript no Android e web. Ativação de crashes nativos exige consentimento e filtragem próprios, além de validação do binário.
+Crashes não tratados Java/Kotlin no Android agora possuem cliente nativo independente, com filtro próprio. Envia classe da exceção, arquivo, método, linha, versão e ambiente; remove mensagem original, identidade, contexto, extras, breadcrumbs, variáveis e caminhos completos. C/C++ (NDK), ANRs e iOS continuam desativados/não implementados. Não há screenshots, hierarquia de telas ou threads adicionais.
+
+`enableNative: false` no cliente JavaScript é intencional: mantém seu transporte e filtro independentes. A captura Android é inicializada manualmente pelo plugin local, sem encaminhar eventos JavaScript ao cliente nativo. `io.sentry.auto-init=false` impede inicialização automática fora do controle de consentimento.
 
 ## Build e mapas de código
 
@@ -57,7 +59,7 @@ O plugin foi aplicado ao projeto Android gerado via `npx expo prebuild --platfor
 
 Em um futuro build de release, use o token local ou segredo do ambiente e retire `SENTRY_DISABLE_AUTO_UPLOAD=true`. O Gradle/Sentry fará upload dos mapas do próprio APK. Para executar esse fluxo local e instalar no aparelho, use `npm run android -- --variant release` após configurar a credencial. **Não use mapas de `expo export` para substituir os do APK:** compilação Hermes/posições podem ser diferentes; o export Android serve ao bundle exportado/OTA. Não foi compilado nem instalado APK nesta entrega.
 
-Crashes nativos e seus símbolos continuam uma etapa separada, desativada. Atualize `release` em `src/monitoring/sentry.ts` e no script de verificação junto à versão do aplicativo até automatizarmos releases.
+Crashes Java/Kotlin foram configurados separadamente. O build atual não usa minificação R8; caso seja habilitada, será necessário configurar upload do mapping do próprio release. Símbolos C/C++ não foram configurados. Atualize `release` em `src/monitoring/sentry.ts` e no script de verificação junto à versão do aplicativo até automatizarmos releases.
 
 ## Verificação
 
@@ -72,3 +74,28 @@ Documentação consultada via Context7: [Expo](https://docs.sentry.io/platforms/
 ## Evidência de configuração dos source maps — 01/10/2026
 
 Web e Android/Hermes exportados com mapas; debug IDs conferidos. Resolução local de coordenadas compiladas retornou `/App.tsx`, linha 20, em ambas as plataformas. Mapas com ID trocado foram rejeitados antes de upload. Credencial e artefatos privados estão ignorados pelo Git. Upload sem token falhou explicitamente. Upload real concluído nas duas plataformas. Eventos web `14e7d3fbb2db4346b91bdaed6966c1b3` e Android `d7694cae989a40b292dfa2418e55ab62` foram confirmados via MCP em [POMODOG-2](https://personal-dashboard.sentry.io/issues/POMODOG-2), ambos resolvendo para `/App.tsx:20:1`, com contexto de código. São eventos sintéticos associados aos exports, não crashes reais de dispositivo.
+
+## Crashes nativos Android — 01/10/2026
+
+`plugins/withNativeReporting.js` registra a ponte e restauração em `MainApplication`, desativa auto-init e copia fontes/testes Kotlin versionados ao projeto gerado. Evite editar somente `android/`, pois prebuild recria esse diretório. O SDK Android já vem da dependência Sentry existente; não foi criado outro projeto remoto.
+
+No novo Android, o mesmo controle em Ajustes passa a ler/escrever consentimento nativo. A escolha anterior em AsyncStorage **não ativa automaticamente a nova coleta**: habilite novamente após reinstalar o build. Consentimento e cache ficam em `noBackupFilesDir`, fora do backup Android, e não são sincronizados com Firebase. Web e builds antigos sem a ponte continuam com consentimento JavaScript. Reinstalar um APK por atualização preserva a escolha nativa; desinstalar remove-a.
+
+Se autorizado anteriormente, a captura começa em `Application.onCreate`, antes da inicialização React Native/JavaScript. Não cobre falhas anteriores a esse ponto. Eventos filtrados podem ficar no cache privado offline (máximo de dez envelopes) e ser reenviados quando houver rede. Inicialização sem consentimento e revogação removem esse cache. A captura fica desligada em caso de erro de inicialização.
+
+### Validar no aparelho
+
+1. Regenere e instale o development build usando os comandos acima. Expo Go não valida esta integração.
+2. Habilite **Enviar erros do aplicativo** em Ajustes e reabra o app; confirme que a escolha foi preservada.
+3. Com o app aberto, execute o comando abaixo somente quando desejar encerrar o app intencionalmente para o teste; não faça o teste durante um ciclo que deseja preservar.
+
+```sh
+adb shell am crash com.filipebteixeira98.pomodog
+```
+
+4. Reabra o app com internet e procure no Sentry por `operation:native.crash`, ambiente `development`. Confira stack Java/Kotlin, mensagem substituída e ausência de identidade/histórico. Se não chegar, leia `adb logcat` para confirmar que o Android realmente gerou exceção não tratada.
+5. Desative o envio, reabra, repita o crash controlado e confirme que nenhum novo evento aparece. Repita com rede desligada para avaliar reenvio e com revogação antes de reconectar para avaliar descarte do cache.
+
+Sem dispositivo conectado nesta entrega: nenhum crash real foi provocado e nenhum evento nativo real foi confirmado no dashboard. Testes automatizados de filtragem não substituem essa validação.
+
+Documentação consultada via Context7: [inicialização nativa manual](https://docs.sentry.io/platforms/react-native/manual-setup/native-init/) e [Sentry Android](https://docs.sentry.io/platforms/android/).

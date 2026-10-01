@@ -1,3 +1,4 @@
+import { NativeModules, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Sentry from "@sentry/react-native";
 
@@ -11,6 +12,13 @@ import { reportingStorageKey, sentryDsn } from "#src/monitoring/sentryConfig";
 
 let initialized = false;
 
+type NativeReporting = {
+  readConsent: () => Promise<string>;
+  writeConsent: (value: string) => Promise<void>;
+};
+const nativeReporting: NativeReporting | undefined =
+  Platform.OS === "android" ? NativeModules.PomodogReporting : undefined;
+
 function initialize() {
   if (initialized) return;
   Sentry.init({
@@ -19,6 +27,8 @@ function initialize() {
     release: "pomodog@0.1.0",
     sendDefaultPii: false,
     enableNative: false,
+    // Android crashes use a separate native client with its own consent/filter.
+    autoInitializeNativeSdk: false,
     enableAutoSessionTracking: false,
     enableAppStartTracking: false,
     enableNativeFramesTracking: false,
@@ -49,8 +59,14 @@ function initialize() {
 }
 
 const consent = createReportingConsent({
-  read: () => AsyncStorage.getItem(reportingStorageKey),
-  write: (value) => AsyncStorage.setItem(reportingStorageKey, value),
+  read: () =>
+    nativeReporting
+      ? nativeReporting.readConsent()
+      : AsyncStorage.getItem(reportingStorageKey),
+  write: (value) =>
+    nativeReporting
+      ? nativeReporting.writeConsent(value)
+      : AsyncStorage.setItem(reportingStorageKey, value),
   initialize,
 });
 export const startMonitoring = consent.restore;

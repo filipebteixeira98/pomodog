@@ -193,3 +193,7 @@ Projeto `personal-dashboard/pomodog` criado via MCP. SDK, plugin Expo e Metro in
 ## Source maps — configuração de build
 
 Adicionados exports privados de web/Android com mapas e comandos de verificação/upload. Validada associação local ao código original e rejeição de IDs incompatíveis; plugin aplicado ao projeto Android gerado. Upload real concluído com token local; eventos sintéticos web/Android resolvidos no dashboard para App.tsx, linha 20. Mapas de exportação concluídos e validados; mapas do APK serão enviados no futuro build de release. Mapas do APK devem vir do próprio Gradle, não de export separado. Crashes nativos continuam pendentes. Detalhes em [Sentry](sentry.md).
+
+## Crashes nativos Android — 01/10/2026
+
+Captura Java/Kotlin implementada com inicialização manual, consentimento próprio na camada nativa associado ao mesmo controle em Ajustes, filtragem técnica e descarte do cache ao revogar. Plugin local preserva configuração no prebuild. A escolha JavaScript anterior não habilita automaticamente a nova coleta. **Em validação**: reinstalar build e confirmar crash real/revogação/reenvio no aparelho e dashboard. C/C++ (NDK), ANRs, iOS e símbolos/mapping de release permanecem fora desta entrega. Roteiro em [Sentry](sentry.md).

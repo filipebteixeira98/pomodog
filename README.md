@@ -89,7 +89,7 @@ O fluxo de notificações agora usa development build, com expo-dev-client insta
 
 ## Diagnóstico de erros
 
-Sentry integrado para erros JavaScript. Envio opcional em Ajustes, desligado por padrão e independente da conta. [Configuração, privacidade e validação](docs/sentry.md). Reinstale development build após adicionar o SDK; uploads de source maps de release exigem SENTRY_AUTH_TOKEN no ambiente de build.
+Sentry integrado para erros JavaScript e crashes Java/Kotlin Android (validação física pendente). Envio opcional em Ajustes, desligado por padrão e independente da conta. [Configuração, privacidade e validação](docs/sentry.md). Reinstale development build após adicionar o SDK; uploads de source maps de release exigem SENTRY_AUTH_TOKEN no ambiente de build.
 
 ### Source maps
 

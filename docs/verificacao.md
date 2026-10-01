@@ -247,3 +247,12 @@ SDK compatível instalado, plugin Expo resolvido, 67 testes aprovados, exportaç
 - Evento Android/Hermes `d7694cae989a40b292dfa2418e55ab62`, ambiente `source-map-verification-android`: `/App.tsx:20:1`.
 - Ambos agrupados em [POMODOG-2](https://personal-dashboard.sentry.io/issues/POMODOG-2), com trecho original de código, confirmados via MCP. Eventos construídos explicitamente com coordenadas dos exports; não foram erros provocados no runtime do aparelho.
 - Credencial usada somente no processo local de upload, com arquivo ignorado pelo Git. Nenhum token impresso ou versionado.
+
+## Crashes Java/Kotlin Android — 01/10/2026
+
+- Prebuild Android gerou ponte/registro em MainApplication, fontes Kotlin, testes e metadata `io.sentry.auto-init=false`.
+- `:app:compileDebugKotlin` e `:app:testDebugUnitTest` aprovados com Java 17; dois testes nativos verificam descarte de payload sensível, preservação de localização/classificação de crash e descarte de evento sem exceção.
+- `npm test`: 68 testes aprovados, incluindo bloqueio de ativação superada antes de escrever consentimento nativo. TypeScript aprovado.
+- Consentimento Android/cache fora de backup; coleta anterior JavaScript não ativa automaticamente nova camada. Revogação fecha SDK e remove cache privado.
+- Nenhum dispositivo conectado segundo ADB. Nenhum APK foi instalado ou crash real gerado; confirmação nativa no dashboard e cenários offline/revogação permanecem pendentes.
+- NDK, ANRs, iOS e upload de mapping/símbolos de release não implementados nesta entrega.
