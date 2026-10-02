@@ -334,3 +334,7 @@ Usuário confirmou funcionamento dos eventos no DebugView. Manter modo debug ati
 ## Escolha de privacidade após onboarding — 02/10/2026
 
 Implementada a sequência entrada → introdução → escolha de privacidade → tour guiado → Foco. Concluir ou pular introdução leva à escolha, sem autorização pré-selecionada. Permitir ativa diagnóstico e uso opcional nos controles existentes de Ajustes; recusar mantém ambos desligados. Ambas as operações precisam terminar antes do tour; falha na ativação tenta revogar ambas e mantém a tela para nova escolha. Ajustes preserva alterações independentes posteriores. Usuários com introdução já concluída mantêm o fluxo/permissões atuais. Não altera autenticação ou sincronização dos dados da conta. TypeScript e 81 testes passaram; funcionamento da nova tela confirmado pelo usuário no dispositivo físico.
+
+## Textos objetivos de coleta em Ajustes — 02/10/2026
+
+Diagnóstico e uso opcional receberam títulos e descrições mais curtos, preservando os dados informados e possibilidade de desativar. Sem alteração no consentimento ou nos serviços. Pendências de Analytics continuam retenção, revogação e relatórios normais; recepção no DebugView e tela de privacidade já confirmadas pelo usuário.

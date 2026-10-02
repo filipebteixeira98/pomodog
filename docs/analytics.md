@@ -4,7 +4,7 @@ Implementação de 02/10/2026 com `@react-native-firebase/app` e `@react-native-
 
 ## Consentimento e dados
 
-No primeiro acesso, após o onboarding e antes do tour guiado, a tela de privacidade oferece permitir diagnóstico e uso opcional ou continuar sem compartilhar, sem escolha pré-selecionada. Permitir habilita os dois controles existentes; recusar mantém ambos desligados. Em Ajustes, **Compartilhar como uso o app** continua independente do diagnóstico de erros e desligado por padrão. O consentimento permanece neste dispositivo, não no perfil sincronizado. Sem aceitar, o app funciona normalmente com ou sem conta. Não interpretar login ou consentimento de Sentry como autorização de medição.
+No primeiro acesso, após o onboarding e antes do tour guiado, a tela de privacidade oferece permitir diagnóstico e uso opcional ou continuar sem compartilhar, sem escolha pré-selecionada. Permitir habilita os dois controles existentes; recusar mantém ambos desligados. Em Ajustes, **Compartilhar uso** continua independente do diagnóstico de erros e desligado por padrão. O consentimento permanece neste dispositivo, não no perfil sincronizado. Sem aceitar, o app funciona normalmente com ou sem conta. Não interpretar login ou consentimento de Sentry como autorização de medição.
 
 `firebase.json` nega coleta e armazenamento de Analytics por padrão antes do JavaScript. Ads, personalização, AD_ID e SSAID desabilitados; AD_ID removido das permissões Android. Telas são medidas explicitamente, evitando registrar Activities do development client. Após a autorização, o SDK também pode produzir seus eventos técnicos automáticos de sessão/engajamento; não é uma coleta limitada aos eventos customizados abaixo.
 
@@ -36,7 +36,7 @@ O arquivo google-services-analytics.json baixado pelo usuário é idêntico ao g
 
 O projeto Expo gera Gradle Groovy (.gradle), não Kotlin DSL (.gradle.kts). Plugin Firebase App já adiciona Google Services (4.4.4 no build validado); módulos React Native Firebase 26.4.0 já incluem Firebase Analytics e BoM 34.18.0. Não duplicar os trechos do assistente de instalação nativa nem forçar versões diferentes apenas por aparecerem no console. Mudanças necessárias de versões devem ser feitas pela configuração/dependências do projeto, preservando prebuild reproduzível.
 
-Pendentes: confirmar retenção de eventos/usuários em dois meses e opções de compartilhamento/publicidade no GA4, reinstalar development build e validar recepção/revogação no aparelho. O SDK já nega consentimento publicitário. Não confundir a vinculação bem-sucedida com confirmação de eventos recebidos. [Integrações do projeto](https://console.firebase.google.com/project/pomodog-dev-2026/settings/integrations).
+Recepção de eventos no DebugView e funcionamento da tela de privacidade confirmados pelo usuário no aparelho. Pendentes: confirmar retenção de eventos/usuários em dois meses e opções de compartilhamento/publicidade no GA4; validar especificamente revogação, persistência após reabrir, exclusão e comportamento offline. O SDK já nega consentimento publicitário. [Integrações do projeto](https://console.firebase.google.com/project/pomodog-dev-2026/settings/integrations).
 
 Para comparar durações/modos nos relatórios, registrar `session_mode` como dimensão customizada de evento e `duration_seconds` como métrica customizada. São opcionais para ver payloads no DebugView; o SDK não cria essas definições de relatório automaticamente.
 
@@ -49,7 +49,7 @@ npx expo prebuild --platform android --no-install
 npm run android
 ```
 
-APK debug arm64-v8a compilado com sucesso nesta máquina; instalação e recepção no aparelho ainda pendentes. Usar JDK 17 e SDK Android conforme [development build](development-build.md). O APK debug depende de Metro para executar JavaScript; a exportação Hermes não substitui instalação/validação.
+APK debug arm64-v8a compilado com sucesso nesta máquina; usuário confirmou eventos recebidos no DebugView no aparelho. Usar JDK 17 e SDK Android conforme [development build](development-build.md). O APK debug depende de Metro para executar JavaScript; a exportação Hermes não substitui instalação/validação.
 
 Com aparelho autorizado por USB, habilitar debug somente para o teste:
 
@@ -94,3 +94,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 ```
 
 Essa propriedade é uma configuração do dispositivo, não do APK: não é distribuída aos usuários e um build release, por si só, não comprova que ela foi desativada no aparelho de teste. Consultar o valor com `adb shell getprop debug.firebase.analytics.app` ao revisar o lembrete; não presumir que continua ativo indefinidamente. A coleta autorizada permanece funcionando ao remover o modo debug. Não confundir com o consentimento em Ajustes.
+
+## Textos de Ajustes — 02/10/2026
+
+Controles renomeados para “Compartilhar falhas” e “Compartilhar uso”, com descrições curtas dos dados enviados e possibilidade de desativar. Preservadas informações sobre identificador da instalação e ausência de nome, e-mail e textos pessoais. Sem mudanças na coleta ou nas permissões.

@@ -46,10 +46,10 @@ export function ReportingSettings({ accent }: { accent: string }) {
       </View>
       <View className="flex-row items-center gap-3">
         <Text variant="label" className="flex-1">
-          Ajudar a melhorar o aplicativo
+          Compartilhar falhas
         </Text>
         <Switch
-          accessibilityLabel="Permitir o envio de informações sobre falhas do aplicativo"
+          accessibilityLabel="Compartilhar falhas do aplicativo"
           value={enabled}
           disabled={busy || !ready}
           onValueChange={(value) => void change(value)}
@@ -57,9 +57,8 @@ export function ReportingSettings({ accent }: { accent: string }) {
         />
       </View>
       <Text variant="caption">
-        Permita o envio de informações sobre falhas para ajudar a melhorar o
-        aplicativo. Seu nome, e-mail e histórico de foco não são enviados. Você
-        pode desativar essa opção a qualquer momento neste dispositivo.
+        Envia dados técnicos de falhas, sem nome, e-mail ou histórico de foco.
+        Desative quando quiser.
       </Text>
       {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
     </Card>

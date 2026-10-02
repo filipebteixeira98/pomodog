@@ -48,10 +48,10 @@ export function AnalyticsSettings({ accent }: { accent: string }) {
       </View>
       <View className="flex-row items-center gap-3">
         <Text variant="label" className="flex-1">
-          Compartilhar como uso o app
+          Compartilhar uso
         </Text>
         <Switch
-          accessibilityLabel="Permitir o envio de informações sobre o uso do aplicativo"
+          accessibilityLabel="Compartilhar uso do aplicativo"
           value={enabled}
           disabled={busy || !ready}
           onValueChange={(value) => void change(value)}
@@ -59,11 +59,8 @@ export function AnalyticsSettings({ accent }: { accent: string }) {
         />
       </View>
       <Text variant="caption">
-        Envie informações sobre telas visitadas e ciclos de foco e descanso para
-        ajudar a melhorar a experiência. A coleta inclui dados técnicos do
-        dispositivo e um identificador da instalação, sem seu nome, e-mail ou
-        textos pessoais. Você pode desativar quando quiser, sem perder
-        funcionalidades.
+        Envia telas visitadas, ciclos, dados do dispositivo e identificador da
+        instalação. Sem nome, e-mail ou textos pessoais. Desative quando quiser.
       </Text>
       {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
     </Card>
