@@ -9,6 +9,10 @@ export type AnalyticsAdapter = {
     name: string,
     payload: Record<string, string | number>,
   ) => void | Promise<void>;
+  diagnose?: (
+    stage: "restore" | "consent" | "event",
+    event?: UsageEvent["name"],
+  ) => void;
 };
 
 /** Consent is device-local, independent of account and diagnostic consent. */
@@ -46,6 +50,7 @@ export function createAnalytics(adapter: AnalyticsAdapter) {
           await adapter.configure(value === "enabled");
           if (request === revision) enabled = value === "enabled";
         } catch {
+          adapter.diagnose?.("restore");
           enabled = false;
           await adapter.configure(false).catch(() => {});
         } finally {
@@ -71,6 +76,7 @@ export function createAnalytics(adapter: AnalyticsAdapter) {
             else await adapter.configure(false);
           }
         } catch (error) {
+          adapter.diagnose?.("consent");
           enabled = false;
           await adapter.configure(false).catch(() => {});
           await adapter.write("disabled").catch(() => {});
@@ -89,7 +95,9 @@ export function createAnalytics(adapter: AnalyticsAdapter) {
       const request = revision;
       void enqueue(async () => {
         if (enabled && request === revision) await adapter.log(name, payload);
-      }).catch(() => {}); // Measurement must never interrupt a session.
+      }).catch(() => {
+        adapter.diagnose?.("event", name);
+      }); // Measurement must never interrupt a session.
     },
   };
 }

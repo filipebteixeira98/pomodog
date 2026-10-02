@@ -294,3 +294,11 @@ Catálogo e instruções em [Analytics](analytics.md). Onboarding anterior à es
 ### Vinculação GA4 após habilitação pelo usuário
 
 API analyticsDetails retornou 200, propriedade 557163675, conta 227570824 e stream Android 15949717951. Stream web também vinculado automaticamente; adaptador web do app continua sem coleta. Comparação dos JSONs confirmou igualdade integral, incluindo OAuth. Gradle gerado já aplica Google Services, e módulos já incluem BoM/Analytics. Nenhuma mudança de SDK/Gradle necessária nesta confirmação. Recepção no DebugView e retenção no console ainda não verificadas.
+
+### Eventos customizados: reprodução da rejeição
+
+- SDK instalado rejeita session_start antes da ponte nativa; reprodução automatizada usa o código real do módulo com apenas ponte nativa substituída.
+- Nomes pomodoro_start/pause/resume/complete/reset e screen_view/onboarding_complete aceitos pelo mesmo validador. Teste confirma recuperação da fila após falha e diagnóstico controlado.
+- 78 testes e TypeScript passaram; export Android/Hermes passou. Sem mudanças nativas.
+- Aparelho conectado encontrado; modo debug vazio na consulta inicial. DebugView habilitado somente para Pomodog, mantendo consentimento e timer. Buffer do processo, filtrado para não exibir payloads/identificadores, não comprovou chamadas/upload de eventos recentes. Recepção em DebugView ainda não validada.
+- Falha de início comprovada, porém não inferir que ela explica ausência de todos os demais eventos. Verificar versão carregada, consentimento, DebugView e atraso/filtros dos relatórios.

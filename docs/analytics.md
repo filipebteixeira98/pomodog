@@ -18,11 +18,11 @@ Ao desativar, o bloqueio JavaScript ocorre imediatamente e eventos ainda na fila
 | --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------ |
 | `screen_view`         | `screen_name`, `screen_class`: welcome/onboarding/focus/progress/settings/profile | Quais telas são acessadas?                             |
 | `onboarding_complete` | Nenhuma                                                                           | Quantas conclusões ocorrem depois de autorizar coleta? |
-| `session_start`       | `session_mode`: focus/break; `duration_seconds`                                   | Quais ciclos/durações as pessoas iniciam?              |
-| `session_pause`       | Modo e duração configurada                                                        | Com que frequência interrompem ciclos?                 |
-| `session_resume`      | Modo e duração configurada                                                        | Retomam os ciclos pausados?                            |
-| `session_complete`    | Modo e duração do ciclo que terminou                                              | Quantos ciclos chegam ao fim?                          |
-| `session_reset`       | Modo e duração configurada                                                        | Quantos ciclos ativos/pausados são reiniciados?        |
+| `pomodoro_start`      | `session_mode`: focus/break; `duration_seconds`                                   | Quais ciclos/durações as pessoas iniciam?              |
+| `pomodoro_pause`      | Modo e duração configurada                                                        | Com que frequência interrompem ciclos?                 |
+| `pomodoro_resume`     | Modo e duração configurada                                                        | Retomam os ciclos pausados?                            |
+| `pomodoro_complete`   | Modo e duração do ciclo que terminou                                              | Quantos ciclos chegam ao fim?                          |
+| `pomodoro_reset`      | Modo e duração configurada                                                        | Quantos ciclos ativos/pausados são reiniciados?        |
 
 Só transições efetivas produzem eventos; ticks não são medidos. Na conclusão, o modo enviado é o do ciclo anterior, apesar da troca automática de foco/descanso. Retorno ao app e restauração de um timer vencido podem reconhecer conclusão; restaurar histórico concluído não o reenvia. Eventos anteriores ao consentimento não são armazenados para envio posterior.
 
@@ -72,3 +72,13 @@ adb shell setprop debug.firebase.analytics.app .none.
 DebugView é o caminho para validação imediata; relatórios agregados não são instantâneos. Recepção real e comportamento da revogação no aparelho ainda precisam ser comprovados após instalação.
 
 Referências: [React Native Firebase Analytics](https://rnfirebase.io/analytics/usage), [configuração Expo](https://rnfirebase.io/), [DebugView](https://firebase.google.com/docs/analytics/debugview), [vincular projeto](https://firebase.google.com/docs/projects/api/workflow_set-up-and-manage-project#link-analytics).
+
+## Correção de nomes e diagnóstico — 02/10/2026
+
+O catálogo inicial usava session_start para início de Pomodoro. Esse nome é reservado: o SDK instalado lança exceção antes de chamar a ponte nativa. O controlador mantinha o timer funcionando, mas descartava a falha sem diagnóstico. Corrigida a família customizada para pomodoro_start/pause/resume/complete/reset, distinguindo ciclos dos eventos automáticos de sessão do Analytics. screen_view e onboarding_complete mantidos. Nomes novos não recuperam eventos anteriores.
+
+Testes agora executam a validação real de logEvent do SDK instalado, substituindo somente a ponte nativa; reproduzem a rejeição antiga e verificam todos os nomes/payloads atuais. Em desenvolvimento, falhas de restauração, consentimento e chamada de evento produzem [Pomodog analytics] com etapa/nome controlados. Não imprime exceção original, identidade ou payload; produção permanece sem esses logs. Aceitação pelo SDK não confirma recepção no servidor.
+
+A investigação confirmou a falha do evento de início; ela não explica, sozinha, ausência de outros eventos. Usuários ativos podem refletir eventos automáticos. No aparelho conectado, modo debug inicialmente vazio; habilitado DebugView para Pomodog sem alterar consentimento/timer. Leitura filtrada do processo não forneceu eventos novos para comprovar upload. Ainda validar com navegação/ciclos na versão atual e tela DebugView da propriedade correta. Mudança somente JavaScript: carregar código atual via Metro, sem recompilar nativo por esta correção.
+
+Relatórios comuns podem levar 24–48 horas para processar dados; sem debug, o SDK também pode agrupar envios por aproximadamente uma hora. Ver [diagnóstico de relatórios](https://developers.google.com/analytics/devguides/collection/ga4/troubleshoot) e [DebugView](https://firebase.google.com/docs/analytics/debugview). Registrar dimensões/métricas customizadas permite analisar propriedades como modo/duração em relatórios; não é necessário para ver eventos/payloads no DebugView. Conferir filtros de tráfego de desenvolvedor no GA4 se DebugView recebe eventos e relatórios continuam sem eles.

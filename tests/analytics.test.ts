@@ -9,8 +9,52 @@ import {
   type UsageEvent,
 } from "#src/analytics/events.ts";
 import { initialTimer, timerReducer } from "#src/timer.ts";
+import { firebaseAnalyticsSdk } from "#tests/helpers/firebaseAnalyticsSdk.ts";
 
 const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
+test("every app event passes the installed Firebase SDK validator, which rejects the old reserved name", () => {
+  const sdk = firebaseAnalyticsSdk();
+  assert.throws(() => sdk.log("session_start", {}), /reserved/);
+  const events: UsageEvent[] = [
+    { name: "screen_view", screen: "focus" },
+    { name: "onboarding_complete" },
+    ...(
+      [
+        "pomodoro_start",
+        "pomodoro_pause",
+        "pomodoro_resume",
+        "pomodoro_complete",
+        "pomodoro_reset",
+      ] as const
+    ).map((name) => ({ name, mode: "focus" as const, duration: 1500 })),
+  ];
+  for (const event of events) sdk.log(event.name, eventPayload(event)!);
+  assert.deepEqual(
+    sdk.calls,
+    events.map((event) => event.name),
+  );
+});
+test("SDK rejection reports a controlled diagnostic without breaking the next event", async () => {
+  const sdk = firebaseAnalyticsSdk();
+  const diagnostics: unknown[] = [];
+  let reject = true;
+  const analytics = createAnalytics({
+    supported: true,
+    read: async () => "enabled",
+    write: async () => {},
+    configure: async () => {},
+    log: (name, payload) => sdk.log(reject ? "session_start" : name, payload),
+    diagnose: (stage, event) => diagnostics.push({ stage, event }),
+  });
+  await analytics.restore();
+  analytics.track({ name: "pomodoro_start", mode: "focus", duration: 1500 });
+  await flush();
+  reject = false;
+  analytics.track({ name: "screen_view", screen: "focus" });
+  await flush();
+  assert.deepEqual(diagnostics, [{ stage: "event", event: "pomodoro_start" }]);
+  assert.deepEqual(sdk.calls, ["screen_view"]);
+});
 function fixture(saved: string | null = null, supported = true) {
   let stored = saved;
   const changes: boolean[] = [];
@@ -129,7 +173,7 @@ test("read/write failure and unsupported platforms never enable or measure usage
 });
 test("payload allowlist removes identity, arbitrary text and history", () => {
   const event = {
-    name: "session_complete",
+    name: "pomodoro_complete",
     mode: "focus",
     duration: 1500,
     email: "private",
@@ -153,20 +197,23 @@ test("payload allowlist removes identity, arbitrary text and history", () => {
     null,
   );
   assert.equal(
-    eventPayload({ name: "session_start", mode: "focus", duration: NaN }),
+    eventPayload({ name: "pomodoro_start", mode: "focus", duration: NaN }),
     null,
   );
 });
 test("timer telemetry follows successful transitions and reports previous mode once on completion", () => {
   const start = { type: "start", now: 1000 } as const;
   const running = timerReducer(initialTimer, start);
-  assert.equal(timerEvent(initialTimer, running, start)?.name, "session_start");
+  assert.equal(
+    timerEvent(initialTimer, running, start)?.name,
+    "pomodoro_start",
+  );
   assert.equal(timerEvent(running, timerReducer(running, start), start), null);
   const pause = { type: "pause", now: 2000 } as const;
   const paused = timerReducer(running, pause);
-  assert.equal(timerEvent(running, paused, pause)?.name, "session_pause");
+  assert.equal(timerEvent(running, paused, pause)?.name, "pomodoro_pause");
   const resumed = timerReducer(paused, start);
-  assert.equal(timerEvent(paused, resumed, start)?.name, "session_resume");
+  assert.equal(timerEvent(paused, resumed, start)?.name, "pomodoro_resume");
   const tick = {
     type: "tick",
     now: running.deadline!,
@@ -175,7 +222,7 @@ test("timer telemetry follows successful transitions and reports previous mode o
   const completed = timerReducer(running, tick);
   assert.equal(completed.mode, "break");
   assert.deepEqual(timerEvent(running, completed, tick), {
-    name: "session_complete",
+    name: "pomodoro_complete",
     mode: "focus",
     duration: 1500,
   });
@@ -191,7 +238,7 @@ test("timer telemetry follows successful transitions and reports previous mode o
   } as const;
   assert.deepEqual(
     timerEvent(breakRunning, timerReducer(breakRunning, breakTick), breakTick),
-    { name: "session_complete", mode: "break", duration: 300 },
+    { name: "pomodoro_complete", mode: "break", duration: 300 },
   );
   const restore = {
     type: "restore",
@@ -202,7 +249,7 @@ test("timer telemetry follows successful transitions and reports previous mode o
   assert.equal(
     timerEvent(restore.value, timerReducer(initialTimer, restore), restore)
       ?.name,
-    "session_complete",
+    "pomodoro_complete",
   );
 });
 test("native defaults deny collection and advertising before JavaScript consent restoration", () => {

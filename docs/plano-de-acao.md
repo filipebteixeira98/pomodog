@@ -134,7 +134,7 @@ Decisão de 02/10/2026: implementar primeiro a integração para eventos de uso 
 
 Fornecedor escolhido pelo usuário: Firebase Analytics. Entrega Android implementada com coleta desligada por padrão, controle separado de Sentry em Ajustes e payload permitido para telas/ciclos. Não associa UID da conta ao identificador de Analytics. Primeiro onboarding normalmente não é medido porque autorização é oferecida em Ajustes; nenhum histórico anterior é reenviado.
 
-Eventos: screen_view, onboarding_complete, session_start/pause/resume/complete/reset. Modos e durações são os do ciclo efetivo; conclusão trata troca automática e retorno ao app sem repetir ticks. Web/iOS sem coleta nesta entrega. A tela de privacidade pós-onboarding continua separada; replay, heatmaps e A/B não foram habilitados.
+Eventos: screen_view, onboarding_complete, pomodoro_start/pause/resume/complete/reset. Modos e durações são os do ciclo efetivo; conclusão trata troca automática e retorno ao app sem repetir ticks. Web/iOS sem coleta nesta entrega. A tela de privacidade pós-onboarding continua separada; replay, heatmaps e A/B não foram habilitados.
 
 Status em andamento: vínculo GA4 confirmado após habilitação pelo usuário (propriedade 557163675). Restam configuração de retenção e validação real após reinstalar development build. Guia e catálogo em [Analytics](analytics.md).
 
@@ -322,3 +322,7 @@ SDK nativo Android e consentimento local independente implementados. Eventos mí
 ## Vinculação GA4 confirmada — 02/10/2026
 
 Usuário habilitou Analytics no Firebase; API confirmou propriedade 557163675 e stream Android. JSON adicional idêntico ao vigente, sem mudança necessária de OAuth/configuração nativa. SDK e BoM já incluídos pelas dependências; sem duplicação manual de Gradle. Integração continua em andamento até validação real de eventos/revogação e retenção no console.
+
+## Correção de eventos customizados — 02/10/2026
+
+SDK rejeitava session_start (reservado), e falha era descartada pelo controlador. Família alterada para pomodoro_*, com teste contra validador real do SDK e diagnóstico de falhas em desenvolvimento sem payloads. 78 testes e export Android passaram. Integração continua em andamento: ausência de todos os eventos não foi comprovada no DebugView; recepção real ainda precisa ser validada. Ver guia Analytics.

@@ -7,11 +7,11 @@ export type UsageEvent =
   | { name: "onboarding_complete" }
   | {
       name:
-        | "session_start"
-        | "session_pause"
-        | "session_resume"
-        | "session_complete"
-        | "session_reset";
+        | "pomodoro_start"
+        | "pomodoro_pause"
+        | "pomodoro_resume"
+        | "pomodoro_complete"
+        | "pomodoro_reset";
       mode: Timer["mode"];
       duration: number;
     };
@@ -35,11 +35,11 @@ export function eventPayload(
   }
   if (
     ![
-      "session_start",
-      "session_pause",
-      "session_resume",
-      "session_complete",
-      "session_reset",
+      "pomodoro_start",
+      "pomodoro_pause",
+      "pomodoro_resume",
+      "pomodoro_complete",
+      "pomodoro_reset",
     ].includes(event.name)
   )
     return null;
@@ -61,30 +61,30 @@ export function timerEvent(
 ): UsageEvent | null {
   if (before.status === "running" && after.status === "completed")
     return {
-      name: "session_complete",
+      name: "pomodoro_complete",
       mode: before.mode,
       duration: before.duration,
     };
   let name:
-    "session_start" | "session_pause" | "session_resume" | "session_reset";
+    "pomodoro_start" | "pomodoro_pause" | "pomodoro_resume" | "pomodoro_reset";
   if (
     action.type === "start" &&
     before.status !== "running" &&
     after.status === "running"
   )
-    name = before.status === "paused" ? "session_resume" : "session_start";
+    name = before.status === "paused" ? "pomodoro_resume" : "pomodoro_start";
   else if (
     action.type === "pause" &&
     before.status === "running" &&
     after.status === "paused"
   )
-    name = "session_pause";
+    name = "pomodoro_pause";
   else if (
     action.type === "reset" &&
     (before.status === "running" || before.status === "paused") &&
     after.status === "idle"
   )
-    name = "session_reset";
+    name = "pomodoro_reset";
   else return null;
   return { name, mode: before.mode, duration: before.duration };
 }

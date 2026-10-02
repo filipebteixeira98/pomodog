@@ -14,6 +14,12 @@ function sdk() {
 
 export const analyticsAdapter: AnalyticsAdapter = {
   supported,
+  diagnose(stage, event) {
+    if (__DEV__)
+      console.warn(
+        `[Pomodog analytics] ${stage} failed${event ? `: ${event}` : ""}`,
+      );
+  },
   read: () => AsyncStorage.getItem(key),
   write: (value) => AsyncStorage.setItem(key, value),
   async configure(enabled) {
