@@ -194,4 +194,4 @@ Usuário optou por manter modo debug do Firebase Analytics no aparelho para depu
 
 A tela simples apresenta diagnóstico e, nas plataformas suportadas, uso opcional. Duas alternativas exclusivas, sem escolha inicial: permitir ambas as categorias ou continuar sem compartilhar. Salva nos mesmos controles de Ajustes antes de concluir introdução e abrir tour. Recusa não limita funcionalidades; ajustes posteriores continuam independentes. Voltar retorna à introdução. Não repete automaticamente para introduções já concluídas. No navegador, somente diagnóstico está disponível; Analytics permanece limitado ao Android nativo.
 
-Próximos passos: validar no aparelho permitir/recusar, retorno à introdução, persistência após reabrir e acesso ao tour; confirmar os dois switches em Ajustes. Retenção e validação de revogação no serviço continuam no planejamento de Analytics.
+Usuário confirmou funcionamento da entrega no dispositivo físico. Próximos passos: preservar escolhas, controles de Ajustes e acesso ao tour nas próximas alterações. A confirmação não equivale à validação de retenção ou revogação nos serviços; essas etapas continuam no planejamento de Analytics.
