@@ -28,11 +28,15 @@ Só transições efetivas produzem eventos; ticks não são medidos. Na conclus�
 
 A escolha é oferecida em Ajustes, depois da introdução: o primeiro onboarding normalmente não é medido. A futura tela de privacidade é uma entrega separada. Os dados representam somente instalações que aceitaram a coleta; contagens não representam todos os usuários, nem provam causalidade ou produtividade.
 
-## Vinculação no console — pendente
+## Vinculação no console — confirmada
 
-Consulta da API em 02/10/2026: `projects/pomodog-dev-2026/analyticsDetails` retornou 404 (sem vínculo). A sessão Firebase consegue consultar o projeto, mas a listagem de contas GA4 retorna 403 por escopos insuficientes. Não foi criada propriedade, nem aceitos termos por conta do usuário.
+Após habilitação pelo usuário em 02/10/2026, consulta da API retornou 200: propriedade GA4 `557163675` (`pomodog-dev-2026`), conta `227570824`, stream Android `15949717951`. Firebase também vinculou o app web a um stream; isso não ativa coleta no adaptador web atual.
 
-Para concluir, fornecer ID da conta/propriedade GA4 existente ou habilitar Google Analytics em [Configurações → Integrações](https://console.firebase.google.com/project/pomodog-dev-2026/settings/integrations). Selecionar uma propriedade exclusiva do ambiente de desenvolvimento; não misturar testes com futura produção. Configurar retenção de eventos/usuários em dois meses e manter compartilhamento/publicidade desabilitados antes da validação. A escolha final e a configuração no console ainda precisam ser confirmadas.
+O arquivo google-services-analytics.json baixado pelo usuário é idêntico ao google-services.json vigente, incluindo projeto, app Android e clientes OAuth. Manter o arquivo atual; não é necessário substituir ou adicionar uma segunda configuração. A cópia extra não faz parte do build.
+
+O projeto Expo gera Gradle Groovy (.gradle), não Kotlin DSL (.gradle.kts). Plugin Firebase App já adiciona Google Services (4.4.4 no build validado); módulos React Native Firebase 26.4.0 já incluem Firebase Analytics e BoM 34.18.0. Não duplicar os trechos do assistente de instalação nativa nem forçar versões diferentes apenas por aparecerem no console. Mudanças necessárias de versões devem ser feitas pela configuração/dependências do projeto, preservando prebuild reproduzível.
+
+Pendentes: confirmar retenção de eventos/usuários em dois meses e opções de compartilhamento/publicidade no GA4, reinstalar development build e validar recepção/revogação no aparelho. O SDK já nega consentimento publicitário. Não confundir a vinculação bem-sucedida com confirmação de eventos recebidos. [Integrações do projeto](https://console.firebase.google.com/project/pomodog-dev-2026/settings/integrations).
 
 Para comparar durações/modos nos relatórios, registrar `session_mode` como dimensão customizada de evento e `duration_seconds` como métrica customizada. São opcionais para ver payloads no DebugView; o SDK não cria essas definições de relatório automaticamente.
 
@@ -65,6 +69,6 @@ Ao terminar:
 adb shell setprop debug.firebase.analytics.app .none.
 ```
 
-DebugView é o caminho para validação imediata; relatórios agregados não são instantâneos. Recepção real e comportamento da revogação no aparelho ainda precisam ser comprovados após vinculação e instalação.
+DebugView é o caminho para validação imediata; relatórios agregados não são instantâneos. Recepção real e comportamento da revogação no aparelho ainda precisam ser comprovados após instalação.
 
 Referências: [React Native Firebase Analytics](https://rnfirebase.io/analytics/usage), [configuração Expo](https://rnfirebase.io/), [DebugView](https://firebase.google.com/docs/analytics/debugview), [vincular projeto](https://firebase.google.com/docs/projects/api/workflow_set-up-and-manage-project#link-analytics).

@@ -61,7 +61,7 @@ Notificações ao terminar validadas em aparelho físico, inclusive com tela blo
 
 Firebase escolhido para eventos de uso. SDK Android integrado, controle independente em Ajustes, desligado por padrão; catálogo mínimo definido e payloads sem identidade de conta/textos pessoais. A implementação preserva uso sem consentimento e não envia eventos anteriores à autorização.
 
-Ainda concluir: vinculação do projeto dev a GA4, configuração de retenção/relatórios e teste no development build físico com DebugView, recusa, revogação e exclusão. A API retornou ausência de vínculo e a sessão atual não dispõe de escopos para listar contas GA4. Documentação em [Analytics](analytics.md). A/B, heatmaps, replay e PostHog continuam fora desta entrega.
+Vinculação GA4 confirmada pelo usuário e API (propriedade 557163675). Ainda concluir: configuração de retenção/relatórios e teste no development build físico com DebugView, recusa, revogação e exclusão. O JSON adicional é idêntico ao atual; configuração nativa já gerenciada pelo Expo e módulos Firebase. Documentação em [Analytics](analytics.md). A/B, heatmaps, replay e PostHog continuam fora desta entrega.
 
 ## Personalização paga e recursos sociais
 
@@ -184,4 +184,4 @@ Alterar o gesto/entrada do mascote especificamente em WelcomeScreen. A animaçã
 
 ## Próxima implementação: eventos de uso
 
-Firebase Analytics Android é a entrega atual, com código e eventos mínimos implementados e consentimento em Ajustes. Vinculação GA4, retenção e validação no aparelho pendentes antes de considerar concluída. Agenda, vínculo familiar, atividade de foco e nova animação seguem pendentes. Diagnóstico continua separado; A/B, heatmaps e replay não entram nesta entrega. Detalhes em [Analytics](analytics.md).
+Firebase Analytics Android é a entrega atual, com código e eventos mínimos implementados e consentimento em Ajustes. Vinculação GA4 confirmada; retenção e validação no aparelho pendentes antes de considerar concluída. Agenda, vínculo familiar, atividade de foco e nova animação seguem pendentes. Diagnóstico continua separado; A/B, heatmaps e replay não entram nesta entrega. Detalhes em [Analytics](analytics.md).

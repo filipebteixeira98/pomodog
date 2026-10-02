@@ -290,3 +290,7 @@ Selo implementado junto ao logotipo no AppHeader compartilhado, com descrição 
 - Pendente: terminar vínculo GA4 e validar card/ativação, recepção no DebugView, restauro e revogação no development build físico. Testes de controlador não comprovam a rede do SDK; exportação não comprova runtime nativo.
 
 Catálogo e instruções em [Analytics](analytics.md). Onboarding anterior à escolha em Ajustes não é contabilizado retrospectivamente.
+
+### Vinculação GA4 após habilitação pelo usuário
+
+API analyticsDetails retornou 200, propriedade 557163675, conta 227570824 e stream Android 15949717951. Stream web também vinculado automaticamente; adaptador web do app continua sem coleta. Comparação dos JSONs confirmou igualdade integral, incluindo OAuth. Gradle gerado já aplica Google Services, e módulos já incluem BoM/Analytics. Nenhuma mudança de SDK/Gradle necessária nesta confirmação. Recepção no DebugView e retenção no console ainda não verificadas.

@@ -45,7 +45,7 @@ Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma p
 | 10    | Insights e medição     | IA, PostHog, testes A/B e heatmaps condicionados à decisão de dados e consentimento                                          | Planejada    |
 | 11    | Erros em produção      | Sentry JavaScript integrado com consentimento local e filtragem; evento confirmado no dashboard; validar runtime no aparelho | Em validação |
 
-Analytics opcional Android foi implementado em entrega posterior com Firebase; vinculação GA4 e validação de recepção ainda pendentes. Heatmaps e A/B continuam propostas separadas, sem coleta ativada por constarem no backlog. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
+Analytics opcional Android foi implementado em entrega posterior com Firebase; vinculação GA4 confirmada; validação de recepção ainda pendente. Heatmaps e A/B continuam propostas separadas, sem coleta ativada por constarem no backlog. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
 
 ## Andamento consolidado — 02/10/2026
 
@@ -112,7 +112,7 @@ Correção do resumo anterior: ícone/splash ainda exigem validação do release
 | Semelhança e identificação             | Hipótese de sistemas/pessoas semelhantes registrada.                                            | Pendente     | Esclarecer significado antes de escolher funcionalidade.                                                                                           |
 | Experiência além da produtividade      | Direção de companhia, descanso e autonomia registrada.                                          | Pendente     | Traduzir objetivos em critérios e avaliar com usuários.                                                                                            |
 | Insights com IA                        | Sugestões personalizadas propostas.                                                             | Pendente     | Definir utilidade, consentimento, dados mínimos, custo e fornecedor.                                                                               |
-| Firebase Analytics                     | SDK Android, eventos mínimos e consentimento independente em Ajustes implementados.             | Em andamento | Vincular projeto a GA4/definir retenção, reinstalar development build e confirmar recepção/revogação no aparelho.                                  |
+| Firebase Analytics                     | SDK Android, eventos mínimos e consentimento independente em Ajustes implementados.             | Em andamento | Vínculo GA4 confirmado; definir retenção, reinstalar development build e confirmar recepção/revogação no aparelho.                                 |
 | Testes A/B                             | Experimentos comparativos propostos.                                                            | Pendente     | Definir hipóteses, métricas e critérios antes de instrumentar.                                                                                     |
 | Heatmaps                               | Mapas de interação propostos; não ativados.                                                     | Pendente     | Avaliar utilidade, suporte e privacidade separadamente.                                                                                            |
 | Crashes C/C++ — NDK                    | Captura adicional ainda desativada.                                                             | Pendente     | Definir filtragem, consentimento e símbolos do binário.                                                                                            |
@@ -136,7 +136,7 @@ Fornecedor escolhido pelo usuário: Firebase Analytics. Entrega Android implemen
 
 Eventos: screen_view, onboarding_complete, session_start/pause/resume/complete/reset. Modos e durações são os do ciclo efetivo; conclusão trata troca automática e retorno ao app sem repetir ticks. Web/iOS sem coleta nesta entrega. A tela de privacidade pós-onboarding continua separada; replay, heatmaps e A/B não foram habilitados.
 
-Status em andamento: consulta confirmou ausência de vínculo GA4 no projeto de desenvolvimento; sessão atual não permite listar contas Analytics. Falta ID da conta/propriedade ou habilitação no console, política de retenção e validação real após reinstalar development build. Guia e catálogo em [Analytics](analytics.md).
+Status em andamento: vínculo GA4 confirmado após habilitação pelo usuário (propriedade 557163675). Restam configuração de retenção e validação real após reinstalar development build. Guia e catálogo em [Analytics](analytics.md).
 
 ## Regra de execução por funcionalidade
 
@@ -318,3 +318,7 @@ Registradas agenda com sugestões de antecipação de foco, vínculo entre pais/
 ## Firebase Analytics opcional — 02/10/2026
 
 SDK nativo Android e consentimento local independente implementados. Eventos mínimos para entender navegação e ciclos, sem nome/e-mail/UID/textos livres. Recusa não bloqueia uso; apagar dados/excluir conta revoga e limpa cache local de medição, sem alegar remoção de eventos já enviados. Testes de consentimento/concorrência/payload/transições adicionados. Vinculação GA4 e recepção em aparelho permanecem pendentes; não classificar a integração inteira como concluída.
+
+## Vinculação GA4 confirmada — 02/10/2026
+
+Usuário habilitou Analytics no Firebase; API confirmou propriedade 557163675 e stream Android. JSON adicional idêntico ao vigente, sem mudança necessária de OAuth/configuração nativa. SDK e BoM já incluídos pelas dependências; sem duplicação manual de Gradle. Integração continua em andamento até validação real de eventos/revogação e retenção no console.

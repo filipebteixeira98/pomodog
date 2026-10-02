@@ -70,7 +70,7 @@ As novas propostas estão organizadas no [Plano de ação](plano-de-acao.md), co
 - Outros animais, personalização e nomes têm valor suficiente para justificar uma oferta paga.
 - Compartilhamento, pontuação e ciclos com amigos incentivam uso sem comparações punitivas.
 
-Firebase Analytics opcional Android foi implementado em entrega posterior; vínculo GA4 e recepção física ainda precisam ser concluídos. Heatmaps continuam pendentes. Eventos mínimos dependem de consentimento separado, e observação/entrevistas complementam os dados de uso. Login e sincronização devem ser opcionais, preservando a experiência sem conta.
+Firebase Analytics opcional Android foi implementado em entrega posterior; vínculo GA4 confirmado e recepção física ainda precisa ser validada. Heatmaps continuam pendentes. Eventos mínimos dependem de consentimento separado, e observação/entrevistas complementam os dados de uso. Login e sincronização devem ser opcionais, preservando a experiência sem conta.
 
 A tela de Foco concentra timer, controles e uma fala curta do mascote. O resumo diário fica apenas em Progresso; os cabeçalhos promocionais foram removidos das telas. Avaliar se essa simplificação facilita iniciar uma sessão, sem assumir melhoria de usabilidade antes dos testes com pessoas.
 
@@ -87,4 +87,4 @@ Antes da introdução, visitante no primeiro acesso vê “Seu foco começa com 
 - Apoio de responsáveis pode ajudar na rotina de filhos; definir público e limites de participação antes de transformar a hipótese em supervisão ou comparação de desempenho.
 - Nova animação na entrada pode aumentar afinidade com Nino; avaliar distração, clareza e desempenho, sem tratar apelo visual como prova de retenção.
 
-Firebase Analytics Android é a frente atual por decisão do usuário; código e consentimento em Ajustes implementados, vinculação e validação ainda pendentes. Eventos mínimos complementam observação e entrevistas; não comprovam causalidade nem justificam coleta de texto livre, conteúdo de agenda ou dados familiares. Coleta desativada por padrão; medir somente eventos posteriores ao consentimento e tratar a amostra como usuários optantes, sem supor representatividade.
+Firebase Analytics Android é a frente atual por decisão do usuário; código e consentimento em Ajustes implementados, vinculação confirmada e validação ainda pendente. Eventos mínimos complementam observação e entrevistas; não comprovam causalidade nem justificam coleta de texto livre, conteúdo de agenda ou dados familiares. Coleta desativada por padrão; medir somente eventos posteriores ao consentimento e tratar a amostra como usuários optantes, sem supor representatividade.
