@@ -69,7 +69,7 @@ Ao terminar:
 adb shell setprop debug.firebase.analytics.app .none.
 ```
 
-DebugView é o caminho para validação imediata; relatórios agregados não são instantâneos. Recepção real e comportamento da revogação no aparelho ainda precisam ser comprovados após instalação.
+DebugView é o caminho para validação imediata; relatórios agregados não são instantâneos. Usuário confirmou eventos funcionando no DebugView no aparelho. Revogação e demais cenários de consentimento ainda precisam de validação específica.
 
 Referências: [React Native Firebase Analytics](https://rnfirebase.io/analytics/usage), [configuração Expo](https://rnfirebase.io/), [DebugView](https://firebase.google.com/docs/analytics/debugview), [vincular projeto](https://firebase.google.com/docs/projects/api/workflow_set-up-and-manage-project#link-analytics).
 
@@ -82,3 +82,15 @@ Testes agora executam a validação real de logEvent do SDK instalado, substitui
 A investigação confirmou a falha do evento de início; ela não explica, sozinha, ausência de outros eventos. Usuários ativos podem refletir eventos automáticos. No aparelho conectado, modo debug inicialmente vazio; habilitado DebugView para Pomodog sem alterar consentimento/timer. Leitura filtrada do processo não forneceu eventos novos para comprovar upload. Ainda validar com navegação/ciclos na versão atual e tela DebugView da propriedade correta. Mudança somente JavaScript: carregar código atual via Metro, sem recompilar nativo por esta correção.
 
 Relatórios comuns podem levar 24–48 horas para processar dados; sem debug, o SDK também pode agrupar envios por aproximadamente uma hora. Ver [diagnóstico de relatórios](https://developers.google.com/analytics/devguides/collection/ga4/troubleshoot) e [DebugView](https://firebase.google.com/docs/analytics/debugview). Registrar dimensões/métricas customizadas permite analisar propriedades como modo/duração em relatórios; não é necessário para ver eventos/payloads no DebugView. Conferir filtros de tráfego de desenvolvedor no GA4 se DebugView recebe eventos e relatórios continuam sem eles.
+
+## Lembrete vigente: manter debug durante desenvolvimento
+
+Decisão do usuário em 02/10/2026: manter `debug.firebase.analytics.app=com.filipebteixeira98.pomodog` no aparelho de teste para depurar. Valor confirmado por consulta ADB nesta sessão; não desativar automaticamente durante a investigação/desenvolvimento. Usuário confirmou recepção correta no DebugView.
+
+Ao retomar preparação de publicação, validar Analytics em condições normais ou analisar relatórios de uso sem tráfego de diagnóstico, lembrar explicitamente o usuário de desativar a propriedade no aparelho de teste:
+
+```sh
+adb shell setprop debug.firebase.analytics.app .none.
+```
+
+Essa propriedade é uma configuração do dispositivo, não do APK: não é distribuída aos usuários e um build release, por si só, não comprova que ela foi desativada no aparelho de teste. Consultar o valor com `adb shell getprop debug.firebase.analytics.app` ao revisar o lembrete; não presumir que continua ativo indefinidamente. A coleta autorizada permanece funcionando ao remover o modo debug. Não confundir com o consentimento em Ajustes.

@@ -302,3 +302,7 @@ API analyticsDetails retornou 200, propriedade 557163675, conta 227570824 e stre
 - 78 testes e TypeScript passaram; export Android/Hermes passou. Sem mudanças nativas.
 - Aparelho conectado encontrado; modo debug vazio na consulta inicial. DebugView habilitado somente para Pomodog, mantendo consentimento e timer. Buffer do processo, filtrado para não exibir payloads/identificadores, não comprovou chamadas/upload de eventos recentes. Recepção em DebugView ainda não validada.
 - Falha de início comprovada, porém não inferir que ela explica ausência de todos os demais eventos. Verificar versão carregada, consentimento, DebugView e atraso/filtros dos relatórios.
+
+### Confirmação do usuário e debug mantido
+
+Usuário confirmou eventos funcionando corretamente no DebugView em aparelho físico. Consulta ADB confirmou debug.firebase.analytics.app=com.filipebteixeira98.pomodog. Por preferência explícita, configuração permanece ativa para depuração; lembrar de desativar no dispositivo ao preparar publicação ou verificar coleta/relatórios normais. Não considerar essa confirmação como teste de revogação, retenção ou processamento em Events. Propriedade do dispositivo não é distribuída no APK.

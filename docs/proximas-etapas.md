@@ -61,7 +61,7 @@ Notificações ao terminar validadas em aparelho físico, inclusive com tela blo
 
 Firebase escolhido para eventos de uso. SDK Android integrado, controle independente em Ajustes, desligado por padrão; catálogo mínimo definido e payloads sem identidade de conta/textos pessoais. A implementação preserva uso sem consentimento e não envia eventos anteriores à autorização.
 
-Vinculação GA4 confirmada pelo usuário e API (propriedade 557163675). Ainda concluir: configuração de retenção/relatórios e teste no development build físico com DebugView, recusa, revogação e exclusão. O JSON adicional é idêntico ao atual; configuração nativa já gerenciada pelo Expo e módulos Firebase. Documentação em [Analytics](analytics.md). A/B, heatmaps, replay e PostHog continuam fora desta entrega.
+Vinculação GA4 confirmada pelo usuário e API (propriedade 557163675). Recepção de eventos no DebugView confirmada pelo usuário no aparelho. Ainda concluir: configuração de retenção/relatórios e testes específicos de recusa, revogação e exclusão. O JSON adicional é idêntico ao atual; configuração nativa já gerenciada pelo Expo e módulos Firebase. Documentação em [Analytics](analytics.md). A/B, heatmaps, replay e PostHog continuam fora desta entrega.
 
 ## Personalização paga e recursos sociais
 
@@ -185,3 +185,7 @@ Alterar o gesto/entrada do mascote especificamente em WelcomeScreen. A animaçã
 ## Próxima implementação: eventos de uso
 
 Firebase Analytics Android é a entrega atual, com código e eventos mínimos implementados e consentimento em Ajustes. Vinculação GA4 confirmada; retenção e validação no aparelho pendentes antes de considerar concluída. Agenda, vínculo familiar, atividade de foco e nova animação seguem pendentes. Diagnóstico continua separado; A/B, heatmaps e replay não entram nesta entrega. Detalhes em [Analytics](analytics.md).
+
+## Lembrete antes de publicação e validação normal de Analytics
+
+Usuário optou por manter modo debug do Firebase Analytics no aparelho para depuração. Ao retomar release/publicação ou avaliar envio e relatórios em condições normais, lembrar de desativar `debug.firebase.analytics.app` no dispositivo de teste, conferir valor atual e depois gerar eventos novos. Comando e contexto em [Analytics](analytics.md#lembrete-vigente-manter-debug-durante-desenvolvimento). Não remover durante desenvolvimento sem nova decisão do usuário; propriedade não é incluída no APK.
