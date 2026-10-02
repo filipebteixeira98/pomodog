@@ -1,7 +1,13 @@
 import type { Action, Timer } from "#src/timer";
 
 export type Screen =
-  "welcome" | "onboarding" | "focus" | "progress" | "settings" | "profile";
+  | "welcome"
+  | "onboarding"
+  | "privacy"
+  | "focus"
+  | "progress"
+  | "settings"
+  | "profile";
 export type UsageEvent =
   | { name: "screen_view"; screen: Screen }
   | { name: "onboarding_complete" }
@@ -25,6 +31,7 @@ export function eventPayload(
     return [
       "welcome",
       "onboarding",
+      "privacy",
       "focus",
       "progress",
       "settings",

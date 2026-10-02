@@ -4,7 +4,7 @@ Implementação de 02/10/2026 com `@react-native-firebase/app` e `@react-native-
 
 ## Consentimento e dados
 
-Em Ajustes, **Compartilhar como uso o app** é independente do diagnóstico de erros e fica desligado por padrão. O consentimento permanece neste dispositivo, não no perfil sincronizado. Sem aceitar, o app funciona normalmente com ou sem conta. Não interpretar login ou consentimento de Sentry como autorização de medição.
+No primeiro acesso, após o onboarding e antes do tour guiado, a tela de privacidade oferece permitir diagnóstico e uso opcional ou continuar sem compartilhar, sem escolha pré-selecionada. Permitir habilita os dois controles existentes; recusar mantém ambos desligados. Em Ajustes, **Compartilhar como uso o app** continua independente do diagnóstico de erros e desligado por padrão. O consentimento permanece neste dispositivo, não no perfil sincronizado. Sem aceitar, o app funciona normalmente com ou sem conta. Não interpretar login ou consentimento de Sentry como autorização de medição.
 
 `firebase.json` nega coleta e armazenamento de Analytics por padrão antes do JavaScript. Ads, personalização, AD_ID e SSAID desabilitados; AD_ID removido das permissões Android. Telas são medidas explicitamente, evitando registrar Activities do development client. Após a autorização, o SDK também pode produzir seus eventos técnicos automáticos de sessão/engajamento; não é uma coleta limitada aos eventos customizados abaixo.
 
@@ -14,19 +14,19 @@ Ao desativar, o bloqueio JavaScript ocorre imediatamente e eventos ainda na fila
 
 ## Eventos e perguntas
 
-| Evento                | Propriedades customizadas                                                         | Pergunta de uso                                        |
-| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `screen_view`         | `screen_name`, `screen_class`: welcome/onboarding/focus/progress/settings/profile | Quais telas são acessadas?                             |
-| `onboarding_complete` | Nenhuma                                                                           | Quantas conclusões ocorrem depois de autorizar coleta? |
-| `pomodoro_start`      | `session_mode`: focus/break; `duration_seconds`                                   | Quais ciclos/durações as pessoas iniciam?              |
-| `pomodoro_pause`      | Modo e duração configurada                                                        | Com que frequência interrompem ciclos?                 |
-| `pomodoro_resume`     | Modo e duração configurada                                                        | Retomam os ciclos pausados?                            |
-| `pomodoro_complete`   | Modo e duração do ciclo que terminou                                              | Quantos ciclos chegam ao fim?                          |
-| `pomodoro_reset`      | Modo e duração configurada                                                        | Quantos ciclos ativos/pausados são reiniciados?        |
+| Evento                | Propriedades customizadas                                                                 | Pergunta de uso                                        |
+| --------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `screen_view`         | `screen_name`, `screen_class`: welcome/onboarding/privacy/focus/progress/settings/profile | Quais telas são acessadas?                             |
+| `onboarding_complete` | Nenhuma                                                                                   | Quantas conclusões ocorrem depois de autorizar coleta? |
+| `pomodoro_start`      | `session_mode`: focus/break; `duration_seconds`                                           | Quais ciclos/durações as pessoas iniciam?              |
+| `pomodoro_pause`      | Modo e duração configurada                                                                | Com que frequência interrompem ciclos?                 |
+| `pomodoro_resume`     | Modo e duração configurada                                                                | Retomam os ciclos pausados?                            |
+| `pomodoro_complete`   | Modo e duração do ciclo que terminou                                                      | Quantos ciclos chegam ao fim?                          |
+| `pomodoro_reset`      | Modo e duração configurada                                                                | Quantos ciclos ativos/pausados são reiniciados?        |
 
 Só transições efetivas produzem eventos; ticks não são medidos. Na conclusão, o modo enviado é o do ciclo anterior, apesar da troca automática de foco/descanso. Retorno ao app e restauração de um timer vencido podem reconhecer conclusão; restaurar histórico concluído não o reenvia. Eventos anteriores ao consentimento não são armazenados para envio posterior.
 
-A escolha é oferecida em Ajustes, depois da introdução: o primeiro onboarding normalmente não é medido. A futura tela de privacidade é uma entrega separada. Os dados representam somente instalações que aceitaram a coleta; contagens não representam todos os usuários, nem provam causalidade ou produtividade.
+A conclusão do primeiro onboarding é registrada somente após salvar a escolha de privacidade; pode ser medida quando a pessoa autoriza uso opcional. Não há reenvio das etapas anteriores. Usuários com onboarding já concluído mantêm suas permissões e não recebem a nova tela automaticamente. Os dados representam somente instalações que aceitaram a coleta; contagens não representam todos os usuários, nem provam causalidade ou produtividade.
 
 ## Vinculação no console — confirmada
 

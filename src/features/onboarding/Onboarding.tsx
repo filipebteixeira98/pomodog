@@ -56,14 +56,14 @@ export function Onboarding({
   accent,
   reducedMotion,
   onFinish,
-  onShowTour,
   authenticated = false,
+  visible = true,
 }: {
   accent: string;
   reducedMotion: boolean;
   onFinish: () => void;
-  onShowTour: () => void;
   authenticated?: boolean;
+  visible?: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const transition = useRef(new Animated.Value(1)).current;
@@ -136,7 +136,7 @@ export function Onboarding({
       pager.current?.scrollTo({ x: index * pageWidth, animated: false });
     }
     // Keep the current page aligned when the viewport changes, not during gestures.
-  }, [pageWidth]);
+  }, [pageWidth, visible]);
 
   const renderStep = (step: (typeof steps)[number], page: number) => (
     <View className="items-center gap-3">
@@ -148,7 +148,7 @@ export function Onboarding({
         accent={accent}
         resting={page === 1}
         celebrating={page === steps.length - 1}
-        reducedMotion={reducedMotion || page !== index}
+        reducedMotion={reducedMotion || !visible || page !== index}
         expressive
       />
       <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
@@ -164,7 +164,7 @@ export function Onboarding({
 
   return (
     <Modal
-      visible
+      visible={visible}
       animationType={reducedMotion ? "none" : "fade"}
       onRequestClose={onFinish}
     >
@@ -273,18 +273,13 @@ export function Onboarding({
                 </Pressable>
               ))}
             </View>
-            {last && (
-              <Button accent={accent} secondary onPress={onShowTour}>
-                Mostrar como funciona
-              </Button>
-            )}
             {last ? (
               <Button
                 accent={accent}
                 onPress={onFinish}
                 icon={<ArrowRight color="#FFFFFF" size={18} />}
               >
-                Ir para meu foco
+                Continuar
               </Button>
             ) : (
               <View className="min-h-12 flex-row items-center justify-center gap-2">

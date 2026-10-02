@@ -18,6 +18,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
   analyticsEnabled,
+  analyticsSupported,
+  setAnalyticsEnabled,
   subscribeAnalytics,
   trackUsage,
 } from "#src/analytics/service";
@@ -29,6 +31,8 @@ import { localSession, type CustomerSession } from "#src/domain/customer";
 import { themes } from "#src/domain/preferences";
 import { FocusScreen } from "#src/features/focus/FocusScreen";
 import { Onboarding } from "#src/features/onboarding/Onboarding";
+import { saveCollectionChoice } from "#src/features/privacy/collectionChoice";
+import { PrivacyScreen } from "#src/features/privacy/PrivacyScreen";
 import { EraseDataConfirmation } from "#src/features/profile/EraseDataConfirmation";
 import { LocalDataCard } from "#src/features/profile/LocalDataCard";
 import { ProfileScreen } from "#src/features/profile/ProfileScreen";
@@ -38,6 +42,7 @@ import { GuidedTour, type TourTargets } from "#src/features/tour/GuidedTour";
 import { WelcomeScreen } from "#src/features/welcome/WelcomeScreen";
 import { usePomodoro } from "#src/hooks/usePomodoro";
 import { useReducedMotion } from "#src/hooks/useReducedMotion";
+import { setReportingEnabled } from "#src/monitoring/sentry";
 
 export function Pomodog({
   session = localSession,
@@ -87,6 +92,7 @@ export function Pomodog({
   const [confirmErase, setConfirmErase] = useState(false);
   const [dataNotice, setDataNotice] = useState("");
   const [entryDismissed, setEntryDismissed] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
   const accent = themes[model.preferences.theme].color;
   const reducedMotion = model.preferences.reduceMotion || systemReducedMotion;
   const showOnboarding =
@@ -97,9 +103,11 @@ export function Pomodog({
   const screen = !model.ready
     ? null
     : showOnboarding
-      ? !user && !entryDismissed
-        ? "welcome"
-        : "onboarding"
+      ? showPrivacy
+        ? "privacy"
+        : !user && !entryDismissed
+          ? "welcome"
+          : "onboarding"
       : tab;
   useEffect(() => {
     if (screen) trackUsage({ name: "screen_view", screen });
@@ -111,11 +119,19 @@ export function Pomodog({
     setTourStep(0);
   }
 
+  async function savePrivacyChoice(enabled: boolean) {
+    await saveCollectionChoice(enabled, {
+      reporting: setReportingEnabled,
+      usage: setAnalyticsEnabled,
+    });
+  }
+
   async function eraseData() {
     setDataNotice("");
     try {
       await model.eraseData();
       setEntryDismissed(false);
+      setShowPrivacy(false);
       setConfirmErase(false);
       setDataNotice("Os dados locais foram apagados.");
     } catch {
@@ -285,12 +301,23 @@ export function Pomodog({
         />
         {showOnboarding && (
           <Onboarding
+            visible={!showPrivacy}
             authenticated={user !== null}
-            onShowTour={startTour}
             accent={accent}
             reducedMotion={reducedMotion}
-            onFinish={() => {
-              model.completeOnboarding();
+            onFinish={() => setShowPrivacy(true)}
+          />
+        )}
+        {showOnboarding && showPrivacy && (
+          <PrivacyScreen
+            accent={accent}
+            reducedMotion={reducedMotion}
+            usageSupported={analyticsSupported}
+            onSave={savePrivacyChoice}
+            onBack={() => setShowPrivacy(false)}
+            onContinue={() => {
+              setShowPrivacy(false);
+              startTour();
             }}
           />
         )}

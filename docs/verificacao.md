@@ -306,3 +306,11 @@ API analyticsDetails retornou 200, propriedade 557163675, conta 227570824 e stre
 ### Confirmação do usuário e debug mantido
 
 Usuário confirmou eventos funcionando corretamente no DebugView em aparelho físico. Consulta ADB confirmou debug.firebase.analytics.app=com.filipebteixeira98.pomodog. Por preferência explícita, configuração permanece ativa para depuração; lembrar de desativar no dispositivo ao preparar publicação ou verificar coleta/relatórios normais. Não considerar essa confirmação como teste de revogação, retenção ou processamento em Events. Propriedade do dispositivo não é distribuída no APK.
+
+## Escolha de privacidade após onboarding — 02/10/2026
+
+- TypeScript e 81 testes passaram. Três testes novos usam os controladores existentes para verificar ativação/recusa de ambas as categorias, restauração do consentimento, ajustes posteriores independentes e falhas parciais/revogação.
+- Export Android/Hermes passou, sem dependências ou alterações nativas novas.
+- Navegador isolado: entrada sem conta → pular introdução → privacidade; botão continuar desabilitado sem escolha; recusar → tour → Foco. Ajustes mostrou diagnóstico desligado. Reabertura preservou conclusão da introdução e não repetiu a tela.
+- Última etapa → privacidade → voltar preservou a última etapa. Sem rolagem horizontal em 320/390 px e sem erros registrados pelo navegador. Captura de 390 px inspecionada: [privacidade](screenshots/privacidade-390.png).
+- Navegador oferece apenas diagnóstico, pois adaptador de Analytics web não coleta. Ativação dos dois stores foi verificada em testes; validação visual Android no aparelho, ambos os switches e persistência nativa ainda precisam ser confirmados pelo usuário. Não altera o modo debug de Analytics mantido no dispositivo.

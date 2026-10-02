@@ -122,7 +122,7 @@ Perfil não oferece mais exportação nem explica formatos de arquivo. A ação 
 
 `src/features/tour/GuidedTour.tsx` recebe referências estáveis para controles e container. `measureInWindow` posiciona uma máscara em quatro partes, borda de destaque e explicação acima ou abaixo do alvo. Medições são atualizadas apenas enquanto o tour está montado e liberadas no fechamento; a raiz ajusta o scroll conforme etapa e viewport. O painel possui rolagem em telas pequenas/fontes ampliadas. Não há biblioteca adicional.
 
-A camada de fundo bloqueia interação e fica fora da navegação assistiva. Web mantém foco nos controles do guia, permite Escape e tenta devolver o foco anterior; Android usa o botão Voltar. Não há animações do tour e o mascote fica estático durante a explicação. O tour não executa ações do timer. Aceitar Mostrar como funciona conclui o onboarding usando a persistência existente; etapas do tour são temporárias e ele só reabre por escolha explícita. Validação de acessibilidade nativa ainda necessária.
+A camada de fundo bloqueia interação e fica fora da navegação assistiva. Web mantém foco nos controles do guia, permite Escape e tenta devolver o foco anterior; Android usa o botão Voltar. Não há animações do tour e o mascote fica estático durante a explicação. O tour não executa ações do timer. Salvar a escolha de privacidade após a introdução conclui o onboarding usando a persistência existente e inicia o tour; etapas do tour são temporárias e ele só reabre por escolha explícita. Validação de acessibilidade nativa ainda necessária.
 
 ## Mascote articulado
 
@@ -207,3 +207,9 @@ App aguarda o booleano de removeAccount e mostra Toast somente quando a exclusã
 `src/analytics` contém catálogo de eventos/payloads, controlador serializado de consentimento/envio, adaptadores por plataforma e card de Ajustes. `index.ts` restaura consentimento próprio; SDK nativo Android usa google-services.json existente, sem alterar Firebase Auth/Firestore. Manifesto nega coleta/publicidade por padrão. Adaptador padrão web/iOS não coleta; Expo Go não carrega o módulo nativo.
 
 usePomodoro deriva eventos de transições efetivas fora do reducer puro, incluindo conclusão de foco/descanso na restauração e no retorno ao app. Pomodog mede apenas a tela apresentada e a tela atual ao autorizar. Fila descarta eventos ainda não enviados após revogação e não reenvia histórico. Apagar dados/excluir conta nega consentimento e reinicia dados/identificador local do SDK; não remove automaticamente eventos do servidor. Nenhum UID, nome, e-mail ou texto livre é passado ao SDK. Ver [catálogo e limites](analytics.md).
+
+## Consentimento no primeiro acesso
+
+`src/features/privacy` compõe a tela e o coordenador `saveCollectionChoice`. `Pomodog` apresenta entrada/introdução → privacidade → tour; mantém a página da introdução ao voltar. Só conclui onboarding após salvar a escolha nas duas fontes existentes de consentimento (`monitoring` e `analytics`); não cria outro campo sincronizado ou outro storage. A ausência de escolha desabilita continuar; ambos os controles permanecem desligados por padrão. Falha parcial ao conceder tenta revogar ambas, exibe mensagem e não avança. O componente bloqueia duplo envio e retorno durante persistência, ignora resolução após desmontar e respeita movimento reduzido.
+
+Consentimento fica no dispositivo e não é inferido de login. Permitir habilita diagnóstico e uso opcional nas plataformas que os suportam; Ajustes usa os mesmos stores e permite alterações independentes posteriores. Usuários com onboarding concluído não são convocados novamente; rever tour não muda permissões. `privacy` integra a lista permitida de telas de Analytics. Nenhum evento anterior à autorização é reenviado.

@@ -86,7 +86,7 @@ Correção do resumo anterior: ícone/splash ainda exigem validação do release
 | Incentivo à hidratação                 | Mensagem/toast planejado.                                                                       | Pendente     | Definir convite opcional, frequência e momento de descanso.                                                                                        |
 | Selo Beta                              | Selo discreto ao lado do logotipo Pomodog no cabeçalho compartilhado.                           | Concluído    | Retirar quando encerrar a fase beta; avaliar aparência no aparelho.                                                                                |
 | Silenciamento de redes sociais         | Redução de distrações durante foco proposta.                                                    | Pendente     | Investigar viabilidade/permissões e restauração das preferências do sistema.                                                                       |
-| Privacidade após onboarding            | Tela de escolhas de coleta proposta.                                                            | Pendente     | Separar categorias; manter diagnóstico desligado por padrão e recusa sem bloquear uso.                                                             |
+| Privacidade após onboarding            | Tela de consentimento entre onboarding e tour, sem escolha pré-selecionada.                     | Concluído    | Validar a tela no aparelho; permissões independentes em Ajustes, recusa preserva uso completo.                                                     |
 | Feedback e comentários                 | Formulário de avaliação planejado.                                                              | Pendente     | Definir destino, envio explícito e confirmação.                                                                                                    |
 | Tela dedicada de login                 | Entrada antes do onboarding com Google e opção de continuar sem conta; Nino e relógio Pomodoro. | Concluído    | Validar o novo ponto de entrada no aparelho; outros provedores continuam pendentes.                                                                |
 | Firebase de produção                   | Ambiente separado de desenvolvimento planejado.                                                 | Pendente     | Configurar projeto, credenciais públicas, regras e verificação de produção.                                                                        |
@@ -132,11 +132,11 @@ Este quadro é o resumo vigente; tabelas anteriores registram etapas e frentes h
 
 Decisão de 02/10/2026: implementar primeiro a integração para eventos de uso do app, antes de agenda, vínculo familiar, atividade de foco e alteração da animação de entrada. Feedback deixa de ser a próxima entrega sugerida; continua pendente. Pencil permanece em standby.
 
-Fornecedor escolhido pelo usuário: Firebase Analytics. Entrega Android implementada com coleta desligada por padrão, controle separado de Sentry em Ajustes e payload permitido para telas/ciclos. Não associa UID da conta ao identificador de Analytics. Primeiro onboarding normalmente não é medido porque autorização é oferecida em Ajustes; nenhum histórico anterior é reenviado.
+Fornecedor escolhido pelo usuário: Firebase Analytics. Entrega Android implementada com coleta desligada por padrão, controle separado de Sentry em Ajustes e payload permitido para telas/ciclos. Não associa UID da conta ao identificador de Analytics. Autorização agora é oferecida após a introdução e antes de concluir onboarding/iniciar tour; nenhum histórico anterior é reenviado. Ajustes mantém os controles independentes.
 
-Eventos: screen_view, onboarding_complete, pomodoro_start/pause/resume/complete/reset. Modos e durações são os do ciclo efetivo; conclusão trata troca automática e retorno ao app sem repetir ticks. Web/iOS sem coleta nesta entrega. A tela de privacidade pós-onboarding continua separada; replay, heatmaps e A/B não foram habilitados.
+Eventos: screen_view, onboarding_complete, pomodoro_start/pause/resume/complete/reset. Modos e durações são os do ciclo efetivo; conclusão trata troca automática e retorno ao app sem repetir ticks. Web/iOS sem coleta nesta entrega. A tela de privacidade pós-onboarding foi implementada; replay, heatmaps e A/B não foram habilitados.
 
-Status em andamento: vínculo GA4 confirmado após habilitação pelo usuário (propriedade 557163675). Restam configuração de retenção e validação real após reinstalar development build. Guia e catálogo em [Analytics](analytics.md).
+Status em andamento: vínculo GA4 confirmado após habilitação pelo usuário (propriedade 557163675). Recepção no DebugView confirmada pelo usuário. Restam retenção, revogação e relatórios normais. Guia e catálogo em [Analytics](analytics.md).
 
 ## Regra de execução por funcionalidade
 
@@ -330,3 +330,7 @@ SDK rejeitava session_start (reservado), e falha era descartada pelo controlador
 ## Recepção validada e lembrete de debug — 02/10/2026
 
 Usuário confirmou funcionamento dos eventos no DebugView. Manter modo debug ativo no aparelho de desenvolvimento por preferência explícita. Ao planejar publicação ou teste de relatórios/Analytics em condições normais, lembrar de desativar a propriedade com `adb shell setprop debug.firebase.analytics.app .none.` e conferir valor vigente. É propriedade do aparelho, não configuração embutida no APK. Retenção e validação da revogação continuam pendentes. Ver [lembrete Analytics](analytics.md#lembrete-vigente-manter-debug-durante-desenvolvimento).
+
+## Escolha de privacidade após onboarding — 02/10/2026
+
+Implementada a sequência entrada → introdução → escolha de privacidade → tour guiado → Foco. Concluir ou pular introdução leva à escolha, sem autorização pré-selecionada. Permitir ativa diagnóstico e uso opcional nos controles existentes de Ajustes; recusar mantém ambos desligados. Ambas as operações precisam terminar antes do tour; falha na ativação tenta revogar ambas e mantém a tela para nova escolha. Ajustes preserva alterações independentes posteriores. Usuários com introdução já concluída mantêm o fluxo/permissões atuais. Não altera autenticação ou sincronização dos dados da conta. TypeScript e 81 testes passaram; validação visual Android no aparelho ainda necessária.

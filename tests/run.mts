@@ -9,3 +9,4 @@ import "#tests/accountData.test.ts";
 import "#tests/accountDeletion.test.ts";
 import "#tests/monitoring.test.ts";
 import "#tests/analytics.test.ts";
+import "#tests/privacyChoice.test.ts";
