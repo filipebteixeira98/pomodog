@@ -1,6 +1,6 @@
 # Próximas etapas — decisões ainda abertas
 
-Atualizadas em 01/10/2026, incluindo diagnóstico opcional e as novas propostas de hábitos, beta e privacidade. Sequência proposta em [Plano de ação](plano-de-acao.md).
+Atualizadas em 02/10/2026, incluindo agenda, vínculo familiar, atividade de foco, animação de entrada e prioridade de Analytics. Sequência proposta em [Plano de ação](plano-de-acao.md).
 
 ## Nome do mascote
 
@@ -151,3 +151,39 @@ Selo Beta adicionado ao lado do logotipo Pomodog no cabeçalho das telas, com de
 ## Tela de entrada entregue
 
 Google e continuar sem conta disponíveis antes da introdução no primeiro acesso. Headline curta, Nino e elementos Pomodoro reutilizam a identidade atual. Validar o novo ponto de entrada no aparelho; a autenticação Google existente já foi validada anteriormente. Outros provedores continuam pendentes. Tela de escolhas de privacidade após onboarding é outra entrega e permanece pendente.
+
+## Agenda e sugestões de foco — primeira versão proposta
+
+Conexão opcional com Google Agenda, separada do login Google. Começar pela agenda principal e horários ocupados de amanhã, sem necessidade de ler títulos, descrições ou participantes. Consultar disponibilidade com acesso mínimo adequado; não criar/alterar eventos. Referência da proposta: [consulta de disponibilidade](https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query).
+
+Fluxo proposto:
+
+1. Usuário conecta agenda e escolhe faixa habitual de foco, dias permitidos, horário do lembrete e preferência de antecipação.
+2. App consulta ao abrir ou voltar ao primeiro plano, apenas se a última consulta bem-sucedida ocorreu há pelo menos 30 minutos. Esse intervalo é um limite de frequência, não uma execução periódica garantida. Falhas não devem provocar tentativas contínuas em cada evento de retomada.
+3. Analisa horários ocupados de amanhã que coincidam com a rotina; procura janela livre para foco/descanso e margem antes do compromisso. Antecipação para hoje é uma escolha explícita, não inferência automática.
+4. Agenda notificação local para o horário escolhido, com no máximo uma sugestão diária e sem duplicatas. Não iniciar ciclos automaticamente; permitir ignorar, adiar ou desativar.
+5. Na próxima consulta, atualizar/cancelar lembrete pendente se a agenda mudar. Desconexão/revogação remove acesso, cache de disponibilidade e avisos pendentes dessa integração.
+
+Não há consulta periódica enquanto o app permanece fechado. O aviso já agendado poderá aparecer, mas mudanças posteriores na agenda só serão consideradas ao retornar. Respeitar fuso local, horários silenciosos, sobreposição de períodos e eventos que realmente bloqueiam disponibilidade. Antes de implementar, decidir quando sugerir foco hoje versus amanhã e se as ações da notificação entram no primeiro escopo.
+
+Manter apenas dados mínimos necessários; não enviar conteúdo de agenda ao Firestore, Sentry ou analytics nesta primeira proposta. Atualização sem abrir o app por vários dias será outra entrega, com autorização de acesso persistente, processamento no servidor e push remoto a definir. Esses componentes ainda não estão implementados.
+
+## Vínculo de responsáveis e rotina de filhos
+
+Proposta pendente: conta de pai/mãe/responsável vinculada à de filho para apoiar planejamento da rotina, ou alternativa familiar semelhante. Definir faixa etária/público, quem autoriza cada vínculo, se há múltiplos responsáveis e o que cada pessoa pode consultar ou editar. Decidir entre rotina compartilhada e visualização de progresso antes de criar mecanismos de supervisão.
+
+A autorização atual por proprietário não concede acesso entre contas. A futura entrega exige permissões explícitas por vínculo, testes de isolamento, remoção do vínculo e regras de exclusão das contas/dados. Não inferir parentesco a partir do Google, permitir acesso irrestrito ou enviar dados de filhos a analytics. Avaliar privacidade e participação de responsáveis/filhos conforme o público definido antes de implementar. Evitar comparação punitiva e pressão por desempenho.
+
+## Atividade para a sessão de foco
+
+Campo opcional e curto para informar o que o usuário deseja fazer (exemplo: “Ler um capítulo”). Preservar início rápido sem preenchimento obrigatório. Definir se o texto pertence à sessão atual ou a uma lista reutilizável, quando pode ser editado e se aparece no histórico.
+
+Planejar limite de tamanho, limpeza e persistência local; sincronização deve seguir a escolha de conta e modelo de dados definidos para esta entrega. Não incluir texto livre em eventos de analytics, diagnósticos, compartilhamento ou notificações de tela bloqueada automaticamente. Esse campo não existe ainda.
+
+## Nova animação do Nino na interface de entrada
+
+Alterar o gesto/entrada do mascote especificamente em WelcomeScreen. A animação atual já existe; esta proposta é uma revisão visual separada da animação corporal concluída. Definir pose e transição antes de implementar, sem alterar as demais telas por consequência. Preservar movimento reduzido, pausa em segundo plano, proporções responsivas e legibilidade dos botões/headline.
+
+## Próxima implementação: eventos de uso
+
+Analytics passa a ser a prioridade antes das quatro propostas acima. Começar com eventos mínimos que respondam perguntas de uso; escolher fornecedor, consentimento, propriedades e política de retenção antes de ativar. Consentimento de diagnóstico continua separado. PostHog segue candidato; A/B, heatmaps e replay não entram automaticamente nesta entrega. Plano inicial de eventos em [Plano de ação](plano-de-acao.md#próxima-entrega-prioritária--analytics).

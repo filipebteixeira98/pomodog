@@ -79,3 +79,12 @@ O tour guiado é opcional, oferecido na última etapa da introdução e em Ajust
 ## Entrada com escolha de conta
 
 Antes da introdução, visitante no primeiro acesso vê “Seu foco começa com um pequeno passo”, arte do Nino e relógio Pomodoro, Google ou continuar sem conta. A frase enfatiza início simples e companhia, sem prometer produtividade ou criar urgência. Avaliar se as pessoas entendem os ciclos de foco/pausa e percebem que login é opcional. Clareza da entrada e interesse declarado não comprovam retenção.
+
+## Hipóteses adicionais — agenda, família e atividade
+
+- Sugestões baseadas em disponibilidade podem ajudar a abrir espaço para lazer e responsabilidades, sem pressupor que todo compromisso exige antecipar trabalho. Validar preferência por foco hoje versus amanhã e tolerância à frequência dos convites.
+- Um campo opcional de atividade pode facilitar começar com intenção clara; avaliar se ajuda sem atrasar o início ou expor texto pessoal.
+- Apoio de responsáveis pode ajudar na rotina de filhos; definir público e limites de participação antes de transformar a hipótese em supervisão ou comparação de desempenho.
+- Nova animação na entrada pode aumentar afinidade com Nino; avaliar distração, clareza e desempenho, sem tratar apelo visual como prova de retenção.
+
+Analytics é a próxima frente de implementação por decisão do usuário. Eventos mínimos complementam observação e entrevistas; não comprovam causalidade nem justificam coleta de texto livre, conteúdo de agenda ou dados familiares. Definir finalidade e consentimento antes de instrumentar.
