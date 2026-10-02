@@ -197,3 +197,7 @@ Plugin local `plugins/withNativeReporting.js` gera integração Kotlin e ponte R
 ## Entrada e introdução
 
 Pomodog aguarda a leitura local antes de decidir a entrada. Visitante com introdução incompleta e timer ocioso vê WelcomeScreen; continuar sem conta libera o onboarding apenas em memória. Conta autenticada segue a introdução conforme seu estado salvo. GoogleSignInButton passou a ser componente compartilhado entre entrada e Perfil, reutilizando useAccount.login e seus estados de erro/ocupado. WelcomeArtwork compõe Dog existente com relógio SVG, sem assets remotos ou dependências novas. Ao apagar dados locais, a escolha transitória é reiniciada. Falha na leitura mantém a recuperação acessível; onboarding informa armazenamento na conta quando autenticado.
+
+## Confirmação transitória de exclusão
+
+App aguarda o booleano de removeAccount e mostra Toast somente quando a exclusão retorna true. useAccount mantém erros/cancelamento no aviso existente e não mantém confirmação de sucesso inline. Estado da confirmação pertence a App, fora do componente Pomodog remontado ao mudar UID. Toast tem dismiss explícito, timer limpo ao desmontar, safe area, região acessível e movimento reduzido. Sem nova dependência ou mudança do fluxo de autenticação/exclusão.

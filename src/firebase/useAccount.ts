@@ -154,7 +154,7 @@ export function useAccount() {
     setNotice("");
     try {
       const removed = await deleteOwnAccount();
-      setNotice(removed ? "Sua conta foi excluída." : "Exclusão cancelada.");
+      setNotice(removed ? "" : "Exclusão cancelada.");
       return removed;
     } catch (error) {
       reportError(error, "account.delete");

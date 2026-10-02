@@ -269,3 +269,11 @@ Selo implementado junto ao logotipo no AppHeader compartilhado, com descrição 
 - Com rede desligada no navegador, continuar sem conta abriu onboarding; pular introdução levou ao timer. Reabertura com rede restabelecida preservou onboarding concluído e acesso direto ao Foco.
 - Registro local inválido inserido somente no navegador isolado manteve aviso de recuperação e Perfil acessíveis, sem entrada/onboarding sobrepostos. Console sem erros não tratados registrados.
 - Não foram feitos testes de OAuth real, conta nova autenticada ou inspeção física desta tela nesta entrega.
+
+## Confirmação de exclusão em toast — 02/10/2026
+
+- TypeScript, 68 testes existentes e export Android/Hermes aprovados. Fluxo de autenticação/exclusão e regras de acesso preservados.
+- Prévia web isolada do componente, sem Firebase nem exclusão real: apresentação inspecionada em 390 × 844, fechamento manual e automático após cinco segundos verificados; sem erros não tratados no navegador. Captura em [exclusao-toast-390.png](screenshots/exclusao-toast-390.png).
+- Confirmação é acionada somente pelo retorno true de removeAccount; cancelamento/erro continuam no aviso anterior. Mensagem de sucesso não fica persistida acima do botão Google.
+- Timer considera recomendação de leitura somente no Android; web/iOS usam cinco segundos. Respeita movimento reduzido do sistema.
+- Não foi repetida exclusão em conta real nem inspeção no aparelho; a validação visual é de uma prévia simulada. Arquivos temporários de entrada foram removidos e package.json restaurado.

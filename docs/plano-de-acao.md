@@ -292,3 +292,7 @@ Adicionado selo Beta ao lado do logotipo no cabeçalho compartilhado entre as te
 ## Entrada antes do onboarding
 
 Tela de boas-vindas implementada com a frase “Seu foco começa com um pequeno passo”, Nino animado e relógio ilustrado, indicadores de 25 minutos de foco/5 de pausa, Google e opção equivalente de continuar sem conta. Reutiliza o login existente; cancelamento/falha não avança automaticamente. Aparece antes da introdução para visitante sem onboarding concluído e sem sessão ativa; usuários autenticados ou com introdução concluída preservam seu fluxo. Escolha local vale para a introdução atual, sem marcar onboarding como concluído. Exclusão local reinicia a entrada; armazenamento ilegível mantém recuperação acessível. Sem novos provedores ou coleta adicional.
+
+## Confirmação de exclusão em toast
+
+Sucesso da exclusão agora é exibido em toast global, discreto, com ícone de confirmação, entrada suave e fechamento manual/automático. Fica fora do Pomodog associado ao UID e acompanha o retorno à entrada. Mensagem de sucesso removida do aviso inline; erros, cancelamento, reautenticação, exclusão e navegação preservados. Tempo padrão de cinco segundos, respeitando a recomendação de acessibilidade Android.

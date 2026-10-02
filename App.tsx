@@ -1,5 +1,6 @@
 import "#styles";
 
+import { useCallback, useState } from "react";
 import { ActivityIndicator, Platform, View } from "react-native";
 import { Poppins_400Regular } from "@expo-google-fonts/poppins/400Regular";
 import { Poppins_500Medium } from "@expo-google-fonts/poppins/500Medium";
@@ -8,6 +9,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { Toast } from "#src/components/ui/Toast";
 import { useAccount } from "#src/firebase/useAccount";
 import { MonitoringBoundary } from "#src/monitoring/MonitoringBoundary";
 import { withErrorMonitoring } from "#src/monitoring/sentry";
@@ -19,6 +21,16 @@ if (Platform.OS !== "web") {
 
 function App() {
   const account = useAccount();
+  const [showDeletionToast, setShowDeletionToast] = useState(false);
+  const dismissDeletionToast = useCallback(
+    () => setShowDeletionToast(false),
+    [],
+  );
+  async function removeAccount() {
+    const removed = await account.removeAccount();
+    if (removed) setShowDeletionToast(true);
+    return removed;
+  }
   const [loaded, error] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -49,10 +61,16 @@ function App() {
         authNotice={account.notice}
         onSignIn={account.login}
         onSignOut={account.logout}
-        onDeleteAccount={account.removeAccount}
+        onDeleteAccount={removeAccount}
         accountLocked={account.accountLocked}
         deletionPending={account.deletionPending}
       />
+      {showDeletionToast && (
+        <Toast
+          message="Sua conta foi excluída."
+          onDismiss={dismissDeletionToast}
+        />
+      )}
     </SafeAreaProvider>
   );
 }
