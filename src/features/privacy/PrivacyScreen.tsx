@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Modal,
-  Pressable,
-  ScrollView,
-  View,
-} from "react-native";
-import ArrowRight from "lucide-react-native/icons/arrow-right";
+import { ActivityIndicator, Modal, ScrollView, View } from "react-native";
 import Bug from "lucide-react-native/icons/bug";
 import ChartNoAxesColumn from "lucide-react-native/icons/chart-no-axes-column";
-import Check from "lucide-react-native/icons/check";
 import ShieldCheck from "lucide-react-native/icons/shield-check";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button, TextButton } from "#src/components/ui/Button";
+import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
 
@@ -32,8 +24,7 @@ export function PrivacyScreen({
   onContinue: () => void;
   onBack: () => void;
 }) {
-  const [choice, setChoice] = useState<boolean | null>(null);
-  const [pending, setPending] = useState(false);
+  const [pending, setPending] = useState<boolean | null>(null);
   const [notice, setNotice] = useState("");
   const saving = useRef(false);
   const mounted = useRef(true);
@@ -43,22 +34,20 @@ export function PrivacyScreen({
       mounted.current = false;
     };
   }, []);
-  async function continueToTour() {
-    if (choice === null || saving.current) return;
+  async function continueToTour(enabled: boolean) {
+    if (saving.current) return;
     saving.current = true;
-    setPending(true);
+    setPending(enabled);
     setNotice("");
     try {
-      await onSave(choice);
+      await onSave(enabled);
       if (mounted.current) onContinue();
     } catch {
       if (mounted.current)
-        setNotice(
-          "Não foi possível salvar sua escolha. Tente novamente ou continue sem compartilhar.",
-        );
+        setNotice("Não foi possível salvar. Tente novamente.");
     } finally {
       saving.current = false;
-      if (mounted.current) setPending(false);
+      if (mounted.current) setPending(null);
     }
   }
   const goBack = () => {
@@ -81,20 +70,15 @@ export function PrivacyScreen({
                 <ShieldCheck size={28} color={accent} />
               </View>
               <Text variant="eyebrow">SUA PRIVACIDADE</Text>
-              <Text variant="title">Você decide o que compartilhar.</Text>
-              <Text>
-                Ajude a melhorar nosso cantinho, se quiser. Seu foco continua
-                igual em qualquer escolha.
-              </Text>
+              <Text variant="title">Compartilhar dados?</Text>
+              <Text>Ajude a melhorar o app. É opcional.</Text>
             </View>
             <Card className="gap-4 p-5">
               <View className="flex-row items-center gap-3">
                 <Bug size={21} color={accent} />
                 <View className="flex-1 gap-1">
                   <Text variant="label">Diagnóstico</Text>
-                  <Text variant="caption">
-                    Informações técnicas sobre falhas do app.
-                  </Text>
+                  <Text variant="caption">Dados técnicos de falhas.</Text>
                 </View>
               </View>
               {usageSupported && (
@@ -102,76 +86,18 @@ export function PrivacyScreen({
                   <ChartNoAxesColumn size={21} color={accent} />
                   <View className="flex-1 gap-1">
                     <Text variant="label">Uso do app</Text>
-                    <Text variant="caption">
-                      Telas visitadas e ciclos de foco e descanso.
-                    </Text>
+                    <Text variant="caption">Telas visitadas e ciclos.</Text>
                   </View>
                 </View>
               )}
               <Text variant="caption">
                 {usageSupported
-                  ? "Sem nome, e-mail ou textos pessoais. Dados de uso incluem informações do dispositivo e um identificador da instalação."
+                  ? "Inclui dados do dispositivo e identificador da instalação. Sem nome, e-mail ou textos pessoais."
                   : "Seu nome, e-mail e histórico de foco não são enviados."}
               </Text>
             </Card>
-            <View
-              accessibilityRole="radiogroup"
-              accessibilityLabel="Escolha de compartilhamento de dados opcionais"
-              className="gap-3"
-            >
-              {[
-                {
-                  value: true,
-                  title: "Permitir dados opcionais",
-                  description: usageSupported
-                    ? "Compartilhar diagnóstico e uso do app."
-                    : "Compartilhar informações sobre falhas.",
-                },
-                {
-                  value: false,
-                  title: "Continuar sem compartilhar",
-                  description: "Você pode ativar depois, em Ajustes.",
-                },
-              ].map((option) => (
-                <Pressable
-                  key={String(option.value)}
-                  accessibilityRole="radio"
-                  accessibilityState={{
-                    checked: choice === option.value,
-                    disabled: pending,
-                  }}
-                  accessibilityLabel={`${option.title}. ${option.description}`}
-                  disabled={pending}
-                  onPress={() => setChoice(option.value)}
-                  className="min-h-[76px] flex-row items-center gap-3 rounded-2xl border bg-surface p-4"
-                  style={{
-                    borderColor: choice === option.value ? accent : "#E7E8DE",
-                    backgroundColor:
-                      choice === option.value ? "#ECEEE6" : "#FFFFFF",
-                  }}
-                >
-                  <View
-                    className="h-6 w-6 items-center justify-center rounded-full border"
-                    style={{
-                      borderColor: choice === option.value ? accent : "#C7CDBC",
-                      backgroundColor:
-                        choice === option.value ? accent : "transparent",
-                    }}
-                  >
-                    {choice === option.value && (
-                      <Check size={15} color="#FFFFFF" />
-                    )}
-                  </View>
-                  <View className="flex-1 gap-1">
-                    <Text variant="label">{option.title}</Text>
-                    <Text variant="caption">{option.description}</Text>
-                  </View>
-                </Pressable>
-              ))}
-            </View>
             <Text variant="caption">
-              As permissões são independentes. Você pode mudar cada uma em
-              Ajustes, quando quiser.
+              Você pode mudar cada permissão em Ajustes.
             </Text>
             {notice !== "" && (
               <Text
@@ -182,24 +108,32 @@ export function PrivacyScreen({
                 {notice}
               </Text>
             )}
-            <View className="gap-2">
+            <View className="gap-3">
               <Button
                 accent={accent}
-                disabled={choice === null || pending}
-                onPress={() => void continueToTour()}
+                disabled={pending !== null}
+                onPress={() => void continueToTour(true)}
                 icon={
-                  pending ? (
+                  pending === true ? (
                     <ActivityIndicator color="#FFFFFF" size="small" />
-                  ) : (
-                    <ArrowRight color="#FFFFFF" size={18} />
-                  )
+                  ) : undefined
                 }
               >
-                {pending ? "Salvando escolha…" : "Continuar para o tour"}
+                {pending === true ? "Salvando…" : "Sim, autorizo"}
               </Button>
-              <TextButton disabled={pending} underline={false} onPress={goBack}>
-                Voltar
-              </TextButton>
+              <Button
+                accent={accent}
+                secondary
+                disabled={pending !== null}
+                onPress={() => void continueToTour(false)}
+                icon={
+                  pending === false ? (
+                    <ActivityIndicator color="#343C32" size="small" />
+                  ) : undefined
+                }
+              >
+                {pending === false ? "Salvando…" : "Agora não"}
+              </Button>
             </View>
           </ScrollView>
         </View>

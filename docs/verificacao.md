@@ -314,3 +314,7 @@ Usuário confirmou eventos funcionando corretamente no DebugView em aparelho fí
 - Navegador isolado: entrada sem conta → pular introdução → privacidade; botão continuar desabilitado sem escolha; recusar → tour → Foco. Ajustes mostrou diagnóstico desligado. Reabertura preservou conclusão da introdução e não repetiu a tela.
 - Última etapa → privacidade → voltar preservou a última etapa. Sem rolagem horizontal em 320/390 px e sem erros registrados pelo navegador. Captura de 390 px inspecionada: [privacidade](screenshots/privacidade-390.png).
 - Navegador oferece apenas diagnóstico, pois adaptador de Analytics web não coleta. Ativação dos dois stores foi verificada em testes; posteriormente, o usuário confirmou funcionamento da nova entrega no dispositivo físico. Não foram relatados resultados individuais de cada cenário de persistência/erro, nem validação de revogação nos serviços. Não altera o modo debug de Analytics mantido no dispositivo.
+
+## Revisão da escolha de privacidade — 02/10/2026
+
+Radio buttons e botão de confirmação substituídos por duas ações diretas. Títulos/descrições encurtados, preservando categorias de dados e identificador da instalação. Ambas as ações usam o coordenador de consentimento existente, mantêm bloqueio durante gravação, tratamento de erro e abertura do tour após salvar. Verificação TypeScript e formatação passaram. Esta revisão visual ainda precisa ser validada no aparelho; captura anterior documenta a primeira versão.
