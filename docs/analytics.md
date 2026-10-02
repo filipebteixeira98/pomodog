@@ -1,0 +1,70 @@
+# Firebase Analytics — uso opcional no Android
+
+Implementação de 02/10/2026 com `@react-native-firebase/app` e `@react-native-firebase/analytics` 26.4.0. Usa o app Android já cadastrado em `pomodog-dev-2026`; autenticação e Firestore continuam no SDK existente. Não cria coleções/tabelas de Analytics no Firestore.
+
+## Consentimento e dados
+
+Em Ajustes, **Compartilhar como uso o app** é independente do diagnóstico de erros e fica desligado por padrão. O consentimento permanece neste dispositivo, não no perfil sincronizado. Sem aceitar, o app funciona normalmente com ou sem conta. Não interpretar login ou consentimento de Sentry como autorização de medição.
+
+`firebase.json` nega coleta e armazenamento de Analytics por padrão antes do JavaScript. Ads, personalização, AD_ID e SSAID desabilitados; AD_ID removido das permissões Android. Telas são medidas explicitamente, evitando registrar Activities do development client. Após a autorização, o SDK também pode produzir seus eventos técnicos automáticos de sessão/engajamento; não é uma coleta limitada aos eventos customizados abaixo.
+
+O SDK usa identificador da instalação e informações técnicas do app/dispositivo; não prometer anonimato absoluto. Não definimos `user_id` com UID Firebase, nem enviamos nome, e-mail, textos livres, histórico completo, títulos de agenda ou dados familiares. Payloads customizados são reconstruídos por uma lista permitida. Não há captura de toques, heatmaps, replay, anúncios, IA ou testes A/B nesta entrega.
+
+Ao desativar, o bloqueio JavaScript ocorre imediatamente e eventos ainda na fila local da aplicação são descartados. SDK nega consentimento e coleta, limpa seus dados locais e reinicia o identificador da instalação. Apagar dados locais e concluir exclusão de conta também revogam Analytics. Dados já enviados não são apagados no servidor por `resetAnalyticsData`; retenção/solicitações de remoção no GA4 são medidas distintas. Falhas de persistência são exibidas em Ajustes, sem bloquear o timer.
+
+## Eventos e perguntas
+
+| Evento                | Propriedades customizadas                                                         | Pergunta de uso                                        |
+| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `screen_view`         | `screen_name`, `screen_class`: welcome/onboarding/focus/progress/settings/profile | Quais telas são acessadas?                             |
+| `onboarding_complete` | Nenhuma                                                                           | Quantas conclusões ocorrem depois de autorizar coleta? |
+| `session_start`       | `session_mode`: focus/break; `duration_seconds`                                   | Quais ciclos/durações as pessoas iniciam?              |
+| `session_pause`       | Modo e duração configurada                                                        | Com que frequência interrompem ciclos?                 |
+| `session_resume`      | Modo e duração configurada                                                        | Retomam os ciclos pausados?                            |
+| `session_complete`    | Modo e duração do ciclo que terminou                                              | Quantos ciclos chegam ao fim?                          |
+| `session_reset`       | Modo e duração configurada                                                        | Quantos ciclos ativos/pausados são reiniciados?        |
+
+Só transições efetivas produzem eventos; ticks não são medidos. Na conclusão, o modo enviado é o do ciclo anterior, apesar da troca automática de foco/descanso. Retorno ao app e restauração de um timer vencido podem reconhecer conclusão; restaurar histórico concluído não o reenvia. Eventos anteriores ao consentimento não são armazenados para envio posterior.
+
+A escolha é oferecida em Ajustes, depois da introdução: o primeiro onboarding normalmente não é medido. A futura tela de privacidade é uma entrega separada. Os dados representam somente instalações que aceitaram a coleta; contagens não representam todos os usuários, nem provam causalidade ou produtividade.
+
+## Vinculação no console — pendente
+
+Consulta da API em 02/10/2026: `projects/pomodog-dev-2026/analyticsDetails` retornou 404 (sem vínculo). A sessão Firebase consegue consultar o projeto, mas a listagem de contas GA4 retorna 403 por escopos insuficientes. Não foi criada propriedade, nem aceitos termos por conta do usuário.
+
+Para concluir, fornecer ID da conta/propriedade GA4 existente ou habilitar Google Analytics em [Configurações → Integrações](https://console.firebase.google.com/project/pomodog-dev-2026/settings/integrations). Selecionar uma propriedade exclusiva do ambiente de desenvolvimento; não misturar testes com futura produção. Configurar retenção de eventos/usuários em dois meses e manter compartilhamento/publicidade desabilitados antes da validação. A escolha final e a configuração no console ainda precisam ser confirmadas.
+
+Para comparar durações/modos nos relatórios, registrar `session_mode` como dimensão customizada de evento e `duration_seconds` como métrica customizada. São opcionais para ver payloads no DebugView; o SDK não cria essas definições de relatório automaticamente.
+
+## Recompilar e validar
+
+Expo Go não contém os módulos. Esta entrega integra somente Android; web/iOS mantêm adaptador sem coleta e sem controle de Analytics.
+
+```sh
+npx expo prebuild --platform android --no-install
+npm run android
+```
+
+APK debug arm64-v8a compilado com sucesso nesta máquina; instalação e recepção no aparelho ainda pendentes. Usar JDK 17 e SDK Android conforme [development build](development-build.md). O APK debug depende de Metro para executar JavaScript; a exportação Hermes não substitui instalação/validação.
+
+Com aparelho autorizado por USB, habilitar debug somente para o teste:
+
+```sh
+adb shell setprop debug.firebase.analytics.app com.filipebteixeira98.pomodog
+```
+
+1. Com vínculo GA4 concluído e coleta desligada, abrir app/navegar/iniciar ciclos: nenhum evento deve ser enviado ao DebugView. Não confundir eventos já enviados com eventos novos.
+2. Em Ajustes, ativar compartilhamento: deve aparecer `screen_view` da tela atual. Navegar e confirmar nomes controlados no [DebugView](https://console.firebase.google.com/project/pomodog-dev-2026/analytics/debugview).
+3. Iniciar foco, pausar, retomar e concluir; verificar modo/duração. Repetir no descanso e confirmar ausência de duplicatas ao retornar perto do término. Não há alteração das durações disponíveis para testar.
+4. Desativar e repetir; reabrir para conferir persistência. Apagar dados locais/excluir conta e conferir revogação. Autorizar medição não deve ativar diagnóstico, e vice-versa.
+5. Negar conexão/repetir enquanto offline: timer continua funcionando. Eventos autorizados podem permanecer no cache do SDK até reconectar; conferir revogação antes da reconexão.
+
+Ao terminar:
+
+```sh
+adb shell setprop debug.firebase.analytics.app .none.
+```
+
+DebugView é o caminho para validação imediata; relatórios agregados não são instantâneos. Recepção real e comportamento da revogação no aparelho ainda precisam ser comprovados após vinculação e instalação.
+
+Referências: [React Native Firebase Analytics](https://rnfirebase.io/analytics/usage), [configuração Expo](https://rnfirebase.io/), [DebugView](https://firebase.google.com/docs/analytics/debugview), [vincular projeto](https://firebase.google.com/docs/projects/api/workflow_set-up-and-manage-project#link-analytics).

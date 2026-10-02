@@ -1,4 +1,11 @@
-import { createRef, useCallback, useEffect, useRef, useState } from "react";
+import {
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import {
   ActivityIndicator,
   ScrollView,
@@ -9,6 +16,11 @@ import { StatusBar } from "expo-status-bar";
 import type { User } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import {
+  analyticsEnabled,
+  subscribeAnalytics,
+  trackUsage,
+} from "#src/analytics/service";
 import { AppHeader } from "#src/components/AppHeader";
 import { BottomNavigation, type Tab } from "#src/components/BottomNavigation";
 import { ResetConfirmation } from "#src/components/ResetConfirmation";
@@ -50,6 +62,11 @@ export function Pomodog({
 }) {
   const viewport = useWindowDimensions();
   const model = usePomodoro(user, accountLocked);
+  const usageEnabled = useSyncExternalStore(
+    subscribeAnalytics,
+    analyticsEnabled,
+    () => false,
+  );
   const host = useRef<View>(null);
   const scroll = useRef<ScrollView>(null);
   const targets = useRef<TourTargets>({
@@ -77,6 +94,16 @@ export function Pomodog({
     !model.onboardingComplete &&
     model.timer.status === "idle" &&
     !model.storageError;
+  const screen = !model.ready
+    ? null
+    : showOnboarding
+      ? !user && !entryDismissed
+        ? "welcome"
+        : "onboarding"
+      : tab;
+  useEffect(() => {
+    if (screen) trackUsage({ name: "screen_view", screen });
+  }, [screen, usageEnabled]);
 
   function startTour() {
     model.completeOnboarding();

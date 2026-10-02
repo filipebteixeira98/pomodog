@@ -8,3 +8,4 @@ import "#tests/notifications.test.ts";
 import "#tests/accountData.test.ts";
 import "#tests/accountDeletion.test.ts";
 import "#tests/monitoring.test.ts";
+import "#tests/analytics.test.ts";

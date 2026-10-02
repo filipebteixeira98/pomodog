@@ -35,7 +35,7 @@ Convidar inicialmente 5 a 8 pessoas para uma investigação qualitativa. Explica
 4. Perguntar como perceberam o cachorro: companhia, distração ou indiferença? Registrar as palavras da pessoa.
 5. Oferecer o protótipo para uso por alguns dias. Depois perguntar quando voltou, quando desistiu e por quê.
 
-Não interpretar elogios como retenção ou intenção de compra como receita. Não coletar telemetria remota nesta primeira versão; usar observação e entrevistas. Antes de adicionar monetização, testar ofertas concretas e identificar claramente qualquer simulação.
+Não interpretar elogios como retenção ou intenção de compra como receita. No protótipo original, usar observação e entrevistas; na entrega posterior de Analytics, somente instalações que consentirem poderão enviar eventos mínimos. Antes de adicionar monetização, testar ofertas concretas e identificar claramente qualquer simulação.
 
 ## Registro de decisões
 
@@ -70,7 +70,7 @@ As novas propostas estão organizadas no [Plano de ação](plano-de-acao.md), co
 - Outros animais, personalização e nomes têm valor suficiente para justificar uma oferta paga.
 - Compartilhamento, pontuação e ciclos com amigos incentivam uso sem comparações punitivas.
 
-A sugestão de analytics/heatmaps está em discussão e não altera a coleta da versão atual. Antes de instrumentar, definir consentimento, finalidade e eventos; observação e entrevistas permanecem o método vigente. Login e sincronização devem ser opcionais, preservando a experiência sem conta.
+Firebase Analytics opcional Android foi implementado em entrega posterior; vínculo GA4 e recepção física ainda precisam ser concluídos. Heatmaps continuam pendentes. Eventos mínimos dependem de consentimento separado, e observação/entrevistas complementam os dados de uso. Login e sincronização devem ser opcionais, preservando a experiência sem conta.
 
 A tela de Foco concentra timer, controles e uma fala curta do mascote. O resumo diário fica apenas em Progresso; os cabeçalhos promocionais foram removidos das telas. Avaliar se essa simplificação facilita iniciar uma sessão, sem assumir melhoria de usabilidade antes dos testes com pessoas.
 
@@ -87,4 +87,4 @@ Antes da introdução, visitante no primeiro acesso vê “Seu foco começa com 
 - Apoio de responsáveis pode ajudar na rotina de filhos; definir público e limites de participação antes de transformar a hipótese em supervisão ou comparação de desempenho.
 - Nova animação na entrada pode aumentar afinidade com Nino; avaliar distração, clareza e desempenho, sem tratar apelo visual como prova de retenção.
 
-Analytics é a próxima frente de implementação por decisão do usuário. Eventos mínimos complementam observação e entrevistas; não comprovam causalidade nem justificam coleta de texto livre, conteúdo de agenda ou dados familiares. Definir finalidade e consentimento antes de instrumentar.
+Firebase Analytics Android é a frente atual por decisão do usuário; código e consentimento em Ajustes implementados, vinculação e validação ainda pendentes. Eventos mínimos complementam observação e entrevistas; não comprovam causalidade nem justificam coleta de texto livre, conteúdo de agenda ou dados familiares. Coleta desativada por padrão; medir somente eventos posteriores ao consentimento e tratar a amostra como usuários optantes, sem supor representatividade.

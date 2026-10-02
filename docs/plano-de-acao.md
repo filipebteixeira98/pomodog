@@ -45,7 +45,7 @@ Backlog registrado após a discussão das 15 sugestões. A ordem abaixo é uma p
 | 10    | Insights e medição     | IA, PostHog, testes A/B e heatmaps condicionados à decisão de dados e consentimento                                          | Planejada    |
 | 11    | Erros em produção      | Sentry JavaScript integrado com consentimento local e filtragem; evento confirmado no dashboard; validar runtime no aparelho | Em validação |
 
-Analytics, eventos e heatmaps são uma frente transversal com decisão pendente de privacidade; não habilitar coleta apenas por constarem no backlog. Definir escopo antes de posicionar sua implementação na sequência. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
+Analytics opcional Android foi implementado em entrega posterior com Firebase; vinculação GA4 e validação de recepção ainda pendentes. Heatmaps e A/B continuam propostas separadas, sem coleta ativada por constarem no backlog. Detalhes e dependências em [Próximas etapas](proximas-etapas.md).
 
 ## Andamento consolidado — 02/10/2026
 
@@ -112,7 +112,7 @@ Correção do resumo anterior: ícone/splash ainda exigem validação do release
 | Semelhança e identificação             | Hipótese de sistemas/pessoas semelhantes registrada.                                            | Pendente     | Esclarecer significado antes de escolher funcionalidade.                                                                                           |
 | Experiência além da produtividade      | Direção de companhia, descanso e autonomia registrada.                                          | Pendente     | Traduzir objetivos em critérios e avaliar com usuários.                                                                                            |
 | Insights com IA                        | Sugestões personalizadas propostas.                                                             | Pendente     | Definir utilidade, consentimento, dados mínimos, custo e fornecedor.                                                                               |
-| Analytics / PostHog                    | Medição de uso proposta; próxima entrega prioritária, ainda não ativada.                        | Pendente     | Escolher fornecedor, eventos mínimos, consentimento, retenção e exclusão; implementar antes das novas propostas.                                   |
+| Firebase Analytics                     | SDK Android, eventos mínimos e consentimento independente em Ajustes implementados.             | Em andamento | Vincular projeto a GA4/definir retenção, reinstalar development build e confirmar recepção/revogação no aparelho.                                  |
 | Testes A/B                             | Experimentos comparativos propostos.                                                            | Pendente     | Definir hipóteses, métricas e critérios antes de instrumentar.                                                                                     |
 | Heatmaps                               | Mapas de interação propostos; não ativados.                                                     | Pendente     | Avaliar utilidade, suporte e privacidade separadamente.                                                                                            |
 | Crashes C/C++ — NDK                    | Captura adicional ainda desativada.                                                             | Pendente     | Definir filtragem, consentimento e símbolos do binário.                                                                                            |
@@ -132,9 +132,11 @@ Este quadro é o resumo vigente; tabelas anteriores registram etapas e frentes h
 
 Decisão de 02/10/2026: implementar primeiro a integração para eventos de uso do app, antes de agenda, vínculo familiar, atividade de foco e alteração da animação de entrada. Feedback deixa de ser a próxima entrega sugerida; continua pendente. Pencil permanece em standby.
 
-Antes da ativação, escolher fornecedor (PostHog segue candidato, não decisão), definir eventos/propriedades mínimos, consentimento próprio, identificação, retenção e exclusão. Diagnóstico Sentry não equivale a consentimento para analytics. Preservar uso completo sem conta ou sem aceitar coleta; não ativar captura automática, replay ou heatmaps por consequência da integração inicial. A tela de privacidade pós-onboarding ainda é uma entrega separada: decidir a interface mínima de consentimento necessária para esta primeira integração.
+Fornecedor escolhido pelo usuário: Firebase Analytics. Entrega Android implementada com coleta desligada por padrão, controle separado de Sentry em Ajustes e payload permitido para telas/ciclos. Não associa UID da conta ao identificador de Analytics. Primeiro onboarding normalmente não é medido porque autorização é oferecida em Ajustes; nenhum histórico anterior é reenviado.
 
-Primeiro escopo proposto: início/pausa/retomada/conclusão de foco e descanso, conclusão da introdução e navegação entre telas. Propriedades limitadas a modo, duração e tela quando úteis à hipótese. Texto livre de atividades, detalhes de agenda, dados de filhos, nome e e-mail não integram o payload inicial. A lista final deve ser definida antes de instrumentar; nada foi coletado nesta atualização documental.
+Eventos: screen_view, onboarding_complete, session_start/pause/resume/complete/reset. Modos e durações são os do ciclo efetivo; conclusão trata troca automática e retorno ao app sem repetir ticks. Web/iOS sem coleta nesta entrega. A tela de privacidade pós-onboarding continua separada; replay, heatmaps e A/B não foram habilitados.
+
+Status em andamento: consulta confirmou ausência de vínculo GA4 no projeto de desenvolvimento; sessão atual não permite listar contas Analytics. Falta ID da conta/propriedade ou habilitação no console, política de retenção e validação real após reinstalar development build. Guia e catálogo em [Analytics](analytics.md).
 
 ## Regra de execução por funcionalidade
 
@@ -312,3 +314,7 @@ Sucesso da exclusão agora é exibido em toast global, discreto, com ícone de c
 ## Ampliação do planejamento — 02/10/2026
 
 Registradas agenda com sugestões de antecipação de foco, vínculo entre pais/filhos, atividade textual da sessão e nova animação do Nino na entrada. Todas pendentes; escopo inicial e decisões em Próximas etapas. Analytics definido como próxima entrega prioritária, sem implementação ou ativação nesta atualização.
+
+## Firebase Analytics opcional — 02/10/2026
+
+SDK nativo Android e consentimento local independente implementados. Eventos mínimos para entender navegação e ciclos, sem nome/e-mail/UID/textos livres. Recusa não bloqueia uso; apagar dados/excluir conta revoga e limpa cache local de medição, sem alegar remoção de eventos já enviados. Testes de consentimento/concorrência/payload/transições adicionados. Vinculação GA4 e recepção em aparelho permanecem pendentes; não classificar a integração inteira como concluída.

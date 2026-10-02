@@ -8,6 +8,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 
+import { setAnalyticsEnabled } from "#src/analytics/service";
 import { flushAccount } from "#src/firebase/accountData";
 import {
   createAccountDeletion,
@@ -70,6 +71,7 @@ export const deleteOwnAccount = createAccountDeletion({
   finish: async (uid) => {
     // Identity is already gone. Cleanup must not report a failed account deletion.
     await setReportingEnabled(false).catch(() => {});
+    await setAnalyticsEnabled(false).catch(() => {});
     await finishAccountDeletion(uid).catch(() => {});
     await signOutGoogle().catch(() => {});
   },

@@ -29,8 +29,9 @@ export function LocalDataCard({
       </View>
       <Text variant="heading">Seus dados, suas escolhas.</Text>
       <Text>
-        Seu foco e suas preferências ficam neste dispositivo. O envio de erros é
-        opcional e pode ser ativado ou desativado em Ajustes.
+        Seu histórico de foco e suas preferências ficam neste dispositivo. O
+        envio de informações sobre falhas e uso do app é opcional, com escolhas
+        separadas em Ajustes.
       </Text>
       <Button
         accent={accent}

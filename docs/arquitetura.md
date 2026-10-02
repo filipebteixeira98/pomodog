@@ -201,3 +201,9 @@ Pomodog aguarda a leitura local antes de decidir a entrada. Visitante com introd
 ## Confirmação transitória de exclusão
 
 App aguarda o booleano de removeAccount e mostra Toast somente quando a exclusão retorna true. useAccount mantém erros/cancelamento no aviso existente e não mantém confirmação de sucesso inline. Estado da confirmação pertence a App, fora do componente Pomodog remontado ao mudar UID. Toast tem dismiss explícito, timer limpo ao desmontar, safe area, região acessível e movimento reduzido. Sem nova dependência ou mudança do fluxo de autenticação/exclusão.
+
+## Analytics Android opcional
+
+`src/analytics` contém catálogo de eventos/payloads, controlador serializado de consentimento/envio, adaptadores por plataforma e card de Ajustes. `index.ts` restaura consentimento próprio; SDK nativo Android usa google-services.json existente, sem alterar Firebase Auth/Firestore. Manifesto nega coleta/publicidade por padrão. Adaptador padrão web/iOS não coleta; Expo Go não carrega o módulo nativo.
+
+usePomodoro deriva eventos de transições efetivas fora do reducer puro, incluindo conclusão de foco/descanso na restauração e no retorno ao app. Pomodog mede apenas a tela apresentada e a tela atual ao autorizar. Fila descarta eventos ainda não enviados após revogação e não reenvia histórico. Apagar dados/excluir conta nega consentimento e reinicia dados/identificador local do SDK; não remove automaticamente eventos do servidor. Nenhum UID, nome, e-mail ou texto livre é passado ao SDK. Ver [catálogo e limites](analytics.md).

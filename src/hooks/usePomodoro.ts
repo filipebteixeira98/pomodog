@@ -2,6 +2,8 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import { AppState } from "react-native";
 import type { User } from "firebase/auth";
 
+import { timerEvent } from "#src/analytics/events";
+import { setAnalyticsEnabled, trackUsage } from "#src/analytics/service";
 import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
 import { AccountSaveError, saveAccount } from "#src/firebase/accountData";
@@ -19,11 +21,11 @@ import {
   loadPrototype,
   savePrototype,
 } from "#src/storage/prototype";
-import { initialTimer, timerReducer, type Mode } from "#src/timer";
+import { initialTimer, timerReducer, type Action, type Mode } from "#src/timer";
 
 export function usePomodoro(user: User | null = null, accountLocked = false) {
   const account = useRef(user ? accountStore(user.uid) : null).current;
-  const [timer, dispatch] = useReducer(timerReducer, initialTimer);
+  const [timer, reducerDispatch] = useReducer(timerReducer, initialTimer);
   const [preferences, setPreferences] = useState(defaultPreferences);
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [petCare, setPetCare] = useState<PetCare>();
@@ -43,6 +45,16 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
   const latestTimer = useRef(timer);
   latestTimer.current = timer;
   const busy = timer.status === "running" || timer.status === "paused";
+
+  function dispatch(action: Action) {
+    const before =
+      action.type === "restore" ? action.value : latestTimer.current;
+    const after = timerReducer(latestTimer.current, action);
+    latestTimer.current = after;
+    reducerDispatch(action);
+    const event = timerEvent(before, after, action);
+    if (event) trackUsage(event);
+  }
 
   useEffect(() => {
     let mounted = true;
@@ -245,6 +257,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     try {
       await sessionNotifications.sync(latestTimer.current, false);
       await setReportingEnabled(false);
+      await setAnalyticsEnabled(false);
       await clearExportFile();
       await (account ? account.erase() : erasePrototype());
       dispatch({
@@ -282,7 +295,10 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     preferences,
     onboardingComplete,
     completeOnboarding: () => {
-      if (!locked()) setOnboardingComplete(true);
+      if (!locked()) {
+        if (!onboardingComplete) trackUsage({ name: "onboarding_complete" });
+        setOnboardingComplete(true);
+      }
     },
     ready: ready && !accountLocked,
     busy: busy || accountLocked,

@@ -277,3 +277,16 @@ Selo implementado junto ao logotipo no AppHeader compartilhado, com descrição 
 - Confirmação é acionada somente pelo retorno true de removeAccount; cancelamento/erro continuam no aviso anterior. Mensagem de sucesso não fica persistida acima do botão Google.
 - Timer considera recomendação de leitura somente no Android; web/iOS usam cinco segundos. Respeita movimento reduzido do sistema.
 - Não foi repetida exclusão em conta real nem inspeção no aparelho; a validação visual é de uma prévia simulada. Arquivos temporários de entrada foram removidos e package.json restaurado.
+
+## Firebase Analytics opcional — 02/10/2026
+
+- TypeScript: passou.
+- 76 testes: passaram, incluindo consentimento independente desligado por padrão, revogação imediata, descarte de eventos da autorização anterior, restauração/ativações concorrentes, falhas de storage/SDK, payload permitido e transições de foco/descanso.
+- Exports Android/Hermes e web: passaram. Adaptador web não importa/inicializa Analytics nativo.
+- Prebuild Android com plugin Firebase App: passou; Analytics registrado no PackageList gerado.
+- APK debug arm64-v8a: `:app:assembleDebug` passou com JDK 17. Arquivo gerado em android/app/build/outputs/apk/debug/app-debug.apk; não instalado/validado no aparelho nesta entrega.
+- Manifesto Android gerado confirma collection_enabled=false, storage de Analytics/ads negado, publicidade/SSAID e screen reporting automático desabilitados, sem permissão com.google.android.gms.permission.AD_ID.
+- API Firebase analyticsDetails: 404, sem vínculo GA4. Listagem de contas Analytics: 403 por escopos insuficientes. Nenhuma propriedade/configuração de retenção criada ou presumida.
+- Pendente: terminar vínculo GA4 e validar card/ativação, recepção no DebugView, restauro e revogação no development build físico. Testes de controlador não comprovam a rede do SDK; exportação não comprova runtime nativo.
+
+Catálogo e instruções em [Analytics](analytics.md). Onboarding anterior à escolha em Ajustes não é contabilizado retrospectivamente.

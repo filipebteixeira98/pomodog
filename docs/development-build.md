@@ -68,6 +68,7 @@ Erros técnicos ficam apenas no console de desenvolvimento, com prefixo [Pomodog
 ### Diagnóstico `__DEV__`
 
 Em desenvolvimento, o console exibe logs `[Pomodog notifications]` com:
+
 - `permitted=true/false` — resultado da consulta de permissão
 - `cancelled` — cancelamento executado
 - `scheduled id=... mode=... deadline=...` — agendamento com identificador retornado
@@ -78,3 +79,7 @@ Em desenvolvimento, o console exibe logs `[Pomodog notifications]` com:
 Esses logs não aparecem em produção. Não há diagnóstico técnico na interface.
 
 Referência: [development builds do Expo](https://docs.expo.dev/develop/development-builds/introduction/).
+
+## Analytics opcional Android
+
+Firebase Analytics adiciona módulos nativos: sincronize com `npx expo prebuild --platform android --no-install` e reinstale com `npm run android` antes de testar. Expo Go e web não coletam nesta entrega. Habilite a escolha independente em Ajustes somente para testar após vincular projeto a GA4; [Analytics](analytics.md) descreve DebugView e verificação da revogação.

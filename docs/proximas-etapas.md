@@ -8,7 +8,7 @@ Atualizadas em 02/10/2026, incluindo agenda, vínculo familiar, atividade de foc
 
 ## Autonomia e privacidade
 
-Uso local para quem não se autenticar, sem login obrigatório e sem telemetria de uso, inclusive anônima. Google OAuth e sincronização Firebase foram implementados no ambiente de desenvolvimento, com login e registro validados pelo usuário no aparelho. Ao entrar, perfil, histórico e estado são enviados à conta. Analytics requer decisão explícita de privacidade antes da ativação.
+Uso local para quem não se autenticar, sem login obrigatório e sem telemetria de uso por padrão. Analytics Android exige consentimento opcional específico em Ajustes. Google OAuth e sincronização Firebase foram implementados no ambiente de desenvolvimento, com login e registro validados pelo usuário no aparelho. Ao entrar, perfil, histórico e estado são enviados à conta. Analytics requer decisão explícita de privacidade antes da ativação.
 
 Exclusão com confirmação e proteção de registros ilegíveis estão disponíveis. A exportação JSON foi retirada da interface para simplificar o MVP; pode ser reavaliada junto a integrações futuras. Próximas decisões:
 
@@ -57,13 +57,11 @@ Notificações ao terminar validadas em aparelho físico, inclusive com tela blo
 - Sem conta, manter “Apagar dados deste dispositivo”. Com conta, exclusão de conta e dados remotos implementada com confirmação e reautenticação; remoção validada pelo usuário em aparelho físico.
 - Informar armazenamento exclusivamente local apenas quando isso corresponder ao fluxo real. Após integrações, explicar os dados enviados; não afirmar genericamente que nenhum dado é coletado se houver autenticação, sincronização ou analytics.
 
-## Analytics, eventos e heatmaps — decisão pendente
+## Analytics — implementação Android e pendências
 
-A sugestão de capturar eventos para insights e heatmaps altera a diretriz anterior de ausência de telemetria. Nenhum analytics foi habilitado por este planejamento.
+Firebase escolhido para eventos de uso. SDK Android integrado, controle independente em Ajustes, desligado por padrão; catálogo mínimo definido e payloads sem identidade de conta/textos pessoais. A implementação preserva uso sem consentimento e não envia eventos anteriores à autorização.
 
-Antes de implementar, decidir finalidade, consentimento, eventos mínimos, retenção, exclusão e comportamento para quem recusa, inclusive no modo sem conta. A proposta discutida é começar com eventos mínimos e opcionais, deixando heatmaps para uma necessidade demonstrada. Fornecedor e solução de heatmap ainda não foram escolhidos; captura de eventos não implica automaticamente gravação de sessões ou heatmaps.
-
-Revisar mensagens de privacidade e documentação de produto antes de qualquer coleta. A avaliação atual continua baseada em observação e entrevistas.
+Ainda concluir: vinculação do projeto dev a GA4, configuração de retenção/relatórios e teste no development build físico com DebugView, recusa, revogação e exclusão. A API retornou ausência de vínculo e a sessão atual não dispõe de escopos para listar contas GA4. Documentação em [Analytics](analytics.md). A/B, heatmaps, replay e PostHog continuam fora desta entrega.
 
 ## Personalização paga e recursos sociais
 
@@ -186,4 +184,4 @@ Alterar o gesto/entrada do mascote especificamente em WelcomeScreen. A animaçã
 
 ## Próxima implementação: eventos de uso
 
-Analytics passa a ser a prioridade antes das quatro propostas acima. Começar com eventos mínimos que respondam perguntas de uso; escolher fornecedor, consentimento, propriedades e política de retenção antes de ativar. Consentimento de diagnóstico continua separado. PostHog segue candidato; A/B, heatmaps e replay não entram automaticamente nesta entrega. Plano inicial de eventos em [Plano de ação](plano-de-acao.md#próxima-entrega-prioritária--analytics).
+Firebase Analytics Android é a entrega atual, com código e eventos mínimos implementados e consentimento em Ajustes. Vinculação GA4, retenção e validação no aparelho pendentes antes de considerar concluída. Agenda, vínculo familiar, atividade de foco e nova animação seguem pendentes. Diagnóstico continua separado; A/B, heatmaps e replay não entram nesta entrega. Detalhes em [Analytics](analytics.md).
