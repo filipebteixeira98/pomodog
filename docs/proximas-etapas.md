@@ -205,3 +205,19 @@ Textos encurtados e radio buttons removidos. Cada botão salva a decisão e abre
 Nova tela entre privacidade e tour, com textos curtos, ícone de sino e dois botões: “Sim, ativar” e “Agora não”. Vinculada a “Avisar ao terminar” em Ajustes; recusa não solicita permissão. Caso o sistema negue, é possível tentar novamente ou seguir sem avisos. Navegador sem suporte não exibe a tela. Não habilita lembretes de rotina/inatividade nem push remoto.
 
 Próximos passos: validar no aparelho aceitar/recusar, permissão negada, persistência em Ajustes, voltar e abertura do tour. A confirmação anterior de avisos de conclusão continua válida; esta validação é da nova interface e do fluxo de entrada.
+
+## Tamanho distribuído e desempenho: prioridade antes do lançamento
+
+Decisão de 03/10/2026: minimizar o tamanho distribuído nas lojas e garantir experiência fluida e eficiente, inclusive em dispositivos com menos recursos. Esta frente é prioridade da preparação do lançamento; não foi iniciada nesta atualização.
+
+Referência local medida em 03/10/2026: bundle Android/Hermes 6,38 MB, export com assets 6,88 MB e APK debug de 02/10/2026 com 86,50 MB (MB decimais). Bundle/export já gerados para produção; APK de release e download da loja ainda não medidos. Tamanho do APK debug não serve como previsão do download final.
+
+Plano de execução:
+
+1. Gerar release e medir separadamente bundle, assets, pacote de publicação, download por dispositivo e espaço instalado. Registrar versão, arquitetura e configuração de cada medida para comparações reproduzíveis.
+2. Identificar os maiores componentes: código, dependências nativas, fontes, imagens e recursos. Revisar itens não utilizados e avaliar otimizações de assets, código/recursos nativos e distribuição por arquitetura conforme suporte do projeto. Consultar documentação vigente antes de alterar build.
+3. Definir metas de tamanho e desempenho após obter a referência de release, sem prometer redução percentual antecipada. Medir abertura a frio, navegação, timer, animações, memória e comportamento em aparelhos com menos recursos, sem influência de Metro.
+4. Comparar antes/depois; repetir verificações afetadas de OAuth, sincronização, notificações, consentimento, diagnóstico e animações. Preservar mapas/símbolos correspondentes ao binário otimizado.
+5. Registrar resultados e critérios de aceitação antes de publicar. Se metas não forem atendidas, documentar causa e decidir o ajuste necessário. Menor download e maior fluidez são critérios distintos.
+
+Ao iniciar esta frente, retomar também o lembrete de Analytics: modo debug permanece ativo no aparelho por decisão do usuário; desativar para validação normal/publicação, conferindo o valor vigente. Não alterar essa propriedade durante o registro do planejamento.
