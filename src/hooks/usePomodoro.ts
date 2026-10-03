@@ -14,7 +14,7 @@ import {
   requestSessionPermission,
   sessionNotifications,
 } from "#src/notifications/sessionNotifications";
-import { clearExportFile } from "#src/storage/exportFile";
+import { clearLegacyExport } from "#src/storage/legacyExportCleanup";
 import {
   accountStore,
   erasePrototype,
@@ -260,7 +260,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
       await sessionNotifications.sync(latestTimer.current, false);
       await setReportingEnabled(false);
       await setAnalyticsEnabled(false);
-      await clearExportFile();
+      await clearLegacyExport();
       await (account ? account.erase() : erasePrototype());
       dispatch({
         type: "restore",

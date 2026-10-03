@@ -14,7 +14,6 @@
     },
     "plugins": [
       "expo-font",
-      "expo-sharing",
       [
         "expo-splash-screen",
         {
@@ -36,7 +35,9 @@
         }
       ],
       "./plugins/withNativeReporting",
-      "@react-native-firebase/app"
+      "@react-native-firebase/app",
+      ["expo-secure-store", { "configureAndroidBackup": false }],
+      "./plugins/withAndroidPrivacy"
     ],
     "icon": "./assets/brand/icon.png",
     "android": {
@@ -47,7 +48,12 @@
         "backgroundColor": "#4E6B55"
       },
       "package": "com.filipebteixeira98.pomodog",
-      "blockedPermissions": ["com.google.android.gms.permission.AD_ID"]
+      "allowBackup": false,
+      "blockedPermissions": [
+        "com.google.android.gms.permission.AD_ID",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "scheme": "pomodog"
   }

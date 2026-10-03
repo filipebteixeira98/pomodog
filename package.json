@@ -15,7 +15,7 @@
     "expo-file-system": "~57.0.7",
     "expo-font": "~57.0.4",
     "expo-notifications": "57.0.21",
-    "expo-sharing": "~57.0.22",
+    "expo-secure-store": "~57.0.4",
     "expo-splash-screen": "~57.0.9",
     "expo-status-bar": "~57.0.1",
     "firebase": "^12.19.0",
@@ -66,5 +66,11 @@
     "#tests/*": "./tests/*",
     "#app": "./App.tsx",
     "#styles": "./global.css"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "1.14.5",
+    "xcode": {
+      "uuid": "11.1.1"
+    }
   }
 }

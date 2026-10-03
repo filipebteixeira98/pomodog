@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { serializeExport } from "#src/domain/exportData.ts";
 import { defaultPreferences } from "#src/domain/preferences.ts";
 import {
   createPrototypeStore,
@@ -84,7 +83,7 @@ test("deletion waits for an in-flight write so old data does not reappear", asyn
   assert.equal(values.has(STORAGE_KEY), false);
 });
 
-test("export excludes unknown fields, invalid timestamps and duplicate sessions", () => {
+test("persistence excludes unknown fields, invalid timestamps and duplicate sessions", async () => {
   const session = {
     id: "one",
     endedAt: 1000,
@@ -96,10 +95,13 @@ test("export excludes unknown fields, invalid timestamps and duplicate sessions"
     unknownSecret: "discard",
     sessions: [session, session, { id: "invalid", endedAt: 1e30, seconds: 10 }],
   };
-  const result = JSON.parse(serializeExport({ ...saved, timer }, 1000));
-  assert.equal(result.exportVersion, 1);
-  assert.equal(result.data.timer.unknownSecret, undefined);
-  assert.deepEqual(result.data.timer.sessions, [
+  const { values, adapter } = memoryStorage();
+  const store = createPrototypeStore(adapter);
+  await store.save({ ...saved, timer });
+  const result = JSON.parse(values.get(STORAGE_KEY)!);
+  assert.equal(result.schemaVersion, 1);
+  assert.equal(result.timer.unknownSecret, undefined);
+  assert.deepEqual(result.timer.sessions, [
     { id: "one", endedAt: 1000, seconds: 1500 },
   ]);
 });

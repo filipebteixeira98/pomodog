@@ -4,6 +4,47 @@ service cloud.firestore {
     function owner(uid) {
       return request.auth != null && request.auth.uid == uid;
     }
+    function validTimestamp(value) {
+      return value is number && value >= 0 && value <= 8640000000000000;
+    }
+    function validTimer(timer) {
+      return timer is map
+        && timer.keys().hasOnly(['mode', 'status', 'duration', 'remaining', 'deadline', 'sessions'])
+        && timer.mode in ['focus', 'break']
+        && timer.status in ['idle', 'running', 'paused', 'completed']
+        && timer.duration is number && timer.duration > 0 && timer.duration <= 7200
+        && timer.remaining is number && timer.remaining >= 0 && timer.remaining <= timer.duration
+        && timer.sessions is list && timer.sessions.size() == 0
+        && (timer.status != 'idle' || timer.remaining == timer.duration)
+        && (timer.status != 'completed' || timer.remaining == 0)
+        && (timer.status == 'running' ? validTimestamp(timer.deadline) : timer.deadline == null);
+    }
+    function validPreferences(preferences) {
+      return preferences is map
+        && preferences.keys().hasOnly(['focus', 'rest', 'theme', 'reduceMotion', 'sessionNotifications'])
+        && preferences.focus in [15, 25, 50]
+        && preferences.rest in [5, 10, 15]
+        && preferences.theme is int && preferences.theme >= 0 && preferences.theme <= 2
+        && preferences.reduceMotion is bool
+        && preferences.sessionNotifications is bool;
+    }
+    function validPetCare(care) {
+      return care is map
+        && care.keys().hasOnly(['lastFedAt', 'lastMessageId'])
+        && validTimestamp(care.lastFedAt)
+        && care.lastMessageId in [
+          'running:0', 'running:1', 'rest:0', 'rest:1',
+          'completed:0', 'completed:1', 'streak:0', 'streak:1',
+          'welcome:0', 'welcome:1', 'start:0', 'start:1'
+        ];
+    }
+    function validState(data) {
+      return data.keys().hasOnly(['timer', 'preferences', 'onboardingComplete', 'petCare', 'updatedAt'])
+        && validTimer(data.timer) && validPreferences(data.preferences)
+        && data.onboardingComplete is bool
+        && (!('petCare' in data) || validPetCare(data.petCare))
+        && data.updatedAt is int && validTimestamp(data.updatedAt);
+    }
     match /users/{uid} {
       allow read: if owner(uid);
       allow create, update: if owner(uid)
@@ -12,7 +53,9 @@ service cloud.firestore {
         && request.resource.data.displayName.size() <= 120
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.createdAt is int
-        && request.resource.data.updatedAt is int;
+        && validTimestamp(request.resource.data.createdAt)
+        && request.resource.data.updatedAt is int
+        && validTimestamp(request.resource.data.updatedAt);
       allow delete: if owner(uid);
 
       match /sessions/{sessionId} {
@@ -20,7 +63,7 @@ service cloud.firestore {
         allow create, update: if owner(uid)
           && request.resource.data.keys().hasOnly(['endedAt', 'seconds'])
           && request.resource.data.endedAt is int
-          && request.resource.data.endedAt >= 0
+          && validTimestamp(request.resource.data.endedAt)
           && request.resource.data.seconds is int
           && request.resource.data.seconds > 0
           && request.resource.data.seconds <= 7200;
@@ -28,8 +71,7 @@ service cloud.firestore {
       match /state/{documentId} {
         allow read, delete: if owner(uid) && documentId == 'main';
         allow create, update: if owner(uid) && documentId == 'main'
-          && request.resource.data.keys().hasOnly(['timer', 'preferences', 'onboardingComplete', 'petCare', 'updatedAt'])
-          && request.resource.data.updatedAt is int;
+          && validState(request.resource.data);
       }
     }
   }
