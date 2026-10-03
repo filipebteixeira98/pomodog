@@ -1,154 +1,51 @@
-# Próximas etapas — decisões ainda abertas
+# Próximas etapas — escopo e critérios
 
-Atualizadas em 02/10/2026, incluindo agenda, vínculo familiar, atividade de foco, animação de entrada e prioridade de Analytics. Sequência proposta em [Plano de ação](plano-de-acao.md).
+Atualizado em 03/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
 
-## Nome do mascote
+## Dados, contas e segurança
 
-**Nino** foi implementado como nome provisório, centralizado em `src/domain/mascot.ts`. Pode ser alterado após a avaliação do usuário. Não houve pesquisa de marcas.
+- Preservar experiência completa sem login e explicar o que sai do dispositivo em cada integração. Consentimentos opcionais não são inferidos de autenticação.
+- Validar importação local/remota, falhas de rede, saída/troca de conta e conflitos entre dispositivos. A implementação vigente está em [Arquitetura](arquitetura.md#contas-e-armazenamento).
+- Planejar exclusão coordenada no servidor para bloquear gravações de outros dispositivos e concluir limpeza após encerramento do cliente; o fluxo atual coordena somente este dispositivo.
+- Criar projeto Firebase de produção separado, revisar credenciais públicas/regras e comprovar isolamento. Produzir UML de classes, casos de uso e modelo lógico por UID.
+- Revisar ameaças concretas, permissões, dependências e artefatos. Migrações devem preservar dados e tratar registros ilegíveis; AsyncStorage não é cofre e o app não oferece criptografia própria do histórico.
+- Outros provedores OAuth precisam de escolha de plataformas/configuração própria; Google e entrada sem conta já existem.
+- Roteiros técnicos de retenção/revogação e diagnóstico ficam em [Analytics](analytics.md) e [Sentry](sentry.md), sem duplicar comandos aqui.
 
-## Autonomia e privacidade
+## Identidade e organização
 
-Uso local para quem não se autenticar, sem login obrigatório e sem telemetria de uso por padrão. Analytics Android exige consentimento opcional explícito na tela após onboarding ou em Ajustes. Google OAuth e sincronização Firebase foram implementados no ambiente de desenvolvimento, com login e registro validados pelo usuário no aparelho. Ao entrar, perfil, histórico e estado são enviados à conta. Analytics requer decisão explícita de privacidade antes da ativação.
+Nino permanece nome provisório, centralizado em `src/domain/mascot.ts`; pesquisa de marcas ainda não realizada. Validar ícone/splash em release, recortes do launcher, ícone temático e abertura a frio. Pencil permanece em standby: retomar templates, paleta, tipografia e componentes quando solicitado. Retirar selo Beta ao encerrar essa fase.
 
-Exclusão com confirmação e proteção de registros ilegíveis estão disponíveis. A exportação JSON foi retirada da interface para simplificar o MVP; pode ser reavaliada junto a integrações futuras. Próximas decisões:
+Adotar branches/PRs após definir política; alinhar versões do app/build/changelog e critérios para minor/patch. Commits incrementais atuais continuam no fluxo registrado no plano.
 
-1. Definir quais dados existem e explicitar o que sai do dispositivo em cada integração futura.
-2. Validar a migração implementada dos dados locais para Firebase, incluindo falhas, troca de conta e conflitos entre dispositivos.
-3. Manter o uso sem conta como fluxo completo. Uma eventual sincronização deve ser opcional e ter regras claras de migração e exclusão.
-4. Verificar dependências, crash reporting, música e distribuição para evitar coleta automática introduzida por integrações. Hospedagem e ferramentas de desenvolvimento devem ser avaliadas separadamente do código do app.
+## Incentivo, lembretes e distrações
 
-## Defesa em profundidade
+- Alimentação/frases existentes devem permanecer opcionais, sem fome, penalidades ou culpa. Avaliar frequência, clareza e leitura antes de ampliar.
+- Hidratação: mensagem dispensável, preferencialmente no descanso, sem interromper foco ou impor metas de consumo.
+- Lembretes de rotina/alimentação: escolher horários, frequência, consentimento e desativação; evitar excesso de avisos.
+- Inatividade/push remoto: definir tokens, frequência e infraestrutura. Não confundir com o aviso local de conclusão existente.
+- Silenciamento de redes sociais: investigar limites/permissões por plataforma. Não assumir controle seletivo de outros apps; considerar orientação ao sistema. Se houver automação, restaurar preferências em pausa, cancelamento, conclusão e falha.
 
-Planejar a partir de ameaças concretas: dados locais corrompidos, permissões excessivas, dependências comprometidas e, caso existam contas no futuro, acesso indevido e mistura de dados entre pessoas.
+## Monetização, social e conteúdo
 
-- Formato, tamanho e versão já são validados; registros ilegíveis não são sobrescritos. Planejar migrações futuras sem perda silenciosa.
-- Solicitar apenas permissões necessárias a recursos explícitos.
-- Não embutir segredos no cliente. Usar armazenamento apropriado para credenciais se autenticação vier a existir; AsyncStorage não é um cofre.
-- Revisar dependências e artefatos de produção. Não confundir exportação JavaScript com validação da segurança de um aplicativo Android instalado.
-- Definir proteção adicional de dados conforme sua sensibilidade e o modelo de ameaças. A versão atual não oferece criptografia própria do histórico.
+Catálogo futuro, sem ativação de serviços por constar nesta lista. Validar valor antes da cobrança; hipóteses e roteiro de entrevistas em [Produto e validação](produto-e-validacao.md).
 
-## Antes de testar retenção por vários dias
+| Proposta                                      | Critérios da primeira entrega                                                                                                                                                                                                                                                       |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Atividades durante o descanso em planos pagos | Prototipar desenho livre, formas geométricas e sugestões opcionais. Permitir pular, encerrar e voltar ao foco; avaliar prazer e distração. Não prometer hiperfoco ou eficiência sem evidência.                                                                                      |
+| Compartilhamento em redes sociais             | Criar prévia de cartão com progresso ou Nino e compartilhamento por ação explícita. Evitar publicar identidade/histórico sem escolha do usuário. Consolidar com a frente social existente.                                                                                          |
+| Sneak peek e evolução do produto              | Mostrar novidades e prévias opcionais em espaço discreto, fora da sessão de foco. Separar recurso entregue de intenção futura, sem datas ou benefícios não confirmados. Avaliar interesse e retorno.                                                                                |
+| Curiosidades e notícias de neurociência       | Definir curadoria, fontes, datas e revisão editorial. Registrar o ciclo proposto “estímulo → feeder → preparação → repetição definitiva”, referido como “série real”, como hipótese conceitual. Esclarecer os termos e verificar a origem antes de exibir como conteúdo científico. |
+| Insights com inteligência artificial          | Definir perguntas úteis e prototipar com dados sintéticos. Antes de enviar dados reais, definir consentimento, minimização, fornecedor, custo e retenção. Apresentar sugestões opcionais, sem diagnóstico ou inferência de saúde.                                                   |
+| Feedback e comentários                        | Criar formulário curto com mensagem, envio explícito e confirmação. Permitir modo local; contato é opcional. Definir destino, proteção contra abuso e retenção, sem anexar logs automaticamente.                                                                                    |
+| Backgrounds pagos                             | Definir catálogo, prévia e acesso por assinatura. Preservar legibilidade, contraste e desempenho; incluir restauração ao padrão e alternativa gratuita.                                                                                                                             |
+| Experiência além da produtividade             | Avaliar companhia, descanso, prazer e autonomia como objetivos. Não reduzir sucesso a minutos ou sessões; validar textos e mecânicas sem pressão por desempenho.                                                                                                                    |
+| Sonoplastia                                   | Prototipar sons de interação e transição, com controle de volume e opção de silenciar. Verificar licenças e respeitar ambiente de uso; não duplicar som de notificação.                                                                                                             |
+| PostHog, testes A/B e heatmaps                | Firebase Analytics já é o serviço integrado. Avaliar PostHog somente se houver necessidade distinta. Definir hipótese, consentimento, eventos mínimos, suporte e critérios; replay/heatmaps exigem avaliação própria e não estão habilitados.                                       |
+| Semelhança e identificação                    | Esclarecer “sistemas parecidos”: pode significar padrões familiares de navegação, afinidade com mascotes ou grupos com objetivos semelhantes. Validar interpretação com o usuário antes de escolher uma funcionalidade ou mecanismo social.                                         |
+| RevenueCat e assinaturas                      | Definir oferta e acesso por loja/plataforma antes de integrar compras. Validar restauração, eventos repetidos e direitos de acesso. Sentry já está integrado; procedimentos e limites ficam no guia técnico.                                                                        |
 
-Notificações ao terminar validadas em aparelho físico, inclusive com tela bloqueada. A avaliação funcional não comprova retenção; observar uso por vários dias.
-
-## Organização e identidade visual
-
-- Migração para aliases concluída: `#src/*`, `#tests/*`, `#app` e `#styles`. Mantidos imports com efeitos colaterais e compatibilidade entre app, testes e exportações. Detalhes em [Arquitetura](arquitetura.md).
-- Ordem acordada: ícone/splash → animação corporal → Pencil.
-- Pencil em standby por decisão do usuário; retomar posteriormente para para acompanhar layouts e registrar templates, paleta, tipografia e componentes reutilizáveis. A integração ainda não foi configurada/verificada.
-- Animação articulada implementada: respiração do tronco, inclinação da cabeça, patas alternadas e cauda. Movimento reduzido verificado na web. Validar aparência e desempenho em dispositivo Android, incluindo retorno do segundo plano.
-- Ícone e splash implementados com o desenho atual do Nino, fonte vetorial editável e PNGs regeneráveis. Validar recortes do launcher, ícone temático e abertura a frio em build Android de release; Expo Go não comprova a aparência final.
-
-## Progresso, cuidado e notificações
-
-- Dashboard ampliado com totais, dias com foco e média por sessão nos últimos sete dias. Alimentação opcional e frases gentis agora implementadas na tela de Foco; próxima etapa desta frente é validar a experiência.
-- Introduzir alimentação dos pets e frases gentis como convites opcionais. Proposta de experiência: sem punições, perda de progresso ou culpa por ausência.
-- Planejar lembretes de rotina e inatividade com consentimento, horários, frequência controlável e desativação simples.
-- Aviso local de conclusão implementado com expo-notifications. Sincronização idempotente: mesmo prazo/modo não cancela nem reagenda. Instrumentação `__DEV__` disponível para diagnóstico. Concluído: usuário confirmou entrega no aparelho físico, inclusive com tela bloqueada.
-- Push remoto permanece uma possibilidade solicitada, com infraestrutura e tratamento de tokens ainda por definir.
-- Aviso de conclusão concluído e validado no aparelho físico, inclusive com tela bloqueada. Lembretes adicionais e push remoto são entregas futuras.
-
-## Contas, Firebase e modelo de dados
-
-- Google OAuth, Firestore e autorização por proprietário implementados em `pomodog-dev-2026`. Validar login, gravação, saída/troca de conta e isolamento entre dois usuários. Configurar produção separadamente; detalhes técnicos em [Arquitetura](arquitetura.md).
-- Tela dedicada de entrada implementada antes do onboarding, com Google e continuar sem conta. Botão também permanece em Perfil; novos provedores dependem de definição de plataformas e configuração própria.
-- Elaborar UML de classes e casos de uso e modelo lógico do banco ao definir contas/sincronização. Registrar depois em arquitetura as decisões efetivamente adotadas, inclusive separação entre ambientes e controle de acesso por usuário.
-- Definir quais dados sincronizar, migração do histórico local, conflitos e comportamento ao sair/trocar de conta. Preservar uso completo sem autenticação.
-- Sem conta, manter “Apagar dados deste dispositivo”. Com conta, exclusão de conta e dados remotos implementada com confirmação e reautenticação; remoção validada pelo usuário em aparelho físico.
-- Informar armazenamento exclusivamente local apenas quando isso corresponder ao fluxo real. Após integrações, explicar os dados enviados; não afirmar genericamente que nenhum dado é coletado se houver autenticação, sincronização ou analytics.
-
-## Analytics — implementação Android e pendências
-
-Firebase escolhido para eventos de uso. SDK Android integrado, controle independente em Ajustes, desligado por padrão; catálogo mínimo definido e payloads sem identidade de conta/textos pessoais. A implementação preserva uso sem consentimento e não envia eventos anteriores à autorização.
-
-Vinculação GA4 confirmada pelo usuário e API (propriedade 557163675). Recepção de eventos no DebugView confirmada pelo usuário no aparelho. Ainda concluir: configuração de retenção/relatórios e testes específicos de recusa, revogação e exclusão. O JSON adicional é idêntico ao atual; configuração nativa já gerenciada pelo Expo e módulos Firebase. Documentação em [Analytics](analytics.md). A/B, heatmaps, replay e PostHog continuam fora desta entrega.
-
-## Personalização paga e recursos sociais
-
-- Planos pagos: escolher outros animais, personalizar mascotes e nomeá-los. Definir limites gratuitos/pagos e validar valor antes de implementar cobrança.
-- Compartilhamento em redes sociais: definir o conteúdo compartilhável e permitir ação explícita do usuário.
-- Pontuação e amigos: definir regras do score, descoberta de pessoas, privacidade e significado de completar ciclos juntos. Dependem das decisões de identidade e dados; propor progresso sem comparações punitivas.
-
-## Novas propostas — escopo e critérios antes de implementar
-
-Todas as propostas abaixo estão planejadas, sem implementação ou ativação de serviços nesta atualização. Compartilhamento e analytics consolidam itens anteriores; não criam tarefas duplicadas. A numeração preserva a lista do usuário, não estabelece prioridade.
-
-| Item | Proposta                                      | Primeira entrega e critérios                                                                                                                                                                                                                                                                                                          |
-| ---- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Atividades durante o descanso em planos pagos | Prototipar desenho livre, formas geométricas e sugestões opcionais. Permitir pular, encerrar e voltar ao foco; avaliar prazer e distração. Não prometer hiperfoco ou eficiência sem evidência.                                                                                                                                        |
-| 2    | Compartilhamento em redes sociais             | Criar prévia de cartão com progresso ou Nino e compartilhamento por ação explícita. Evitar publicar identidade/histórico sem escolha do usuário. Consolidar com a frente social existente.                                                                                                                                            |
-| 3    | Sneak peek e evolução do produto              | Mostrar novidades e prévias opcionais em espaço discreto, fora da sessão de foco. Separar recurso entregue de intenção futura, sem datas ou benefícios não confirmados. Avaliar interesse e retorno.                                                                                                                                  |
-| 4    | Curiosidades e notícias de neurociência       | Definir curadoria, fontes, datas e revisão editorial. Registrar o ciclo proposto “estímulo → feeder → preparação → repetição definitiva”, referido como “série real”, como hipótese conceitual. Esclarecer os termos e verificar a origem antes de exibir como conteúdo científico.                                                   |
-| 5    | Insights com inteligência artificial          | Definir perguntas úteis e prototipar com dados sintéticos. Antes de enviar dados reais, definir consentimento, minimização, fornecedor, custo e retenção. Apresentar sugestões opcionais, sem diagnóstico ou inferência de saúde.                                                                                                     |
-| 6    | Tela de login OAuth                           | Criar entrada dedicada com Google e opções futuras a definir; manter modo local acessível. Validar retorno OAuth, cancelamento, erros e troca de conta.                                                                                                                                                                               |
-| 7    | Feedback e comentários                        | Criar formulário curto com mensagem, envio explícito e confirmação. Permitir modo local; contato é opcional. Definir destino, proteção contra abuso e retenção, sem anexar logs automaticamente.                                                                                                                                      |
-| 8    | Backgrounds pagos                             | Definir catálogo, prévia e acesso por assinatura. Preservar legibilidade, contraste e desempenho; incluir restauração ao padrão e alternativa gratuita.                                                                                                                                                                               |
-| 9    | Experiência além da produtividade             | Avaliar companhia, descanso, prazer e autonomia como objetivos. Não reduzir sucesso a minutos ou sessões; validar textos e mecânicas sem pressão por desempenho.                                                                                                                                                                      |
-| 10   | Sonoplastia                                   | Prototipar sons de interação e transição, com controle de volume e opção de silenciar. Verificar licenças e respeitar ambiente de uso; não duplicar som de notificação.                                                                                                                                                               |
-| 11   | Analytics/PostHog, A/B e heatmaps             | Avaliar PostHog como candidato. Definir consentimento, eventos mínimos, hipótese e critérios de cada experimento. Verificar suporte nas plataformas escolhidas; heatmaps e gravação de sessões exigem avaliação própria de privacidade e utilidade.                                                                                   |
-| 12   | Semelhança e identificação                    | Esclarecer “sistemas parecidos”: pode significar padrões familiares de navegação, afinidade com mascotes ou grupos com objetivos semelhantes. Validar interpretação com o usuário antes de escolher uma funcionalidade ou mecanismo social.                                                                                           |
-| 13   | RevenueCat e Sentry                           | Avaliar RevenueCat para gerenciamento de compras/assinaturas e direitos de acesso; definir checkout conforme loja/plataforma. Avaliar Sentry para erros em produção, com sanitização de dados, política de coleta e separação entre ambientes. Validar restauração de compras, eventos repetidos e proteção de dados antes de lançar. |
-
-Dependências: validar contas e isolamento antes de recursos vinculados ao UID; definir oferta paga antes de assinatura e backgrounds; decidir política de dados antes de IA, PostHog e Sentry. Feedback pode começar por uma entrega pequena após estabilizar autenticação. Nenhum fornecedor foi integrado por constar nesta lista.
-
-## Publicação e pendências preservadas
-
-Preparar título, descrição e screenshots para Google Play Console com base no aplicativo realmente entregue, sem anunciar capacidades futuras como disponíveis. A preparação dos materiais não equivale a publicar na loja.
-
-Continuam pendentes a seleção/licenciamento de LoFi, validação do build de release, lembretes adicionais/push remoto e experimentos de monetização. O novo backlog não descarta essas decisões anteriores.
-
-## Sequência de hábitos entregue
-
-Card Seu ritmo implementado antes da alimentação, conforme nova prioridade. Alimentação opcional e frases contextuais foram implementadas na entrega subsequente. Pencil permanece em standby.
-
-## Alimentação com incentivo entregue
-
-Dar petisco implementado na tela principal, reutilizando Nino e seu balão. Alimentação e frases contextuais foram unidas nesta entrega, substituindo a proposta de card em Progresso. Validar frequência de uso, clareza e tempo de leitura antes de ampliar frases ou introduzir lembretes. Não há fome, penalidades ou notificações de alimentação.
-
-## Aviso de conclusão implementado
-
-Aviso local opcional implementado com expo-notifications. Testar permissão concedida/negada, conclusão com tela bloqueada, pausa/retomada, reinício e desativação em Android/iOS. Usuário confirmou sucesso da entrega de conclusão no aparelho físico, inclusive com tela bloqueada. Os demais cenários do roteiro e iOS não foram detalhados no relato. Lembretes recorrentes e push remoto seguem futuros. O Android pode agendar de forma inexata quando não há acesso a alarmes exatos; esta versão não solicita acesso especial para isso.
-
-## Cliente próprio Android
-
-Seguir development-build.md para compilar e instalar o Pomodog no aparelho via USB. Expo Go deixa de ser o ambiente suportado para validar notificações nesta configuração. Entrega com tela bloqueada e exclusão de conta já validadas pelo usuário. Preservar roteiro de regressão de permissões e cancelamento/retomada para futuras alterações. Diagnóstico técnico foi retirado da interface conforme solicitado.
-
-## Atualização: contas
-
-Login Google e gravação no Firestore validados pelo usuário no aparelho. Exclusão autenticada implementada no Perfil, com confirmação, reautenticação e retomada após falha parcial. Usuário confirmou funcionamento da exclusão em aparelho físico pessoal. Cancelamento e interrupção de rede/retomada após reiniciar permanecem como cenários adicionais sem confirmação física. O fluxo completo no emulador não foi testado. Coordenação entre dispositivos exige fluxo futuro no servidor; a marca de exclusão atual é local. Tela dedicada de login, ambiente de produção e diagramas permanecem pendentes.
-
-## Sentry implementado
-
-Diagnóstico JavaScript opcional integrado ao projeto `personal-dashboard/pomodog`. Consentimento local separado do Firestore, desativado por padrão; evento sintético confirmado no dashboard. Pendentes: reinstalar development build e validar captura real no aparelho, usar upload de source maps já configurado/validado nos próximos builds e definir retenção dos eventos antes da distribuição pública. Captura Java/Kotlin Android implementada na entrega seguinte, ainda sem validação de crash real no aparelho. Essa entrega não ativa PostHog, analytics, replay ou heatmaps. Ver [guia Sentry](sentry.md).
-
-## Source maps concluídos — exports web e Android
-
-Exports com mapas e verificação de debug IDs implementados para web/Android; Gradle preparado pelo plugin para mapas do APK. Validada resolução local para arquivo/linha original. Token disponibilizado localmente; upload/processamento concluídos e dois eventos sintéticos confirmados no dashboard com stack resolvida para App.tsx, linha 20. Preservar segredo no ambiente de futuros builds e usar os artefatos exatos distribuídos. Mapas do APK serão gerados/enviados pelo Gradle no próprio release, ainda não compilado.
-
-## Validar crashes nativos Android
-
-Reinstalar development build, habilitar novamente diagnóstico em Ajustes e executar roteiro de crash controlado/reabertura, revogação e cache offline em [Sentry](sentry.md). Implementação Java/Kotlin pronta; confirmação no dashboard de evento nativo real pendente. NDK, ANR e iOS não habilitados. Antes de habilitar R8, planejar upload do mapping do binário correspondente.
-
-## Novas propostas — hidratação, beta, foco e consentimento
-
-Itens registrados por solicitação do usuário; selo Beta entregue posteriormente, conforme registro abaixo. Os demais permanecem pendentes. A ordem abaixo não altera a prioridade das entregas existentes e não representa implementação.
-
-| Funcionalidade                                     | Escopo inicial                                                                                      | Critérios e decisões antes da implementação                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| -------------------------------------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Incentivo à hidratação                             | Mensagem gentil ou toast para lembrar de beber água, preferencialmente durante o descanso.          | Opcional, dispensável e com frequência controlada; não interromper foco, exigir interação ou definir metas de consumo. Não confundir com notificação push. Validar clareza e se o convite ajuda na rotina sem incomodar.                                                                                                                                                                                                                                                   |
-| Identificação beta                                 | Exibir um selo “Beta” junto ao nome do aplicativo em um local visível e discreto.                   | Definir localização sem recolocar cabeçalhos removidos da tela de Foco. A indicação deve explicar estágio do produto sem prometer estabilidade ou novidades; definir quando será retirada.                                                                                                                                                                                                                                                                                 |
-| Reduzir notificações de redes sociais durante foco | Avaliar modo de foco/silenciamento durante sessões, com ação explícita do usuário.                  | Investigar viabilidade, permissões e limitações por plataforma antes de escolher implementação. Não assumir controle seletivo de aplicativos terceiros; considerar orientação para configurações do sistema. Se houver automação, preservar preferência anterior e restaurá-la em conclusão, pausa, cancelamento e falha. Usuário deve poder recusar.                                                                                                                      |
-| Tela de escolhas de privacidade após onboarding    | Implementada: apresenta diagnóstico/uso opcional e oferece permitir ambos ou recusar antes do tour. | Diagnóstico opcional continua desligado por padrão; recusa não bloqueia uso local. Separar diagnóstico, sincronização mediante login e futuros analytics; não apresentar recursos futuros como coleta ativa. Tela inicial usa dois botões de decisão direta, sem radio buttons; controles independentes permanecem em Ajustes. Persistir escolhas antes de iniciar coleta e permitir revogação em Ajustes. Textos sem nomes de ferramentas ou detalhes de desenvolvimento. |
-
-A nova tela deve explicar coleta real e opcional, sem transformar ausência de resposta em consentimento. Não altera a decisão anterior de manter analytics, heatmaps e replay desativados. A escolha de componentes é parte do desenho da entrega, não uma funcionalidade já implementada.
-
-## Selo Beta implementado
-
-Selo Beta adicionado ao lado do logotipo Pomodog no cabeçalho das telas, com descrição acessível de desenvolvimento e testes. Decisão futura: remover ao encerrar a fase beta. Hidratação e silenciamento de redes sociais permanecem pendentes; escolhas de privacidade foram implementadas na entrega de 02/10/2026.
-
-## Tela de entrada entregue
-
-Google e continuar sem conta disponíveis antes da introdução no primeiro acesso. Headline curta, Nino e elementos Pomodoro reutilizam a identidade atual. Validar o novo ponto de entrada no aparelho; a autenticação Google existente já foi validada anteriormente. Outros provedores continuam pendentes. Tela de escolhas de privacidade após onboarding implementada em 02/10/2026, antes do tour guiado.
+Mascotes pagos: definir outros animais, acessórios, nomes e limites gratuitos/pagos. LoFi: verificar licenças, reprodução e controles. Pontuação/amigos: definir score, descoberta e sessões conjuntas sem comparação punitiva, com privacidade explícita. Não tratar grupos semelhantes como uma funcionalidade definida antes de esclarecer a intenção.
 
 ## Agenda e sugestões de foco — primeira versão proposta
 
@@ -182,35 +79,11 @@ Planejar limite de tamanho, limpeza e persistência local; sincronização deve 
 
 Alterar o gesto/entrada do mascote especificamente em WelcomeScreen. A animação atual já existe; esta proposta é uma revisão visual separada da animação corporal concluída. Definir pose e transição antes de implementar, sem alterar as demais telas por consequência. Preservar movimento reduzido, pausa em segundo plano, proporções responsivas e legibilidade dos botões/headline.
 
-## Próxima implementação: eventos de uso
-
-Firebase Analytics Android tem código, eventos mínimos e consentimento após onboarding/em Ajustes implementados. Vinculação GA4 e recepção no DebugView confirmadas; retenção, revogação e relatórios normais pendentes antes de considerar concluída. Agenda, vínculo familiar, atividade de foco e nova animação seguem pendentes. Diagnóstico continua separado; A/B, heatmaps e replay não entram nesta entrega. Detalhes em [Analytics](analytics.md).
-
-## Lembrete antes de publicação e validação normal de Analytics
-
-Usuário optou por manter modo debug do Firebase Analytics no aparelho para depuração. Ao retomar release/publicação ou avaliar envio e relatórios em condições normais, lembrar de desativar `debug.firebase.analytics.app` no dispositivo de teste, conferir valor atual e depois gerar eventos novos. Comando e contexto em [Analytics](analytics.md#lembrete-vigente-manter-debug-durante-desenvolvimento). Não remover durante desenvolvimento sem nova decisão do usuário; propriedade não é incluída no APK.
-
-## Privacidade após onboarding — implementada
-
-A tela simples apresenta diagnóstico e, nas plataformas suportadas, uso opcional. Dois botões, sem seleção prévia: “Sim, autorizo” permite ambas as categorias e “Agora não” mantém ambas desligadas. Salva nos mesmos controles de Ajustes antes de concluir introdução e abrir tour. Recusa não limita funcionalidades; ajustes posteriores continuam independentes. Voltar retorna à introdução. Não repete automaticamente para introduções já concluídas. No navegador, somente diagnóstico está disponível; Analytics permanece limitado ao Android nativo.
-
-Usuário confirmou funcionamento da entrega no dispositivo físico. Próximos passos: preservar escolhas, controles de Ajustes e acesso ao tour nas próximas alterações. A confirmação não equivale à validação de retenção ou revogação nos serviços; essas etapas continuam no planejamento de Analytics.
-
-### Simplificação da escolha
-
-Textos encurtados e radio buttons removidos. Cada botão salva a decisão e abre o tour, sem etapa de confirmação adicional. Validar a versão simplificada no aparelho; a versão anterior já foi validada pelo usuário.
-
-## Escolha de notificações no primeiro acesso — implementada em 03/10/2026
-
-Nova tela entre privacidade e tour, com textos curtos, ícone de sino e dois botões: “Sim, ativar” e “Agora não”. Vinculada a “Avisar ao terminar” em Ajustes; recusa não solicita permissão. Caso o sistema negue, é possível tentar novamente ou seguir sem avisos. Navegador sem suporte não exibe a tela. Não habilita lembretes de rotina/inatividade nem push remoto.
-
-Próximos passos: validar no aparelho aceitar/recusar, permissão negada, persistência em Ajustes, voltar e abertura do tour. A confirmação anterior de avisos de conclusão continua válida; esta validação é da nova interface e do fluxo de entrada.
-
 ## Tamanho distribuído e desempenho: prioridade antes do lançamento
 
 Decisão de 03/10/2026: minimizar o tamanho distribuído nas lojas e garantir experiência fluida e eficiente, inclusive em dispositivos com menos recursos. Esta frente é prioridade da preparação do lançamento; não foi iniciada nesta atualização.
 
-Referência local medida em 03/10/2026: bundle Android/Hermes 6,38 MB, export com assets 6,88 MB e APK debug de 02/10/2026 com 86,50 MB (MB decimais). Bundle/export já gerados para produção; APK de release e download da loja ainda não medidos. Tamanho do APK debug não serve como previsão do download final.
+Referência inicial em [Verificação](verificacao.md#tamanhos-medidos).
 
 Plano de execução:
 
@@ -221,3 +94,7 @@ Plano de execução:
 5. Registrar resultados e critérios de aceitação antes de publicar. Se metas não forem atendidas, documentar causa e decidir o ajuste necessário. Menor download e maior fluidez são critérios distintos.
 
 Ao iniciar esta frente, retomar também o lembrete de Analytics: modo debug permanece ativo no aparelho por decisão do usuário; desativar para validação normal/publicação, conferindo o valor vigente. Não alterar essa propriedade durante o registro do planejamento.
+
+## Publicação
+
+Preparar título, descrição e screenshots da Google Play com recursos realmente disponíveis. Antes de publicar, validar assinatura/binário, ambientes, ícone/splash, mapas/símbolos, diagnóstico, consentimento e requisitos da loja. Materiais preparados não equivalem à publicação. Não anunciar capacidades futuras como entregues.

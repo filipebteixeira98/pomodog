@@ -1,5 +1,7 @@
 # Development build no Android pessoal
 
+Guia de instalação, execução e logs. Evidências em [Verificação](verificacao.md); procedimentos de observabilidade em [Analytics](analytics.md) e [Sentry](sentry.md).
+
 É uma instalação própria do Pomodog com as bibliotecas nativas do projeto. Abra o Pomodog instalado, não o Expo Go. Os dados locais ficam separados; o histórico do Expo Go não será migrado automaticamente.
 
 Preparados no repositório: expo-dev-client, scheme pomodog, identificador Android com.filipebteixeira98.pomodog e plugin expo-notifications. Revise o identificador antes de publicar na Play Store.
@@ -29,7 +31,7 @@ npm run android
 
 O script executa expo run:android --device. Selecione seu aparelho. Na primeira execução o Expo gera android/ automaticamente, baixa ferramentas, compila e instala. Se faltar uma versão do SDK, instale-a pelo SDK Manager do Android Studio conforme o erro. Esse fluxo local não exige EAS, conta Expo ou publicação na loja.
 
-O comando também inicia o Metro. Abra o Pomodog instalado. Esta compilação/instalação ainda não foi executada no seu aparelho; export Android verifica JavaScript e não substitui um build nativo.
+O comando também inicia o Metro. Abra o Pomodog instalado. O development build já foi usado pelo usuário no aparelho; export Android verifica JavaScript e não substitui instalação/teste nativo.
 
 ## Nas próximas execuções
 
@@ -63,7 +65,7 @@ android/ permanece ignorado pelo Git. Não use prebuild --clean sem revisar poss
 - Negue/revogue a permissão e confira a mensagem curta em Ajustes.
 - Voltar ao app perto do término não cancela o aviso existente (idempotência).
 
-Erros técnicos ficam apenas no console de desenvolvimento, com prefixo [Pomodog notifications]. O Android pode atrasar ou silenciar avisos; esta versão não pede acesso especiais a alarmes exatos.
+Erros técnicos ficam apenas no console de desenvolvimento, com prefixo [Pomodog notifications]. O Android pode atrasar ou silenciar avisos; esta versão não pede acesso especial a alarmes exatos.
 
 ### Diagnóstico `__DEV__`
 
@@ -80,6 +82,6 @@ Esses logs não aparecem em produção. Não há diagnóstico técnico na interf
 
 Referência: [development builds do Expo](https://docs.expo.dev/develop/development-builds/introduction/).
 
-## Analytics opcional Android
+## Integrações nativas
 
-Firebase Analytics adiciona módulos nativos: sincronize com `npx expo prebuild --platform android --no-install` e reinstale com `npm run android` antes de testar. Expo Go e web não coletam nesta entrega. Habilite a escolha independente em Ajustes somente para testar após vincular projeto a GA4; [Analytics](analytics.md) descreve DebugView e verificação da revogação.
+Mudanças em módulos/plugins de Firebase ou Sentry exigem sincronizar/reinstalar pelos comandos gerais acima. Expo Go não valida essas integrações. Roteiros de consentimento, DebugView, mapas e crashes ficam nos guias específicos, sem duplicar instalação aqui.

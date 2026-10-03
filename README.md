@@ -68,10 +68,7 @@ Os 47 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restaura
 - `src/Dog.tsx` e `src/features/mascot/`: composição, ilustração original e animação articulada do mascote.
 - `src/timer.ts`: regras do timer e validação do estado salvo.
 - `tests/timer.test.ts`: testes das regras de tempo.
-- [Produto e validação](docs/produto-e-validacao.md): hipóteses e roteiro para avaliações.
-- [Arquitetura e bundle](docs/arquitetura.md): escolhas, responsabilidades e custo das dependências.
-- [Plano de ação](docs/plano-de-acao.md): etapas desta entrega.
-- [Próximas etapas](docs/proximas-etapas.md): autenticação opcional, validação nativa e integrações futuras.
+- [Documentação](docs/README.md): índice de produto, arquitetura, planejamento, guias técnicos e evidências.
 
 ## Histórico de desenvolvimento
 
