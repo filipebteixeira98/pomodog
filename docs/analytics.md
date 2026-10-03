@@ -32,7 +32,7 @@ A conclusão do primeiro onboarding é registrada após privacidade e escolha de
 
 Após habilitação pelo usuário em 02/10/2026, consulta da API retornou 200: propriedade GA4 `557163675` (`pomodog-dev-2026`), conta `227570824`, stream Android `15949717951`. Firebase também vinculou o app web a um stream; isso não ativa coleta no adaptador web atual.
 
-O arquivo google-services-analytics.json baixado pelo usuário é idêntico ao google-services.json vigente, incluindo projeto, app Android e clientes OAuth. Manter o arquivo atual; não é necessário substituir ou adicionar uma segunda configuração. A cópia extra não faz parte do build.
+O projeto usa somente `google-services.json` para a configuração Android de Firebase, incluindo OAuth e Analytics.
 
 O projeto Expo gera Gradle Groovy (.gradle), não Kotlin DSL (.gradle.kts). Plugin Firebase App já adiciona Google Services (4.4.4 no build validado); módulos React Native Firebase 26.4.0 já incluem Firebase Analytics e BoM 34.18.0. Não duplicar os trechos do assistente de instalação nativa nem forçar versões diferentes apenas por aparecerem no console. Mudanças necessárias de versões devem ser feitas pela configuração/dependências do projeto, preservando prebuild reproduzível.
 
@@ -78,4 +78,4 @@ Essa propriedade é uma configuração do dispositivo, não do APK: não é dist
 
 ## Referências
 
-[React Native Firebase Analytics](https://rnfirebase.io/analytics/usage), [Expo/Firebase](https://rnfirebase.io/), [DebugView](https://firebase.google.com/docs/analytics/debugview), [vinculação do projeto](https://firebase.google.com/docs/projects/api/workflow_set-up-and-manage-project#link-analytics). Investigação e IDs anteriores no [histórico](historico/analytics.md).
+[React Native Firebase Analytics](https://rnfirebase.io/analytics/usage), [Expo/Firebase](https://rnfirebase.io/), [DebugView](https://firebase.google.com/docs/analytics/debugview), [vinculação do projeto](https://firebase.google.com/docs/projects/api/workflow_set-up-and-manage-project#link-analytics).

@@ -1,6 +1,6 @@
 # Capturas de interface
 
-Evidências visuais de etapas de desenvolvimento, preservadas sem exclusão. Não são uma especificação do layout atual. A origem e a revisão de cada captura estão no [histórico de verificação](../historico/verificacao.md).
+Evidências visuais de etapas de desenvolvimento, preservadas sem exclusão. Não são uma especificação do layout atual.
 
 - `privacidade-390.png` registra a primeira tela com radio buttons; a interface foi simplificada para dois botões posteriormente.
 - `entrada-390.png` e `exclusao-toast-390.png` registram as entregas da entrada e da confirmação transitória de exclusão.

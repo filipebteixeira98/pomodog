@@ -1,6 +1,6 @@
 # Documentação do Pomodog
 
-Documentação vigente consolidada em 03/10/2026. Consulte cada fonte pelo assunto; versões anteriores ficam em [Histórico](historico/README.md).
+Documentação vigente consolidada em 03/10/2026. Consulte cada fonte pelo assunto.
 
 | Documento                                     | Fonte para                                                     |
 | --------------------------------------------- | -------------------------------------------------------------- |
@@ -18,4 +18,4 @@ Documentação vigente consolidada em 03/10/2026. Consulte cada fonte pelo assun
 
 Atualize o trecho vigente na fonte responsável e faça links nos demais documentos. Não acrescente outro resumo completo da mesma entrega em cada arquivo. Registre evidência com data e limite; confirmação de uma interface não comprova todos os cenários de backend/revogação.
 
-Preserve propostas e decisões importantes. Use histórico para referências superadas, sempre identificado; ele não deve orientar implementação como configuração atual. Status só mudam com entrega/evidência correspondente. Alterações de docs não exigem repetir testes do app; verificar formatação, links e consistência.
+Preserve propostas e decisões importantes na fonte vigente; substitua referências superadas ao atualizar a documentação. Status só mudam com entrega/evidência correspondente. Alterações de docs não exigem repetir testes do app; verificar formatação, links e consistência.

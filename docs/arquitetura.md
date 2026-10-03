@@ -1,6 +1,6 @@
 # Arquitetura atual
 
-Atualizado em 03/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md), evolução anterior no [histórico](historico/arquitetura.md).
+Atualizado em 03/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
 
 ## Responsabilidades
 

@@ -1,6 +1,6 @@
 # Verificação — evidências vigentes
 
-Consolidado em 03/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md). Resultados datados anteriores, comandos já executados, IDs de eventos e capturas estão no [histórico de verificação](historico/verificacao.md).
+Consolidado em 03/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
 
 ## Última verificação de código
 

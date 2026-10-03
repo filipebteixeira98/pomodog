@@ -96,4 +96,4 @@ Concluído indica entrega realizada; em andamento indica preparação/implementa
 3. Atualizar a fonte pertinente: status aqui, critérios futuros em próximas etapas, funcionamento em arquitetura/guias, evidência em verificação.
 4. Registrar Conventional Commit em inglês e enviar ao remoto, conforme fluxo autorizado. Branches/PRs são uma proposta ainda pendente.
 
-Relatos antigos não devem ser acrescentados como novos status: a tabela vigente recebe a atualização, e evidências recebem data/limitação. Decisões anteriores estão no [histórico](historico/README.md).
+Relatos antigos não devem ser acrescentados como novos status: a tabela vigente recebe a atualização, e evidências recebem data/limitação.
