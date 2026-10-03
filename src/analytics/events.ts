@@ -4,6 +4,7 @@ export type Screen =
   | "welcome"
   | "onboarding"
   | "privacy"
+  | "notifications"
   | "focus"
   | "progress"
   | "settings"
@@ -32,6 +33,7 @@ export function eventPayload(
       "welcome",
       "onboarding",
       "privacy",
+      "notifications",
       "focus",
       "progress",
       "settings",

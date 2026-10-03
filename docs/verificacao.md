@@ -318,3 +318,10 @@ Usuário confirmou eventos funcionando corretamente no DebugView em aparelho fí
 ## Revisão da escolha de privacidade — 02/10/2026
 
 Radio buttons e botão de confirmação substituídos por duas ações diretas. Títulos/descrições encurtados, preservando categorias de dados e identificador da instalação. Ambas as ações usam o coordenador de consentimento existente, mantêm bloqueio durante gravação, tratamento de erro e abertura do tour após salvar. Verificação TypeScript e formatação passaram. Esta revisão visual ainda precisa ser validada no aparelho; captura anterior documenta a primeira versão.
+
+## Escolha de notificações após privacidade — 03/10/2026
+
+- TypeScript e 84 testes passaram. Três testes novos exercitam as ações do componente com hooks/elementos isolados: recusa salva false e avança; permissão negada não avança e permite recusar; toques repetidos não duplicam a operação e resolução após desmontagem não navega. Não simulam a permissão nativa nem comprovam entrega de notificação.
+- Export Android/Hermes passou. Sem novas dependências ou alteração nativa.
+- Revisão do fluxo: entrada → introdução → privacidade → notificações → tour; navegador sem suporte pula notificações. Ajustes usa a mesma preferência/ação. Usuários com onboarding concluído mantêm acesso direto. Voltar do sistema retorna à privacidade.
+- Validação visual e de permissão no aparelho ainda pendente: aceitar, recusar, negar no sistema, verificar switch em Ajustes e reabrir. Avisos de conclusão já tinham sido validados pelo usuário; esta entrega adiciona a oferta inicial.

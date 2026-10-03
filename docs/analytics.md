@@ -14,15 +14,15 @@ Ao desativar, o bloqueio JavaScript ocorre imediatamente e eventos ainda na fila
 
 ## Eventos e perguntas
 
-| Evento                | Propriedades customizadas                                                                 | Pergunta de uso                                        |
-| --------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `screen_view`         | `screen_name`, `screen_class`: welcome/onboarding/privacy/focus/progress/settings/profile | Quais telas são acessadas?                             |
-| `onboarding_complete` | Nenhuma                                                                                   | Quantas conclusões ocorrem depois de autorizar coleta? |
-| `pomodoro_start`      | `session_mode`: focus/break; `duration_seconds`                                           | Quais ciclos/durações as pessoas iniciam?              |
-| `pomodoro_pause`      | Modo e duração configurada                                                                | Com que frequência interrompem ciclos?                 |
-| `pomodoro_resume`     | Modo e duração configurada                                                                | Retomam os ciclos pausados?                            |
-| `pomodoro_complete`   | Modo e duração do ciclo que terminou                                                      | Quantos ciclos chegam ao fim?                          |
-| `pomodoro_reset`      | Modo e duração configurada                                                                | Quantos ciclos ativos/pausados são reiniciados?        |
+| Evento                | Propriedades customizadas                                                                               | Pergunta de uso                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `screen_view`         | `screen_name`, `screen_class`: welcome/onboarding/privacy/notifications/focus/progress/settings/profile | Quais telas são acessadas?                             |
+| `onboarding_complete` | Nenhuma                                                                                                 | Quantas conclusões ocorrem depois de autorizar coleta? |
+| `pomodoro_start`      | `session_mode`: focus/break; `duration_seconds`                                                         | Quais ciclos/durações as pessoas iniciam?              |
+| `pomodoro_pause`      | Modo e duração configurada                                                                              | Com que frequência interrompem ciclos?                 |
+| `pomodoro_resume`     | Modo e duração configurada                                                                              | Retomam os ciclos pausados?                            |
+| `pomodoro_complete`   | Modo e duração do ciclo que terminou                                                                    | Quantos ciclos chegam ao fim?                          |
+| `pomodoro_reset`      | Modo e duração configurada                                                                              | Quantos ciclos ativos/pausados são reiniciados?        |
 
 Só transições efetivas produzem eventos; ticks não são medidos. Na conclusão, o modo enviado é o do ciclo anterior, apesar da troca automática de foco/descanso. Retorno ao app e restauração de um timer vencido podem reconhecer conclusão; restaurar histórico concluído não o reenvia. Eventos anteriores ao consentimento não são armazenados para envio posterior.
 
@@ -98,3 +98,7 @@ Essa propriedade é uma configuração do dispositivo, não do APK: não é dist
 ## Textos de Ajustes — 02/10/2026
 
 Controles renomeados para “Compartilhar falhas” e “Compartilhar uso”, com descrições curtas dos dados enviados e possibilidade de desativar. Preservadas informações sobre identificador da instalação e ausência de nome, e-mail e textos pessoais. Sem mudanças na coleta ou nas permissões.
+
+## Tela de notificações — 03/10/2026
+
+Primeiro acesso passa pela escolha de notificações antes do tour. A conclusão de onboarding ocorre após essa etapa nas plataformas suportadas. A tela `notifications` usa o mesmo screen_view autorizado; não há evento novo para registrar decisão ou status de permissão.

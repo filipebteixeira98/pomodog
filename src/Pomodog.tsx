@@ -31,6 +31,7 @@ import { localSession, type CustomerSession } from "#src/domain/customer";
 import { themes } from "#src/domain/preferences";
 import { FocusScreen } from "#src/features/focus/FocusScreen";
 import { Onboarding } from "#src/features/onboarding/Onboarding";
+import { NotificationsScreen } from "#src/features/permissions/NotificationsScreen";
 import { saveCollectionChoice } from "#src/features/privacy/collectionChoice";
 import { PrivacyScreen } from "#src/features/privacy/PrivacyScreen";
 import { EraseDataConfirmation } from "#src/features/profile/EraseDataConfirmation";
@@ -93,6 +94,7 @@ export function Pomodog({
   const [dataNotice, setDataNotice] = useState("");
   const [entryDismissed, setEntryDismissed] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const accent = themes[model.preferences.theme].color;
   const reducedMotion = model.preferences.reduceMotion || systemReducedMotion;
   const showOnboarding =
@@ -103,11 +105,13 @@ export function Pomodog({
   const screen = !model.ready
     ? null
     : showOnboarding
-      ? showPrivacy
-        ? "privacy"
-        : !user && !entryDismissed
-          ? "welcome"
-          : "onboarding"
+      ? showNotifications
+        ? "notifications"
+        : showPrivacy
+          ? "privacy"
+          : !user && !entryDismissed
+            ? "welcome"
+            : "onboarding"
       : tab;
   useEffect(() => {
     if (screen) trackUsage({ name: "screen_view", screen });
@@ -132,6 +136,7 @@ export function Pomodog({
       await model.eraseData();
       setEntryDismissed(false);
       setShowPrivacy(false);
+      setShowNotifications(false);
       setConfirmErase(false);
       setDataNotice("Os dados locais foram apagados.");
     } catch {
@@ -301,7 +306,7 @@ export function Pomodog({
         />
         {showOnboarding && (
           <Onboarding
-            visible={!showPrivacy}
+            visible={!showPrivacy && !showNotifications}
             authenticated={user !== null}
             accent={accent}
             reducedMotion={reducedMotion}
@@ -317,6 +322,22 @@ export function Pomodog({
             onBack={() => setShowPrivacy(false)}
             onContinue={() => {
               setShowPrivacy(false);
+              if (model.notificationsSupported) setShowNotifications(true);
+              else startTour();
+            }}
+          />
+        )}
+        {showOnboarding && showNotifications && (
+          <NotificationsScreen
+            accent={accent}
+            reducedMotion={reducedMotion}
+            onSave={model.setSessionNotifications}
+            onBack={() => {
+              setShowNotifications(false);
+              setShowPrivacy(true);
+            }}
+            onContinue={() => {
+              setShowNotifications(false);
               startTour();
             }}
           />

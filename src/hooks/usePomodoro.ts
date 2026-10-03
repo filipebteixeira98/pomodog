@@ -190,7 +190,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
 
   async function setSessionNotifications(enabled: boolean) {
     if (!ready || locked() || permissionLock.current || !notificationsSupported)
-      return;
+      return false;
     permissionLock.current = true;
     setNotificationBusy(true);
     setPreferences((current) => ({
@@ -209,10 +209,11 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
             "Permita notificações nos ajustes do dispositivo para receber o aviso.",
           );
         }
-        return;
+        return false;
       }
-      if (request !== notificationRequest.current || locked()) return;
+      if (request !== notificationRequest.current || locked()) return false;
       setNotificationNotice("");
+      return true;
     } catch (error) {
       reportError(error, "notifications.permission");
       if (request === notificationRequest.current) {
@@ -222,6 +223,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
         }));
         setNotificationNotice(notificationErrorMessage(error));
       }
+      return false;
     } finally {
       permissionLock.current = false;
       setNotificationBusy(false);

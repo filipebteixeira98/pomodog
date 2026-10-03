@@ -199,3 +199,9 @@ Usuário confirmou funcionamento da entrega no dispositivo físico. Próximos pa
 ### Simplificação da escolha
 
 Textos encurtados e radio buttons removidos. Cada botão salva a decisão e abre o tour, sem etapa de confirmação adicional. Validar a versão simplificada no aparelho; a versão anterior já foi validada pelo usuário.
+
+## Escolha de notificações no primeiro acesso — implementada em 03/10/2026
+
+Nova tela entre privacidade e tour, com textos curtos, ícone de sino e dois botões: “Sim, ativar” e “Agora não”. Vinculada a “Avisar ao terminar” em Ajustes; recusa não solicita permissão. Caso o sistema negue, é possível tentar novamente ou seguir sem avisos. Navegador sem suporte não exibe a tela. Não habilita lembretes de rotina/inatividade nem push remoto.
+
+Próximos passos: validar no aparelho aceitar/recusar, permissão negada, persistência em Ajustes, voltar e abertura do tour. A confirmação anterior de avisos de conclusão continua válida; esta validação é da nova interface e do fluxo de entrada.
