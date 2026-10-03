@@ -21,6 +21,18 @@ O histórico anterior é preservado com a mesma chave `pomodog.prototype.v1`. A 
 
 `src/firebase` coordena conta/sincronização/exclusão; `src/notifications` agenda avisos locais; `src/monitoring` e `src/analytics` mantêm consentimentos separados. `App` também coordena identidade e confirmação transitória de exclusão fora do componente remontado por UID.
 
+## Automação e integração nativa
+
+| Diretório/arquivo                   | Finalidade                                                                     | Uso no projeto                                                                   |
+| ----------------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| `scripts/generate-brand-assets.mjs` | Gera ícone, splash, favicon e versões adaptativas a partir do SVG.             | `npm run assets:generate`.                                                       |
+| `scripts/sentry-sourcemaps.mjs`     | Confere correspondência dos mapas/bundles e realiza upload autorizado.         | `npm run sentry:check` e `npm run sentry:upload`.                                |
+| `scripts/verify-sentry.mts`         | Envia evento sintético explícito para verificar ingestão e resolução de mapas. | Procedimento manual descrito em [Sentry](sentry.md#verificação); exige `--send`. |
+| `plugins/withNativeReporting.js`    | Configura integração nativa de diagnóstico durante prebuild.                   | Referenciado por `app.json`; recria ponte, inicialização e fontes Android.       |
+| `plugins/native-reporting/`         | Fontes Kotlin do cliente/ponte e testes de filtragem.                          | Copiados pelo plugin para o projeto Android gerado.                              |
+
+Scripts são ferramentas de desenvolvimento/build, não telas do aplicativo. O plugin e suas fontes são necessários para reproduzir a integração de crashes Java/Kotlin e consentimento nativo; não basta preservar arquivos gerados em `android/`. Planejamento vigente fica em [Plano de ação](plano-de-acao.md) e [Próximas etapas](proximas-etapas.md).
+
 ## Contas e armazenamento
 
 O projeto `pomodog-dev-2026` contém Firebase Authentication com Google e Cloud Firestore na região `southamerica-east1`. Apps Android e web foram registrados; o certificado Android de desenvolvimento foi cadastrado. As regras Firestore foram publicadas. O ambiente de produção ainda não foi configurado.
