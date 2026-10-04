@@ -2,17 +2,18 @@
 
 Documentação vigente consolidada em 03/10/2026. Consulte cada fonte pelo assunto.
 
-| Documento                                     | Fonte para                                                     |
-| --------------------------------------------- | -------------------------------------------------------------- |
-| [Plano de ação](plano-de-acao.md)             | Status por funcionalidade, prioridades e execução.             |
-| [Próximas etapas](proximas-etapas.md)         | Escopo, decisões abertas e critérios de futuras entregas.      |
-| [Produto e validação](produto-e-validacao.md) | Proposta, público, hipóteses e avaliação com usuários.         |
-| [Arquitetura](arquitetura.md)                 | Estrutura e funcionamento técnico atual.                       |
-| [Verificação](verificacao.md)                 | Resultados confirmados, origem das evidências e limitações.    |
-| [Development build](development-build.md)     | Instalação, execução e logs Android.                           |
-| [Analytics](analytics.md)                     | Dados/eventos, consentimento, configuração e validação de uso. |
-| [Sentry](sentry.md)                           | Erros/crashes, filtros, mapas e procedimentos de diagnóstico.  |
-| [Capturas](screenshots/README.md)             | Evidências visuais, com contexto de versão.                    |
+| Documento                                     | Fonte para                                                          |
+| --------------------------------------------- | ------------------------------------------------------------------- |
+| [Plano de ação](plano-de-acao.md)             | Status por funcionalidade, prioridades e execução.                  |
+| [Próximas etapas](proximas-etapas.md)         | Escopo, decisões abertas e critérios de futuras entregas.           |
+| [Produto e validação](produto-e-validacao.md) | Proposta, público, hipóteses e avaliação com usuários.              |
+| [Arquitetura](arquitetura.md)                 | Estrutura e funcionamento técnico atual.                            |
+| [Verificação](verificacao.md)                 | Resultados confirmados, origem das evidências e limitações.         |
+| [Segurança](seguranca.md)                     | Revisão OWASP, correções, riscos residuais e validação no aparelho. |
+| [Development build](development-build.md)     | Instalação, execução e logs Android.                                |
+| [Analytics](analytics.md)                     | Dados/eventos, consentimento, configuração e validação de uso.      |
+| [Sentry](sentry.md)                           | Erros/crashes, filtros, mapas e procedimentos de diagnóstico.       |
+| [Capturas](screenshots/README.md)             | Evidências visuais, com contexto de versão.                         |
 
 ## Como atualizar
 

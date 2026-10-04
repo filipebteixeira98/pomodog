@@ -1,9 +1,6 @@
-import { useState, useSyncExternalStore } from "react";
-import { Switch, View } from "react-native";
 import Bug from "lucide-react-native/icons/bug";
 
-import { Card } from "#src/components/ui/Card";
-import { Text } from "#src/components/ui/Text";
+import { OptionalCollectionSettings } from "#src/features/permissions/OptionalCollectionSettings";
 import {
   reportingEnabled,
   reportingReady,
@@ -11,56 +8,25 @@ import {
   subscribeReporting,
 } from "#src/monitoring/sentry";
 
+const store = {
+  subscribe: subscribeReporting,
+  enabled: reportingEnabled,
+  ready: reportingReady,
+  setEnabled: setReportingEnabled,
+};
+
 export function ReportingSettings({ accent }: { accent: string }) {
-  const enabled = useSyncExternalStore(
-    subscribeReporting,
-    reportingEnabled,
-    () => false,
-  );
-  const ready = useSyncExternalStore(
-    subscribeReporting,
-    reportingReady,
-    () => false,
-  );
-  const [busy, setBusy] = useState(false);
-  const [notice, setNotice] = useState("");
-  async function change(value: boolean) {
-    if (busy) return;
-    setBusy(true);
-    setNotice("");
-    try {
-      await setReportingEnabled(value);
-    } catch {
-      setNotice("Não foi possível salvar essa escolha. Tente novamente.");
-    } finally {
-      setBusy(false);
-    }
-  }
   return (
-    <Card className="gap-3">
-      <View className="flex-row items-center gap-3">
-        <View className="h-11 w-11 items-center justify-center rounded-full bg-soft">
-          <Bug size={23} color={accent} />
-        </View>
-        <Text variant="eyebrow">DIAGNÓSTICO OPCIONAL</Text>
-      </View>
-      <View className="flex-row items-center gap-3">
-        <Text variant="label" className="flex-1">
-          Compartilhar falhas
-        </Text>
-        <Switch
-          accessibilityLabel="Compartilhar falhas do aplicativo"
-          value={enabled}
-          disabled={busy || !ready}
-          onValueChange={(value) => void change(value)}
-          trackColor={{ true: accent }}
-        />
-      </View>
-      <Text variant="caption">
-        Envia dados técnicos de falhas, sem nome, e-mail ou histórico de foco.
-        Desative quando quiser.
-      </Text>
-      {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
-    </Card>
+    <OptionalCollectionSettings
+      accent={accent}
+      store={store}
+      icon={<Bug size={23} color={accent} />}
+      eyebrow="DIAGNÓSTICO OPCIONAL"
+      title="Compartilhar falhas"
+      accessibilityLabel="Compartilhar falhas do aplicativo"
+    >
+      Envia dados técnicos de falhas, sem nome, e-mail ou histórico de foco.
+      Desative quando quiser.
+    </OptionalCollectionSettings>
   );
 }

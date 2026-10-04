@@ -17,6 +17,8 @@ Atualizado em 03/10/2026. Estrutura, mecanismos e decisões vigentes; status em 
 
 As telas recebem dados e callbacks. Não acessam diretamente AsyncStorage. Cartões, modais e botões usam composição por `children`; o botão também recebe um ícone opcional. Os componentes de UI não conhecem regras de Pomodoro.
 
+`OptionalCollectionSettings` compartilha cartões, loading e mensagens de falha de consentimento. Analytics e diagnóstico fornecem seus próprios stores, textos e ícones; escolhas continuam independentes. Operações duplicadas são bloqueadas imediatamente e respostas tardias não atualizam um cartão desmontado.
+
 O histórico anterior é preservado com a mesma chave `pomodog.prototype.v1`. A ausência de `onboardingComplete` é tratada como um registro antigo, mantendo timer, sessões e preferências. O onboarding automático espera uma sessão ociosa para não interromper um foco restaurado.
 
 `src/firebase` coordena conta/sincronização/exclusão; `src/notifications` agenda avisos locais; `src/monitoring` e `src/analytics` mantêm consentimentos separados. `App` também coordena identidade e confirmação transitória de exclusão fora do componente remontado por UID.
@@ -29,6 +31,7 @@ O histórico anterior é preservado com a mesma chave `pomodog.prototype.v1`. A 
 | `scripts/sentry-sourcemaps.mjs`     | Confere correspondência dos mapas/bundles e realiza upload autorizado.         | `npm run sentry:check` e `npm run sentry:upload`.                                |
 | `scripts/verify-sentry.mts`         | Envia evento sintético explícito para verificar ingestão e resolução de mapas. | Procedimento manual descrito em [Sentry](sentry.md#verificação); exige `--send`. |
 | `plugins/withNativeReporting.js`    | Configura integração nativa de diagnóstico durante prebuild.                   | Referenciado por `app.json`; recria ponte, inicialização e fontes Android.       |
+| `plugins/withAndroidPrivacy.js`     | Restringe backup, transferência, permissões e HTTP no Android principal.       | Referenciado por `app.json`; gera regras XML e configura o manifest.             |
 | `plugins/native-reporting/`         | Fontes Kotlin do cliente/ponte e testes de filtragem.                          | Copiados pelo plugin para o projeto Android gerado.                              |
 
 Scripts são ferramentas de desenvolvimento/build, não telas do aplicativo. O plugin e suas fontes são necessários para reproduzir a integração de crashes Java/Kotlin e consentimento nativo; não basta preservar arquivos gerados em `android/`. Planejamento vigente fica em [Plano de ação](plano-de-acao.md) e [Próximas etapas](proximas-etapas.md).
@@ -39,11 +42,13 @@ O projeto `pomodog-dev-2026` contém Firebase Authentication com Google e Cloud 
 
 Após autenticação, `prepareAccount` grava o perfil em `users/{uid}`, as sessões de foco em `users/{uid}/sessions/{sessionId}` e o estado em `users/{uid}/state/main`. O estado inclui timer sem histórico duplicado, preferências, onboarding e cuidados do mascote. A identidade de login fica no Firebase Authentication; o documento `users` contém os dados de perfil usados pela aplicação.
 
-A relação lógica usuário/sessões é 1:N, expressa pelo caminho da subcoleção. Não há chave estrangeira SQL ou exclusão em cascata automática. As regras exigem `request.auth.uid == uid` para leitura e escrita do perfil e das subcoleções. Trata-se de autorização por proprietário; papéis administrativos e RBAC ainda não foram implementados.
+A relação lógica usuário/sessões é 1:N, expressa pelo caminho da subcoleção. Não há chave estrangeira SQL ou exclusão em cascata automática. As regras exigem `request.auth.uid == uid` para leitura e escrita do perfil e das subcoleções; validam campos permitidos, tipos, limites e estados do timer. Trata-se de autorização por proprietário; papéis administrativos e RBAC ainda não foram implementados.
 
 O armazenamento local usa uma chave por UID. A importação combina histórico local e remoto sem repetir IDs; os dados de visitante só são removidos depois de salvar o resultado na nuvem e na chave da conta. A sincronização posterior serializa escritas remotas e preserva o salvamento local. As preferências da cópia local da conta têm precedência na conciliação inicial; conflitos entre dispositivos ainda precisam de validação específica.
 
-A fila local em `src/storage/prototypeStore.ts` serializa leitura, gravação e exclusão. Validação remove campos desconhecidos, limita histórico e rejeita versões futuras. Registros ilegíveis bloqueiam gravação até recuperação/exclusão explícita. Não há criptografia própria. Exportação saiu da interface; utilitários legados permanecem internos e exclusão limpa arquivo temporário quando existir.
+A fila local em `src/storage/prototypeStore.ts` serializa leitura, gravação e exclusão. Validação remove campos desconhecidos, limita histórico e rejeita versões futuras. Registros ilegíveis bloqueiam gravação até recuperação/exclusão explícita. Histórico/preferências continuam no sandbox em AsyncStorage, sem criptografia adicional. Persistência da autenticação móvel usa SecureStore, com migração serializada do legado; web mantém o SDK no navegador. Backup e transferência Android estão desabilitados por política explícita. Limites e critérios de validação ficam em [Segurança](seguranca.md).
+
+Exportação e `expo-sharing` foram removidos do código e das dependências. `legacyExportCleanup` mantém somente a limpeza do arquivo temporário de versões antigas durante a exclusão de dados.
 
 ## Interface e composição
 
@@ -66,7 +71,7 @@ Imports internos usam `#src/*` para código em `src/`, `#tests/*` para testes, `
 
 Os mapeamentos em `tsconfig.json` atendem TypeScript e Metro; os equivalentes em `package.json#imports` permitem executar os testes diretamente no Node, que não interpreta `tsconfig.paths`. Manter ambos sincronizados ao adicionar aliases. Não foi adicionada dependência de resolução nem plugin Babel.
 
-Imports executados diretamente pelo Node mantêm a extensão `.ts`. Imports específicos de plataforma, como `#src/storage/exportFile`, permanecem sem extensão para selecionar `.web.ts` na web e `.ts` no Android. O Prettier separa aliases internos de dependências externas e preserva a posição de imports com efeitos colaterais. O CSS tem declaração explícita em `global.d.ts`. Reiniciar Expo CLI após modificar os mapeamentos.
+Imports executados diretamente pelo Node mantêm a extensão `.ts`. Imports específicos de plataforma, como `#src/storage/legacyExportCleanup`, permanecem sem extensão para selecionar `.web.ts` na web e `.ts` no Android. O Prettier separa aliases internos de dependências externas e preserva a posição de imports com efeitos colaterais. O CSS tem declaração explícita em `global.d.ts`. Reiniciar Expo CLI após modificar os mapeamentos.
 
 Referências consultadas via Context7: [aliases no Expo](https://docs.expo.dev/guides/typescript/) e [TypeScript no Node](https://nodejs.org/docs/latest-v24.x/api/typescript.html).
 

@@ -8,7 +8,7 @@ Atualizado em 03/10/2026. Este documento detalha decisões abertas e critérios 
 - Validar importação local/remota, falhas de rede, saída/troca de conta e conflitos entre dispositivos. A implementação vigente está em [Arquitetura](arquitetura.md#contas-e-armazenamento).
 - Planejar exclusão coordenada no servidor para bloquear gravações de outros dispositivos e concluir limpeza após encerramento do cliente; o fluxo atual coordena somente este dispositivo.
 - Criar projeto Firebase de produção separado, revisar credenciais públicas/regras e comprovar isolamento. Produzir UML de classes, casos de uso e modelo lógico por UID.
-- Revisar ameaças concretas, permissões, dependências e artefatos. Migrações devem preservar dados e tratar registros ilegíveis; AsyncStorage não é cofre e o app não oferece criptografia própria do histórico.
+- Retomar os riscos/roteiros de [Segurança](seguranca.md), incluindo duas dependências sem correção publicada, migração da autenticação no aparelho, backup real e artefato release. Histórico permanece em AsyncStorage; tokens móveis usam SecureStore. Revisão contínua não equivale à conclusão integral do MASTG.
 - Outros provedores OAuth precisam de escolha de plataformas/configuração própria; Google e entrada sem conta já existem.
 - Roteiros técnicos de retenção/revogação e diagnóstico ficam em [Analytics](analytics.md) e [Sentry](sentry.md), sem duplicar comandos aqui.
 

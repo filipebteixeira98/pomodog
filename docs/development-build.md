@@ -56,6 +56,8 @@ npm run android
 
 android/ permanece ignorado pelo Git. Não use prebuild --clean sem revisar possíveis alterações nativas manuais.
 
+A revisão de segurança de 03/10/2026 adicionou SecureStore e política de backup. Recompile e atualize a instalação anterior com a mesma assinatura para validar migração do login; não desinstale antes desse teste. Confira [roteiro de segurança](seguranca.md#verificação-necessária-no-aparelho--antes-da-loja). Fast Refresh sozinho não adiciona o módulo nativo ao binário.
+
 ## Validar avisos
 
 - Ative Ajustes → Avisar ao terminar e conceda permissão.

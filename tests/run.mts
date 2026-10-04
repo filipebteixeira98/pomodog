@@ -12,3 +12,4 @@ import "#tests/monitoring.test.ts";
 import "#tests/analytics.test.ts";
 import "#tests/privacyChoice.test.ts";
 import "#tests/permissionScreen.test.ts";
+import "#tests/collectionSettings.test.ts";
