@@ -6,6 +6,8 @@ Guia de instalação, execução e logs. Evidências em [Verificação](verifica
 
 Preparados no repositório: expo-dev-client, scheme pomodog, identificador Android com.filipebteixeira98.pomodog e plugin expo-notifications. Revise o identificador antes de publicar na Play Store.
 
+A entrega de privacidade de 05/10/2026 exige novo development build: a ponte de consentimento de uso e o provider anterior ao Firebase são nativos. Reload do Metro não os adiciona. Atualizar por cima preserva dados; não desinstalar apenas para atualizar. Escolhas opcionais antigas, sem evidência da versão do aviso, precisam ser feitas novamente em Ajustes.
+
 ## Primeira instalação por USB
 
 1. No celular, habilite Opções do desenvolvedor e Depuração USB. Normalmente, as opções são liberadas tocando sete vezes em Número da versão.

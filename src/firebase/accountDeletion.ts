@@ -43,10 +43,19 @@ export function createAccountDeletion(adapter: AccountDeletionAdapter) {
   };
 }
 
+export type OwnedCollection = "sessions" | "consents";
 export type OwnedDeletionAdapter = {
   currentUid: () => string | null;
-  listSessions: (uid: string, limit: number) => Promise<string[]>;
-  deleteSessions: (uid: string, ids: string[]) => Promise<void>;
+  listDocuments: (
+    uid: string,
+    collection: OwnedCollection,
+    limit: number,
+  ) => Promise<string[]>;
+  deleteDocuments: (
+    uid: string,
+    collection: OwnedCollection,
+    ids: string[],
+  ) => Promise<void>;
   deleteStateAndProfile: (uid: string) => Promise<void>;
 };
 
@@ -59,13 +68,15 @@ export async function eraseOwnedDocuments(
     if (!uid || adapter.currentUid() !== uid)
       throw new Error("account-deletion-owner-changed");
   };
-  while (true) {
-    assertOwner();
-    const ids = await adapter.listSessions(uid, 200);
-    assertOwner();
-    if (!ids.length) break;
-    if (ids.length > 200) throw new Error("account-deletion-invalid-page");
-    await adapter.deleteSessions(uid, ids);
+  for (const collection of ["sessions", "consents"] as const) {
+    while (true) {
+      assertOwner();
+      const ids = await adapter.listDocuments(uid, collection, 200);
+      assertOwner();
+      if (!ids.length) break;
+      if (ids.length > 200) throw new Error("account-deletion-invalid-page");
+      await adapter.deleteDocuments(uid, collection, ids);
+    }
   }
   assertOwner();
   await adapter.deleteStateAndProfile(uid);

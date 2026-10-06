@@ -98,26 +98,28 @@ test("concurrent account deletion is rejected", async () => {
 });
 test("paginated deletion clears all owner sessions before parent and preserves other owners", async () => {
   const sessions = Array.from({ length: 451 }, (_, i) => String(i));
+  const consents = Array.from({ length: 251 }, (_, i) => String(i));
   const bob = ["private"];
   const pages: number[] = [];
   let parentDeleted = false;
   await eraseOwnedDocuments("alice", {
     currentUid: () => "alice",
-    listSessions: async (uid, size) => {
+    listDocuments: async (uid, name, size) => {
       assert.equal(uid, "alice");
-      return sessions.slice(0, size);
+      return (name === "sessions" ? sessions : consents).slice(0, size);
     },
-    deleteSessions: async (uid, ids) => {
+    deleteDocuments: async (uid, name, ids) => {
       assert.equal(uid, "alice");
       pages.push(ids.length);
-      sessions.splice(0, ids.length);
+      (name === "sessions" ? sessions : consents).splice(0, ids.length);
     },
     deleteStateAndProfile: async () => {
       assert.equal(sessions.length, 0);
+      assert.equal(consents.length, 0);
       parentDeleted = true;
     },
   });
-  assert.deepEqual(pages, [200, 200, 51]);
+  assert.deepEqual(pages, [200, 200, 51, 200, 51]);
   assert.equal(parentDeleted, true);
   assert.deepEqual(bob, ["private"]);
 });
@@ -126,11 +128,11 @@ test("identity switch after fetching page prevents deletion", async () => {
   await assert.rejects(
     eraseOwnedDocuments("alice", {
       currentUid: () => uid,
-      listSessions: async () => {
+      listDocuments: async () => {
         uid = "bob";
         return ["session"];
       },
-      deleteSessions: async () => {
+      deleteDocuments: async () => {
         assert.fail("must not delete");
       },
       deleteStateAndProfile: async () => {

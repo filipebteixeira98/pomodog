@@ -1,12 +1,14 @@
 # Diagnóstico opcional com Sentry
 
-Configuração vigente em 03/10/2026. Evidências de eventos/mapas em [Verificação](verificacao.md); status no [Plano de ação](plano-de-acao.md).
+Configuração vigente em 05/10/2026. Evidências de eventos/mapas em [Verificação](verificacao.md); status no [Plano de ação](plano-de-acao.md).
 
 Projeto `personal-dashboard/pomodog`, plataforma React Native, criado pelo MCP na equipe `front-end`. Dashboard: [erros do Pomodog](https://personal-dashboard.sentry.io/issues/?query=project%3Apomodog). O DSN público está em `src/monitoring/sentryConfig.ts`; ele permite ingestão, não administração da conta.
 
+Retenção, limites de exclusão de eventos/issues e pedidos de titulares estão em [Privacidade](privacidade.md); não confundir revogação local com remoção no fornecedor.
+
 ## Como ativar
 
-Em Ajustes, habilite **Compartilhar falhas** no card Diagnóstico opcional. A opção começa desativada, é salva somente neste dispositivo e não acompanha a conta no Firestore. Desativar impede novos eventos; relatórios já enviados não são removidos do Sentry. Apagar dados locais ou concluir exclusão de conta desativa o envio neste aparelho.
+Em Ajustes, habilite **Compartilhar falhas** no card Diagnóstico opcional. A opção começa desativada e não sincroniza permissões entre dispositivos. Evidências versionadas de decisões feitas com login são registradas separadamente no Firestore, conforme [Privacidade](privacidade.md). Desativar impede novos eventos; relatórios já enviados não são removidos do Sentry. Apagar dados locais ou concluir exclusão de conta desativa o envio neste aparelho.
 
 Os SDKs só são inicializados após restaurar consentimento válido ou salvar a ativação. Consentimento ilegível ou falha de leitura mantém envio desativado. JavaScript bloqueia novos eventos imediatamente em memória; a revogação nativa é concluída pela gravação na ponte Android. Gravações são serializadas e ativações já superadas são descartadas. Desativar fecha o cliente nativo e remove seu cache; eventos já enviados ou em trânsito não podem ser recuperados.
 
@@ -69,7 +71,7 @@ Documentação consultada via Context7: [Expo](https://docs.sentry.io/platforms/
 
 `plugins/withNativeReporting.js` registra a ponte e restauração em `MainApplication`, desativa auto-init e copia fontes/testes Kotlin versionados ao projeto gerado. Evite editar somente `android/`, pois prebuild recria esse diretório. O SDK Android já vem da dependência Sentry existente; não foi criado outro projeto remoto.
 
-No Android com a ponte nativa, o controle de Ajustes lê/escreve consentimento nativo. A escolha anterior em AsyncStorage **não ativa automaticamente a nova coleta**: habilite novamente após reinstalar o build. Consentimento e cache ficam em `noBackupFilesDir`, fora do backup Android, e não são sincronizados com Firebase. Web e builds antigos sem a ponte continuam com consentimento JavaScript. Reinstalar um APK por atualização preserva a escolha nativa; desinstalar remove-a.
+No Android com a ponte nativa, o controle de Ajustes lê/escreve consentimento nativo. A escolha anterior em AsyncStorage **não ativa automaticamente a nova coleta**: habilite novamente após reinstalar o build. A preferência nativa versionada e o cache ficam em `noBackupFilesDir`, fora do backup Android. A preferência não é sincronizada; evidências autenticadas ficam no Firestore separadamente. Web e builds antigos sem a ponte continuam com consentimento JavaScript. Atualizar um APK preserva a escolha quando a versão do aviso continua válida. Booleans antigos ou versões incompatíveis não autorizam coleta; habilitar novamente em Ajustes após o rebuild. Desinstalar remove a preferência.
 
 Se autorizado anteriormente, a captura começa em `Application.onCreate`, antes da inicialização React Native/JavaScript. Não cobre falhas anteriores a esse ponto. Eventos filtrados podem ficar no cache privado offline (máximo de dez envelopes) e ser reenviados quando houver rede. Inicialização sem consentimento e revogação removem esse cache. A captura fica desligada em caso de erro de inicialização.
 

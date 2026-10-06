@@ -10,6 +10,14 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class NativeReportingTest {
+  @Test fun legacyAndMalformedConsentsDoNotAuthorizeNativeCollection() {
+    assertTrue(PomodogNativeReporting.currentConsent("__CONSENT_VERSION__".toByteArray()))
+    assertFalse(PomodogNativeReporting.currentConsent(byteArrayOf(1)))
+    assertFalse(PomodogNativeReporting.currentConsent(byteArrayOf(0)))
+    assertFalse(PomodogNativeReporting.currentConsent(byteArrayOf()))
+    assertFalse(PomodogNativeReporting.currentConsent("outdated".toByteArray()))
+  }
+
   @Test fun sensitivePayloadIsRemovedAndCrashLocationSurvives() {
     val frame = SentryStackFrame().apply {
       filename = "/private/Profile.kt?token=secret"

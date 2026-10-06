@@ -1,6 +1,6 @@
 # Documentação do Pomodog
 
-Documentação vigente consolidada em 03/10/2026. Consulte cada fonte pelo assunto.
+Documentação vigente consolidada em 05/10/2026. Consulte cada fonte pelo assunto.
 
 | Documento                                     | Fonte para                                                          |
 | --------------------------------------------- | ------------------------------------------------------------------- |
@@ -11,6 +11,7 @@ Documentação vigente consolidada em 03/10/2026. Consulte cada fonte pelo assun
 | [Verificação](verificacao.md)                 | Resultados confirmados, origem das evidências e limitações.         |
 | [Segurança](seguranca.md)                     | Revisão OWASP, correções, riscos residuais e validação no aparelho. |
 | [Development build](development-build.md)     | Instalação, execução e logs Android.                                |
+| [Privacidade](privacidade.md)                 | Inventário LGPD, evidências, retenção, direitos e transferências.   |
 | [Analytics](analytics.md)                     | Dados/eventos, consentimento, configuração e validação de uso.      |
 | [Sentry](sentry.md)                           | Erros/crashes, filtros, mapas e procedimentos de diagnóstico.       |
 | [Capturas](screenshots/README.md)             | Evidências visuais, com contexto de versão.                         |

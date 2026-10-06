@@ -7,6 +7,7 @@ import {
   doc,
   getDoc,
   getFirestore,
+  serverTimestamp,
   setDoc,
 } from "firebase/firestore";
 
@@ -163,6 +164,43 @@ try {
       email: "bob@example.com",
     }),
   );
+  const decision = {
+    purpose: "usage",
+    allowed: true,
+    noticeVersion: "2026-10-05",
+    decidedAt: 1234,
+    source: "onboarding",
+    receivedAt: serverTimestamp(),
+  };
+  const receiptPath = "users/alice/consents/12345678901234567890";
+  const receipt = doc(clients[0], receiptPath);
+  await setDoc(receipt, decision);
+  const savedDecision = (await getDoc(receipt)).data()!;
+  assert.equal(typeof savedDecision.receivedAt.toMillis(), "number");
+  assertions++;
+  await denied(setDoc(receipt, { ...decision, allowed: false }));
+  await denied(setDoc(receipt, decision));
+  for (const intruder of clients.slice(1)) {
+    await denied(getDoc(doc(intruder, receiptPath)));
+    await denied(setDoc(doc(intruder, receiptPath), decision));
+    await denied(deleteDoc(doc(intruder, receiptPath)));
+  }
+  await deleteDoc(receipt);
+  assertions++;
+  for (const value of [
+    { ...decision, purpose: "advertising" },
+    { ...decision, allowed: "yes" },
+    { ...decision, noticeVersion: "old" },
+    { ...decision, decidedAt: -1 },
+    { ...decision, source: "login" },
+    { ...decision, receivedAt: savedDecision.receivedAt },
+    { ...decision, privateText: "unexpected" },
+    { ...decision, receivedAt: null },
+  ])
+    await denied(setDoc(receipt, value));
+  await setDoc(receipt, { ...decision, allowed: false, source: "settings" });
+  await deleteDoc(receipt);
+  assertions++;
   console.log(
     `Firestore rules: ${assertions} checks passed (ownership, valid states and rejected malformed data).`,
   );

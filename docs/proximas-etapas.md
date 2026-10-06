@@ -1,6 +1,6 @@
 # Próximas etapas — escopo e critérios
 
-Atualizado em 03/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
+Atualizado em 05/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
 
 ## Dados, contas e segurança
 
@@ -10,7 +10,7 @@ Atualizado em 03/10/2026. Este documento detalha decisões abertas e critérios 
 - Criar projeto Firebase de produção separado, revisar credenciais públicas/regras e comprovar isolamento. Produzir UML de classes, casos de uso e modelo lógico por UID.
 - Retomar os riscos/roteiros de [Segurança](seguranca.md), incluindo duas dependências sem correção publicada, migração da autenticação no aparelho, backup real e artefato release. Histórico permanece em AsyncStorage; tokens móveis usam SecureStore. Revisão contínua não equivale à conclusão integral do MASTG.
 - Outros provedores OAuth precisam de escolha de plataformas/configuração própria; Google e entrada sem conta já existem.
-- Roteiros técnicos de retenção/revogação e diagnóstico ficam em [Analytics](analytics.md) e [Sentry](sentry.md), sem duplicar comandos aqui.
+- Adequação LGPD: finalizar responsável/contato e política pública, confirmar retenção dos fornecedores, contratos e destinos internacionais, implementar atendimento de acesso/correção/exclusão que funcione também sem conta e sem vincular UID à medição. Critérios e limites em [Privacidade](privacidade.md); eventos e diagnóstico continuam em seus guias. Validar decisões versionadas, fila offline, troca de conta e limpeza de evidências no aparelho. A configuração em `notice.json` aguarda informações do responsável.
 
 ## Identidade e organização
 

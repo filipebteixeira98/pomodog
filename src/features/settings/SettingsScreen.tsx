@@ -13,6 +13,7 @@ import {
   themes,
   type Preferences,
 } from "#src/domain/preferences";
+import { PrivacyDetails } from "#src/features/privacy/PrivacyDetails";
 import { ReportingSettings } from "#src/monitoring/ReportingSettings";
 
 type Props = {
@@ -152,6 +153,10 @@ export function SettingsScreen({
           Rever tour guiado
         </Button>
       </Card>
+      <PrivacyDetails
+        accent={accent}
+        reducedMotion={preferences.reduceMotion || systemReducedMotion}
+      />
       <ReportingSettings accent={accent} />
       <AnalyticsSettings accent={accent} />
     </>

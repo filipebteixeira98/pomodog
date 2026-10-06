@@ -6,6 +6,7 @@ import ShieldCheck from "lucide-react-native/icons/shield-check";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
 import { OptionalPermissionScreen } from "#src/features/permissions/OptionalPermissionScreen";
+import { PrivacyDetails } from "#src/features/privacy/PrivacyDetails";
 
 export function PrivacyScreen({
   usageSupported,
@@ -52,7 +53,13 @@ export function PrivacyScreen({
             : "Seu nome, e-mail e histórico de foco não são enviados."}
         </Text>
       </Card>
-      <Text variant="caption">Você pode mudar cada permissão em Ajustes.</Text>
+      <Text variant="caption">
+        {usageSupported
+          ? "Compartilhamento com Google Analytics e Sentry."
+          : "Compartilhamento com Sentry."}{" "}
+        Você pode mudar cada permissão em Ajustes.
+      </Text>
+      <PrivacyDetails accent={accent} reducedMotion={props.reducedMotion} />
     </OptionalPermissionScreen>
   );
 }

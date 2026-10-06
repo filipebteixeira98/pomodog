@@ -9,6 +9,7 @@ import {
   type ErrorOperation,
 } from "#src/monitoring/privacy";
 import { reportingStorageKey, sentryDsn } from "#src/monitoring/sentryConfig";
+import { consentJournal, recordedConsent } from "#src/privacy/consentService";
 
 let initialized = false;
 
@@ -59,10 +60,16 @@ function initialize() {
 }
 
 const consent = createReportingConsent({
-  read: () =>
-    nativeReporting
+  read: async () => {
+    if (!(await consentJournal.granted("diagnostics"))) {
+      if (nativeReporting) await nativeReporting.writeConsent("disabled");
+      else await AsyncStorage.setItem(reportingStorageKey, "disabled");
+      return null;
+    }
+    return nativeReporting
       ? nativeReporting.readConsent()
-      : AsyncStorage.getItem(reportingStorageKey),
+      : AsyncStorage.getItem(reportingStorageKey);
+  },
   write: (value) =>
     nativeReporting
       ? nativeReporting.writeConsent(value)
@@ -73,7 +80,7 @@ export const startMonitoring = consent.restore;
 export const subscribeReporting = consent.subscribe;
 export const reportingEnabled = consent.enabled;
 export const reportingReady = consent.ready;
-export const setReportingEnabled = consent.set;
+export const setReportingEnabled = recordedConsent("diagnostics", consent.set);
 
 export function reportError(error: unknown, operation: ErrorOperation) {
   if (!consent.enabled() || !initialized) return;

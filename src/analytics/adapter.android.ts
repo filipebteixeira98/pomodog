@@ -1,11 +1,19 @@
+import { NativeModules } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants, { ExecutionEnvironment } from "expo-constants";
 
 import type { AnalyticsAdapter } from "#src/analytics/controller";
+import { consentJournal } from "#src/privacy/consentService";
 
 const key = "pomodog.analytics-consent.v1";
 const supported =
   Constants.executionEnvironment !== ExecutionEnvironment.StoreClient;
+const nativeConsent = NativeModules.PomodogReporting as
+  | {
+      readUsageConsent: () => Promise<string>;
+      writeUsageConsent: (value: string) => Promise<void>;
+    }
+  | undefined;
 
 // Lazy loading keeps Expo Go from evaluating modules that require a native build.
 function sdk() {
@@ -20,13 +28,26 @@ export const analyticsAdapter: AnalyticsAdapter = {
         `[Pomodog analytics] ${stage} failed${event ? `: ${event}` : ""}`,
       );
   },
-  read: () => AsyncStorage.getItem(key),
-  write: (value) => AsyncStorage.setItem(key, value),
+  read: async () => {
+    if (!(await consentJournal.granted("usage"))) return null;
+    return nativeConsent ? nativeConsent.readUsageConsent() : null;
+  },
+  async write(value) {
+    if (!nativeConsent?.writeUsageConsent)
+      throw new Error("usage-consent-rebuild-required");
+    await nativeConsent.writeUsageConsent(value);
+    // Remove the old boolean. Never migrate it into consent evidence.
+    await AsyncStorage.removeItem(key);
+  },
   async configure(enabled) {
     if (!supported) return;
     const api = sdk();
     const analytics = api.getAnalytics();
-    if (!enabled) await api.setAnalyticsCollectionEnabled(analytics, false);
+    if (!enabled) {
+      await api.setAnalyticsCollectionEnabled(analytics, false);
+      if (nativeConsent?.writeUsageConsent)
+        await nativeConsent.writeUsageConsent("disabled");
+    }
     await api.setConsent(analytics, {
       analytics_storage: enabled,
       ad_storage: false,

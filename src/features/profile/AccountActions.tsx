@@ -113,6 +113,10 @@ export function AccountActions({
           <Text variant="caption">
             {session.customer.email ?? session.customer.displayName}
           </Text>
+          <Text variant="caption">
+            Relatórios de uso e falhas já enviados têm remoção separada.
+            Consulte as informações de privacidade no Perfil.
+          </Text>
           <Text>Confirme sua identidade usando a mesma conta Google.</Text>
           {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
           <Button

@@ -16,6 +16,19 @@ class PomodogReportingPackage : ReactPackage {
 class PomodogReportingModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
   override fun getName() = "PomodogReporting"
 
+  @ReactMethod fun readUsageConsent(promise: Promise) {
+    promise.resolve(if (PomodogNativeReporting.usageEnabled(context)) "enabled" else "disabled")
+  }
+
+  @ReactMethod fun writeUsageConsent(value: String, promise: Promise) {
+    try {
+      PomodogNativeReporting.saveUsage(context, value == "enabled")
+      promise.resolve(null)
+    } catch (_: Exception) {
+      promise.reject("USAGE_CONSENT", "Unable to update usage consent")
+    }
+  }
+
   @ReactMethod fun readConsent(promise: Promise) {
     promise.resolve(if (PomodogNativeReporting.enabled(context)) "enabled" else "disabled")
   }

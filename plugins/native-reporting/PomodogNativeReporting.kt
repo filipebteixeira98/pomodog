@@ -3,6 +3,7 @@ package __PACKAGE__
 import android.content.Context
 import android.util.AtomicFile
 import com.facebook.react.common.JavascriptException
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.sentry.Sentry
 import io.sentry.SentryEvent
 import io.sentry.SentryLevel
@@ -18,10 +19,38 @@ import java.io.File
 /** Consent is native-owned so it also applies before JavaScript starts. */
 object PomodogNativeReporting {
   @Volatile private var allowed = false
+  private val grant = "__CONSENT_VERSION__".toByteArray(Charsets.UTF_8)
+
+  internal fun currentConsent(bytes: ByteArray) = bytes.contentEquals(grant)
+  private fun usageFile(context: Context) = AtomicFile(File(context.noBackupFilesDir, "pomodog-usage-consent"))
+  fun usageEnabled(context: Context): Boolean = try {
+    currentConsent(usageFile(context).readFully())
+  } catch (_: Exception) { false }
+
+  fun restoreUsage(context: Context) {
+    // Runs before FirebaseInitProvider. A persisted SDK permission cannot replace
+    // a grant for the current notice, including during upgrades before JS starts.
+    FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(usageEnabled(context))
+  }
+
+  @Synchronized fun saveUsage(context: Context, value: Boolean) {
+    val file = usageFile(context)
+    var stream: java.io.FileOutputStream? = null
+    try {
+      stream = file.startWrite()
+      stream.write(if (value) grant else byteArrayOf(0))
+      file.finishWrite(stream)
+    } catch (error: Exception) {
+      file.failWrite(stream)
+      file.delete()
+      FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(false)
+      throw IllegalStateException("Unable to save usage consent")
+    }
+  }
 
   private fun consentFile(context: Context) = AtomicFile(File(context.noBackupFilesDir, "pomodog-reporting-consent"))
   private fun savedConsent(context: Context): Boolean = try {
-    consentFile(context).readFully().contentEquals(byteArrayOf(1))
+    currentConsent(consentFile(context).readFully())
   } catch (_: Exception) { false }
   private fun cache(context: Context) = File(context.noBackupFilesDir, "pomodog-sentry")
 
@@ -45,10 +74,11 @@ object PomodogNativeReporting {
     var stream: java.io.FileOutputStream? = null
     try {
       stream = file.startWrite()
-      stream.write(if (value) 1 else 0)
+      stream.write(if (value) grant else byteArrayOf(0))
       file.finishWrite(stream)
     } catch (error: Exception) {
       file.failWrite(stream)
+      file.delete()
       Sentry.close()
       cache(context).deleteRecursively()
       throw IllegalStateException("Unable to save diagnostic consent")

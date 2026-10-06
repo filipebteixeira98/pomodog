@@ -26,6 +26,10 @@ import {
 } from "#src/firebase/googleSignIn";
 import { setReportingEnabled } from "#src/monitoring/sentry";
 import { sessionNotifications } from "#src/notifications/sessionNotifications";
+import {
+  consentJournal,
+  drainConsentReceipts,
+} from "#src/privacy/consentService";
 import { accountStore } from "#src/storage/prototype";
 
 const currentUid = () => auth.currentUser?.uid ?? null;
@@ -34,7 +38,12 @@ export const deleteOwnAccount = createAccountDeletion({
   currentUid,
   reauthenticate: reauthenticateWithGoogle,
   begin: beginAccountDeletion,
-  drain: flushAccount,
+  drain: async (uid) => {
+    await drainConsentReceipts();
+    await flushAccount(uid);
+    await setReportingEnabled(false, "erasure");
+    await setAnalyticsEnabled(false, "erasure");
+  },
   cancelNotifications: () =>
     sessionNotifications.sync(
       { status: "idle", deadline: null, mode: "focus" },
@@ -43,16 +52,15 @@ export const deleteOwnAccount = createAccountDeletion({
   eraseRemote: (uid) =>
     eraseOwnedDocuments(uid, {
       currentUid,
-      listSessions: async (owner, pageSize) => {
+      listDocuments: async (owner, name, pageSize) => {
         const page = await getDocsFromServer(
-          query(collection(db, "users", owner, "sessions"), limit(pageSize)),
+          query(collection(db, "users", owner, name), limit(pageSize)),
         );
         return page.docs.map((item) => item.id);
       },
-      deleteSessions: async (owner, ids) => {
+      deleteDocuments: async (owner, name, ids) => {
         const batch = writeBatch(db);
-        for (const id of ids)
-          batch.delete(doc(db, "users", owner, "sessions", id));
+        for (const id of ids) batch.delete(doc(db, "users", owner, name, id));
         await batch.commit();
       },
       deleteStateAndProfile: async (owner) => {
@@ -62,7 +70,10 @@ export const deleteOwnAccount = createAccountDeletion({
         await batch.commit();
       },
     }),
-  eraseLocal: (uid) => accountStore(uid).erase(),
+  eraseLocal: async (uid) => {
+    await consentJournal.forgetOwner(uid);
+    await accountStore(uid).erase();
+  },
   eraseIdentity: async () => {
     const user = auth.currentUser;
     if (!user) throw new Error("account-deletion-unauthenticated");
@@ -70,8 +81,8 @@ export const deleteOwnAccount = createAccountDeletion({
   },
   finish: async (uid) => {
     // Identity is already gone. Cleanup must not report a failed account deletion.
-    await setReportingEnabled(false).catch(() => {});
-    await setAnalyticsEnabled(false).catch(() => {});
+    await setReportingEnabled(false, "erasure").catch(() => {});
+    await setAnalyticsEnabled(false, "erasure").catch(() => {});
     await finishAccountDeletion(uid).catch(() => {});
     await signOutGoogle().catch(() => {});
   },

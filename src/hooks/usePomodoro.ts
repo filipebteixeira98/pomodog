@@ -14,6 +14,7 @@ import {
   requestSessionPermission,
   sessionNotifications,
 } from "#src/notifications/sessionNotifications";
+import { consentJournal } from "#src/privacy/consentService";
 import { clearLegacyExport } from "#src/storage/legacyExportCleanup";
 import {
   accountStore,
@@ -258,8 +259,9 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     notificationRequest.current++;
     try {
       await sessionNotifications.sync(latestTimer.current, false);
-      await setReportingEnabled(false);
-      await setAnalyticsEnabled(false);
+      await setReportingEnabled(false, "erasure");
+      await setAnalyticsEnabled(false, "erasure");
+      await consentJournal.clear();
       await clearLegacyExport();
       await (account ? account.erase() : erasePrototype());
       dispatch({

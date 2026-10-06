@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AppState } from "react-native";
 import { onAuthStateChanged, type User } from "firebase/auth";
 
 import { localSession, type CustomerSession } from "#src/domain/customer";
@@ -11,6 +12,7 @@ import { auth } from "#src/firebase/auth";
 import { deleteOwnAccount } from "#src/firebase/deleteOwnAccount";
 import { signInWithGoogle, signOutGoogle } from "#src/firebase/googleSignIn";
 import { reportError } from "#src/monitoring/sentry";
+import { syncConsentReceipts } from "#src/privacy/consentService";
 
 export function useAccount() {
   const [user, setUser] = useState<User | null>(null);
@@ -39,7 +41,10 @@ export function useAccount() {
         setLoading(true);
         void (async () => {
           const pending = await accountDeletionPending(nextUser.uid);
-          if (!pending) await prepareAccount(nextUser);
+          if (!pending) {
+            await prepareAccount(nextUser);
+            void syncConsentReceipts(nextUser.uid).catch(() => {});
+          }
           return pending;
         })()
           .then((pending) => {
@@ -77,10 +82,16 @@ export function useAccount() {
         setNotice("Não foi possível verificar sua conta. Tente novamente.");
       },
     );
+    const resumed = AppState.addEventListener("change", (state) => {
+      const owner = auth.currentUser?.uid;
+      if (state === "active" && owner)
+        void syncConsentReceipts(owner).catch(() => {});
+    });
     return () => {
       active = false;
       generation++;
       unsubscribe();
+      resumed.remove();
     };
   }, []);
 
@@ -94,7 +105,10 @@ export function useAccount() {
       if (auth.currentUser) {
         setLoading(true);
         const pending = await accountDeletionPending(auth.currentUser.uid);
-        if (!pending) await prepareAccount(auth.currentUser);
+        if (!pending) {
+          await prepareAccount(auth.currentUser);
+          void syncConsentReceipts(auth.currentUser.uid).catch(() => {});
+        }
         setDeletionPending(pending);
         setUser(auth.currentUser);
         setSession({

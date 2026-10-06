@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import type { CustomerSession } from "#src/domain/customer";
+import { PrivacyCard } from "#src/features/privacy/PrivacyDetails";
 import { AccountActions } from "#src/features/profile/AccountActions";
 import { CustomerCard } from "#src/features/profile/CustomerCard";
 
@@ -42,6 +43,7 @@ export function ProfileScreen({
         reducedMotion={reducedMotion}
       />
       {children}
+      <PrivacyCard accent={accent} reducedMotion={reducedMotion} />
     </>
   );
 }

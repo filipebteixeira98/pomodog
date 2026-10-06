@@ -1,12 +1,12 @@
 # Firebase Analytics — uso opcional no Android
 
-Configuração consolidada em 03/10/2026, com `@react-native-firebase/app` e `@react-native-firebase/analytics` 26.4.0. Usa o app Android já cadastrado em `pomodog-dev-2026`; autenticação e Firestore continuam no SDK existente. Não cria coleções/tabelas de Analytics no Firestore.
+Configuração consolidada em 05/10/2026, com `@react-native-firebase/app` e `@react-native-firebase/analytics` 26.4.0. Usa o app Android já cadastrado em `pomodog-dev-2026`; autenticação e Firestore continuam no SDK existente. Não cria coleções/tabelas de Analytics no Firestore.
 
 ## Consentimento e dados
 
-No primeiro acesso, após o onboarding e antes do tour guiado, a tela de privacidade oferece permitir diagnóstico e uso opcional ou continuar sem compartilhar, sem escolha pré-selecionada. Permitir habilita os dois controles existentes; recusar mantém ambos desligados. Em Ajustes, **Compartilhar uso** continua independente do diagnóstico de erros e desligado por padrão. O consentimento permanece neste dispositivo, não no perfil sincronizado. Sem aceitar, o app funciona normalmente com ou sem conta. Não interpretar login ou consentimento de Sentry como autorização de medição.
+No primeiro acesso, após o onboarding e antes do tour guiado, a tela de privacidade oferece permitir diagnóstico e uso opcional ou continuar sem compartilhar, sem escolha pré-selecionada. Permitir habilita os dois controles existentes; recusar mantém ambos desligados. Em Ajustes, **Compartilhar uso** continua independente do diagnóstico de erros e desligado por padrão. A permissão continua neste dispositivo; decisões feitas com login recebem evidência separada no Firestore, sem sincronizar a permissão entre dispositivos nem enviar `user_id`. Versão, prova local/remota e atendimento estão em [Privacidade](privacidade.md). Sem aceitar, o app funciona normalmente com ou sem conta. Não interpretar login ou consentimento de Sentry como autorização de medição.
 
-`firebase.json` nega coleta e armazenamento de Analytics por padrão antes do JavaScript. Ads, personalização, AD_ID e SSAID desabilitados; AD_ID removido das permissões Android. Telas são medidas explicitamente, evitando registrar Activities do development client. Após a autorização, o SDK também pode produzir seus eventos técnicos automáticos de sessão/engajamento; não é uma coleta limitada aos eventos customizados abaixo.
+`firebase.json` nega coleta e armazenamento de Analytics por padrão. Como a preferência persistida pelo SDK pode substituir esse default, `PomodogConsentProvider` aplica a escolha nativa versionada antes de FirebaseInitProvider. A ponte nativa grava a versão; JavaScript também exige evidência da versão atual antes de restaurar coleta. Ads, personalização, AD_ID e SSAID desabilitados; AD_ID removido das permissões Android. Telas são medidas explicitamente, evitando registrar Activities do development client. Após a autorização, o SDK também pode produzir seus eventos técnicos automáticos de sessão/engajamento; não é uma coleta limitada aos eventos customizados abaixo.
 
 O SDK usa identificador da instalação e informações técnicas do app/dispositivo; não prometer anonimato absoluto. Não definimos `user_id` com UID Firebase, nem enviamos nome, e-mail, textos livres, histórico completo, títulos de agenda ou dados familiares. Payloads customizados são reconstruídos por uma lista permitida. Não há captura de toques, heatmaps, replay, anúncios, IA ou testes A/B nesta entrega.
 
@@ -26,7 +26,7 @@ Ao desativar, o bloqueio JavaScript ocorre imediatamente e eventos ainda na fila
 
 Só transições efetivas produzem eventos; ticks não são medidos. Na conclusão, o modo enviado é o do ciclo anterior, apesar da troca automática de foco/descanso. Retorno ao app e restauração de um timer vencido podem reconhecer conclusão; restaurar histórico concluído não o reenvia. Eventos anteriores ao consentimento não são armazenados para envio posterior.
 
-A conclusão do primeiro onboarding é registrada após privacidade e escolha de notificações, nas plataformas suportadas; pode ser medida quando a pessoa autoriza uso opcional. Não há reenvio das etapas anteriores. Usuários com onboarding já concluído mantêm suas permissões e não recebem a nova tela automaticamente. Os dados representam somente instalações que aceitaram a coleta; contagens não representam todos os usuários, nem provam causalidade ou produtividade.
+A conclusão do primeiro onboarding é registrada após privacidade e escolha de notificações, nas plataformas suportadas; pode ser medida quando a pessoa autoriza uso opcional. Não há reenvio das etapas anteriores. Usuários com onboarding já concluído não recebem a nova tela automaticamente. Permissões legadas sem evidência da versão atual ficam desligadas; para continuar compartilhando, escolher novamente em Ajustes após atualizar o development build. Os dados representam somente instalações que aceitaram a coleta; contagens não representam todos os usuários, nem provam causalidade ou produtividade.
 
 ## Configuração do projeto
 
@@ -34,7 +34,7 @@ Após habilitação pelo usuário em 02/10/2026, consulta da API retornou 200: p
 
 O projeto usa somente `google-services.json` para a configuração Android de Firebase, incluindo OAuth e Analytics.
 
-O projeto Expo gera Gradle Groovy (.gradle), não Kotlin DSL (.gradle.kts). Plugin Firebase App já adiciona Google Services (4.4.4 no build validado); módulos React Native Firebase 26.4.0 já incluem Firebase Analytics e BoM 34.18.0. Não duplicar os trechos do assistente de instalação nativa nem forçar versões diferentes apenas por aparecerem no console. Mudanças necessárias de versões devem ser feitas pela configuração/dependências do projeto, preservando prebuild reproduzível.
+O projeto Expo gera Gradle Groovy (.gradle), não Kotlin DSL (.gradle.kts). Plugin Firebase App já adiciona Google Services (4.4.4 no build validado); módulos React Native Firebase 26.4.0 já incluem Firebase Analytics e BoM 34.18.0. O plugin local também declara Analytics para a compilação do provider de consentimento, usando a versão de BoM do pacote instalado; Gradle resolve a mesma biblioteca no APK. Não duplicar os trechos do assistente de instalação nativa nem forçar versões diferentes apenas por aparecerem no console. Mudanças necessárias de versões devem ser feitas pela configuração/dependências do projeto, preservando prebuild reproduzível.
 
 Para comparar durações/modos nos relatórios, registrar `session_mode` como dimensão customizada de evento e `duration_seconds` como métrica customizada. São opcionais para ver payloads no DebugView; o SDK não cria essas definições de relatório automaticamente.
 
@@ -56,7 +56,7 @@ adb shell setprop debug.firebase.analytics.app com.filipebteixeira98.pomodog
 4. Desativar e repetir; reabrir para conferir persistência. Apagar dados locais/excluir conta e conferir revogação. Alterar controles em Ajustes não deve alterar a outra categoria; a escolha inicial de privacidade autoriza ambas explicitamente.
 5. Negar conexão/repetir enquanto offline: timer continua funcionando. Eventos autorizados podem permanecer no cache do SDK até reconectar; conferir revogação antes da reconexão.
 
-O relato de recepção no DebugView está em [Verificação](verificacao.md). Confirmar retenção de eventos/usuários em dois meses e opções de compartilhamento/publicidade no GA4; verificar revogação, reabertura, exclusão e offline pelo roteiro acima. Não considerar esses cenários confirmados por funcionamento do toggle.
+O relato de recepção no DebugView está em [Verificação](verificacao.md). Confirmar retenção de eventos/usuários em dois meses, renovação por atividade desligada e opções de compartilhamento/publicidade no GA4; relatórios agregados padrão não estão sujeitos a esse mesmo limite. O procedimento e a exclusão individual atual pela Admin API ficam em [Privacidade](privacidade.md). Também verificar revogação, reabertura, exclusão e offline pelo roteiro acima. Não considerar esses cenários confirmados por funcionamento do toggle.
 
 Relatórios normais podem levar 24–48 horas; conferir filtros de tráfego de desenvolvedor. Dimensões/métricas customizadas são opcionais para DebugView, mas necessárias para análises específicas em relatórios. Ver [diagnóstico de relatórios](https://developers.google.com/analytics/devguides/collection/ga4/troubleshoot).
 

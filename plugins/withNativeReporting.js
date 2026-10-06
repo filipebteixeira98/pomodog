@@ -1,5 +1,8 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const notice = require("../src/privacy/notice.json");
+const firebaseBom = require("@react-native-firebase/app/package.json")
+  .sdkVersions.android.firebase;
 const {
   withAndroidManifest,
   withMainApplication,
@@ -9,14 +12,35 @@ const {
 
 module.exports = function withNativeReporting(config) {
   config = withAppBuildGradle(config, (mod) => {
-    const dependency = 'testImplementation "junit:junit:4.13.2"';
-    if (!mod.modResults.contents.includes(dependency)) {
-      mod.modResults.contents += `\n// Native diagnostic privacy regression tests\ndependencies { ${dependency} }\n`;
-    }
+    const source = mod.modResults.contents
+      .replace(
+        /\n\/\/ Native diagnostic privacy regression tests\ndependencies \{[^\n]*\}\n/g,
+        "",
+      )
+      .replace(
+        /\/\/ Pomodog native consent dependencies[\s\S]*?\/\/ End Pomodog native consent dependencies\s*/g,
+        "",
+      );
+    // RN Firebase's Analytics dependency is private to its module. The startup
+    // provider needs compile access to the same SDK; Gradle packages one version.
+    mod.modResults.contents =
+      source +
+      `\n// Pomodog native consent dependencies\ndependencies {\n  implementation platform("com.google.firebase:firebase-bom:${firebaseBom}")\n  implementation "com.google.firebase:firebase-analytics"\n  testImplementation "junit:junit:4.13.2"\n}\n// End Pomodog native consent dependencies\n`;
     return mod;
   });
   config = withAndroidManifest(config, (mod) => {
     const app = mod.modResults.manifest.application[0];
+    app.provider = (app.provider || []).filter(
+      (entry) => entry.$["android:name"] !== ".PomodogConsentProvider",
+    );
+    app.provider.push({
+      $: {
+        "android:name": ".PomodogConsentProvider",
+        "android:authorities": "${applicationId}.pomodog-consent",
+        "android:exported": "false",
+        "android:initOrder": "1000",
+      },
+    });
     app["meta-data"] = (app["meta-data"] || []).filter(
       (entry) => entry.$["android:name"] !== "io.sentry.auto-init",
     );
@@ -63,6 +87,7 @@ module.exports = function withNativeReporting(config) {
       for (const file of [
         "PomodogNativeReporting.kt",
         "PomodogReportingPackage.kt",
+        "PomodogConsentProvider.kt",
       ]) {
         const source = await fs.readFile(
           path.join(__dirname, "native-reporting", file),
@@ -76,7 +101,8 @@ module.exports = function withNativeReporting(config) {
               "__DSN__",
               "https://c9f80183bc5e1f76fff135e13ca4cd61@o374019.ingest.us.sentry.io/4512176486416384",
             )
-            .replaceAll("__VERSION__", mod.version),
+            .replaceAll("__VERSION__", mod.version)
+            .replaceAll("__CONSENT_VERSION__", notice.version),
         );
       }
       const tests = path.join(
@@ -91,7 +117,9 @@ module.exports = function withNativeReporting(config) {
       );
       await fs.writeFile(
         path.join(tests, "NativeReportingTest.kt"),
-        testSource.replaceAll("__PACKAGE__", packageName),
+        testSource
+          .replaceAll("__PACKAGE__", packageName)
+          .replaceAll("__CONSENT_VERSION__", notice.version),
       );
       return mod;
     },

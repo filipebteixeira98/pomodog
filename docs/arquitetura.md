@@ -81,7 +81,7 @@ Fluxo: entrada Google/sem conta → introdução → privacidade → notificaç�
 
 `OptionalPermissionScreen` compartilha layout, loading, bloqueio de duplo toque/retorno durante operação e erro acessível. `PrivacyScreen` oferece “Sim, autorizo”/“Agora não”; `NotificationsScreen`, “Sim, ativar”/“Agora não”. Resolução após desmontagem não navega; resultado false/falha não avança.
 
-`saveCollectionChoice` salva nos dois controles existentes (`monitoring`/`analytics`), sem novo storage ou inferir consentimento de login. Falha parcial ao conceder tenta revogar ambos. Ajustes permite alterações independentes posteriores. Notificações usam `setSessionNotifications`; aceitar solicita permissão, recusar não solicita. Voltar retorna à etapa anterior. Concluir a última escolha inicia tour e marca onboarding completo; rever tour não muda permissões.
+`saveCollectionChoice` salva nos dois controles existentes (`monitoring`/`analytics`), registrando a origem onboarding. `src/privacy` persiste evidência versionada antes de cada ativação; não infere consentimento de login. Falha parcial ao conceder tenta revogar ambos. Ajustes permite alterações independentes posteriores. Notificações usam `setSessionNotifications`; aceitar solicita permissão, recusar não solicita. Voltar retorna à etapa anterior. Concluir a última escolha inicia tour e marca onboarding completo; rever tour não muda permissões.
 
 ## Gestos no onboarding
 
@@ -143,9 +143,9 @@ Firebase Auth e Firestore não oferecem transação conjunta. Uma falha pode dei
 
 ## Observabilidade e privacidade
 
-Diagnóstico (`src/monitoring`) e uso (`src/analytics`) possuem stores/consentimentos independentes; dados ficam no dispositivo e coleta começa desligada. Sentry JavaScript e cliente Android são filtrados separadamente; detalhes de dados, cache, mapas e crashes em [Sentry](sentry.md).
+Diagnóstico (`src/monitoring`) e uso (`src/analytics`) possuem controles independentes, locais e desligados por padrão. `src/privacy/consentJournal` conserva a última decisão por finalidade e fila de evidências autenticadas. `consentService` sincroniza somente escolhas feitas pelo UID atual em `users/{uid}/consents/{id}`; regras bloqueiam atualização e outros proprietários. `receivedAt` vem do servidor, `decidedAt` do cliente. A fila é drenada antes da exclusão da conta, que limpa também a subcoleção de consentimentos. Sentry JavaScript e cliente Android são filtrados separadamente; detalhes de dados, cache, mapas e crashes em [Sentry](sentry.md).
 
-Analytics mede transições efetivas fora do reducer, nunca ticks; considera o modo anterior ao concluir ciclo. Fila descarta eventos pendentes após revogação e não reenvia histórico anterior ao consentimento. Android usa adaptador nativo; web/iOS não coletam. Catálogo, configuração e procedimentos em [Analytics](analytics.md).
+Analytics mede transições efetivas fora do reducer, nunca ticks; considera o modo anterior ao concluir ciclo. Fila descarta eventos pendentes após revogação e não reenvia histórico anterior ao consentimento. Android usa adaptador nativo; web/iOS não coletam. Catálogo, configuração e procedimentos em [Analytics](analytics.md). O provider privado `PomodogConsentProvider` aplica a preferência versionada antes de FirebaseInitProvider; o consentimento nativo de diagnóstico também exige a versão atual. Booleans anteriores não são convertidos em evidência. Informações de privacidade reutilizam `Sheet` no onboarding, Ajustes e Perfil. Responsável, e-mail e URL pública são entradas ainda não definidas em `src/privacy/notice.json`; links de política/pedidos só aparecem quando configurados. Regras operacionais e limites em [Privacidade](privacidade.md).
 
 ## Tamanho e dependências
 
