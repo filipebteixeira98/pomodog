@@ -1,10 +1,11 @@
 import { memo, useState } from "react";
 import { Animated, View } from "react-native";
-import { Ellipse, Path, Rect } from "react-native-svg";
+import { Circle, Ellipse, Path, Rect } from "react-native-svg";
 
 import { mascot } from "#src/domain/mascot";
 import { Canvas, Head, Scenery } from "#src/features/mascot/Artwork";
 import { useDogMotion } from "#src/features/mascot/useDogMotion";
+import { useWelcomeWave } from "#src/features/welcome/useWelcomeWave";
 
 const layer = { position: "absolute" as const, width: 360, height: 230 };
 
@@ -17,6 +18,7 @@ export const WelcomeDog = memo(function WelcomeDog({
   reducedMotion: boolean;
 }) {
   const [width, setWidth] = useState(360);
+  const wave = useWelcomeWave(reducedMotion);
   const { breath, gesture } = useDogMotion({
     resting: false,
     celebrating: false,
@@ -69,6 +71,7 @@ export const WelcomeDog = memo(function WelcomeDog({
           </Canvas>
         </Animated.View>
         <Animated.View
+          testID="welcome-mascot-arm"
           style={{
             ...layer,
             transformOrigin: [185, 199, 0],
@@ -115,35 +118,39 @@ export const WelcomeDog = memo(function WelcomeDog({
               strokeWidth="1.5"
               strokeLinecap="round"
             />
-          </Canvas>
-        </Animated.View>
-        <Animated.View
-          testID="welcome-mascot-wave"
-          style={{
-            ...layer,
-            transformOrigin: [151, 165, 0],
-            transform: [
-              {
-                rotate: gesture.interpolate({
-                  inputRange: [-1, 0, 1],
-                  outputRange: ["-9deg", "0deg", "16deg"],
-                }),
-              },
-            ],
-          }}
-        >
-          <Canvas>
             <Path
-              d="M155 156 Q133 155 122 137 L120 128 Q108 123 103 134 Q104 148 117 162 Q132 180 156 174 Z"
+              d="M155 156 Q138 156 129 145 Q121 138 115 146 Q111 154 124 166 Q138 178 156 174 Z"
               fill="#F7E7CE"
             />
-            <Path
-              d="M106 136 L112 133 M111 142 L116 138"
-              stroke="#C39469"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
           </Canvas>
+          <Animated.View
+            testID="welcome-mascot-wave"
+            style={{
+              ...layer,
+              left: 0,
+              top: 0,
+              transformOrigin: [127, 150, 0],
+              transform: [
+                {
+                  rotate: wave.interpolate({
+                    inputRange: [-1, 0, 1],
+                    outputRange: ["-9deg", "0deg", "12deg"],
+                  }),
+                },
+              ],
+            }}
+          >
+            <Canvas>
+              <Path
+                d="M126 151 Q109 156 104 143 L100 132 Q98 123 105 121 Q109 113 117 117 Q126 116 128 127 L134 140 Q136 148 126 151 Z"
+                fill="#F7E7CE"
+              />
+              <Circle cx="108" cy="129" r="3" fill="#D5A67C" />
+              <Circle cx="116" cy="124" r="3.2" fill="#D5A67C" />
+              <Circle cx="123" cy="130" r="2.8" fill="#D5A67C" />
+              <Ellipse cx="118" cy="140" rx="6" ry="5" fill="#D5A67C" />
+            </Canvas>
+          </Animated.View>
         </Animated.View>
         <Animated.View
           testID="welcome-mascot-head"

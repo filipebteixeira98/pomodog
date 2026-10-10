@@ -4,7 +4,7 @@ Consolidado em 10/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
-Na entrega visual de entrada de 10/10/2026, TypeScript, os **102 testes**, exports web/Android e formatação passaram. Chrome isolado verificou a nova pose em 390 × 844 e 320 × 740, ausência de overflow horizontal, descrição acessível, movimento ativo e estabilidade ao reduzir animações. Continuar sem conta abriu o onboarding existente; nenhuma exceção não tratada foi observada. Não foi instalado APK nem realizada validação física nesta entrega; o hook compartilhado de animação e `Dog` permanecem iguais.
+Na revisão do aceno de entrada de 10/10/2026, TypeScript, os **102 testes**, exports web/Android e formatação passaram. Chrome isolado verificou 390 × 844 e 320 × 740, descrição acessível e ausência de overflow horizontal. A extremidade da pata completa movimento curto nos dois sentidos, enquanto a base não gira, e retorna ao neutro durante a pausa. O ciclo foi interrompido ao simular segundo plano e ao ativar movimento reduzido durante o aceno; retomou ao voltar ao primeiro plano. Continuar sem conta abriu o onboarding existente, sem exceções não tratadas. As capturas das posições extremas foram inspecionadas. Não foi instalado APK nem realizada validação física; `Dog` e o hook compartilhado permanecem iguais.
 
 Na entrega de consentimento/privacidade de 05/10/2026: TypeScript e **102 testes** passaram. Regras Firestore passaram pelo emulador, incluindo **19 verificações novas** de evidência, imutabilidade, proprietário, campos e horário do servidor (**92 no total**). Publicação pela CLI em `pomodog-dev-2026` passou; leitura remota foi comparada e corresponde ao arquivo local.
 
