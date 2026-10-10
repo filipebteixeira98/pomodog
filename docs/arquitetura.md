@@ -99,7 +99,9 @@ A camada de fundo bloqueia interação e fica fora da navegação assistiva. Web
 
 `src/Dog.tsx` compõe as camadas; `src/features/mascot/Artwork.tsx` guarda a ilustração e `useDogMotion.ts` controla o ciclo de vida das animações. Um palco de 360 × 230 é escalado uniformemente dentro do espaço disponível, mantendo os pivôs de cabeça, patas, tronco e cauda alinhados em telas menores.
 
-Animated transforma Views que contêm SVGs estáticos, usando driver nativo em Android/iOS e sem atualizar estado React a cada frame. Respiração e gestos têm ciclos separados; gestos incluem pausas e amplitudes menores fora da introdução/comemoração. Movimento reduzido zera todas as transformações. AppState interrompe os ciclos em segundo plano e reinicia ao retornar; cleanup remove listener e encerra animações. Mascotes fora da página ativa e atrás do onboarding/tour ficam imóveis.
+Animated transforma Views que contêm SVGs estáticos, usando driver nativo em Android/iOS e sem atualizar estado React a cada frame. Respiração e gestos têm ciclos separados; gestos incluem pausas e amplitudes menores fora da introdução/comemoração. Movimento reduzido zera as transformações animadas. AppState interrompe os ciclos em segundo plano e reinicia ao retornar; cleanup remove listener e encerra animações. Mascotes fora da página ativa e atrás do onboarding/tour ficam imóveis.
+
+Na entrada, `WelcomeArtwork` compõe o cronômetro e `WelcomeDog`, com corpo sentado mais erguido e pata levantada. Reutiliza rosto, cenário e `useDogMotion`, com o ciclo calmo de gestos: uma pata acena, cabeça inclina e cauda acompanha, com pausa entre os movimentos. A pose permanece distinta mesmo sem animação. O desenho de `Dog` usado no onboarding e demais telas não recebeu alterações.
 
 Referência consultada via Context7: [Animated no React Native](https://reactnative.dev/docs/animated).
 
@@ -117,6 +119,8 @@ O foreground mantém o desenho dentro do círculo seguro central de 66/108 da á
 
 `assets/brand/preview.png` é uma prancha de revisão, não uma captura de dispositivo. Mudanças de splash/ícone exigem novo build nativo; exportar JavaScript não aplica nem comprova esses recursos no Android instalado.
 
+Na entrada, `WelcomeArtwork` compõe o cronômetro e `WelcomeDog`, com corpo sentado mais erguido e pata levantada. Reutiliza rosto, cenário e `useDogMotion`, com o ciclo calmo de gestos: uma pata acena, cabeça inclina e cauda acompanha, com pausa entre os movimentos. A pose permanece distinta mesmo sem animação. O desenho de `Dog` usado no onboarding e demais telas não recebeu alterações.
+
 Referência consultada via Context7: [splash e ícone no Expo](https://docs.expo.dev/develop/user-interface/splash-screen-and-app-icon/).
 
 ## Notificações locais de conclusão
@@ -128,6 +132,8 @@ sessionScheduler serializa cancelamento/agendamento do identificador estável po
 Ao concluir um ciclo, o timer troca automaticamente de modo (foco → descanso, descanso → foco). O botão "Preparar descanso/próximo foco" foi removido; o usuário apenas toca "Começar" quando quiser iniciar o próximo ciclo.
 
 A implementação .web não importa o módulo nativo e desabilita o controle. No nativo, handler permite banner/lista/som em primeiro plano; entrega em segundo plano fica a cargo do sistema. Não adicionamos SCHEDULE_EXACT_ALARM: a versão instalada do Expo usa setAndAllowWhileIdle quando não há acesso a alarmes exatos, sujeito a atraso. Nenhuma garantia de pontualidade, som ou entrega após encerramento forçado é assumida. Configuração do plugin requer rebuild para binários próprios; o ambiente adotado para validação é development build, não Expo Go.
+
+Na entrada, `WelcomeArtwork` compõe o cronômetro e `WelcomeDog`, com corpo sentado mais erguido e pata levantada. Reutiliza rosto, cenário e `useDogMotion`, com o ciclo calmo de gestos: uma pata acena, cabeça inclina e cauda acompanha, com pausa entre os movimentos. A pose permanece distinta mesmo sem animação. O desenho de `Dog` usado no onboarding e demais telas não recebeu alterações.
 
 Referência consultada via Context7: [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/).
 

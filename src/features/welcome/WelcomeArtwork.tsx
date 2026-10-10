@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import Svg, { Circle, G, Line, Path, Rect } from "react-native-svg";
 
-import { Dog } from "#src/Dog";
+import { WelcomeDog } from "#src/features/welcome/WelcomeDog";
 
 export function WelcomeArtwork({
   accent,
@@ -12,13 +12,7 @@ export function WelcomeArtwork({
 }) {
   return (
     <View className="w-full max-w-[360px] self-center">
-      <Dog
-        accent={accent}
-        reducedMotion={reducedMotion}
-        resting={false}
-        celebrating={false}
-        expressive
-      />
+      <WelcomeDog accent={accent} reducedMotion={reducedMotion} />
       <View
         pointerEvents="none"
         accessible={false}

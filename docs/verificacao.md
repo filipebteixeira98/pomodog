@@ -1,8 +1,10 @@
 # Verificação — evidências vigentes
 
-Consolidado em 05/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
+Consolidado em 10/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
 
 ## Última verificação de código
+
+Na entrega visual de entrada de 10/10/2026, TypeScript, os **102 testes**, exports web/Android e formatação passaram. Chrome isolado verificou a nova pose em 390 × 844 e 320 × 740, ausência de overflow horizontal, descrição acessível, movimento ativo e estabilidade ao reduzir animações. Continuar sem conta abriu o onboarding existente; nenhuma exceção não tratada foi observada. Não foi instalado APK nem realizada validação física nesta entrega; o hook compartilhado de animação e `Dog` permanecem iguais.
 
 Na entrega de consentimento/privacidade de 05/10/2026: TypeScript e **102 testes** passaram. Regras Firestore passaram pelo emulador, incluindo **19 verificações novas** de evidência, imutabilidade, proprietário, campos e horário do servidor (**92 no total**). Publicação pela CLI em `pomodog-dev-2026` passou; leitura remota foi comparada e corresponde ao arquivo local.
 
@@ -10,7 +12,7 @@ Dez testes novos cobrem ausência/versão antiga de consentimento, decisão/data
 
 Prebuild, **APK debug arm64-v8a**, manifesto release e **três testes Kotlin** de filtragem/versão passaram com JDK 17. Os manifests de debug/release confirmam provider de consentimento privado (`exported=false`) e ordem 1000, anterior à do FirebaseInitProvider, além de backup desabilitado. Assinatura do APK corresponde ao certificado de OAuth cadastrado. APK não instalado nesta entrega; nenhum estado do aparelho/debug Analytics foi alterado. Não foi gerado APK/AAB completo de release nem enviada telemetria real/sintética nesta validação.
 
-Export web, formatação e links locais passaram. O backlog preserva os 70 itens anteriores e acrescenta cinco frentes LGPD solicitadas: **75 itens** (20 concluídos, 10 em andamento, 45 pendentes). A revisão anterior de tokens/dependências/backup e seus riscos permanece em [Segurança](seguranca.md); controles de privacidade e pendências operacionais em [Privacidade](privacidade.md).
+Export web, formatação e links locais passaram. O backlog preserva os 70 itens anteriores e acrescenta cinco frentes LGPD solicitadas: **75 itens** (21 concluídos, 10 em andamento, 44 pendentes). A revisão anterior de tokens/dependências/backup e seus riscos permanece em [Segurança](seguranca.md); controles de privacidade e pendências operacionais em [Privacidade](privacidade.md).
 
 ## Confirmações e limites
 

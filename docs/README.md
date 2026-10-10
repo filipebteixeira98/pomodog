@@ -1,6 +1,6 @@
 # Documentação do Pomodog
 
-Documentação vigente consolidada em 05/10/2026. Consulte cada fonte pelo assunto.
+Documentação vigente consolidada em 10/10/2026. Consulte cada fonte pelo assunto.
 
 | Documento                                     | Fonte para                                                          |
 | --------------------------------------------- | ------------------------------------------------------------------- |
