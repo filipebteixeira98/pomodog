@@ -573,3 +573,201 @@ test("native diagnostics include non-enumerable messages and nested causes witho
   assert.match(detail, /Native details/);
   assert.equal(detail.split("Call rejected").length, 2);
 });
+
+test("focus and break countdowns follow pause, resume, reset and opt-out", async () => {
+  let visible: string | null = null;
+  let pending: string | null = null;
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {
+        pending = null;
+      },
+      schedule: async (deadline, mode) => {
+        pending = `${mode}:${deadline}`;
+      },
+      pending: async () => null,
+      countdown: {
+        show: async (deadline, mode) => {
+          visible = `${mode}:${deadline}`;
+        },
+        hide: async () => {
+          visible = null;
+        },
+      },
+    },
+    () => 1000,
+  );
+  for (const mode of ["focus", "break"] as const) {
+    await scheduler.sync({ status: "running", deadline: 2000, mode }, true);
+    assert.equal(visible, `${mode}:2000`);
+    assert.equal(pending, `${mode}:2000`);
+    await scheduler.sync({ status: "paused", deadline: null, mode }, true);
+    assert.equal(visible, null);
+    assert.equal(pending, null);
+    await scheduler.sync({ status: "running", deadline: 3000, mode }, true);
+    assert.equal(visible, `${mode}:3000`);
+    await scheduler.sync({ status: "idle", deadline: null, mode }, true);
+    assert.equal(visible, null);
+    assert.equal(pending, null);
+    await scheduler.sync({ status: "running", deadline: 4000, mode }, true);
+    await scheduler.sync({ status: "running", deadline: 4000, mode }, false);
+    assert.equal(visible, null);
+    assert.equal(pending, null);
+  }
+});
+
+test("returning to a running session restores its countdown without replacing the end alert", async () => {
+  let visible: number | null = null;
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => assert.fail("existing alert must survive"),
+      schedule: async () => assert.fail("must not duplicate end alert"),
+      pending: async () => ({ deadline: 2000, mode: "focus" as const }),
+      countdown: {
+        show: async (deadline) => {
+          visible = deadline;
+        },
+        hide: async () => {
+          visible = null;
+        },
+      },
+    },
+    () => 1000,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 2000, mode: "focus" },
+    true,
+  );
+  assert.equal(visible, 2000);
+});
+
+test("completion and expired restore hide countdown without canceling the due end alert", async () => {
+  let hidden = 0;
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => assert.fail("due end alert must survive"),
+      schedule: async () => assert.fail("must not replay completion"),
+      pending: async () => null,
+      countdown: {
+        show: async () => assert.fail("expired countdown must not appear"),
+        hide: async () => {
+          hidden++;
+        },
+      },
+    },
+    () => 1000,
+  );
+  await scheduler.sync(
+    { status: "completed", deadline: null, mode: "break" },
+    true,
+  );
+  await scheduler.sync(
+    { status: "running", deadline: 900, mode: "focus" },
+    true,
+  );
+  assert.equal(hidden, 2);
+});
+
+test("revoked permission removes the visible countdown and pending completion", async () => {
+  let visible = true;
+  let scheduled = true;
+  const scheduler = createSessionScheduler({
+    permitted: async () => false,
+    cancel: async () => {
+      scheduled = false;
+    },
+    schedule: async () => assert.fail("permission denied"),
+    pending: async () => null,
+    countdown: {
+      show: async () => assert.fail("permission denied"),
+      hide: async () => {
+        visible = false;
+      },
+    },
+  });
+  await assert.rejects(
+    scheduler.sync(
+      { status: "running", deadline: Date.now() + 1000, mode: "focus" },
+      true,
+    ),
+    /notification-permission/,
+  );
+  assert.equal(visible, false);
+  assert.equal(scheduled, false);
+});
+
+test("slow native countdown creation cannot survive a subsequent pause", async () => {
+  let finish!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
+  let visible = false;
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {},
+      schedule: async () => {},
+      pending: async () => null,
+      countdown: {
+        show: async () => {
+          await gate;
+          visible = true;
+        },
+        hide: async () => {
+          visible = false;
+        },
+      },
+    },
+    () => 1000,
+  );
+  const start = scheduler.sync(
+    { status: "running", deadline: 2000, mode: "focus" },
+    true,
+  );
+  const pause = scheduler.sync(
+    { status: "paused", deadline: null, mode: "focus" },
+    true,
+  );
+  finish();
+  await Promise.all([start, pause]);
+  assert.equal(visible, false);
+});
+
+test("failed countdown cleanup still cancels the end alert and allows later synchronization", async () => {
+  let fail = true;
+  let canceled = 0;
+  let shown = false;
+  const scheduler = createSessionScheduler(
+    {
+      permitted: async () => true,
+      cancel: async () => {
+        canceled++;
+      },
+      schedule: async () => {},
+      pending: async () => null,
+      countdown: {
+        show: async () => {
+          shown = true;
+        },
+        hide: async () => {
+          if (fail) throw new Error("native cleanup");
+        },
+      },
+    },
+    () => 1000,
+  );
+  await assert.rejects(
+    scheduler.sync({ status: "idle", deadline: null, mode: "focus" }, false),
+    /native cleanup/,
+  );
+  assert.equal(canceled, 1);
+  fail = false;
+  await scheduler.sync(
+    { status: "running", deadline: 2000, mode: "focus" },
+    true,
+  );
+  assert.equal(shown, true);
+});

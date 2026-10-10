@@ -15,6 +15,7 @@ import {
 } from "#src/domain/preferences";
 import { PrivacyDetails } from "#src/features/privacy/PrivacyDetails";
 import { ReportingSettings } from "#src/monitoring/ReportingSettings";
+import { countdownSupported } from "#src/notifications/countdown";
 
 type Props = {
   preferences: Preferences;
@@ -120,13 +121,15 @@ export function SettingsScreen({
           <View className="gap-2">
             <View className="flex-row items-center gap-3">
               <View className="flex-1">
-                <Text variant="label">Avisar ao terminar</Text>
+                <Text variant="label">Notificações da sessão</Text>
                 <Text variant="caption">
-                  Receba um aviso ao concluir foco ou descanso.
+                  {countdownSupported
+                    ? "Acompanhe o tempo e receba um aviso ao terminar."
+                    : "Receba um aviso ao concluir foco ou descanso."}
                 </Text>
               </View>
               <Switch
-                accessibilityLabel="Avisar ao terminar a sessão"
+                accessibilityLabel="Notificações da sessão"
                 value={preferences.sessionNotifications}
                 disabled={notificationBusy}
                 onValueChange={onNotificationsChange}

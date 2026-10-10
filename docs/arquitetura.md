@@ -1,6 +1,6 @@
 # Arquitetura atual
 
-Atualizado em 03/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
+Atualizado em 10/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
 
 ## Responsabilidades
 
@@ -134,6 +134,18 @@ A implementação .web não importa o módulo nativo e desabilita o controle. No
 Referência consultada via Context7: [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/).
 
 O projeto usa `expo-dev-client`, API pública de notificações e scheme `pomodog`. Contornos antigos com imports internos de Expo Go foram removidos. `notificationOperation` preserva etapa/causa para diagnóstico de desenvolvimento; interface mostra mensagens curtas. Logs e roteiro em [Development build](development-build.md).
+
+### Contagem regressiva nas notificações — Android
+
+Em 10/10/2026, `sessionScheduler` passou a coordenar também `countdown.android.ts`. A preferência existente `sessionNotifications`, exibida como **Notificações da sessão**, autoriza a contagem e o aviso de término; permanece desligada por padrão. Nenhum login, token remoto ou envio de dados é necessário. A oferta após onboarding explica ambas as funções no Android; iOS conserva somente o aviso de conclusão e web permanece sem notificações.
+
+`plugins/withSessionCountdown.js` gera a ponte `PomodogCountdown`, registra seu package e copia o ícone vetorial. O Android mostra uma notificação com `when=deadline`, `usesChronometer` e `chronometerCountDown`. A própria interface do sistema atualiza os segundos em segundo plano; não existe loop JavaScript de fundo, foreground service ou nova dependência. O canal `pomodog-timer` tem importância baixa, sem som/vibração/badge; o canal de conclusão permanece separado. A notificação mostra apenas modo e tempo, sem identidade ou conteúdo de atividades. Tocá-la abre diretamente a Activity do aplicativo com PendingIntent imutável.
+
+Início/retomada mostram o prazo atual; pausa, reinício, recusa, exclusão e desmontagem por mudança de conta removem a contagem. Operações passam pela mesma fila do agendamento, incluindo cancelamentos concorrentes. Ao concluir/restaurar sessão vencida, somente a contagem é removida, preservando o aviso de término já devido. Retornar ao app conserva o agendamento e restaura a contagem se necessário; prazo/modo idênticos também são idempotentes no nativo. Uma falha de limpeza não impede a tentativa de cancelar a outra notificação.
+
+Android 8+ usa `setTimeoutAfter` para retirar a contagem no término, mesmo sem JavaScript ativo. Android 7 usa alarme não exato e receiver privado, com prazo na identidade do PendingIntent e verificação da notificação atual para não remover uma sessão posterior. Nesse fallback, a limpeza pode atrasar com economia de bateria. As restrições do sistema, permissão/canal bloqueados, remoção manual, encerramento forçado e reinicialização não são contornados. Não há widget de tela inicial nem contagem no iOS nesta entrega. É necessário novo development build.
+
+Referências: [Notification.Builder](https://developer.android.com/reference/android/app/Notification.Builder), [AlarmManager](https://developer.android.com/reference/android/app/AlarmManager).
 
 ## Exclusão autenticada de conta
 

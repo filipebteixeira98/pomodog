@@ -4,6 +4,7 @@ const descriptions = {
   request: "Não foi possível solicitar permissão de notificações.",
   cancel: "Não foi possível cancelar o aviso agendado.",
   schedule: "Não foi possível agendar o aviso de conclusão.",
+  countdown: "Não foi possível atualizar o timer nas notificações.",
 } as const;
 
 type Stage = keyof typeof descriptions;

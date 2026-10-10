@@ -6,6 +6,10 @@ export type NotificationAdapter = {
   cancel: () => Promise<void>;
   schedule: (deadline: number, mode: Mode) => Promise<void>;
   pending: () => Promise<{ deadline: number; mode: Mode } | null>;
+  countdown?: {
+    show: (deadline: number, mode: Mode) => Promise<void>;
+    hide: () => Promise<void>;
+  };
 };
 
 /** Serialize native operations so a late schedule cannot survive a pause/reset. */
@@ -14,15 +18,24 @@ export function createSessionScheduler(
   now = Date.now,
 ) {
   let queue: Promise<unknown> = Promise.resolve();
+  async function cancel() {
+    // Attempt both cleanups and await both before the next serialized transition.
+    const results = await Promise.allSettled([
+      adapter.countdown?.hide(),
+      adapter.cancel(),
+    ]);
+    for (const result of results)
+      if (result.status === "rejected") throw result.reason;
+  }
   return {
     sync(timer: Pick<Timer, "status" | "deadline" | "mode">, enabled: boolean) {
       const work = queue.then(async () => {
         if (!enabled) {
-          await adapter.cancel();
+          await cancel();
           return;
         }
         if (!(await adapter.permitted())) {
-          await adapter.cancel();
+          await cancel();
           throw new Error("notification-permission");
         }
         // Allow the OS to deliver an already scheduled notification at completion.
@@ -31,8 +44,10 @@ export function createSessionScheduler(
           (timer.status === "running" &&
             timer.deadline !== null &&
             timer.deadline <= now())
-        )
+        ) {
+          await adapter.countdown?.hide();
           return;
+        }
         if (
           timer.status === "running" &&
           timer.deadline !== null &&
@@ -43,16 +58,19 @@ export function createSessionScheduler(
             existing !== null &&
             existing.deadline === timer.deadline &&
             existing.mode === timer.mode
-          )
+          ) {
+            await adapter.countdown?.show(timer.deadline, timer.mode);
             return;
+          }
         }
-        await adapter.cancel();
+        await cancel();
         if (
           timer.status === "running" &&
           timer.deadline !== null &&
           timer.deadline > now()
         ) {
           await adapter.schedule(timer.deadline, timer.mode);
+          await adapter.countdown?.show(timer.deadline, timer.mode);
         }
       });
       queue = work.catch(() => {});

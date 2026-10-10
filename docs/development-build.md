@@ -8,6 +8,8 @@ Preparados no repositório: expo-dev-client, scheme pomodog, identificador Andro
 
 A entrega de privacidade de 05/10/2026 exige novo development build: a ponte de consentimento de uso e o provider anterior ao Firebase são nativos. Reload do Metro não os adiciona. Atualizar por cima preserva dados; não desinstalar apenas para atualizar. Escolhas opcionais antigas, sem evidência da versão do aviso, precisam ser feitas novamente em Ajustes.
 
+A contagem nas notificações de 10/10/2026 também exige prebuild e novo APK, pois adiciona `PomodogCountdown`. Use os comandos de atualização abaixo; preserve a instalação e a assinatura existentes. A opção antiga **Avisar ao terminar** agora se chama **Notificações da sessão** e mantém a escolha salva.
+
 ## Primeira instalação por USB
 
 1. No celular, habilite Opções do desenvolvedor e Depuração USB. Normalmente, as opções são liberadas tocando sete vezes em Número da versão.
@@ -62,14 +64,20 @@ A revisão de segurança de 03/10/2026 adicionou SecureStore e política de back
 
 ## Validar avisos
 
-- Ative Ajustes → Avisar ao terminar e conceda permissão.
+- Ative Ajustes → Notificações da sessão e conceda permissão.
+- Inicie foco e abra a gaveta de notificações: confira “Foco em andamento” e a contagem regressiva. Repita no descanso.
+- Saia do app e bloqueie a tela; a contagem deve acompanhar o tempo restante. A visibilidade na tela bloqueada respeita os ajustes do Android.
+- Toque na notificação: o Pomodog deve reabrir mantendo a sessão.
 - Conclua um descanso com tela bloqueada e confira o aviso.
-- Pause: o aviso anterior deve ser cancelado. Retome: deve acompanhar o novo término.
-- Verifique reinício, desativação e exclusão de dados com aviso pendente.
+- No término, a contagem deve desaparecer e o aviso de conclusão continuar funcionando.
+- Pause: a contagem e o aviso agendado devem ser cancelados. Retome: devem acompanhar o novo término.
+- Verifique reinício, desativação, saída/troca de conta e exclusão de dados com aviso pendente; não deve restar contagem da sessão anterior.
 - Negue/revogue a permissão e confira a mensagem curta em Ajustes.
 - Voltar ao app perto do término não cancela o aviso existente (idempotência).
 
 Erros técnicos ficam apenas no console de desenvolvimento, com prefixo [Pomodog notifications]. O Android pode atrasar ou silenciar avisos; esta versão não pede acesso especial a alarmes exatos.
+
+A contagem usa um canal silencioso **Timer em andamento**, separado de **Conclusão de sessões**. Confira se ambos estão permitidos nas configurações do Android. Em Android 7, a limpeza no término usa alarme não exato e pode atrasar. iOS conserva o aviso de conclusão, sem contagem regressiva nesta versão; web não oferece notificações.
 
 ### Diagnóstico `__DEV__`
 

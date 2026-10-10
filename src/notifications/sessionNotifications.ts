@@ -13,6 +13,7 @@ import {
   type NotificationPermissionsStatus,
 } from "expo-notifications";
 
+import { countdown } from "#src/notifications/countdown";
 import { notificationOperation } from "#src/notifications/diagnostics";
 import {
   createSessionScheduler,
@@ -74,6 +75,7 @@ function devLog(message: string) {
 }
 
 export const sessionNotifications = createSessionScheduler({
+  countdown,
   permitted: async () => {
     const result = await notificationOperation(
       "permissions",

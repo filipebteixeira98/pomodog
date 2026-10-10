@@ -47,6 +47,19 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
   latestTimer.current = timer;
   const busy = timer.status === "running" || timer.status === "paused";
 
+  useEffect(
+    () => () => {
+      notificationRequest.current++;
+      // Account changes remount this hook. Leave no previous owner's timer visible.
+      void sessionNotifications
+        .sync(latestTimer.current, false)
+        .catch((error) => {
+          reportError(error, "notifications.sync");
+        });
+    },
+    [],
+  );
+
   function dispatch(action: Action) {
     const before =
       action.type === "restore" ? action.value : latestTimer.current;

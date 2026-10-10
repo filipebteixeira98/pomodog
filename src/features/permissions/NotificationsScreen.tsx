@@ -4,6 +4,7 @@ import Bell from "lucide-react-native/icons/bell";
 import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
 import { OptionalPermissionScreen } from "#src/features/permissions/OptionalPermissionScreen";
+import { countdownSupported } from "#src/notifications/countdown";
 
 export function NotificationsScreen(props: {
   accent: string;
@@ -23,8 +24,14 @@ export function NotificationsScreen(props: {
           <Bell size={28} color={props.accent} />
         </View>
         <Text variant="eyebrow">NOTIFICAÇÕES</Text>
-        <Text variant="title">Avisar ao terminar?</Text>
-        <Text>Receba um aviso quando seu foco ou descanso terminar.</Text>
+        <Text variant="title">
+          {countdownSupported ? "Seu tempo, por perto." : "Avisar ao terminar?"}
+        </Text>
+        <Text>
+          {countdownSupported
+            ? "Acompanhe o timer nas notificações e receba um aviso ao terminar."
+            : "Receba um aviso quando seu foco ou descanso terminar."}
+        </Text>
       </View>
       <Card className="gap-3 p-5">
         <Text variant="label">Mesmo com a tela bloqueada.</Text>
