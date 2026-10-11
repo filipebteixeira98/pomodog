@@ -6,8 +6,12 @@
     <string name="widget_streak_day">dia seguido\ncom foco</string>
     <string name="widget_streak_days">dias seguidos\ncom foco</string>
     <string name="widget_today">Hoje: %1$d min · %2$s</string>
-    <string name="widget_today_empty">Hoje: 0 min · 0 sessões</string>
-    <string name="widget_week">Últimos 7 dias: %1$d min de foco</string>
+    <string name="widget_session_today">sessão hoje</string>
+    <string name="widget_sessions_today">sessões hoje</string>
+    <string name="widget_minutes_today">minutos hoje</string>
+    <string name="widget_week_label">Últimos 7 dias</string>
+    <string name="widget_minutes">%1$d min</string>
+    <string name="widget_minutes_empty">0 min</string>
     <string name="widget_open">Abra o Pomodog para acompanhar seu ritmo.</string>
     <string name="widget_accessibility">%1$d %2$s. %3$s. Últimos 7 dias: %4$d min de foco. Toque para abrir o Pomodog.</string>
     <string name="widget_session">%d sessão</string>

@@ -100,7 +100,7 @@ Referência: [development builds do Expo](https://docs.expo.dev/develop/developm
 
 ## Widget de progresso Android
 
-Após incluir o widget, execute novamente o prebuild e instale um development build pelos comandos deste guia. Expo Go e um APK anterior não incluem o provider nativo.
+Após incluir o widget ou alterar seu layout, execute novamente o prebuild e instale um development build pelos comandos deste guia. A revisão visual de 11/10/2026 separa sessões/minutos de hoje em cards e o resumo semanal em uma faixa; Fast Refresh não atualiza esses recursos nativos. Expo Go não inclui o provider.
 
 1. Abra o Pomodog uma vez para carregar o histórico local ou da conta.
 2. Na tela inicial do Android, mantenha uma área vazia pressionada → **Widgets** → **Pomodog / Seu ritmo**. Arraste o widget para a tela inicial; o caminho pode variar conforme o launcher.

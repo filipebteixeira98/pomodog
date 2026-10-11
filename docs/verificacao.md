@@ -4,6 +4,10 @@ Consolidado em 11/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
+Na revisão visual do widget de 11/10/2026, sessões e minutos de hoje passaram para dois cards com ícones; o total dos últimos sete dias ganhou uma faixa verde suave. O **APK debug x86_64** e os **cinco testes Kotlin de progresso** passaram. No launcher Pixel do emulador Android 15 (API 35), uma projeção local sintética exibiu quatro dias consecutivos, duas sessões e 50 minutos hoje, com 125 minutos semanais, preservando a descrição para leitores de tela.
+
+A largura foi reduzida de 768 para 568 px (aproximadamente 216 dp), mantendo os números visíveis. Na fonte em escala 1,5, os rótulos passaram a quebrar em duas linhas para exibir “hoje” por completo. Atualizar o APK conservou os dados do widget. Capturas da versão final: [fonte padrão](screenshots/widget-progresso-cards-android-2026-10-11.png) e [fonte ampliada](screenshots/widget-progresso-cards-fonte-ampliada-android-2026-10-11.png). O gesto vertical não alterou a altura; altura mínima, outros launchers e aparelho físico continuam sem confirmação específica. O celular pessoal e o Metro existente foram preservados; esta revisão não repetiu os fluxos de conta, exclusão e término do timer.
+
 Na reorganização de Ajustes de 11/10/2026, **Rever tour guiado** passou para um card próprio após **Uso opcional**, com fundo pastel e asset estático do Nino. Conferência dos componentes confirmou a ordem e a preservação do callback de abertura. TypeScript, formatação e verificação do diff passaram; exports web e Android incluíram o asset existente. A apresentação ainda precisa de conferência no aparelho.
 
 Na redução de texto em Perfil de 11/10/2026, a frase **Seu progresso é salvo nesta conta e neste dispositivo** foi removida de Sua conta. A explicação do modo local, os avisos operacionais e as informações de privacidade permanecem. TypeScript, formatação e verificação do diff passaram; a alteração visual não foi validada novamente no aparelho.

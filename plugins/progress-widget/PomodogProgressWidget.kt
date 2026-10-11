@@ -8,6 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.RemoteViews
 import org.json.JSONArray
 import java.util.Calendar
@@ -100,9 +101,14 @@ object ProgressWidgetState {
       context.getString(if (progress.todayCount == 1) R.string.widget_session else R.string.widget_sessions, progress.todayCount))
     views.setTextViewText(R.id.widget_streak, progress.streak.toString())
     views.setTextViewText(R.id.widget_streak_label, streakLabel)
-    views.setTextViewText(R.id.widget_today, todayLabel)
+    views.setTextViewText(R.id.widget_today_count, progress.todayCount.toString())
+    views.setTextViewText(R.id.widget_today_minutes, progress.todayMinutes.toString())
+    views.setTextViewText(R.id.widget_today_count_label, context.getString(
+      if (progress.todayCount == 1) R.string.widget_session_today else R.string.widget_sessions_today))
     views.setTextViewText(R.id.widget_week, if (sessions == null) context.getString(R.string.widget_open)
-      else context.getString(R.string.widget_week, progress.weekMinutes))
+      else context.getString(R.string.widget_week_label))
+    views.setTextViewText(R.id.widget_week_minutes, context.getString(R.string.widget_minutes, progress.weekMinutes))
+    views.setViewVisibility(R.id.widget_week_minutes, if (sessions == null) View.GONE else View.VISIBLE)
     views.setContentDescription(R.id.widget_root, context.getString(R.string.widget_accessibility,
       progress.streak, streakLabel.replace('\n', ' '), todayLabel, progress.weekMinutes))
     val launch = Intent(context, MainActivity::class.java).apply {
