@@ -28,11 +28,11 @@ export function CustomerCard({
       </View>
       <Text variant="heading">{summary.title}</Text>
       <Text>{summary.detail}</Text>
-      <Text variant="caption">
-        {session.status === "guest"
-          ? "Seu histórico fica neste dispositivo até você entrar em uma conta."
-          : "Seu progresso é salvo nesta conta e neste dispositivo."}
-      </Text>
+      {session.status === "guest" && (
+        <Text variant="caption">
+          Seu histórico fica neste dispositivo até você entrar em uma conta.
+        </Text>
+      )}
       {children}
     </Card>
   );
