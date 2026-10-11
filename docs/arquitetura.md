@@ -165,7 +165,7 @@ Referências: [Notification.Builder](https://developer.android.com/reference/and
 
 ## Exclusão autenticada de conta
 
-Perfil oferece exclusão somente à conta autenticada. A operação captura o UID atual, solicita reautenticação com a mesma conta Google e verifica a identidade antes de cada etapa. As regras existentes do Firestore permitem leitura e exclusão somente quando `request.auth.uid` corresponde ao proprietário do caminho; não existe parâmetro de UID escolhido pelo usuário.
+Perfil oferece exclusão somente à conta autenticada. `AccountDeletionCard` reúne card e confirmação; `ProfileScreen` o coloca por último, após as informações de privacidade. `AccountActions` conserva login/saída na posição anterior. A operação captura o UID atual, solicita reautenticação com a mesma conta Google e verifica a identidade antes de cada etapa. As regras existentes do Firestore permitem leitura e exclusão somente quando `request.auth.uid` corresponde ao proprietário do caminho; não existe parâmetro de UID escolhido pelo usuário.
 
 Após confirmação, a sincronização deste dispositivo é bloqueada e suas gravações pendentes são drenadas. Avisos locais são cancelados; sessões são removidas em páginas de 200 documentos, seguidas de `state/main` e `users/{uid}`. O armazenamento local dessa conta é apagado e a identidade Firebase Auth é excluída por último. O armazenamento de visitantes é independente.
 

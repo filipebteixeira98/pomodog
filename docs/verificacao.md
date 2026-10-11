@@ -4,6 +4,8 @@ Consolidado em 11/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
+Na reorganização de Perfil de 11/10/2026, `AccountDeletionCard` foi separado das opções de login/saída e colocado após Privacidade, como último card para contas autenticadas. Os **123 testes passaram antes e depois**; TypeScript passou. Comparação sintática dos componentes confirmou preservação do card destrutivo, sheet e callback de confirmação e a nova ordem no Perfil. A revisão dos componentes manteve estado local, tipos autenticados, imports por alias e bloqueios durante a operação. A ordem visual e o fluxo extraído ainda precisam de conferência no aparelho; não houve nova exclusão real de conta nesta verificação.
+
 Na simplificação de Ajustes de 11/10/2026, o atalho duplicado **Informações de privacidade** foi removido dessa aba. Conferência dos componentes confirmou sua presença no Perfil e na escolha inicial de privacidade; os controles de uso/diagnóstico continuam em Ajustes. TypeScript, formatação dos arquivos alterados e verificação do diff passaram. Esta alteração não foi validada novamente no aparelho.
 
 Na entrega do widget Android de 11/10/2026, **123 testes de lógica**, TypeScript, export web, APK debug x86_64 e **cinco testes Kotlin de progresso** passaram. A regressão cobre projeção sem identidade de sessões, limites do histórico, foco pendente, pausa/retomada/reinício, limpeza atrasada entre conexões, sequência além de sete dias, viradas de calendário, horário de verão, fusos, registros futuros e arredondamento agregado. O manifesto mantém provider privado, backup desabilitado e ausência de permissões de alarme exato/foreground service.

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import type { CustomerSession } from "#src/domain/customer";
 import { PrivacyCard } from "#src/features/privacy/PrivacyDetails";
 import { AccountActions } from "#src/features/profile/AccountActions";
+import { AccountDeletionCard } from "#src/features/profile/AccountDeletionCard";
 import { CustomerCard } from "#src/features/profile/CustomerCard";
 
 export function ProfileScreen({
@@ -38,12 +39,21 @@ export function ProfileScreen({
         notice={authNotice}
         onSignIn={onSignIn}
         onSignOut={onSignOut}
-        onDeleteAccount={onDeleteAccount}
         deletionPending={deletionPending}
-        reducedMotion={reducedMotion}
       />
       {children}
       <PrivacyCard accent={accent} reducedMotion={reducedMotion} />
+      {session.status === "authenticated" && (
+        <AccountDeletionCard
+          session={session}
+          accent={accent}
+          busy={authBusy}
+          notice={authNotice}
+          onDeleteAccount={onDeleteAccount}
+          deletionPending={deletionPending}
+          reducedMotion={reducedMotion}
+        />
+      )}
     </>
   );
 }
