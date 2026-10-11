@@ -4,6 +4,8 @@ Consolidado em 11/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
+Na unificação dos cards de conta de 11/10/2026, Perfil passou a compor dados pessoais, botão **Sair da conta** e avisos em **Sua conta** para usuários autenticados. O texto redundante de sincronização foi retirado; suspensão de sincronização e alertas continuam disponíveis. Visitantes mantêm o card de login separado e exclusão permanece por último. Os **123 testes passaram antes e depois**, assim como TypeScript. Comparação dos componentes confirmou o botão de saída e seu bloqueio durante operações. A apresentação ainda requer conferência no aparelho.
+
 Na reorganização de Perfil de 11/10/2026, `AccountDeletionCard` foi separado das opções de login/saída e colocado após Privacidade, como último card para contas autenticadas. Os **123 testes passaram antes e depois**; TypeScript passou. Comparação sintática dos componentes confirmou preservação do card destrutivo, sheet e callback de confirmação e a nova ordem no Perfil. A revisão dos componentes manteve estado local, tipos autenticados, imports por alias e bloqueios durante a operação. A ordem visual e o fluxo extraído ainda precisam de conferência no aparelho; não houve nova exclusão real de conta nesta verificação.
 
 Na simplificação de Ajustes de 11/10/2026, o atalho duplicado **Informações de privacidade** foi removido dessa aba. Conferência dos componentes confirmou sua presença no Perfil e na escolha inicial de privacidade; os controles de uso/diagnóstico continuam em Ajustes. TypeScript, formatação dos arquivos alterados e verificação do diff passaram. Esta alteração não foi validada novamente no aparelho.

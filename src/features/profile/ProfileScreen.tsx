@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { Card } from "#src/components/ui/Card";
 import type { CustomerSession } from "#src/domain/customer";
 import { PrivacyCard } from "#src/features/privacy/PrivacyDetails";
 import { AccountActions } from "#src/features/profile/AccountActions";
@@ -29,18 +30,25 @@ export function ProfileScreen({
   deletionPending: boolean;
   reducedMotion: boolean;
 }) {
+  const accountActions = (
+    <AccountActions
+      session={session}
+      accent={accent}
+      busy={authBusy}
+      notice={authNotice}
+      onSignIn={onSignIn}
+      onSignOut={onSignOut}
+      deletionPending={deletionPending}
+    />
+  );
   return (
     <>
-      <CustomerCard session={session} accent={accent} />
-      <AccountActions
-        session={session}
-        accent={accent}
-        busy={authBusy}
-        notice={authNotice}
-        onSignIn={onSignIn}
-        onSignOut={onSignOut}
-        deletionPending={deletionPending}
-      />
+      <CustomerCard session={session} accent={accent}>
+        {session.status === "authenticated" && accountActions}
+      </CustomerCard>
+      {session.status === "guest" && (
+        <Card className="gap-3">{accountActions}</Card>
+      )}
       {children}
       <PrivacyCard accent={accent} reducedMotion={reducedMotion} />
       {session.status === "authenticated" && (

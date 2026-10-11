@@ -2,7 +2,6 @@ import LogOut from "lucide-react-native/icons/log-out";
 
 import { GoogleSignInButton } from "#src/components/GoogleSignInButton";
 import { Button } from "#src/components/ui/Button";
-import { Card } from "#src/components/ui/Card";
 import { Text } from "#src/components/ui/Text";
 import type { CustomerSession } from "#src/domain/customer";
 
@@ -24,7 +23,7 @@ export function AccountActions({
   deletionPending: boolean;
 }) {
   return (
-    <Card className="gap-3">
+    <>
       {session.status === "guest" ? (
         <>
           <Text variant="heading">Continue com sua conta</Text>
@@ -36,11 +35,11 @@ export function AccountActions({
         </>
       ) : (
         <>
-          <Text>
-            {deletionPending
-              ? "A sincronização está suspensa até concluir a exclusão da conta."
-              : "Seu histórico de foco e preferências são sincronizados."}
-          </Text>
+          {deletionPending && (
+            <Text>
+              A sincronização está suspensa até concluir a exclusão da conta.
+            </Text>
+          )}
           <Button
             accent={accent}
             secondary
@@ -53,6 +52,6 @@ export function AccountActions({
         </>
       )}
       {notice !== "" && <Text accessibilityRole="alert">{notice}</Text>}
-    </Card>
+    </>
   );
 }

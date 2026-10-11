@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { View } from "react-native";
 import UserRound from "lucide-react-native/icons/user-round";
 
@@ -8,9 +9,11 @@ import { customerSummary, type CustomerSession } from "#src/domain/customer";
 export function CustomerCard({
   session,
   accent,
+  children,
 }: {
   session: CustomerSession;
   accent: string;
+  children?: ReactNode;
 }) {
   const summary = customerSummary(session);
   return (
@@ -30,6 +33,7 @@ export function CustomerCard({
           ? "Seu histórico fica neste dispositivo até você entrar em uma conta."
           : "Seu progresso é salvo nesta conta e neste dispositivo."}
       </Text>
+      {children}
     </Card>
   );
 }
