@@ -98,6 +98,20 @@ Esses logs não aparecem em produção. Não há diagnóstico técnico na interf
 
 Referência: [development builds do Expo](https://docs.expo.dev/develop/development-builds/introduction/).
 
+## Widget de progresso Android
+
+Após incluir o widget, execute novamente o prebuild e instale um development build pelos comandos deste guia. Expo Go e um APK anterior não incluem o provider nativo.
+
+1. Abra o Pomodog uma vez para carregar o histórico local ou da conta.
+2. Na tela inicial do Android, mantenha uma área vazia pressionada → **Widgets** → **Pomodog / Seu ritmo**. Arraste o widget para a tela inicial; o caminho pode variar conforme o launcher.
+3. Compare dias consecutivos, sessões/minutos de hoje e minutos dos últimos sete dias com Progresso. Nenhum login é necessário; o widget acompanha a conta ou modo local atualmente em uso.
+4. Conclua um foco, pause/retome outro pela notificação e reinicie uma sessão. Confira atualização e ausência de crédito antecipado ou de sessões abandonadas; descanso não adiciona foco.
+5. Toque no widget: o aplicativo deve abrir. Teste redimensionamento, fontes maiores e duas instâncias na tela inicial.
+6. Saia/troque de conta, apague dados e exclua a conta: não devem permanecer estatísticas do proprietário anterior. O estado sem histórico mostra zero e um convite discreto para abrir o app.
+7. Confira depois da meia-noite e de mudanças de fuso. Os cálculos são locais e não precisam de Metro, mas o Android pode adiar atualizações não exatas. Forçar parada suspende o aplicativo até nova abertura; não use esse procedimento para simular encerramento normal do processo.
+
+Esta entrega é Android; não adiciona widget iOS nem depende da autorização de notificações ou coleta opcional. O progresso fica visível na tela inicial para quem puder vê-la.
+
 ## Integrações nativas
 
 Mudanças em módulos/plugins de Firebase ou Sentry exigem sincronizar/reinstalar pelos comandos gerais acima. Expo Go não valida essas integrações. Roteiros de consentimento, DebugView, mapas e crashes ficam nos guias específicos, sem duplicar instalação aqui.

@@ -1,5 +1,6 @@
 import { accountDeletionPending } from "#src/firebase/accountDeletionState";
 import { auth } from "#src/firebase/auth";
+import { reportError } from "#src/monitoring/sentry";
 import { countdown } from "#src/notifications/countdown";
 import {
   createSessionControls,
@@ -11,6 +12,8 @@ import {
   loadPrototype,
   savePrototype,
 } from "#src/storage/prototype";
+import { nativeProgress } from "#src/widgets/nativeProgress";
+import { widgetPayload } from "#src/widgets/progressWidget";
 
 export const sessionControls = createSessionControls({
   authorized: async (owner) => {
@@ -29,10 +32,15 @@ export const sessionControls = createSessionControls({
       ? savePrototype(saved)
       : accountStore(owner.slice(4)).save(saved));
   },
-  sync: (owner, saved) =>
-    sessionNotifications.sync(
+  sync: async (owner, saved) => {
+    await sessionNotifications.sync(
       saved.timer,
       saved.preferences.sessionNotifications,
       owner,
-    ),
+    );
+    // Headless notification controls must also remove/restore pending focus credit.
+    await nativeProgress
+      ?.updateForOwner(owner, widgetPayload(saved.timer))
+      .catch((error: unknown) => reportError(error, "widget.sync"));
+  },
 });

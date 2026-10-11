@@ -17,6 +17,12 @@ Os controles da notificação Android mantêm UID (quando autenticado) e token t
 
 Não há replay, heatmaps, conteúdo de agenda, IA, pagamentos ou dados familiares nesta entrega. A futura funcionalidade de responsáveis/filhos exige avaliação própria do melhor interesse e das exigências do art. 14; não presumir que os controles atuais atendem público infantil.
 
+## Widget na tela inicial
+
+O widget Android mostra dias consecutivos e totais de foco na tela inicial, visíveis para quem puder vê-la. Usa cópia privada local de horários/durações das últimas 1.000 sessões e de um foco em andamento, sem nome, e-mail ou IDs de sessão. Um identificador de proprietário fica somente no cache privado para impedir atualizações de outra conta. O recurso não envia esses dados a servidores e funciona sem login ou autorização de telemetria/notificações.
+
+Saída/troca de conta, apagamento local e exclusão invalidam e limpam essa projeção; remover o widget não apaga o histórico do aplicativo. Backup continua desabilitado. A presença de estatísticas na tela inicial é uma escolha ao adicionar o widget, separada dos consentimentos de uso e diagnóstico.
+
 ## Implementação vigente do consentimento
 
 Aviso versionado em `src/privacy/notice.json` (`2026-10-05`). Informações acessíveis sem rede antes da escolha inicial, em Ajustes e no Perfil de visitantes e contas. O aceite continua opcional; os dois controles podem ser alterados separadamente.

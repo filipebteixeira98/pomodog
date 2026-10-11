@@ -11,6 +11,7 @@ export const operations = {
   "account.save": "Account persistence failed",
   "notifications.sync": "Notification synchronization failed",
   "notifications.permission": "Notification permission operation failed",
+  "widget.sync": "Progress widget synchronization failed",
   "monitoring.verify": "Pomodog Sentry integration verification",
 } as const;
 export type ErrorOperation = keyof typeof operations;

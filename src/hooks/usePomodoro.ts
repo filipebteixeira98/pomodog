@@ -25,6 +25,8 @@ import {
   savePrototype,
 } from "#src/storage/prototype";
 import { initialTimer, timerReducer, type Action, type Mode } from "#src/timer";
+import { nativeProgress } from "#src/widgets/nativeProgress";
+import { useProgressWidget } from "#src/widgets/useProgressWidget";
 
 export function usePomodoro(user: User | null = null, accountLocked = false) {
   const account = useRef(user ? accountStore(user.uid) : null).current;
@@ -57,6 +59,12 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
   latestSaved.current = { timer, preferences, onboardingComplete, petCare };
   const controlsReady = useRef(false);
   const busy = timer.status === "running" || timer.status === "paused";
+
+  useProgressWidget(
+    timer,
+    owner,
+    ready && !storageBlocked && !accountLocked && !isErasing,
+  );
 
   useEffect(
     () => () => {
@@ -320,6 +328,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     setIsErasing(true);
     notificationRequest.current++;
     try {
+      await nativeProgress?.clear();
       await sessionNotifications.sync(latestTimer.current, false);
       await setReportingEnabled(false, "erasure");
       await setAnalyticsEnabled(false, "erasure");

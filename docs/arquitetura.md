@@ -111,6 +111,18 @@ summarizeStreak deriva a sequência do histórico local disponível (limitado a 
 
 `petCare` guarda lastFedAt/lastMessageId e é validado sem invalidar timer/histórico quando esses metadados são inválidos. Integra estado local/da conta pela persistência existente. `choosePetResponse` escolhe frases por contexto; `TimerCard` mantém resposta temporária de seis segundos, bloqueia toques repetidos e limpa timeout. Dar petisco não altera timer; movimento reduzido preserva texto/pose.
 
+## Widget de progresso Android
+
+`plugins/withProgressWidget.js` registra a ponte e o `AppWidgetProvider` privado e copia fontes Kotlin/XML de `plugins/progress-widget/` durante prebuild. `RemoteViews` usa recursos nativos, sem dependência nova, serviço permanente ou inicialização de JavaScript para atualizar a tela inicial. Toque no widget abre o app pelo launcher.
+
+`useProgressWidget` publica nas transições do timer, mudanças do histórico e retomada do app. Uma projeção privada contém até 1.000 pares de horário/duração de focos concluídos, mais um foco em andamento; não inclui nomes, e-mails nem IDs de sessões. O proprietário fica no cache privado para validar atualizações de controles Headless JS; não aparece no widget. Token por conexão impede que gravações/limpezas atrasadas de uma instância anterior substituam a conta nova.
+
+O foco pendente passa a contar somente após seu prazo; pausa/reinício removem essa projeção e retomada substitui o prazo. Isso atualiza a apresentação sem escrever histórico, Firestore ou criar outro motor de sessões. Kotlin recalcula dias consecutivos com a tolerância de ontem, hoje e últimos sete dias usando calendário/fuso local; testes verificam paridade com as regras de Progresso, virada de ano, horário de verão e arredondamento agregado. A sequência não é limitada a sete dias e continua limitada ao histórico disponível.
+
+O Android solicita atualização horária. Enquanto houver widgets, um alarme não exato e sem despertar o dispositivo solicita atualização na próxima meia-noite ou prazo de foco; mudanças de relógio/fuso recalculam e reagendam. Não há permissão nova de alarme exato nem polling. O sistema pode adiar a atualização; Forçar parada impede execução até abrir o app novamente. Saída/troca de conta, exclusão e bloqueio de armazenamento invalidam/limpam a projeção. Visitantes usam o histórico local; iOS/web não têm widget nesta entrega.
+
+Referências: [App widgets](https://developer.android.com/develop/ui/views/appwidgets), [atualizações e consumo de bateria](https://developer.android.com/develop/ui/views/appwidgets/advanced).
+
 ## Ícone e splash screen
 
 `assets/brand/mascot-mark.svg` deriva do rosto vetorial original de `src/Dog.tsx`, preservando traços e cores. `npm run assets:generate` usa Sharp, somente como dependência de desenvolvimento, para produzir PNGs determinísticos: ícone opaco 1024 × 1024, foreground e máscara monocromática adaptativos 1024 × 1024, splash transparente 512 × 512 e favicon 64 × 64. Alterações futuras no rosto devem considerar também esta marca derivada.

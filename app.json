@@ -36,6 +36,7 @@
       ],
       "./plugins/withNativeReporting",
       "./plugins/withSessionCountdown",
+      "./plugins/withProgressWidget",
       "@react-native-firebase/app",
       ["expo-secure-store", { "configureAndroidBackup": false }],
       "./plugins/withAndroidPrivacy"

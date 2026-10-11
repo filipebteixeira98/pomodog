@@ -13,6 +13,7 @@ import { deleteOwnAccount } from "#src/firebase/deleteOwnAccount";
 import { signInWithGoogle, signOutGoogle } from "#src/firebase/googleSignIn";
 import { reportError } from "#src/monitoring/sentry";
 import { syncConsentReceipts } from "#src/privacy/consentService";
+import { nativeProgress } from "#src/widgets/nativeProgress";
 
 export function useAccount() {
   const [user, setUser] = useState<User | null>(null);
@@ -31,6 +32,10 @@ export function useAccount() {
       auth,
       (nextUser) => {
         const request = ++generation;
+        // Invalidate the native projection before preparing another account.
+        void nativeProgress?.clear().catch((error: unknown) => {
+          reportError(error, "widget.sync");
+        });
         if (!nextUser) {
           setUser(null);
           setSession(localSession);
