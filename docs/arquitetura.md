@@ -91,6 +91,8 @@ Na web, PanResponder mantém o arraste por mouse/toque, com limiar de 55 px e re
 
 ## Tour guiado
 
+`TourReplayCard` fica ao final de Ajustes, após Uso opcional. Compõe fundo pastel, asset estático existente do Nino e botão de revisão, preservando o callback que abre o tour. Não adiciona dependências nem ciclos de animação.
+
 `src/features/tour/GuidedTour.tsx` recebe referências estáveis para controles e container. `measureInWindow` posiciona uma máscara em quatro partes, borda de destaque e explicação acima ou abaixo do alvo. Medições são atualizadas apenas enquanto o tour está montado e liberadas no fechamento; a raiz ajusta o scroll conforme etapa e viewport. O painel possui rolagem em telas pequenas/fontes ampliadas. Não há biblioteca adicional.
 
 A camada de fundo bloqueia interação e fica fora da navegação assistiva. Web mantém foco nos controles do guia, permite Escape e tenta devolver o foco anterior; Android usa o botão Voltar. Não há animações do tour e o mascote fica estático durante a explicação. O tour não executa ações do timer. Concluir as escolhas de privacidade e notificações após a introdução conclui o onboarding usando a persistência existente e inicia o tour; etapas do tour são temporárias e ele só reabre por escolha explícita. Validação de acessibilidade nativa ainda necessária.

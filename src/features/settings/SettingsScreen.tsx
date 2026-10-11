@@ -1,9 +1,7 @@
 import { Switch, View } from "react-native";
-import RotateCcw from "lucide-react-native/icons/rotate-ccw";
 import Timer from "lucide-react-native/icons/timer";
 
 import { AnalyticsSettings } from "#src/analytics/AnalyticsSettings";
-import { Button } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { ChoiceGroup } from "#src/components/ui/ChoiceGroup";
 import { Text } from "#src/components/ui/Text";
@@ -13,6 +11,7 @@ import {
   themes,
   type Preferences,
 } from "#src/domain/preferences";
+import { TourReplayCard } from "#src/features/tour/TourReplayCard";
 import { ReportingSettings } from "#src/monitoring/ReportingSettings";
 import { countdownSupported } from "#src/notifications/countdown";
 
@@ -146,17 +145,10 @@ export function SettingsScreen({
             ) : null}
           </View>
         )}
-        <Button
-          accent={accent}
-          secondary
-          onPress={onReplayTour}
-          icon={<RotateCcw size={18} color={accent} />}
-        >
-          Rever tour guiado
-        </Button>
       </Card>
       <ReportingSettings accent={accent} />
       <AnalyticsSettings accent={accent} />
+      <TourReplayCard accent={accent} onReplay={onReplayTour} />
     </>
   );
 }

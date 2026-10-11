@@ -4,6 +4,8 @@ Consolidado em 11/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
+Na reorganização de Ajustes de 11/10/2026, **Rever tour guiado** passou para um card próprio após **Uso opcional**, com fundo pastel e asset estático do Nino. Conferência dos componentes confirmou a ordem e a preservação do callback de abertura. TypeScript, formatação e verificação do diff passaram; exports web e Android incluíram o asset existente. A apresentação ainda precisa de conferência no aparelho.
+
 Na redução de texto em Perfil de 11/10/2026, a frase **Seu progresso é salvo nesta conta e neste dispositivo** foi removida de Sua conta. A explicação do modo local, os avisos operacionais e as informações de privacidade permanecem. TypeScript, formatação e verificação do diff passaram; a alteração visual não foi validada novamente no aparelho.
 
 Na unificação dos cards de conta de 11/10/2026, Perfil passou a compor dados pessoais, botão **Sair da conta** e avisos em **Sua conta** para usuários autenticados. O texto redundante de sincronização foi retirado; suspensão de sincronização e alertas continuam disponíveis. Visitantes mantêm o card de login separado e exclusão permanece por último. Os **123 testes passaram antes e depois**, assim como TypeScript. Comparação dos componentes confirmou o botão de saída e seu bloqueio durante operações. A apresentação ainda requer conferência no aparelho.
