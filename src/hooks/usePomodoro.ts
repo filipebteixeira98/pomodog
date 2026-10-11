@@ -8,7 +8,9 @@ import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
 import { AccountSaveError, saveAccount } from "#src/firebase/accountData";
 import { reportError, setReportingEnabled } from "#src/monitoring/sentry";
+import { sessionControls } from "#src/notifications/controlRuntime";
 import { notificationErrorMessage } from "#src/notifications/diagnostics";
+import { sessionOwner } from "#src/notifications/sessionControls";
 import {
   notificationsSupported,
   requestSessionPermission,
@@ -45,6 +47,15 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
   const locked = () => operationLock.current || accountLock.current;
   const latestTimer = useRef(timer);
   latestTimer.current = timer;
+  const owner = sessionOwner(user?.uid);
+  const latestSaved = useRef({
+    timer,
+    preferences,
+    onboardingComplete,
+    petCare,
+  });
+  latestSaved.current = { timer, preferences, onboardingComplete, petCare };
+  const controlsReady = useRef(false);
   const busy = timer.status === "running" || timer.status === "paused";
 
   useEffect(
@@ -72,22 +83,52 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
 
   useEffect(() => {
     let mounted = true;
-    (account ? account.load() : loadPrototype())
-      .then((saved) => {
-        if (!mounted || !saved) return;
+    const disconnect = sessionControls.connect({
+      owner,
+      read: () =>
+        controlsReady.current
+          ? { ...latestSaved.current, timer: latestTimer.current }
+          : null,
+      blocked: () => locked() || !controlsReady.current,
+      apply: (action, now) => {
+        dispatch(action);
         dispatch({
-          type: "restore",
-          value: saved.timer,
-          now: Date.now(),
+          type: "tick",
+          now,
           nextDuration:
-            saved.timer.mode === "focus"
-              ? saved.preferences.rest * 60
-              : saved.preferences.focus * 60,
+            (latestTimer.current.mode === "focus"
+              ? latestSaved.current.preferences.rest
+              : latestSaved.current.preferences.focus) * 60,
         });
-        setPreferences(saved.preferences);
-        setPetCare(saved.petCare);
-        setOnboardingComplete(saved.onboardingComplete);
-      })
+      },
+    });
+    sessionControls
+      .hydrate(
+        () => (account ? account.load() : loadPrototype()),
+        (saved) => {
+          if (!mounted) return;
+          if (saved) {
+            dispatch({
+              type: "restore",
+              value: saved.timer,
+              now: Date.now(),
+              nextDuration:
+                saved.timer.mode === "focus"
+                  ? saved.preferences.rest * 60
+                  : saved.preferences.focus * 60,
+            });
+            latestSaved.current = {
+              ...saved,
+              timer: latestTimer.current,
+              petCare: saved.petCare,
+            };
+            setPreferences(saved.preferences);
+            setPetCare(saved.petCare);
+            setOnboardingComplete(saved.onboardingComplete);
+          }
+          controlsReady.current = true;
+        },
+      )
       .catch((error: unknown) => {
         reportError(error, "storage.load");
         if (mounted) {
@@ -100,6 +141,8 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
       });
     return () => {
       mounted = false;
+      controlsReady.current = false;
+      disconnect();
     };
   }, []);
 
@@ -170,11 +213,17 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     const sync = () =>
       sessionNotifications
         .sync(
-          { status: timer.status, deadline: timer.deadline, mode: timer.mode },
+          {
+            status: timer.status,
+            deadline: timer.deadline,
+            mode: timer.mode,
+            remaining: timer.remaining,
+          },
           notificationsSupported &&
             preferences.sessionNotifications &&
             !storageBlocked &&
             !accountLocked,
+          owner,
         )
         .then(() => {
           if (active) setNotificationNotice("");

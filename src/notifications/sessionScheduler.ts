@@ -7,7 +7,13 @@ export type NotificationAdapter = {
   schedule: (deadline: number, mode: Mode) => Promise<void>;
   pending: () => Promise<{ deadline: number; mode: Mode } | null>;
   countdown?: {
-    show: (deadline: number, mode: Mode) => Promise<void>;
+    show: (deadline: number, mode: Mode, owner?: string) => Promise<void>;
+    showPaused?: (
+      remaining: number,
+      mode: Mode,
+      owner?: string,
+    ) => Promise<void>;
+    isCurrent?: (token: string, owner: string) => Promise<boolean>;
     hide: () => Promise<void>;
   };
 };
@@ -28,7 +34,12 @@ export function createSessionScheduler(
       if (result.status === "rejected") throw result.reason;
   }
   return {
-    sync(timer: Pick<Timer, "status" | "deadline" | "mode">, enabled: boolean) {
+    sync(
+      timer: Pick<Timer, "status" | "deadline" | "mode"> &
+        Partial<Pick<Timer, "remaining">>,
+      enabled: boolean,
+      owner = "guest",
+    ) {
       const work = queue.then(async () => {
         if (!enabled) {
           await cancel();
@@ -59,9 +70,23 @@ export function createSessionScheduler(
             existing.deadline === timer.deadline &&
             existing.mode === timer.mode
           ) {
-            await adapter.countdown?.show(timer.deadline, timer.mode);
+            await adapter.countdown?.show(timer.deadline, timer.mode, owner);
             return;
           }
+        }
+        if (
+          timer.status === "paused" &&
+          typeof timer.remaining === "number" &&
+          timer.remaining > 0 &&
+          adapter.countdown?.showPaused
+        ) {
+          await adapter.cancel();
+          await adapter.countdown.showPaused(
+            timer.remaining,
+            timer.mode,
+            owner,
+          );
+          return;
         }
         await cancel();
         if (
@@ -70,7 +95,7 @@ export function createSessionScheduler(
           timer.deadline > now()
         ) {
           await adapter.schedule(timer.deadline, timer.mode);
-          await adapter.countdown?.show(timer.deadline, timer.mode);
+          await adapter.countdown?.show(timer.deadline, timer.mode, owner);
         }
       });
       queue = work.catch(() => {});

@@ -8,7 +8,7 @@ Preparados no repositório: expo-dev-client, scheme pomodog, identificador Andro
 
 A entrega de privacidade de 05/10/2026 exige novo development build: a ponte de consentimento de uso e o provider anterior ao Firebase são nativos. Reload do Metro não os adiciona. Atualizar por cima preserva dados; não desinstalar apenas para atualizar. Escolhas opcionais antigas, sem evidência da versão do aviso, precisam ser feitas novamente em Ajustes.
 
-A contagem nas notificações de 10/10/2026 também exige prebuild e novo APK, pois adiciona `PomodogCountdown`. Use os comandos de atualização abaixo; preserve a instalação e a assinatura existentes. A opção antiga **Avisar ao terminar** agora se chama **Notificações da sessão** e mantém a escolha salva.
+A contagem (10/10/2026) e os controles **Pausar/Retomar** (11/10/2026) nas notificações também exigem prebuild e novo APK, pois adicionam ponte e serviço nativos. Use os comandos de atualização abaixo; preserve a instalação e a assinatura existentes. A opção antiga **Avisar ao terminar** agora se chama **Notificações da sessão** e mantém a escolha salva.
 
 ## Primeira instalação por USB
 
@@ -70,7 +70,11 @@ A revisão de segurança de 03/10/2026 adicionou SecureStore e política de back
 - Toque na notificação: o Pomodog deve reabrir mantendo a sessão.
 - Conclua um descanso com tela bloqueada e confira o aviso.
 - No término, a contagem deve desaparecer e o aviso de conclusão continuar funcionando.
-- Pause: a contagem e o aviso agendado devem ser cancelados. Retome: devem acompanhar o novo término.
+- Com o app em segundo plano, toque **Pausar** na notificação: o aplicativo não deve abrir; o tempo fica congelado, o aviso agendado é cancelado e o botão muda para **Retomar**.
+- Aguarde alguns segundos e toque **Retomar**: a contagem deve continuar do tempo preservado, com novo prazo e aviso de término. Repita durante o descanso.
+- Volte ao aplicativo após cada ação: timer e botão principal devem refletir a notificação. A pausa feita dentro do aplicativo também mantém a notificação com **Retomar**.
+- Verifique os controles após o sistema encerrar o processo em segundo plano; isso difere de **Forçar parada**, que bloqueia a execução do aplicativo pelo sistema. Não apague dados nem desinstale para simular esse cenário.
+- Para esse teste no development build, mantenha o Metro na porta padrão **8081** e a conexão acessível. Sem a interface já carregada, o React Native inicia pelo endereço padrão do bundler; selecionar outra porta apenas no launcher não configura esse início. O build de release usa o JavaScript incluído no APK.
 - Verifique reinício, desativação, saída/troca de conta e exclusão de dados com aviso pendente; não deve restar contagem da sessão anterior.
 - Negue/revogue a permissão e confira a mensagem curta em Ajustes.
 - Voltar ao app perto do término não cancela o aviso existente (idempotência).

@@ -1,8 +1,10 @@
 # Privacidade e adequação à LGPD
 
-Atualizado em 05/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
+Atualizado em 11/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
 
 ## Inventário e bases a validar
+
+Os controles da notificação Android mantêm UID (quando autenticado) e token temporário em preferências privadas do dispositivo para conferir o proprietário da sessão. Não incluem identidade nos extras da notificação nem enviam esses campos à telemetria. Reinício, desativação, troca de conta e exclusão removem esse vínculo; ações sem interface salvam apenas o estado local do proprietário.
 
 | Tratamento                | Finalidade e dados mínimos                                                                                                    | Onde e quem recebe                                                                                                                | Base/limite a revisar                                                                                                                                           |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |

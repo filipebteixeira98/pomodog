@@ -22,14 +22,34 @@ module.exports = function withSessionCountdown(config) {
   });
   config = withAndroidManifest(config, (mod) => {
     const app = mod.modResults.manifest.application[0];
-    // Android 7 needs a private receiver for expiry; Android 8+ uses system timeout.
-    const name = ".PomodogCountdownExpiryReceiver";
+    const names = [
+      ".PomodogCountdownExpiryReceiver",
+      ".PomodogSessionControlReceiver",
+    ];
     app.receiver = (app.receiver || []).filter(
-      (entry) => entry.$["android:name"] !== name,
+      (entry) => !names.includes(entry.$["android:name"]),
     );
-    app.receiver.push({
-      $: { "android:name": name, "android:exported": "false" },
+    for (const name of names)
+      app.receiver.push({
+        $: { "android:name": name, "android:exported": "false" },
+      });
+    const service = ".PomodogSessionControlService";
+    app.service = (app.service || []).filter(
+      (entry) => entry.$["android:name"] !== service,
+    );
+    app.service.push({
+      $: { "android:name": service, "android:exported": "false" },
     });
+    const permissions = (mod.modResults.manifest["uses-permission"] ??= []);
+    if (
+      !permissions.some(
+        (entry) => entry.$["android:name"] === "android.permission.WAKE_LOCK",
+      )
+    ) {
+      permissions.push({
+        $: { "android:name": "android.permission.WAKE_LOCK" },
+      });
+    }
     return mod;
   });
   return withDangerousMod(config, [
@@ -41,24 +61,31 @@ module.exports = function withSessionCountdown(config) {
       );
       const target = path.join(root, "java", ...mod.android.package.split("."));
       await fs.mkdir(target, { recursive: true });
-      const source = await fs.readFile(
-        path.join(__dirname, "session-countdown", "PomodogCountdown.kt"),
-        "utf8",
-      );
-      await fs.writeFile(
-        path.join(target, "PomodogCountdown.kt"),
-        source.replaceAll("__PACKAGE__", mod.android.package),
-      );
+      for (const file of [
+        "PomodogCountdown.kt",
+        "PomodogSessionControlService.kt",
+      ]) {
+        const source = await fs.readFile(
+          path.join(__dirname, "session-countdown", file),
+          "utf8",
+        );
+        await fs.writeFile(
+          path.join(target, file),
+          source.replaceAll("__PACKAGE__", mod.android.package),
+        );
+      }
       const drawable = path.join(root, "res/drawable");
       await fs.mkdir(drawable, { recursive: true });
-      await fs.copyFile(
-        path.join(
-          __dirname,
-          "session-countdown",
-          "pomodog_timer_notification.xml",
-        ),
-        path.join(drawable, "pomodog_timer_notification.xml"),
-      );
+      for (const file of [
+        "pomodog_timer_notification.xml",
+        "pomodog_pause_notification.xml",
+        "pomodog_resume_notification.xml",
+      ]) {
+        await fs.copyFile(
+          path.join(__dirname, "session-countdown", file),
+          path.join(drawable, file),
+        );
+      }
       return mod;
     },
   ]);

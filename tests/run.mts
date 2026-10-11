@@ -6,6 +6,7 @@ import "#tests/storage.test.ts";
 import "#tests/secureAuthStore.test.ts";
 import "#tests/petCare.test.ts";
 import "#tests/notifications.test.ts";
+import "#tests/sessionControls.test.ts";
 import "#tests/accountData.test.ts";
 import "#tests/accountDeletion.test.ts";
 import "#tests/monitoring.test.ts";
