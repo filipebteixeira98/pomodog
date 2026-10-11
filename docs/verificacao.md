@@ -4,6 +4,8 @@ Consolidado em 11/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
+Na simplificação de Ajustes de 11/10/2026, o atalho duplicado **Informações de privacidade** foi removido dessa aba. Conferência dos componentes confirmou sua presença no Perfil e na escolha inicial de privacidade; os controles de uso/diagnóstico continuam em Ajustes. TypeScript, formatação dos arquivos alterados e verificação do diff passaram. Esta alteração não foi validada novamente no aparelho.
+
 Na entrega do widget Android de 11/10/2026, **123 testes de lógica**, TypeScript, export web, APK debug x86_64 e **cinco testes Kotlin de progresso** passaram. A regressão cobre projeção sem identidade de sessões, limites do histórico, foco pendente, pausa/retomada/reinício, limpeza atrasada entre conexões, sequência além de sete dias, viradas de calendário, horário de verão, fusos, registros futuros e arredondamento agregado. O manifesto mantém provider privado, backup desabilitado e ausência de permissões de alarme exato/foreground service.
 
 No launcher Pixel do emulador temporário Android 15 (API 35), **Seu ritmo** apareceu no seletor e uma instância real mostrou três dias consecutivos, zero sessões hoje e 50 minutos na semana, correspondendo ao Progresso. Toque abriu o app. Pausa removeu o foco pendente da projeção; retomada substituiu seu prazo. Após `am kill`, o alarme nativo atualizou o widget para quatro dias, uma sessão/minuto hoje e 51 minutos semanais sem remontar a interface React. O histórico persistido ainda tinha três sessões; reabrir o app reconciliou o foco uma única vez e ambos passaram a mostrar os mesmos totais.

@@ -25,7 +25,7 @@ Saída/troca de conta, apagamento local e exclusão invalidam e limpam essa proj
 
 ## Implementação vigente do consentimento
 
-Aviso versionado em `src/privacy/notice.json` (`2026-10-05`). Informações acessíveis sem rede antes da escolha inicial, em Ajustes e no Perfil de visitantes e contas. O aceite continua opcional; os dois controles podem ser alterados separadamente.
+Aviso versionado em `src/privacy/notice.json` (`2026-10-05`). Informações acessíveis sem rede antes da escolha inicial e no Perfil de visitantes e contas. Ajustes mantém os controles de coleta. O aceite continua opcional; os dois controles podem ser alterados separadamente.
 
 `consentJournal` salva evidência local antes de ativar um coletor. Recusa fecha a coleta mesmo se a evidência não puder ser persistida; a interface informa falha. Ativação que falha registra reversão, distinguida de recusa humana. A origem distingue onboarding, Ajustes, reversão técnica e exclusão. O dispositivo conserva somente a última decisão por finalidade, além das decisões autenticadas aguardando sincronização; não há trilha histórica completa de visitantes no servidor.
 
