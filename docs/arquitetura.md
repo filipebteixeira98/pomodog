@@ -85,7 +85,9 @@ Fluxo: entrada Google/sem conta → introdução → privacidade → notificaç�
 
 ## Gestos no onboarding
 
-No Android/iOS, um `ScrollView` horizontal com `pagingEnabled` controla as três páginas; cada página possui rolagem vertical independente com `nestedScrollEnabled`. A largura vem do layout real e é reaplicada em mudanças de viewport. Ao terminar o movimento, o índice sincroniza indicadores e botão final. Os pontos também navegam pelo pager; com movimento reduzido, essa navegação programática não anima. Mascotes fora da página ativa ficam sem animação e seu conteúdo não entra na navegação do leitor de tela.
+No Android/iOS, um `ScrollView` horizontal com `pagingEnabled` controla as páginas; cada página possui rolagem vertical independente com `nestedScrollEnabled`. A largura vem do layout real e é reaplicada em mudanças de viewport. Ao terminar o movimento, o índice sincroniza indicadores e botão final. Os pontos também navegam pelo pager; com movimento reduzido, essa navegação programática não anima. Mascotes fora da página ativa ficam sem animação e seu conteúdo não entra na navegação do leitor de tela.
+
+Android inclui uma quarta etapa após Progresso, com `ProgressWidgetPreview` e instruções para adicionar Seu ritmo pela tela inicial. A prévia é estática, identificada como exemplo e usa valores ilustrativos, os componentes de UI e o asset existente do Nino. iOS/web mantêm três etapas, pois o widget foi entregue apenas no Android. O botão final continua abrindo as escolhas de privacidade/notificações e o tour; usuários com introdução concluída não precisam repeti-la.
 
 Na web, PanResponder mantém o arraste por mouse/toque, com limiar de 55 px e rejeição de movimentos predominantemente verticais. O conteúdo das etapas é compartilhado. A separação evita a disputa entre o detector JavaScript e o ScrollView nativo que impedia o swipe no Android. Não foram adicionadas dependências.
 

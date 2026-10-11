@@ -11,6 +11,7 @@ import {
 import ArrowRight from "lucide-react-native/icons/arrow-right";
 import Coffee from "lucide-react-native/icons/coffee";
 import MoveHorizontal from "lucide-react-native/icons/move-horizontal";
+import PanelsTopLeft from "lucide-react-native/icons/panels-top-left";
 import PawPrint from "lucide-react-native/icons/paw-print";
 import Sprout from "lucide-react-native/icons/sprout";
 import Target from "lucide-react-native/icons/target";
@@ -20,6 +21,7 @@ import { Button } from "#src/components/ui/Button";
 import { Text } from "#src/components/ui/Text";
 import { Dog } from "#src/Dog";
 import { mascot } from "#src/domain/mascot";
+import { ProgressWidgetPreview } from "#src/features/onboarding/ProgressWidgetPreview";
 import { SpeechBubble } from "#src/features/onboarding/SpeechBubble";
 
 const webSwipeStyle = {
@@ -28,8 +30,9 @@ const webSwipeStyle = {
   userSelect: "none",
 } as const;
 
-const steps = [
+const introduction = [
   {
+    id: "welcome",
     title: `Oi! Eu sou ${mascot.name}.`,
     description:
       "Escolha uma tarefa e toque em “Começar a focar”. Vou com você!",
@@ -37,6 +40,7 @@ const steps = [
     Icon: Target,
   },
   {
+    id: "rhythm",
     title: "Vamos no seu ritmo?",
     description:
       "Pause e retome quando precisar. Ao terminar, escolha um descanso para nós.",
@@ -44,6 +48,7 @@ const steps = [
     Icon: Coffee,
   },
   {
+    id: "progress",
     title: "Cada volta conta.",
     description:
       "Veja suas conquistas em “Progresso” e personalize nosso cantinho em “Ajustes”.",
@@ -51,6 +56,20 @@ const steps = [
     Icon: Sprout,
   },
 ];
+
+const steps =
+  Platform.OS === "android"
+    ? [
+        ...introduction,
+        {
+          id: "widget",
+          title: "Seu ritmo, na tela inicial.",
+          description: "Veja seu progresso sem abrir o app.",
+          tip: "Na tela inicial, segure uma área vazia → Widgets → Pomodog.",
+          Icon: PanelsTopLeft,
+        },
+      ]
+    : introduction;
 
 export function Onboarding({
   accent,
@@ -143,18 +162,22 @@ export function Onboarding({
       <SpeechBubble title={step.title} accent={accent}>
         {step.description}
       </SpeechBubble>
-      <Dog
-        key={page}
-        accent={accent}
-        resting={page === 1}
-        celebrating={page === steps.length - 1}
-        reducedMotion={reducedMotion || !visible || page !== index}
-        expressive
-      />
+      {step.id === "widget" ? (
+        <ProgressWidgetPreview />
+      ) : (
+        <Dog
+          key={page}
+          accent={accent}
+          resting={page === 1}
+          celebrating={step.id === "progress"}
+          reducedMotion={reducedMotion || !visible || page !== index}
+          expressive
+        />
+      )}
       <View className="w-full flex-row items-center gap-3 rounded-2xl bg-soft p-4">
         <step.Icon color={accent} size={22} />
         <Text variant="caption" className="flex-1 text-ink">
-          {last && authenticated
+          {step.id === "progress" && authenticated
             ? "Seu progresso fica salvo na sua conta."
             : step.tip}
         </Text>
