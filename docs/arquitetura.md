@@ -1,6 +1,6 @@
 # Arquitetura atual
 
-Atualizado em 11/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
+Atualizado em 12/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
 
 ## Responsabilidades
 
@@ -62,6 +62,8 @@ Exportação e `expo-sharing` foram removidos do código e das dependências. `l
 Estilos estáticos ficam nas classes. Valores dinâmicos, como a cor escolhida, o progresso do timer e valores animados, permanecem em `style`.
 
 Quatro abas: Foco, Progresso, Ajustes e Perfil. Foco concentra timer/mascote; resumos ficam em Progresso. Ajustes reúne preferências, avisos, consentimentos e revisão do tour; Perfil concentra conta, dados e Informações de privacidade. Ações destrutivas usam `Button.destructive`, com vermelho independente do tema.
+
+`FocusScreen` compõe `UpdatesPreviewCard` acima de `TimerCard` quando o timer está ocioso ou concluído. A prévia usa os componentes locais e tons verdes suaves, com texto que identifica mascotes e sons como ideias em planejamento. Durante execução ou pausa, o card fica oculto.
 
 `GoogleSignInButton` é compartilhado entre entrada/Perfil e usa símbolo local, loading e bloqueio durante login. `Toast` de exclusão só aparece após sucesso, permanece fora da remontagem por UID e respeita safe area/movimento reduzido.
 

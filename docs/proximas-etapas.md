@@ -1,6 +1,6 @@
 # Próximas etapas — escopo e critérios
 
-Atualizado em 05/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
+Atualizado em 12/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
 
 ## Dados, contas e segurança
 
@@ -34,7 +34,7 @@ Catálogo futuro, sem ativação de serviços por constar nesta lista. Validar v
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Atividades durante o descanso em planos pagos | Prototipar desenho livre, formas geométricas e sugestões opcionais. Permitir pular, encerrar e voltar ao foco; avaliar prazer e distração. Não prometer hiperfoco ou eficiência sem evidência.                                                                                      |
 | Compartilhamento em redes sociais             | Criar prévia de cartão com progresso ou Nino e compartilhamento por ação explícita. Evitar publicar identidade/histórico sem escolha do usuário. Consolidar com a frente social existente.                                                                                          |
-| Sneak peek e evolução do produto              | Mostrar novidades e prévias opcionais em espaço discreto, fora da sessão de foco. Separar recurso entregue de intenção futura, sem datas ou benefícios não confirmados. Avaliar interesse e retorno.                                                                                |
+| Sneak peek e evolução do produto              | Manter a prévia acima dos ciclos em Foco, somente entre sessões. Atualizar o texto conforme o planejamento e as entregas, sem datas ou benefícios não confirmados. Avaliar clareza, interesse e retorno dos usuários.                                                               |
 | Curiosidades e notícias de neurociência       | Definir curadoria, fontes, datas e revisão editorial. Registrar o ciclo proposto “estímulo → feeder → preparação → repetição definitiva”, referido como “série real”, como hipótese conceitual. Esclarecer os termos e verificar a origem antes de exibir como conteúdo científico. |
 | Insights com inteligência artificial          | Definir perguntas úteis e prototipar com dados sintéticos. Antes de enviar dados reais, definir consentimento, minimização, fornecedor, custo e retenção. Apresentar sugestões opcionais, sem diagnóstico ou inferência de saúde.                                                   |
 | Feedback e comentários                        | Criar formulário curto com mensagem, envio explícito e confirmação. Permitir modo local; contato é opcional. Definir destino, proteção contra abuso e retenção, sem anexar logs automaticamente.                                                                                    |
