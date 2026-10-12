@@ -4,7 +4,7 @@ Consolidado em 12/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
-Na prévia de novidades em Foco de 12/10/2026, um card verde pastel passou a apresentar novos mascotes e sons como ideias em planejamento, acima dos ciclos. Ele aparece com timer ocioso/concluído e fica oculto durante execução ou pausa. TypeScript, os **123 testes**, exports Android/web, formatação e verificação do diff passaram. A revisão manteve callbacks e referências do timer/tour. A apresentação e a leitura por TalkBack ainda requerem validação no aparelho.
+Na prévia de novidades em Foco de 12/10/2026, o card verde pastel acima dos ciclos passou a usar mensagem genérica, padding inferior de 8 e botão de fechamento com área de 44 × 44. Ele aparece com timer ocioso/concluído e fica oculto durante execução ou pausa. TypeScript, os **123 testes**, exports Android/web, formatação e verificação do diff passaram. A revisão confirmou o estado de descarte em `Pomodog`, fora das abas, e a preservação dos callbacks e referências do timer/tour. Apresentação, fechamento após trocar de abas/concluir ciclos e leitura por TalkBack ainda requerem validação no aparelho.
 
 Na apresentação do widget no onboarding de 11/10/2026, Android passou a exibir uma quarta etapa com prévia ilustrativa e instruções curtas; iOS/web mantêm três etapas. TypeScript, os **123 testes** e exports Android/web passaram. No emulador Android 15, com movimento reduzido, swipes avançaram pelas quatro páginas e retornaram a Progresso; **Continuar** apareceu apenas na última. Fonte padrão mostrou a instrução completa, e fonte em escala 1,5 permitiu alcançá-la pela rolagem vertical.
 

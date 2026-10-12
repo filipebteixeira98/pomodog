@@ -89,6 +89,7 @@ export function Pomodog({
   }, [tourStep, viewport.width, viewport.height, viewport.fontScale]);
   const systemReducedMotion = useReducedMotion();
   const [tab, setTab] = useState<Tab>("focus");
+  const [updatesDismissed, setUpdatesDismissed] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmErase, setConfirmErase] = useState(false);
   const [dataNotice, setDataNotice] = useState("");
@@ -207,6 +208,8 @@ export function Pomodog({
             )}
             {tab === "focus" ? (
               <FocusScreen
+                updatesDismissed={updatesDismissed}
+                onDismissUpdates={() => setUpdatesDismissed(true)}
                 tourTargets={targets}
                 timer={model.timer}
                 accent={accent}
