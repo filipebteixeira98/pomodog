@@ -7,8 +7,8 @@ import { Text } from "#src/components/ui/Text";
 
 export function UpdatesPreviewCard({ onDismiss }: { onDismiss: () => void }) {
   return (
-    <Card className="relative min-h-[60px] items-center justify-center rounded-[18px] border-[#D4E2D2] bg-[#E6EEE5] px-11 py-2">
-      <View className="max-w-full flex-row items-center justify-center gap-2">
+    <Card className="relative min-h-[60px] items-start justify-center rounded-[18px] border-[#D4E2D2] bg-[#E6EEE5] py-2 pl-3 pr-11">
+      <View className="max-w-full flex-row items-center justify-start gap-2">
         <View
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
@@ -19,13 +19,13 @@ export function UpdatesPreviewCard({ onDismiss }: { onDismiss: () => void }) {
         <View accessible className="min-w-0 shrink">
           <Text
             variant="label"
-            className="text-center text-[11px] leading-[16px] text-[#394D40]"
+            className="text-left text-[11px] leading-[16px] text-[#394D40]"
           >
             Vem novidade por aí
           </Text>
           <Text
             variant="caption"
-            className="mt-0.5 text-center text-[10px] leading-[14px] text-[#526858]"
+            className="mt-0.5 text-left text-[10px] leading-[14px] text-[#526858]"
           >
             Estamos preparando novidades para você.
           </Text>
