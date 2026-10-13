@@ -77,6 +77,19 @@ export function PrivacyDetails({
           </Text>
         </View>
         <View className="gap-2">
+          <Text variant="label">Feedback que você envia</Text>
+          <Text>
+            Ao enviar um feedback, o PostHog recebe sua categoria, mensagem e o
+            e-mail que você deixar no formulário. O contato é opcional e pode
+            ser alterado ou removido antes de enviar.
+          </Text>
+          <Text variant="caption">
+            Esse envio é independente dos controles de uso e diagnóstico, sem
+            vínculo automático com a conta. Os dados são tratados nos EUA;
+            excluir sua conta não apaga automaticamente os feedbacks enviados.
+          </Text>
+        </View>
+        <View className="gap-2">
           <Text variant="label">Sua decisão fica registrada</Text>
           <Text>
             Guardamos opção, finalidade, data e versão deste aviso no
@@ -125,7 +138,8 @@ export function PrivacyDetails({
         )}
         {error !== "" && <Text accessibilityRole="alert">{error}</Text>}
         <Text variant="caption">
-          Aviso de {contact.version.split("-").reverse().join("/")}
+          Uso e diagnóstico: aviso de{" "}
+          {contact.version.split("-").reverse().join("/")}
         </Text>
         <Button accent={accent} onPress={() => setVisible(false)}>
           Fechar

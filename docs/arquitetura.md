@@ -67,6 +67,16 @@ Quatro abas: Foco, Progresso, Ajustes e Perfil. Foco concentra timer/mascote; re
 
 `GoogleSignInButton` é compartilhado entre entrada/Perfil e usa símbolo local, loading e bloqueio durante login. `Toast` de exclusão só aparece após sucesso, permanece fora da remontagem por UID e respeita safe area/movimento reduzido.
 
+## Feedback voluntário
+
+`FeedbackCard`, após a revisão do tour em Ajustes, abre `FeedbackSheet` sob controle de `Pomodog`. O formulário oferece categoria, mensagem de até 1.000 caracteres e contato opcional. O e-mail da conta é sugerido quando disponível, mas pode ser editado ou apagado; visitantes também podem fornecer contato. Rascunhos ficam somente na memória do formulário e são descartados ao fechá-lo. Falhas mantêm a tela e o texto para nova tentativa.
+
+`submission.ts` normaliza e valida campos, bloqueia envios simultâneos, cancela após 12 segundos e impede confirmação após desmontagem. Repetir a mesma tentativa conserva UUID, identidade temporária e timestamp; alterar os dados cria outra submissão. Esses identificadores deduplicam envios e não autorizam acesso nem identificam contas.
+
+`posthog.ts` envia somente `survey sent` pela API HTTPS de ingestão, com respostas por UUID das perguntas e versão do aviso específico de feedback. Confirma sucesso apenas após HTTP válido e recibo `Ok` ou `1`; a indexação no painel é posterior. `survey.ts` contém apenas configuração e token público de escrita. Não há SDK PostHog, captura de telas, replay, cookies, perfil de pessoa ou vínculo com UID. GeoIP fica desligado e o IP do evento recebe `0.0.0.0`; a infraestrutura ainda recebe a conexão de rede. Não são enviados eventos de abertura/fechamento da pesquisa; taxas do painel que dependem de impressões não medem este formulário.
+
+Respostas ficam no [PostHog Surveys](https://us.posthog.com/project/638029/surveys/01a1304a-a37b-0000-f7b0-7c0260bb419d), sem cópia no Firestore. O envio explícito independe dos controles de uso/diagnóstico e não altera suas evidências ou a versão do consentimento nativo. A exclusão de conta continua restrita aos dados da conta Firebase; retenção e atendimento de feedback estão em [Privacidade](privacidade.md).
+
 ## Aliases de imports
 
 Imports internos usam `#src/*` para código em `src/`, `#tests/*` para testes, `#app` para `App.tsx` e `#styles` para `global.css`. Exemplo: `import { Button } from "#src/components/ui/Button"`.

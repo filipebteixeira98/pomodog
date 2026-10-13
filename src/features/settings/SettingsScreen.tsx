@@ -11,6 +11,7 @@ import {
   themes,
   type Preferences,
 } from "#src/domain/preferences";
+import { FeedbackCard } from "#src/features/feedback/FeedbackCard";
 import { TourReplayCard } from "#src/features/tour/TourReplayCard";
 import { ReportingSettings } from "#src/monitoring/ReportingSettings";
 import { countdownSupported } from "#src/notifications/countdown";
@@ -22,6 +23,7 @@ type Props = {
   systemReducedMotion: boolean;
   accent: string;
   onReplayTour: () => void;
+  onFeedback: () => void;
   notificationNotice: string;
   notificationBusy: boolean;
   notificationsSupported: boolean;
@@ -35,6 +37,7 @@ export function SettingsScreen({
   systemReducedMotion,
   accent,
   onReplayTour,
+  onFeedback,
   notificationNotice,
   notificationBusy,
   notificationsSupported,
@@ -149,6 +152,7 @@ export function SettingsScreen({
       <ReportingSettings accent={accent} />
       <AnalyticsSettings accent={accent} />
       <TourReplayCard accent={accent} onReplay={onReplayTour} />
+      <FeedbackCard accent={accent} onOpen={onFeedback} />
     </>
   );
 }

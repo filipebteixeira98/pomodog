@@ -1,8 +1,18 @@
 # Verificação — evidências vigentes
 
-Consolidado em 12/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
+Consolidado em 13/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
 
 ## Última verificação de código
+
+Na retomada de 13/10/2026 após a interrupção, os arquivos da entrega de feedback foram preservados. TypeScript, os **132 testes**, formatação dos arquivos alterados e verificação do diff passaram novamente. As verificações de export, navegador e PostHog abaixo foram realizadas em 12/10/2026 e correspondem ao mesmo código da funcionalidade.
+
+Na entrega de feedback de 12/10/2026, TypeScript, **132 testes**, exports Android/web, formatação e verificação do diff passaram. Nove testes novos cobrem campos permitidos, contato opcional, validação, duplicidade, retry estável, timeout/cancelamento e recibos HTTP atuais/legados. Não foram adicionados SDKs, dependências ou módulos nativos.
+
+Chrome isolado em 390 × 844 e 320 × 740 verificou abertura em Ajustes, contato vazio para visitante, validação sem envio, falha com preservação do texto, identidade estável ao tentar novamente, fechamento bloqueado durante envio, toast e formulário novo vazio. Não houve exceções não tratadas ou overflow horizontal do modal. [Captura do formulário](screenshots/feedback-web-2026-10-12.png).
+
+A pesquisa API foi criada e ativada via MCP no [PostHog Surveys](https://us.posthog.com/project/638029/surveys/01a1304a-a37b-0000-f7b0-7c0260bb419d). Uma resposta sintética do próprio formulário obteve HTTP 200 e toast; categoria, mensagem e contato fictício foram confirmados no painel. A validação da versão final confirmou no evento `0ba9b3ee-f59a-48d9-bb09-c238056a5fcb` IP mascarado, GeoIP desativado, processamento de perfil desligado e aviso de feedback `2026-10-12`. Os registros de teste são identificados no texto e não representam avaliações de usuários. A indexação foi posterior ao recibo; inicialmente o evento já existia antes de as ferramentas de respostas exibirem seus campos.
+
+O preenchimento de e-mail da conta foi conferido no encadeamento de props; não foi feito novo login real nem teste físico de teclado, leitor de tela ou recusa de telemetria nesta entrega. Esses testes continuam no plano de ação. O celular pessoal, o Metro existente e o modo debug de Analytics foram preservados. Retenção e atendimento dos feedbacks continuam pendentes em [Privacidade](privacidade.md).
 
 Na simplificação de Progresso de 12/10/2026, o card inferior sobre histórico local foi removido. A revisão do diff confirmou a preservação dos cards de estatísticas e conquistas, dos cálculos e do armazenamento. TypeScript, formatação e verificação do diff passaram; a apresentação não foi validada novamente no aparelho.
 

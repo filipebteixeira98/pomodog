@@ -1,6 +1,6 @@
 # Privacidade e adequação à LGPD
 
-Atualizado em 11/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
+Atualizado em 12/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
 
 ## Inventário e bases a validar
 
@@ -13,9 +13,20 @@ Os controles da notificação Android mantêm UID (quando autenticado) e token t
 | Uso opcional              | Telas/ciclos, identificador da instalação e dados técnicos; eventos automáticos do SDK também podem existir após autorização. | Google Analytics, somente Android.                                                                                                | Consentimento específico e revogável; publicidade e vínculo `user_id`/UID desligados.                                                                           |
 | Diagnóstico opcional      | Falhas e locais técnicos da stack, filtrados sem mensagens originais ou identidade.                                           | Sentry; DSN atual usa ingestão nos EUA.                                                                                           | Consentimento específico e revogável; ausência de nome/e-mail não prova anonimização irreversível.                                                              |
 | Evidências das decisões   | Finalidade, opção, versão do aviso, horário informado pelo dispositivo e origem.                                              | Última escolha de cada finalidade localmente; escolhas feitas com login também em `users/{uid}/consents/{id}`.                    | Comprovação e prestação de contas; definir fundamento e prazo proporcionais com revisão jurídica. Não vincula identificador Analytics ou eventos Sentry ao UID. |
+| Feedback explícito        | Categoria, mensagem, contato opcional, versão do aviso e identificador/data por submissão.                                    | PostHog Surveys em projeto dos EUA; sem cópia no Firestore nem vínculo automático com UID.                                        | Ação voluntária de envio independente da telemetria; revisar fundamento, retenção e atendimento. E-mail/texto podem identificar o remetente.                    |
 | Notificações de conclusão | Deadline e modo da sessão.                                                                                                    | Agendamento local no sistema; não utiliza push remoto.                                                                            | Permissão do sistema e escolha do usuário; independente da telemetria.                                                                                          |
 
 Não há replay, heatmaps, conteúdo de agenda, IA, pagamentos ou dados familiares nesta entrega. A futura funcionalidade de responsáveis/filhos exige avaliação própria do melhor interesse e das exigências do art. 14; não presumir que os controles atuais atendem público infantil.
+
+## Feedback enviado pelo usuário
+
+O formulário em Ajustes envia apenas após o botão Enviar feedback. Login não é necessário. Quando há conta, seu e-mail é sugerido no campo opcional, com edição/remoção antes do envio; isso não vincula a resposta ao UID. Ao confirmar, categoria, mensagem e contato informado são enviados ao PostHog, com versão do aviso próprio, timestamp e identificador temporário da submissão. A definição da pesquisa é pública; as respostas exigem acesso autorizado ao projeto.
+
+Uso/diagnóstico recusados não impedem um comentário voluntário. Não há envio de rascunhos, histórico, logs, identificador de instalação ou cookies. O IP do evento é substituído por `0.0.0.0`, com GeoIP desativado; o fornecedor ainda processa a conexão e seus metadados de infraestrutura. Não classificar comentários livres ou e-mails como anônimos. Dados ficam no projeto PostHog dos EUA, adicionando um fornecedor ao inventário e à revisão contratual/publicação da política.
+
+O aviso de feedback é `2026-10-12`, enviado com a resposta; os consentimentos de uso/diagnóstico mantêm sua versão atual, pois não autorizam esse envio. HTTP confirmado significa aceitação para processamento; a indexação no painel pode demorar. Rascunhos são mantidos na memória enquanto o formulário estiver aberto; falhas permitem tentar novamente e fechar descarta o rascunho.
+
+A exclusão da conta Firebase não remove esses feedbacks, pois não há relacionamento com UID. Definir prazo proporcional de retenção, execução da limpeza e atendimento de acesso/exclusão junto ao PostHog antes da publicação. Nenhum prazo ou remoção automática foi configurado nesta entrega; arquivar uma resposta no painel não comprova apagar seus dados.
 
 ## Widget na tela inicial
 
@@ -48,6 +59,7 @@ Art. 16 admite conservação em hipóteses específicas; não cria prazo univers
 | Evidências           | Última escolha local; histórico autenticado até exclusão da conta no fluxo atual.                    | Definir limite adicional de idade e eventual conservação legal mínima; implementar limpeza conforme decisão, sem prazo arbitrário de cinco anos.                                                                                      |
 | GA4 usuário/evento   | Recomendar **2 meses**, com renovação por nova atividade desligada.                                  | Confirmar manualmente em Administrador → Retenção de dados e registrar data/configuração. Não configurado automaticamente nesta entrega. Isso não limita os relatórios agregados padrão nem significa apagamento total em dois meses. |
 | Sentry               | Escolher o menor prazo disponível no plano e na categoria; referência do fornecedor: **30–90 dias**. | Confirmar plano/retention e tratamento de backups; não publicar 30 ou 90 dias como prazo real antes da confirmação. Não configurado automaticamente nesta entrega.                                                                    |
+| Feedback/PostHog     | Prazo a definir conforme finalidade e capacidade de atendimento.                                     | Confirmar retenção dos eventos/respostas no plano e mecanismo de exclusão. Não há limpeza automática nem vínculo com exclusão de conta; não prometer prazo antes de configurá-lo.                                                     |
 | Pedidos de titulares | Dados mínimos necessários ao atendimento e comprovação.                                              | Definir canal, validação proporcional da identidade, prazo/base de conservação e quem responde. Não manter cópias de identidade sem necessidade.                                                                                      |
 
 ## Acesso, correção e exclusão

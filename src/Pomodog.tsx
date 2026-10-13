@@ -27,8 +27,10 @@ import { AppHeader } from "#src/components/AppHeader";
 import { BottomNavigation, type Tab } from "#src/components/BottomNavigation";
 import { ResetConfirmation } from "#src/components/ResetConfirmation";
 import { Text } from "#src/components/ui/Text";
+import { Toast } from "#src/components/ui/Toast";
 import { localSession, type CustomerSession } from "#src/domain/customer";
 import { themes } from "#src/domain/preferences";
+import { FeedbackSheet } from "#src/features/feedback/FeedbackSheet";
 import { FocusScreen } from "#src/features/focus/FocusScreen";
 import { Onboarding } from "#src/features/onboarding/Onboarding";
 import { NotificationsScreen } from "#src/features/permissions/NotificationsScreen";
@@ -90,6 +92,12 @@ export function Pomodog({
   const systemReducedMotion = useReducedMotion();
   const [tab, setTab] = useState<Tab>("focus");
   const [updatesDismissed, setUpdatesDismissed] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [showFeedbackToast, setShowFeedbackToast] = useState(false);
+  const dismissFeedbackToast = useCallback(
+    () => setShowFeedbackToast(false),
+    [],
+  );
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmErase, setConfirmErase] = useState(false);
   const [dataNotice, setDataNotice] = useState("");
@@ -139,6 +147,8 @@ export function Pomodog({
       setShowPrivacy(false);
       setShowNotifications(false);
       setConfirmErase(false);
+      setShowFeedback(false);
+      setShowFeedbackToast(false);
       setDataNotice("Os dados locais foram apagados.");
     } catch {
       setDataNotice("Não foi possível apagar os dados. Tente novamente.");
@@ -236,6 +246,10 @@ export function Pomodog({
                 systemReducedMotion={systemReducedMotion}
                 accent={accent}
                 onReplayTour={startTour}
+                onFeedback={() => {
+                  setShowFeedbackToast(false);
+                  setShowFeedback(true);
+                }}
                 notificationNotice={model.notificationNotice}
                 notificationBusy={
                   model.notificationBusy || !model.ready || model.isErasing
@@ -297,6 +311,28 @@ export function Pomodog({
           accent={accent}
           reducedMotion={reducedMotion}
         />
+        {showFeedback && (
+          <FeedbackSheet
+            accent={accent}
+            reducedMotion={reducedMotion}
+            suggestedEmail={
+              session.status === "authenticated"
+                ? session.customer.email
+                : undefined
+            }
+            onClose={() => setShowFeedback(false)}
+            onSent={() => {
+              setShowFeedback(false);
+              setShowFeedbackToast(true);
+            }}
+          />
+        )}
+        {showFeedbackToast && (
+          <Toast
+            message="Feedback enviado. Obrigado por ajudar!"
+            onDismiss={dismissFeedbackToast}
+          />
+        )}
         <ResetConfirmation
           visible={confirmReset}
           onClose={() => setConfirmReset(false)}
