@@ -1,6 +1,6 @@
 # Próximas etapas — escopo e critérios
 
-Atualizado em 12/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
+Atualizado em 13/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
 
 ## Dados, contas e segurança
 
@@ -30,6 +30,8 @@ Adotar branches/PRs após definir política; alinhar versões do app/build/chang
 
 Catálogo futuro, sem ativação de serviços por constar nesta lista. Validar valor antes da cobrança; hipóteses e roteiro de entrevistas em [Produto e validação](produto-e-validacao.md).
 
+Decisão de 13/10/2026: postergar NPS e priorizar comentários/quantidade de respostas do feedback existente e tendências agregadas de uso autorizado. Essas fontes já estão disponíveis; sua análise conjunta é manual, sem cruzamento automático entre respostas, conta e telemetria. NPS acrescentaria uma medida de disposição para recomendar, ainda não coletada pelo formulário atual.
+
 | Proposta                                      | Critérios da primeira entrega                                                                                                                                                                                                                                                       |
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Atividades durante o descanso em planos pagos | Prototipar desenho livre, formas geométricas e sugestões opcionais. Permitir pular, encerrar e voltar ao foco; avaliar prazer e distração. Não prometer hiperfoco ou eficiência sem evidência.                                                                                      |
@@ -38,6 +40,7 @@ Catálogo futuro, sem ativação de serviços por constar nesta lista. Validar v
 | Curiosidades e notícias de neurociência       | Definir curadoria, fontes, datas e revisão editorial. Registrar o ciclo proposto “estímulo → feeder → preparação → repetição definitiva”, referido como “série real”, como hipótese conceitual. Esclarecer os termos e verificar a origem antes de exibir como conteúdo científico. |
 | Insights com inteligência artificial          | Definir perguntas úteis e prototipar com dados sintéticos. Antes de enviar dados reais, definir consentimento, minimização, fornecedor, custo e retenção. Apresentar sugestões opcionais, sem diagnóstico ou inferência de saúde.                                                   |
 | Feedback e comentários                        | Validar formulário de Ajustes com e sem login, teclado, falha de rede e recusa de telemetria. PostHog recebe categoria, mensagem e contato opcional, sem UID. Definir retenção, atendimento e proteção contra abuso além dos limites de envio no cliente.                           |
+| Pesquisa NPS                                  | Avaliar nota de 0 a 10 e motivo opcional, sem exigir login/e-mail. Convite dispensável fora do foco/onboarding; momento e intervalo de 60 dias são hipóteses a validar. Analisar indicador com quantidade de respostas e comentários, sem vínculo automático com telemetria.        |
 | Backgrounds pagos                             | Definir catálogo, prévia e acesso por assinatura. Preservar legibilidade, contraste e desempenho; incluir restauração ao padrão e alternativa gratuita.                                                                                                                             |
 | Experiência além da produtividade             | Avaliar companhia, descanso, prazer e autonomia como objetivos. Não reduzir sucesso a minutos ou sessões; validar textos e mecânicas sem pressão por desempenho.                                                                                                                    |
 | Sonoplastia                                   | Prototipar sons de interação e transição, com controle de volume e opção de silenciar. Verificar licenças e respeitar ambiente de uso; não duplicar som de notificação.                                                                                                             |
