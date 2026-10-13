@@ -4,6 +4,8 @@ Consolidado em 13/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
+Na compactação da prévia de novidades em Foco de 13/10/2026, o card passou a usar padding vertical simétrico, altura mínima de 60, textos de 11/10 e ícone de 16. O conjunto ícone/textos fica centralizado, com espaço reservado para o fechamento à direita; seu ícone tem 14 e a área de toque mantém largura de 44 e a altura do card. A altura pode crescer conforme a quebra de linhas. TypeScript, formatação e verificação do diff passaram; mensagem, callback e condições de exibição foram preservados. A apresentação ainda requer validação no aparelho; não houve nova verificação visual nesta entrega.
+
 Na retomada de 13/10/2026 após a interrupção, os arquivos da entrega de feedback foram preservados. TypeScript, os **132 testes**, formatação dos arquivos alterados e verificação do diff passaram novamente. As verificações de export, navegador e PostHog abaixo foram realizadas em 12/10/2026 e correspondem ao mesmo código da funcionalidade.
 
 Na entrega de feedback de 12/10/2026, TypeScript, **132 testes**, exports Android/web, formatação e verificação do diff passaram. Nove testes novos cobrem campos permitidos, contato opcional, validação, duplicidade, retry estável, timeout/cancelamento e recibos HTTP atuais/legados. Não foram adicionados SDKs, dependências ou módulos nativos.
