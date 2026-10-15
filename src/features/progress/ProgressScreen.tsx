@@ -105,11 +105,6 @@ export function ProgressScreen({
           Minutos por dia · escala ajustada ao maior valor
         </Text>
       </Card>
-      <ProgressShareButton
-        sessions={completed}
-        accent={accent}
-        reducedMotion={reducedMotion}
-      />
       <Card>
         <Text variant="heading">Pequenas conquistas</Text>
         {recent.length === 0 ? (
@@ -145,6 +140,17 @@ export function ProgressScreen({
             </View>
           ))
         )}
+      </Card>
+      <Card className="gap-4 bg-[#EEF1E7]">
+        <View className="gap-1">
+          <Text variant="heading">Celebre seus avanços</Text>
+          <Text>Seu ritmo em uma imagem com Nino.</Text>
+        </View>
+        <ProgressShareButton
+          sessions={completed}
+          accent={accent}
+          reducedMotion={reducedMotion}
+        />
       </Card>
     </>
   );

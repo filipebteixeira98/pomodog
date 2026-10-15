@@ -4,6 +4,8 @@ Consolidado em 15/10/2026. Registra o que foi verificado e seus limites; status 
 
 ## Última verificação de código
 
+Na reorganização de Progresso de 15/10/2026, o compartilhamento passou para um card verde pastel ao final da tela, após Pequenas conquistas, com título e descrição curtos. TypeScript, formatação do componente e verificação do diff passaram. A revisão confirmou a ordem e a preservação do botão, dados e fluxo da prévia. O layout novo ainda não foi conferido no aparelho; as capturas da entrega abaixo registram a versão anterior à inclusão deste card.
+
 Na entrega de compartilhamento de progresso, concluída em 15/10/2026, TypeScript, **138 testes**, exports Android/web, formatação dos arquivos de código alterados e verificação do diff passaram. Seis testes novos cobrem resumo mínimo e sequência maior que sete dias, PNG válido/inválido, timeout, cancelamento, duplo toque, nova tentativa e limpeza por idade/quantidade. Não houve mudança em regras Firestore, coleta de uso ou publicação automática.
 
 Chrome isolado verificou a prévia em 390 × 844 e 320 × 740, fechamento, botão sem extrapolar seus limites e download de PNG com **1080 × 1350** (155.525 bytes na amostra). O cartão exibiu dez dias consecutivos, 175 minutos e sete sessões semanais, com dados fictícios; não houve overflow horizontal ou exceções não tratadas.

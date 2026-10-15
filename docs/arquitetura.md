@@ -79,7 +79,7 @@ Respostas ficam no [PostHog Surveys](https://us.posthog.com/project/638029/surve
 
 ## Compartilhamento de progresso
 
-`src/features/sharing` compõe o botão de Progresso, prévia e adaptadores de entrega. Ao abrir, captura somente três números: sequência atual de dias com foco, minutos e sessões concluídas nos últimos sete dias. Reutiliza os cálculos do domínio; o resumo fica congelado até fechar a prévia. Não recebe identidade, IDs, horários de sessões ou texto livre.
+`src/features/sharing` compõe o botão de Progresso, prévia e adaptadores de entrega. A tela apresenta o botão em card próprio verde pastel, ao final, após Pequenas conquistas, com título e descrição curtos. Ao abrir, captura somente três números: sequência atual de dias com foco, minutos e sessões concluídas nos últimos sete dias. Reutiliza os cálculos do domínio; o resumo fica congelado até fechar a prévia. Não recebe identidade, IDs, horários de sessões ou texto livre.
 
 `ProgressShareArtwork` reutiliza as camadas SVG estáticas do Nino e a cor escolhida. `react-native-svg` gera um PNG de 1080 × 1350, sem capturar a tela inteira. Timeout, cancelamento na desmontagem e bloqueio de duplo toque protegem a exportação. Falhas permitem tentar novamente; diagnóstico opcional usa somente a operação filtrada `sharing.image`.
 
