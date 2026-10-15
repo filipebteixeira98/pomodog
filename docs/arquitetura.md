@@ -1,6 +1,6 @@
 # Arquitetura atual
 
-Atualizado em 12/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
+Atualizado em 15/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
 
 ## Responsabilidades
 
@@ -76,6 +76,18 @@ Quatro abas: Foco, Progresso, Ajustes e Perfil. Foco concentra timer/mascote; re
 `posthog.ts` envia somente `survey sent` pela API HTTPS de ingestão, com respostas por UUID das perguntas e versão do aviso específico de feedback. Confirma sucesso apenas após HTTP válido e recibo `Ok` ou `1`; a indexação no painel é posterior. `survey.ts` contém apenas configuração e token público de escrita. Não há SDK PostHog, captura de telas, replay, cookies, perfil de pessoa ou vínculo com UID. GeoIP fica desligado e o IP do evento recebe `0.0.0.0`; a infraestrutura ainda recebe a conexão de rede. Não são enviados eventos de abertura/fechamento da pesquisa; taxas do painel que dependem de impressões não medem este formulário.
 
 Respostas ficam no [PostHog Surveys](https://us.posthog.com/project/638029/surveys/01a1304a-a37b-0000-f7b0-7c0260bb419d), sem cópia no Firestore. O envio explícito independe dos controles de uso/diagnóstico e não altera suas evidências ou a versão do consentimento nativo. A exclusão de conta continua restrita aos dados da conta Firebase; retenção e atendimento de feedback estão em [Privacidade](privacidade.md).
+
+## Compartilhamento de progresso
+
+`src/features/sharing` compõe o botão de Progresso, prévia e adaptadores de entrega. Ao abrir, captura somente três números: sequência atual de dias com foco, minutos e sessões concluídas nos últimos sete dias. Reutiliza os cálculos do domínio; o resumo fica congelado até fechar a prévia. Não recebe identidade, IDs, horários de sessões ou texto livre.
+
+`ProgressShareArtwork` reutiliza as camadas SVG estáticas do Nino e a cor escolhida. `react-native-svg` gera um PNG de 1080 × 1350, sem capturar a tela inteira. Timeout, cancelamento na desmontagem e bloqueio de duplo toque protegem a exportação. Falhas permitem tentar novamente; diagnóstico opcional usa somente a operação filtrada `sharing.image`.
+
+No Android/iOS, `expo-sharing` é carregado ao compartilhar e entrega o arquivo à janela do sistema, sem OAuth social, upload próprio ou confirmação de publicação. Os ícones de X, Facebook e Instagram no botão são SVGs locais de Simple Icons (CC0); os destinos disponíveis dependem dos aplicativos instalados e do suporte a imagens. Na web, a mesma prévia oferece download local do PNG.
+
+O adaptador nativo grava em `cache/pomodog-shares`. Antes de cada nova imagem, remove seus arquivos com mais de 24 horas e mantém até oito anteriores, totalizando no máximo nove com o novo envio. A limpeza depende da próxima tentativa, não de um serviço agendado. Arquivos entregues permanecem temporariamente para o destinatário conseguir lê-los; cancelamento antes da entrega remove o arquivo. Apagamento local e exclusão de conta limpam o diretório e invalidam operações pendentes. Isso não remove cópias já compartilhadas fora do Pomodog.
+
+`expo-sharing` adiciona um módulo nativo e exige novo development build. A integração usa apenas compartilhamento de saída; não registra o app para receber conteúdo de outros aplicativos.
 
 ## Aliases de imports
 

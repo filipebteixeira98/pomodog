@@ -1,6 +1,6 @@
 # Próximas etapas — escopo e critérios
 
-Atualizado em 13/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
+Atualizado em 15/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
 
 ## Dados, contas e segurança
 
@@ -35,7 +35,7 @@ Decisão de 13/10/2026: postergar NPS e priorizar comentários/quantidade de res
 | Proposta                                      | Critérios da primeira entrega                                                                                                                                                                                                                                                       |
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Atividades durante o descanso em planos pagos | Prototipar desenho livre, formas geométricas e sugestões opcionais. Permitir pular, encerrar e voltar ao foco; avaliar prazer e distração. Não prometer hiperfoco ou eficiência sem evidência.                                                                                      |
-| Compartilhamento em redes sociais             | Criar prévia de cartão com progresso ou Nino e compartilhamento por ação explícita. Evitar publicar identidade/histórico sem escolha do usuário. Consolidar com a frente social existente.                                                                                          |
+| Compartilhamento em redes sociais             | No novo development build, abrir Progresso → Compartilhe seu progresso e conferir sequência/totais com e sem histórico/login. Validar prévia, cancelamento, destinos instalados e leitura acessível. O PNG não inclui identidade; o sistema escolhe destinos compatíveis. Sem publicação automática ou OAuth social. |
 | Sneak peek e evolução do produto              | Manter o card acima dos ciclos em Foco, entre sessões, com mensagem genérica e opção de fechar. Não antecipar funcionalidades específicas nem datas. Avaliar clareza, fechamento, interesse e retorno dos usuários.                                                                 |
 | Curiosidades e notícias de neurociência       | Definir curadoria, fontes, datas e revisão editorial. Registrar o ciclo proposto “estímulo → feeder → preparação → repetição definitiva”, referido como “série real”, como hipótese conceitual. Esclarecer os termos e verificar a origem antes de exibir como conteúdo científico. |
 | Insights com inteligência artificial          | Definir perguntas úteis e prototipar com dados sintéticos. Antes de enviar dados reais, definir consentimento, minimização, fornecedor, custo e retenção. Apresentar sugestões opcionais, sem diagnóstico ou inferência de saúde.                                                   |

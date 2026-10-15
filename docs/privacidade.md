@@ -1,6 +1,6 @@
 # Privacidade e adequação à LGPD
 
-Atualizado em 12/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
+Atualizado em 15/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
 
 ## Inventário e bases a validar
 
@@ -15,6 +15,7 @@ Os controles da notificação Android mantêm UID (quando autenticado) e token t
 | Evidências das decisões   | Finalidade, opção, versão do aviso, horário informado pelo dispositivo e origem.                                              | Última escolha de cada finalidade localmente; escolhas feitas com login também em `users/{uid}/consents/{id}`.                    | Comprovação e prestação de contas; definir fundamento e prazo proporcionais com revisão jurídica. Não vincula identificador Analytics ou eventos Sentry ao UID. |
 | Feedback explícito        | Categoria, mensagem, contato opcional, versão do aviso e identificador/data por submissão.                                    | PostHog Surveys em projeto dos EUA; sem cópia no Firestore nem vínculo automático com UID.                                        | Ação voluntária de envio independente da telemetria; revisar fundamento, retenção e atendimento. E-mail/texto podem identificar o remetente.                    |
 | Notificações de conclusão | Deadline e modo da sessão.                                                                                                    | Agendamento local no sistema; não utiliza push remoto.                                                                            | Permissão do sistema e escolha do usuário; independente da telemetria.                                                                                          |
+| Compartilhamento explícito | PNG com Nino, marca, cor, dias consecutivos e totais de minutos/sessões dos últimos sete dias. | Cache privado e aplicativo escolhido na janela do sistema; na web, download local. | Ação solicitada com prévia; independe de login/telemetria. O destinatário poderá vincular a imagem ao perfil social do usuário. |
 
 Não há replay, heatmaps, conteúdo de agenda, IA, pagamentos ou dados familiares nesta entrega. A futura funcionalidade de responsáveis/filhos exige avaliação própria do melhor interesse e das exigências do art. 14; não presumir que os controles atuais atendem público infantil.
 
@@ -27,6 +28,14 @@ Uso/diagnóstico recusados não impedem um comentário voluntário. Não há env
 O aviso de feedback é `2026-10-12`, enviado com a resposta; os consentimentos de uso/diagnóstico mantêm sua versão atual, pois não autorizam esse envio. HTTP confirmado significa aceitação para processamento; a indexação no painel pode demorar. Rascunhos são mantidos na memória enquanto o formulário estiver aberto; falhas permitem tentar novamente e fechar descarta o rascunho.
 
 A exclusão da conta Firebase não remove esses feedbacks, pois não há relacionamento com UID. Definir prazo proporcional de retenção, execução da limpeza e atendimento de acesso/exclusão junto ao PostHog antes da publicação. Nenhum prazo ou remoção automática foi configurado nesta entrega; arquivar uma resposta no painel não comprova apagar seus dados.
+
+## Compartilhamento solicitado pelo usuário
+
+Progresso oferece uma prévia antes de compartilhar. A imagem contém apenas o resumo agregado apresentado, sem nome, e-mail, UID, identificadores, horários ou histórico detalhado. O Pomodog não publica automaticamente, não faz upload próprio e não registra novos eventos de uso para essa ação. Uso/diagnóstico recusados não impedem compartilhar; falhas só entram no diagnóstico filtrado quando autorizado.
+
+No dispositivo móvel, o PNG fica no cache privado para a leitura pelo aplicativo escolhido. A cada nova tentativa, arquivos próprios com mais de 24 horas são removidos e até oito anteriores são preservados; com a nova imagem, o limite é nove. Não há limpeza agendada ao completar 24 horas. Apagar dados locais ou excluir a conta também limpa esse cache. Na web, o arquivo é baixado pelo navegador.
+
+Imagens salvas, publicadas ou recebidas por outros aplicativos ficam fora do controle do Pomodog. Excluir a conta não apaga essas cópias; o usuário escolhe o destino e sua visibilidade. O compartilhamento não altera os consentimentos nem vincula a conta Firebase à telemetria.
 
 ## Widget na tela inicial
 

@@ -1,8 +1,16 @@
 # Verificação — evidências vigentes
 
-Consolidado em 13/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
+Consolidado em 15/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
 
 ## Última verificação de código
+
+Na entrega de compartilhamento de progresso, concluída em 15/10/2026, TypeScript, **138 testes**, exports Android/web, formatação dos arquivos de código alterados e verificação do diff passaram. Seis testes novos cobrem resumo mínimo e sequência maior que sete dias, PNG válido/inválido, timeout, cancelamento, duplo toque, nova tentativa e limpeza por idade/quantidade. Não houve mudança em regras Firestore, coleta de uso ou publicação automática.
+
+Chrome isolado verificou a prévia em 390 × 844 e 320 × 740, fechamento, botão sem extrapolar seus limites e download de PNG com **1080 × 1350** (155.525 bytes na amostra). O cartão exibiu dez dias consecutivos, 175 minutos e sete sessões semanais, com dados fictícios; não houve overflow horizontal ou exceções não tratadas.
+
+O **APK debug x86_64** compilou com JDK 17 e `expo-sharing` autolinkado. A tentativa inicial com o Java padrão falhou em CMake/worklets; repetir com o JDK documentado passou. No emulador Android 15/API 35, criado em diretório temporário com armazenamento próprio, o fluxo real abriu a prévia, gerou o PNG nativo de **1080 × 1350** (127.280 bytes na amostra) e iniciou `com.android.intentresolver/.ChooserActivityLauncher`. Cancelar a janela permitiu compartilhar novamente e criou uma segunda imagem. [Prévia Android](screenshots/compartilhamento-android-2026-10-15.png) e [PNG gerado pelo Android](screenshots/compartilhamento-cartao-2026-10-15.png) foram inspecionados.
+
+As verificações usaram visitante e histórico sintético. Não houve envio/publicação em redes sociais, login real, validação física, TalkBack ou teste iOS. Leitura por cada aplicativo destinatário permanece no roteiro de [development build](development-build.md#validar-compartilhamento). O aparelho pessoal, seus dados e o modo debug de Analytics foram preservados. Apagar dados/excluir conta chama a limpeza do novo cache; essas ações não foram repetidas no aparelho nesta entrega.
 
 Na compactação da prévia de novidades em Foco de 13/10/2026, o card passou a usar padding vertical simétrico, altura mínima de 60, textos de 11/10 e ícone de 16. Conforme ajuste solicitado em seguida, o conjunto ícone/textos fica alinhado à esquerda e centralizado verticalmente, com espaço reservado para o fechamento à direita; seu ícone tem 14 e a área de toque mantém largura de 44 e a altura do card. A altura pode crescer conforme a quebra de linhas. TypeScript, formatação e verificação do diff passaram; mensagem, callback e condições de exibição foram preservados. A apresentação ainda requer validação no aparelho; não houve nova verificação visual nesta entrega.
 
@@ -76,6 +84,7 @@ Export web, formatação e links locais passaram. O backlog preserva os 76 itens
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | Mascote, progresso e alimentação | Usuário confirmou entregas funcionando no aparelho durante a sequência de desenvolvimento.                                                            | Não equivale a teste de desempenho em release ou todos os aparelhos.                                              |
 | Notificações de conclusão        | Usuário confirmou foco/descanso no aparelho físico, inclusive com tela bloqueada.                                                                     | Não comprova iOS, push remoto ou todos os cenários de revogação/cancelamento.                                     |
+| Compartilhamento de progresso   | PNG real web/Android, prévia, janela nativa e cancelamento/nova tentativa no emulador API 35. | Não comprova publicação/leitura em cada rede social, aparelho físico, TalkBack ou iOS; requer novo development build. |
 | Timer nas notificações Android   | API 35: contagem de foco/descanso em segundo plano, pausa/retomada e expiração mesmo com processo suspenso verificadas.                               | Novo build/tela bloqueada no aparelho e fallback Android 7 ainda precisam de validação; iOS não incluído.         |
 | Controles na notificação Android | API 35: ações reais de pausa/retomada em foco/descanso, estado no app e retomada após encerramento normal do processo; serviço e wake lock liberados. | Validar no aparelho com conta e tela bloqueada; não comprova Forçar parada, Android 7 ou APK completo de release. |
 | Google OAuth e Firestore         | Usuário confirmou login e registro no banco no aparelho.                                                                                              | Conflitos entre dispositivos, produção e cenários de falha requerem verificação específica.                       |

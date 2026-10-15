@@ -17,3 +17,4 @@ import "#tests/consentJournal.test.ts";
 import "#tests/permissionScreen.test.ts";
 import "#tests/collectionSettings.test.ts";
 import "#tests/feedback.test.ts";
+import "#tests/sharing.test.ts";

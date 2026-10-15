@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 
 import { setAnalyticsEnabled } from "#src/analytics/service";
+import { clearProgressImages } from "#src/features/sharing/shareImage";
 import { flushAccount } from "#src/firebase/accountData";
 import {
   createAccountDeletion,
@@ -72,6 +73,7 @@ export const deleteOwnAccount = createAccountDeletion({
     }),
   eraseLocal: async (uid) => {
     await consentJournal.forgetOwner(uid);
+    await clearProgressImages();
     await accountStore(uid).erase();
   },
   eraseIdentity: async () => {

@@ -236,6 +236,7 @@ export function Pomodog({
               <ProgressScreen
                 sessions={model.timer.sessions}
                 accent={accent}
+                reducedMotion={reducedMotion}
                 onFocus={() => setTab("focus")}
               />
             ) : tab === "settings" ? (

@@ -115,3 +115,15 @@ Esta entrega é Android; não adiciona widget iOS nem depende da autorização d
 ## Integrações nativas
 
 Mudanças em módulos/plugins de Firebase ou Sentry exigem sincronizar/reinstalar pelos comandos gerais acima. Expo Go não valida essas integrações. Roteiros de consentimento, DebugView, mapas e crashes ficam nos guias específicos, sem duplicar instalação aqui.
+
+O compartilhamento de progresso de 15/10/2026 adiciona `expo-sharing` e também exige novo development build com `npm run android`. Reload do Metro não inclui esse módulo; a prévia pode abrir no APK antigo, mas o envio não estará disponível. Atualize por cima com a mesma assinatura para preservar os dados.
+
+### Validar compartilhamento
+
+1. Em Progresso, toque **Compartilhe seu progresso**. Confira Nino, dias consecutivos, minutos e sessões dos últimos sete dias; nome/e-mail não aparecem.
+2. Feche e reabra a prévia; nenhum envio deve acontecer sem tocar **Compartilhar imagem**.
+3. Compartilhe para um aplicativo instalado que aceite PNG. Confira a imagem recebida e cancele antes de publicar se estiver apenas testando. Os ícones no botão são ilustrativos; a lista de destinos vem do sistema.
+4. Cancele a janela do sistema e tente novamente. Confira também sem histórico, sem login e com fonte maior/TalkBack. Recusar uso/diagnóstico não deve impedir compartilhar.
+5. Apagar dados locais ou excluir a conta limpa as imagens temporárias internas. Cópias que você salvou ou compartilhou em outros aplicativos precisam ser removidas nesses destinos.
+
+A web oferece **Salvar imagem**, com download local do mesmo cartão. Não há integração direta com contas de redes sociais nesta entrega.

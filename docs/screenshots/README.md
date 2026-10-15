@@ -7,5 +7,6 @@ Evidências visuais de etapas de desenvolvimento, preservadas sem exclusão. Nã
 - Capturas de onboarding, foco, progresso, ajustes, perfil e tour podem mostrar controles/textos substituídos. Nomes como “atual” referem-se à data de captura.
 - Não há captura documentada da nova oferta inicial de notificações. Não tratar imagens antigas como screenshots finais para a loja.
 - `widget-progresso-android-2026-10-11.png` registra o widget real no launcher Pixel, API 35, com sessões fictícias: quatro dias consecutivos e 51 minutos semanais. Detalhes e limites em [Verificação](../verificacao.md).
+- `compartilhamento-android-2026-10-15.png` mostra a prévia real no emulador Android API 35. `compartilhamento-cartao-2026-10-15.png` é o PNG de 1080 × 1350 gerado pelo app: dez dias consecutivos e sete sessões/175 minutos nos últimos sete dias, todos fictícios. Nenhuma publicação em rede social foi feita.
 
 Novas capturas devem identificar data/revisão no nome ou registro de evidência. Antes de usar materiais na loja, gerar imagens da versão realmente distribuída.

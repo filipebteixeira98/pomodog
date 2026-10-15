@@ -12,6 +12,7 @@ export const operations = {
   "notifications.sync": "Notification synchronization failed",
   "notifications.permission": "Notification permission operation failed",
   "widget.sync": "Progress widget synchronization failed",
+  "sharing.image": "Progress image sharing failed",
   "monitoring.verify": "Pomodog Sentry integration verification",
 } as const;
 export type ErrorOperation = keyof typeof operations;

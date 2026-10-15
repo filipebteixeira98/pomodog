@@ -6,6 +6,7 @@ import { timerEvent } from "#src/analytics/events";
 import { setAnalyticsEnabled, trackUsage } from "#src/analytics/service";
 import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
+import { clearProgressImages } from "#src/features/sharing/shareImage";
 import { AccountSaveError, saveAccount } from "#src/firebase/accountData";
 import { reportError, setReportingEnabled } from "#src/monitoring/sentry";
 import { sessionControls } from "#src/notifications/controlRuntime";
@@ -334,6 +335,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
       await setAnalyticsEnabled(false, "erasure");
       await consentJournal.clear();
       await clearLegacyExport();
+      await clearProgressImages();
       await (account ? account.erase() : erasePrototype());
       dispatch({
         type: "restore",

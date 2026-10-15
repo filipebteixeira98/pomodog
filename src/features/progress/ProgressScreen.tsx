@@ -11,15 +11,18 @@ import {
   summarizeStreak,
 } from "#src/domain/progress";
 import { StreakCard } from "#src/features/progress/StreakCard";
+import { ProgressShareButton } from "#src/features/sharing/ProgressShareButton";
 import type { Session } from "#src/timer";
 
 export function ProgressScreen({
   sessions,
   accent,
+  reducedMotion,
   onFocus,
 }: {
   sessions: Session[];
   accent: string;
+  reducedMotion: boolean;
   onFocus: () => void;
 }) {
   const now = Date.now();
@@ -102,6 +105,11 @@ export function ProgressScreen({
           Minutos por dia · escala ajustada ao maior valor
         </Text>
       </Card>
+      <ProgressShareButton
+        sessions={completed}
+        accent={accent}
+        reducedMotion={reducedMotion}
+      />
       <Card>
         <Text variant="heading">Pequenas conquistas</Text>
         {recent.length === 0 ? (
