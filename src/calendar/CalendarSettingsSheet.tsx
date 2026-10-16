@@ -1,15 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
   Linking,
   Pressable,
+  StyleSheet,
   Switch,
-  TextInput,
   View,
 } from "react-native";
+import {
+  BottomSheetTextInput,
+  type BottomSheetModal,
+} from "@gorhom/bottom-sheet";
 import Unlink from "lucide-react-native/icons/unlink";
-import X from "lucide-react-native/icons/x";
 
 import type { CalendarSnapshot } from "#src/calendar/integration";
 import {
@@ -17,8 +20,8 @@ import {
   type CalendarPreferences,
 } from "#src/calendar/model";
 import { calendar } from "#src/calendar/service";
+import { BottomSheet } from "#src/components/ui/BottomSheet";
 import { Button, TextButton } from "#src/components/ui/Button";
-import { Sheet } from "#src/components/ui/Sheet";
 import { Text } from "#src/components/ui/Text";
 
 const clock = (value: number) =>
@@ -48,8 +51,10 @@ export function CalendarSettingsSheet({
   const [start, setStart] = useState(clock(initial.start));
   const [end, setEnd] = useState(clock(initial.end));
   const [reminder, setReminder] = useState(clock(initial.reminder));
-  const [disconnecting, setDisconnecting] = useState(false);
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const sheet = useRef<BottomSheetModal>(null);
+  const operation = useRef(false);
   const mounted = useRef(true);
   useEffect(() => {
     mounted.current = true;
@@ -57,64 +62,69 @@ export function CalendarSettingsSheet({
       mounted.current = false;
     };
   }, []);
-  const busy = state.busy || disconnecting;
+  const busy = state.busy || pending;
+  const canDismiss = useCallback(
+    () => !operation.current && !calendar.getSnapshot().busy,
+    [],
+  );
   async function save() {
+    if (!canDismiss()) return;
+    operation.current = true;
+    setPending(true);
     Keyboard.dismiss();
     setError("");
-    if (
-      (await calendar.save({
+    let saved = false;
+    try {
+      saved = await calendar.save({
         ...draft,
         start: minutes(start),
         end: minutes(end),
         reminder: minutes(reminder),
-      })) &&
-      mounted.current
-    )
-      onClose();
+      });
+    } catch {
+      if (mounted.current)
+        setError("Não foi possível salvar. Tente novamente.");
+    } finally {
+      operation.current = false;
+      if (mounted.current) setPending(false);
+    }
+    if (saved && mounted.current) sheet.current?.dismiss();
   }
   async function disconnect() {
-    if (busy) return;
-    setDisconnecting(true);
+    if (!canDismiss()) return;
+    operation.current = true;
+    setPending(true);
+    setError("");
+    let disconnected = false;
     try {
       await calendar.disconnect();
-      if (mounted.current) onClose();
+      disconnected = true;
     } catch {
       if (mounted.current)
         setError("Não foi possível desconectar. Tente novamente.");
     } finally {
-      if (mounted.current) setDisconnecting(false);
+      operation.current = false;
+      if (mounted.current) setPending(false);
     }
+    if (disconnected && mounted.current) sheet.current?.dismiss();
   }
   return (
-    <Sheet
-      visible
-      onClose={() => {
-        if (!busy) onClose();
-      }}
+    <BottomSheet
+      modalRef={sheet}
+      title="Sua agenda, seu ritmo"
+      accessibilityLabel="Ajustes da agenda"
+      closeLabel="Fechar ajustes da agenda"
+      busy={busy}
+      canDismiss={canDismiss}
+      onDismiss={onClose}
       reducedMotion={reducedMotion}
-      keyboardAware
     >
-      <View className="flex-row items-center gap-2">
-        <Text variant="heading" className="flex-1">
-          Sua agenda, seu ritmo
-        </Text>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Fechar ajustes da agenda"
-          disabled={busy}
-          onPress={onClose}
-          className="-mr-2 h-11 w-11 items-center justify-center rounded-full active:bg-soft"
-        >
-          <X size={20} color="#73796D" />
-        </Pressable>
-      </View>
-      <Text>
-        Usamos só horários ocupados da agenda principal. Sem títulos ou
-        participantes.
+      <Text variant="caption">
+        Só horários ocupados da agenda principal. Sem detalhes dos eventos.
       </Text>
       <View className="flex-row gap-3">
         <TimeField
-          label="Foco a partir de"
+          label="Foco das"
           value={start}
           onChange={setStart}
           disabled={busy}
@@ -122,7 +132,7 @@ export function CalendarSettingsSheet({
         <TimeField label="Até" value={end} onChange={setEnd} disabled={busy} />
       </View>
       <View className="gap-2">
-        <Text variant="label">Seus dias de foco</Text>
+        <Text variant="label">Dias de foco</Text>
         <View className="flex-row flex-wrap gap-2">
           {days.map((label, day) => {
             const selected = draft.weekdays.includes(day);
@@ -155,7 +165,7 @@ export function CalendarSettingsSheet({
       </View>
       <Toggle
         label="Antecipar para hoje"
-        description="Se amanhã estiver ocupado, procurar espaço hoje."
+        description="Antecipe o foco se amanhã estiver ocupado."
         value={draft.anticipate}
         disabled={busy}
         accent={accent}
@@ -163,7 +173,7 @@ export function CalendarSettingsSheet({
       />
       <Toggle
         label="Lembretes da agenda"
-        description="Um aviso no dia sugerido, antes do foco."
+        description="Um aviso antes do foco."
         value={draft.reminders}
         disabled={busy}
         accent={accent}
@@ -180,19 +190,16 @@ export function CalendarSettingsSheet({
             />
           </View>
           <Text variant="caption">
-            Entre 07:00 e 21:00, antes do início da sua faixa de foco. Se o
-            horário de hoje já passou, a sugestão aparece apenas no app.
+            Entre 07h e 21h, antes do foco. Se já passou, a sugestão fica no
+            app.
           </Text>
         </View>
       )}
-      <Text variant="caption">
-        A agenda é consultada ao abrir ou voltar ao app. Você pode ignorar
-        sugestões ou desconectar quando quiser.
-      </Text>
       {(state.notice || error) !== "" && (
         <Text
           variant="caption"
           accessibilityRole="alert"
+          accessibilityLiveRegion="polite"
           className="text-[#B42318]"
         >
           {error || state.notice}
@@ -232,9 +239,9 @@ export function CalendarSettingsSheet({
           ).catch(() => setError("Não foi possível abrir sua Conta Google."));
         }}
       >
-        Gerenciar permissão no Google
+        Gerenciar acesso no Google
       </TextButton>
-    </Sheet>
+    </BottomSheet>
   );
 }
 
@@ -252,7 +259,7 @@ function TimeField({
   return (
     <View className="flex-1 gap-2">
       <Text variant="label">{label}</Text>
-      <TextInput
+      <BottomSheetTextInput
         accessibilityLabel={`${label}, no formato horas e minutos`}
         value={value}
         onChangeText={onChange}
@@ -261,11 +268,26 @@ function TimeField({
         placeholder="09:00"
         selectTextOnFocus
         autoCapitalize="none"
-        className="min-h-12 rounded-xl border border-line bg-canvas px-3 font-sans text-[14px] text-ink"
+        autoCorrect={false}
+        style={styles.timeInput}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  timeInput: {
+    minHeight: 48,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#E7E8DE",
+    backgroundColor: "#F8F7F2",
+    paddingHorizontal: 12,
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#343C32",
+  },
+});
 
 function Toggle({
   label,

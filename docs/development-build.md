@@ -132,6 +132,8 @@ A web oferece **Salvar imagem**, com download local do mesmo cartão. Não há i
 
 ## Google Agenda
 
+A configuração abre em bottom sheet com descrições curtas e os mesmos gestos do feedback. Esta mudança reutiliza os módulos da build anterior; se ela já contém `react-native-gesture-handler`, basta recarregar o JavaScript. Confira abertura, rolagem, arraste curto/fechamento, toque fora e Voltar. Edite horários com o teclado aberto e ative lembretes para conferir o campo adicional. Salvar/conectar ou desconectar deve bloquear fechamento durante a operação; erro ou cancelamento deve manter o formulário disponível. A verificação de OAuth real abaixo continua necessária.
+
 Primeira versão Android, com os módulos Google Sign-In e Notifications já presentes no development build. Esta entrega não adiciona dependências nativas; use o APK que já inclui esses módulos e recarregue o JavaScript. Expo Go não substitui essa instalação.
 
 ### Configuração do projeto Google

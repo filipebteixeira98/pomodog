@@ -23,6 +23,7 @@ import {
   subscribeAnalytics,
   trackUsage,
 } from "#src/analytics/service";
+import { CalendarSettingsSheet } from "#src/calendar/CalendarSettingsSheet";
 import { CalendarSuggestionCard } from "#src/calendar/CalendarSuggestionCard";
 import { useCalendar } from "#src/calendar/useCalendar";
 import { AppHeader } from "#src/components/AppHeader";
@@ -105,6 +106,7 @@ export function Pomodog({
   const [tab, setTab] = useState<Tab>("focus");
   const [updatesDismissed, setUpdatesDismissed] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [showFeedbackToast, setShowFeedbackToast] = useState(false);
   const dismissFeedbackToast = useCallback(
     () => setShowFeedbackToast(false),
@@ -197,12 +199,15 @@ export function Pomodog({
         <StatusBar style="dark" />
         <View
           className="w-full max-w-[640px] flex-1 self-center"
-          pointerEvents={tourStep !== null || showFeedback ? "none" : "auto"}
+          pointerEvents={
+            tourStep !== null || showFeedback || showCalendar ? "none" : "auto"
+          }
           aria-hidden={
             showOnboarding ||
             confirmReset ||
             confirmErase ||
             showFeedback ||
+            showCalendar ||
             tourStep !== null
           }
           accessibilityElementsHidden={
@@ -210,6 +215,7 @@ export function Pomodog({
             confirmReset ||
             confirmErase ||
             showFeedback ||
+            showCalendar ||
             tourStep !== null
           }
           importantForAccessibility={
@@ -217,6 +223,7 @@ export function Pomodog({
             confirmReset ||
             confirmErase ||
             showFeedback ||
+            showCalendar ||
             tourStep !== null
               ? "no-hide-descendants"
               : "auto"
@@ -276,6 +283,7 @@ export function Pomodog({
             ) : tab === "settings" ? (
               <SettingsScreen
                 calendarState={calendarState}
+                onCalendar={() => setShowCalendar(true)}
                 preferences={model.preferences}
                 onChange={model.updatePreferences}
                 busy={model.busy || !model.ready}
@@ -347,6 +355,14 @@ export function Pomodog({
           accent={accent}
           reducedMotion={reducedMotion}
         />
+        {showCalendar && (
+          <CalendarSettingsSheet
+            state={calendarState}
+            accent={accent}
+            reducedMotion={reducedMotion}
+            onClose={() => setShowCalendar(false)}
+          />
+        )}
         {showFeedback && (
           <FeedbackSheet
             accent={accent}

@@ -26,6 +26,7 @@ type Props = {
   accent: string;
   onReplayTour: () => void;
   onFeedback: () => void;
+  onCalendar: () => void;
   notificationNotice: string;
   notificationBusy: boolean;
   notificationsSupported: boolean;
@@ -41,6 +42,7 @@ export function SettingsScreen({
   accent,
   onReplayTour,
   onFeedback,
+  onCalendar,
   notificationNotice,
   notificationBusy,
   notificationsSupported,
@@ -156,7 +158,7 @@ export function SettingsScreen({
       <CalendarSettings
         state={calendarState}
         accent={accent}
-        reducedMotion={preferences.reduceMotion || systemReducedMotion}
+        onOpen={onCalendar}
       />
       <ReportingSettings accent={accent} />
       <AnalyticsSettings accent={accent} />
