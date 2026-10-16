@@ -10,6 +10,8 @@ A entrega de privacidade de 05/10/2026 exige novo development build: a ponte de 
 
 A contagem (10/10/2026) e os controles **Pausar/Retomar** (11/10/2026) nas notificações também exigem prebuild e novo APK, pois adicionam ponte e serviço nativos. Use os comandos de atualização abaixo; preserve a instalação e a assinatura existentes. A opção antiga **Avisar ao terminar** agora se chama **Notificações da sessão** e mantém a escolha salva.
 
+O bottom sheet de feedback (15/10/2026) adiciona `react-native-gesture-handler`. Recompile com `npm run android` para instalar esse módulo; apenas reiniciar o Metro não atualiza o APK. O formulário continua em **Ajustes → Enviar feedback**. Confira abertura, arraste curto que retorna à posição, arraste para fechar, toque fora, botão de fechar e Voltar. Com o teclado aberto, verifique os dois campos, rolagem até o envio e retorno após ocultá-lo. Durante o envio, fechar fica bloqueado; em falha, a mensagem deve permanecer para tentar novamente. Confira também a preferência de movimentos reduzidos e TalkBack. Use mensagens de teste identificadas caso decida enviá-las ao painel real.
+
 ## Primeira instalação por USB
 
 1. No celular, habilite Opções do desenvolvedor e Depuração USB. Normalmente, as opções são liberadas tocando sete vezes em Número da versão.

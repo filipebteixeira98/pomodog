@@ -197,15 +197,27 @@ export function Pomodog({
         <StatusBar style="dark" />
         <View
           className="w-full max-w-[640px] flex-1 self-center"
-          pointerEvents={tourStep !== null ? "none" : "auto"}
+          pointerEvents={tourStep !== null || showFeedback ? "none" : "auto"}
           aria-hidden={
-            showOnboarding || confirmReset || confirmErase || tourStep !== null
+            showOnboarding ||
+            confirmReset ||
+            confirmErase ||
+            showFeedback ||
+            tourStep !== null
           }
           accessibilityElementsHidden={
-            showOnboarding || confirmReset || confirmErase || tourStep !== null
+            showOnboarding ||
+            confirmReset ||
+            confirmErase ||
+            showFeedback ||
+            tourStep !== null
           }
           importantForAccessibility={
-            showOnboarding || confirmReset || confirmErase || tourStep !== null
+            showOnboarding ||
+            confirmReset ||
+            confirmErase ||
+            showFeedback ||
+            tourStep !== null
               ? "no-hide-descendants"
               : "auto"
           }
