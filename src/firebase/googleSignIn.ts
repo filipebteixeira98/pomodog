@@ -1,4 +1,3 @@
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import {
   GoogleAuthProvider,
   reauthenticateWithCredential,
@@ -7,11 +6,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "#src/firebase/auth";
-
-GoogleSignin.configure({
-  webClientId:
-    "248701391721-q59aerblmh758oah25sqk5ha208usb7q.apps.googleusercontent.com",
-});
+import { GoogleSignin } from "#src/google/client";
 
 export async function signInWithGoogle() {
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });

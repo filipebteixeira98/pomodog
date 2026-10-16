@@ -4,6 +4,7 @@ import type { User } from "firebase/auth";
 
 import { timerEvent } from "#src/analytics/events";
 import { setAnalyticsEnabled, trackUsage } from "#src/analytics/service";
+import { calendar } from "#src/calendar/service";
 import { choosePetResponse, type PetCare } from "#src/domain/petCare";
 import { defaultPreferences, type Preferences } from "#src/domain/preferences";
 import { clearProgressImages } from "#src/features/sharing/shareImage";
@@ -330,6 +331,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     notificationRequest.current++;
     try {
       await nativeProgress?.clear();
+      await calendar.disconnect();
       await sessionNotifications.sync(latestTimer.current, false);
       await setReportingEnabled(false, "erasure");
       await setAnalyticsEnabled(false, "erasure");

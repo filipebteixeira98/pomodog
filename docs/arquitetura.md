@@ -89,6 +89,20 @@ O adaptador nativo grava em `cache/pomodog-shares`. Antes de cada nova imagem, r
 
 `expo-sharing` adiciona um módulo nativo e exige novo development build. A integração usa apenas compartilhamento de saída; não registra o app para receber conteúdo de outros aplicativos.
 
+## Google Agenda e sugestões
+
+`src/calendar` separa cálculo de janelas, transporte FreeBusy, autorização, notificações e interface. `src/google/client` configura uma única instância do SDK já usado pelo login. A autorização incremental `calendar.freebusy` só é solicitada ao conectar; não adiciona escopos ao login comum nem cria uma conta Firebase para visitantes. A primeira interface é Android.
+
+Em Ajustes, o usuário escolhe faixa diária, dias, antecipação opcional para hoje e lembretes independentes das notificações de sessão. O padrão busca amanhã. A consulta à agenda principal retorna somente intervalos ocupados: sem títulos, participantes, descrições ou alteração de eventos. Se houver conflito com a faixa de amanhã, o cálculo procura espaço para foco e descanso completos, mais dez minutos antes do primeiro compromisso. Antecipar procura espaço hoje apenas quando habilitado; não há sugestão quando o período está livre, não há janela ou o dia foi excluído.
+
+`createCalendarIntegration` serializa armazenamento e efeitos nativos; geração e AbortController invalidam OAuth/HTTP atrasados. Consultas automáticas ocorrem ao carregar/retomar, com mínimo de 30 minutos entre tentativas, inclusive falhas. Salvar a rotina ou mudar os tempos de foco/descanso solicita uma consulta explícita imediata. Não há polling em primeiro ou segundo plano, servidor de agenda ou push remoto. Erros parciais da API não são tratados como disponibilidade livre.
+
+Períodos ocupados vivem apenas na memória da consulta. `pomodog.calendar.v1` guarda proprietário local, ID Google, fuso, preferências, duração total do ciclo, última tentativa, projeção da sugestão e controle de lembrete/dispensa. Tokens não são escritos pelo app; o SDK gerencia suas próprias credenciais. A projeção recente pode ser restaurada sem nova consulta; mudança de fuso/duração ou sugestão expirada a invalida. A conexão não é sincronizada pelo Firestore e seus dados não entram em Analytics, Sentry ou compartilhamento social.
+
+Foco mostra uma sugestão entre sessões, com Preparar foco e Agora não. Preparar não inicia o timer; dispensar cancela o aviso e conserva a decisão para aquele dia sugerido. O lembrete usa ID/canal próprios, até um aviso por dia local, no horário escolhido entre 07:00 e 21:00 e antes da faixa de foco. Horário já passado não gera envio imediato. Atualizações substituem o agendamento; falha de consulta cancela uma projeção possivelmente desatualizada. Avisos não incluem conteúdo do compromisso.
+
+Desconectar, apagar dados e excluir a conta removem conexão/projeção e notificações desta integração. Troca/saída de conta também interrompe o acesso; reconexão é explícita. Desconectar não revoga o consentimento OAuth inteiro, pois afetaria o login Google: a interface oferece acesso à Conta Google para a revogação completa. Não foram adicionadas dependências ou alterações nativas. Configuração e teste real ficam em [Development build](development-build.md#google-agenda).
+
 ## Aliases de imports
 
 Imports internos usam `#src/*` para código em `src/`, `#tests/*` para testes, `#app` para `App.tsx` e `#styles` para `global.css`. Exemplo: `import { Button } from "#src/components/ui/Button"`.

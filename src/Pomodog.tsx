@@ -23,6 +23,8 @@ import {
   subscribeAnalytics,
   trackUsage,
 } from "#src/analytics/service";
+import { CalendarSuggestionCard } from "#src/calendar/CalendarSuggestionCard";
+import { useCalendar } from "#src/calendar/useCalendar";
 import { AppHeader } from "#src/components/AppHeader";
 import { BottomNavigation, type Tab } from "#src/components/BottomNavigation";
 import { ResetConfirmation } from "#src/components/ResetConfirmation";
@@ -70,6 +72,16 @@ export function Pomodog({
 }) {
   const viewport = useWindowDimensions();
   const model = usePomodoro(user, accountLocked);
+  const calendarState = useCalendar(
+    user?.uid ?? "guest",
+    model.ready &&
+      !model.storageBlocked &&
+      !model.isErasing &&
+      !accountLocked &&
+      model.onboardingComplete,
+    model.preferences.focus,
+    model.preferences.rest,
+  );
   const usageEnabled = useSyncExternalStore(
     subscribeAnalytics,
     analyticsEnabled,
@@ -217,21 +229,31 @@ export function Pomodog({
               </Text>
             )}
             {tab === "focus" ? (
-              <FocusScreen
-                updatesDismissed={updatesDismissed}
-                onDismissUpdates={() => setUpdatesDismissed(true)}
-                tourTargets={targets}
-                timer={model.timer}
-                accent={accent}
-                reducedMotion={
-                  reducedMotion || showOnboarding || tourStep !== null
-                }
-                ready={model.ready}
-                onConfigure={model.configure}
-                onToggle={model.toggle}
-                onFeed={model.feedPet}
-                onReset={() => setConfirmReset(true)}
-              />
+              <>
+                <FocusScreen
+                  updatesDismissed={updatesDismissed}
+                  onDismissUpdates={() => setUpdatesDismissed(true)}
+                  tourTargets={targets}
+                  timer={model.timer}
+                  accent={accent}
+                  reducedMotion={
+                    reducedMotion || showOnboarding || tourStep !== null
+                  }
+                  ready={model.ready}
+                  onConfigure={model.configure}
+                  onToggle={model.toggle}
+                  onFeed={model.feedPet}
+                  onReset={() => setConfirmReset(true)}
+                />
+                {(model.timer.status === "idle" ||
+                  model.timer.status === "completed") && (
+                  <CalendarSuggestionCard
+                    state={calendarState}
+                    accent={accent}
+                    onPrepare={() => model.configure("focus")}
+                  />
+                )}
+              </>
             ) : tab === "progress" ? (
               <ProgressScreen
                 sessions={model.timer.sessions}
@@ -241,6 +263,7 @@ export function Pomodog({
               />
             ) : tab === "settings" ? (
               <SettingsScreen
+                calendarState={calendarState}
                 preferences={model.preferences}
                 onChange={model.updatePreferences}
                 busy={model.busy || !model.ready}

@@ -127,3 +127,29 @@ O compartilhamento de progresso de 15/10/2026 adiciona `expo-sharing` e também 
 5. Apagar dados locais ou excluir a conta limpa as imagens temporárias internas. Cópias que você salvou ou compartilhou em outros aplicativos precisam ser removidas nesses destinos.
 
 A web oferece **Salvar imagem**, com download local do mesmo cartão. Não há integração direta com contas de redes sociais nesta entrega.
+
+## Google Agenda
+
+Primeira versão Android, com os módulos Google Sign-In e Notifications já presentes no development build. Esta entrega não adiciona dependências nativas; use o APK que já inclui esses módulos e recarregue o JavaScript. Expo Go não substitui essa instalação.
+
+### Configuração do projeto Google
+
+- Google Calendar API habilitada em `pomodog-dev-2026` em 15/10/2026. O cliente OAuth existente é reutilizado; não há chave secreta ou refresh token novo no aplicativo.
+- Em [Google Auth Platform — Acesso a dados](https://console.cloud.google.com/auth/scopes?project=pomodog-dev-2026), revisar o escopo `https://www.googleapis.com/auth/calendar.freebusy`. Não pedir `calendar` ou `calendar.readonly`, que dão acesso além da disponibilidade necessária.
+- Em Público-alvo, conferir usuários de teste quando o projeto estiver em teste. Essa configuração do consentimento não foi alterada automaticamente; o teste real deve usar uma conta autorizada. Antes da loja, concluir publicação/verificação que o Google exigir para o escopo.
+- Login Google e autorização de agenda são decisões separadas. Conectar agenda no modo local não registra uma conta Firebase. Desconectar para de consultar e limpa dados locais; retirar todo o consentimento do aplicativo é uma ação na Conta Google e também pode exigir novo login.
+
+Referências: [FreeBusy](https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query) e [escopos do Calendar](https://developers.google.com/workspace/calendar/api/auth).
+
+### Validar no aparelho
+
+1. Abra Ajustes → Google Agenda. Escolha faixa e dias de foco; o padrão é 09:00–18:00 em dias úteis, buscando espaço amanhã. Autorize a agenda em Conectar Google Agenda. Confira o acesso de disponibilidade, sem permissão de edição.
+2. Crie um compromisso **ocupado** amanhã, dentro da faixa, deixando tempo antes dele para foco, descanso e dez minutos de margem. Em Salvar rotina, confirme a consulta. Em Foco, a sugestão deve aparecer entre sessões; Preparar foco não inicia o timer.
+3. Remova/mova o compromisso ou marque como livre e salve a rotina novamente. Sem conflito, a sugestão deve desaparecer. Teste compromisso de dia inteiro, períodos sobrepostos, dia excluído e ausência de janela.
+4. Habilite Antecipar para hoje para buscar espaço hoje quando amanhã interferir na rotina. A sugestão deve respeitar disponibilidade de hoje e nunca começar no passado. Desabilitar volta a procurar amanhã.
+5. Habilite Lembretes da agenda e conceda permissão. Escolha um horário futuro de 07:00 a 21:00, anterior à faixa de foco do próprio dia sugerido. Se já passou, não há aviso imediato, apenas sugestão no app.
+6. Aguarde o aviso com app em segundo plano/tela bloqueada. Deve informar só o foco sugerido, sem dados do compromisso. Confira que as notificações de conclusão continuam funcionando e seus switches são independentes.
+7. Retome repetidamente: consultas automáticas respeitam 30 minutos, inclusive após falhas. Salvar rotina ou alterar tempos de foco/descanso atualiza por ação explícita. Não há atualização contínua com app fechado.
+8. Teste Agora não, desligamento dos lembretes, desconexão, recusa/revogação no Google, rede indisponível, saída/troca de conta e exclusão local/de conta. Não deve reaparecer sugestão/aviso da conexão anterior após uma resposta atrasada.
+
+O Google decide quais eventos bloqueiam FreeBusy; múltiplas agendas não estão incluídas. O Android pode adiar avisos, e compromissos alterados após a consulta só serão considerados ao retornar/atualizar. Validação com respostas sintéticas não comprova autorização real da conta.

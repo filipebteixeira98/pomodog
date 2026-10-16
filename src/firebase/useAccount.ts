@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import { onAuthStateChanged, type User } from "firebase/auth";
 
+import { calendar } from "#src/calendar/service";
 import { localSession, type CustomerSession } from "#src/domain/customer";
 import { flushAccount, prepareAccount } from "#src/firebase/accountData";
 import {
@@ -147,6 +148,7 @@ export function useAccount() {
     setNotice("");
     try {
       await flushAccount(auth.currentUser.uid);
+      await calendar.disconnect();
       await signOutGoogle();
     } catch (error) {
       reportError(error, "account.logout");

@@ -50,21 +50,21 @@ Decisão de 13/10/2026: postergar NPS e priorizar comentários/quantidade de res
 
 Mascotes pagos: definir outros animais, acessórios, nomes e limites gratuitos/pagos. LoFi: verificar licenças, reprodução e controles. Pontuação/amigos: definir score, descoberta e sessões conjuntas sem comparação punitiva, com privacidade explícita. Não tratar grupos semelhantes como uma funcionalidade definida antes de esclarecer a intenção.
 
-## Agenda e sugestões de foco — primeira versão proposta
+## Agenda e sugestões de foco — primeira versão Android
 
-Conexão opcional com Google Agenda, separada do login Google. Começar pela agenda principal e horários ocupados de amanhã, sem necessidade de ler títulos, descrições ou participantes. Consultar disponibilidade com acesso mínimo adequado; não criar/alterar eventos. Referência da proposta: [consulta de disponibilidade](https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query).
+Conexão opcional separada do login Firebase, inclusive para visitantes. Implementação consulta a agenda principal com `calendar.freebusy`, sem títulos, descrições, participantes ou escrita de eventos. Google Calendar API habilitada em `pomodog-dev-2026`. Referência: [consulta de disponibilidade](https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query).
 
-Fluxo proposto:
+Fluxo implementado, com autorização real ainda a validar:
 
-1. Usuário conecta agenda e escolhe faixa habitual de foco, dias permitidos, horário do lembrete e preferência de antecipação.
-2. App consulta ao abrir ou voltar ao primeiro plano, apenas se a última consulta bem-sucedida ocorreu há pelo menos 30 minutos. Esse intervalo é um limite de frequência, não uma execução periódica garantida. Falhas não devem provocar tentativas contínuas em cada evento de retomada.
-3. Analisa horários ocupados de amanhã que coincidam com a rotina; procura janela livre para foco/descanso e margem antes do compromisso. Antecipação para hoje é uma escolha explícita, não inferência automática.
-4. Agenda notificação local para o horário escolhido, com no máximo uma sugestão diária e sem duplicatas. Não iniciar ciclos automaticamente; permitir ignorar, adiar ou desativar.
-5. Na próxima consulta, atualizar/cancelar lembrete pendente se a agenda mudar. Desconexão/revogação remove acesso, cache de disponibilidade e avisos pendentes dessa integração.
+1. Em Ajustes, conectar a agenda e escolher faixa habitual, dias e antecipação; lembretes começam desligados. O padrão procura espaço amanhã, e antecipar para hoje exige escolha explícita.
+2. Ao abrir/retomar, consultar se a última tentativa ocorreu há pelo menos 30 minutos, inclusive após falhas. Salvar a rotina ou mudar os tempos de foco/descanso solicita nova consulta imediata. Não há execução periódica garantida.
+3. Detectar conflito na faixa de amanhã e procurar janela para foco e descanso completos, com dez minutos de margem antes do primeiro compromisso. Sem conflito ou janela, não sugerir foco extra.
+4. Mostrar sugestão em Foco entre sessões. Preparar foco não inicia o timer; Agora não dispensa o dia sugerido. Lembretes opcionais usam horário do próprio dia de foco, entre 07:00 e 21:00, antes da faixa escolhida. Horário passado mantém apenas a sugestão no app; limite de um aviso diário.
+5. Nova consulta substitui ou cancela o aviso. Desconexão, revogação detectada, troca/saída de conta e exclusão limpam projeção e avisos; a revogação completa do OAuth é feita na Conta Google. Dados de agenda não vão para Firestore, Sentry ou Analytics.
 
-Não há consulta periódica enquanto o app permanece fechado. O aviso já agendado poderá aparecer, mas mudanças posteriores na agenda só serão consideradas ao retornar. Respeitar fuso local, horários silenciosos, sobreposição de períodos e eventos que realmente bloqueiam disponibilidade. Antes de implementar, decidir quando sugerir foco hoje versus amanhã e se as ações da notificação entram no primeiro escopo.
+Próximo passo: validar no aparelho o escopo incremental com conta permitida pelo projeto, compromisso real que bloqueie a faixa e casos sem janela/dia livre, antecipação, alteração do evento, recusa/revogação e limpeza. Conferir aviso agendado com tela bloqueada e a separação dos avisos de conclusão. Procedimento em [Development build](development-build.md#google-agenda). Essa validação não foi substituída por testes com respostas sintéticas.
 
-Manter apenas dados mínimos necessários; não enviar conteúdo de agenda ao Firestore, Sentry ou analytics nesta primeira proposta. Atualização sem abrir o app por vários dias será outra entrega, com autorização de acesso persistente, processamento no servidor e push remoto a definir. Esses componentes ainda não estão implementados.
+O aviso agendado funciona com o app fechado, mas mudanças posteriores na agenda só entram ao retornar. Adiar por ação na notificação, atualização sem abrir por vários dias, servidor, push remoto, múltiplas agendas, iOS e web ficam para entregas separadas. Acompanhar demanda antes de ampliar escopos e infraestrutura.
 
 ## Vínculo de responsáveis e rotina de filhos
 

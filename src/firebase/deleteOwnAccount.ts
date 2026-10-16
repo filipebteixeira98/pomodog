@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 
 import { setAnalyticsEnabled } from "#src/analytics/service";
+import { calendar } from "#src/calendar/service";
 import { clearProgressImages } from "#src/features/sharing/shareImage";
 import { flushAccount } from "#src/firebase/accountData";
 import {
@@ -45,11 +46,13 @@ export const deleteOwnAccount = createAccountDeletion({
     await setReportingEnabled(false, "erasure");
     await setAnalyticsEnabled(false, "erasure");
   },
-  cancelNotifications: () =>
-    sessionNotifications.sync(
+  cancelNotifications: async () => {
+    await calendar.disconnect();
+    await sessionNotifications.sync(
       { status: "idle", deadline: null, mode: "focus" },
       false,
-    ),
+    );
+  },
   eraseRemote: (uid) =>
     eraseOwnedDocuments(uid, {
       currentUid,

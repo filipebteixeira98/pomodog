@@ -3,6 +3,7 @@ import { Linking, View } from "react-native";
 import ShieldCheck from "lucide-react-native/icons/shield-check";
 
 import { analyticsSupported } from "#src/analytics/service";
+import { calendarSupported } from "#src/calendar/authorization";
 import { Button, TextButton } from "#src/components/ui/Button";
 import { Card } from "#src/components/ui/Card";
 import { Sheet } from "#src/components/ui/Sheet";
@@ -52,9 +53,9 @@ export function PrivacyDetails({
         <View className="gap-2">
           <Text variant="label">Seu progresso</Text>
           <Text>
-            Sem login, foco e preferências ficam neste dispositivo. Com Google,
-            seu nome, e-mail, progresso e preferências são armazenados na sua
-            conta.
+            Sem login, foco e preferências ficam neste dispositivo. Ao entrar na
+            sua conta, seu nome, e-mail, progresso e preferências são
+            armazenados na sua conta.
           </Text>
         </View>
         <View className="gap-2">
@@ -89,6 +90,20 @@ export function PrivacyDetails({
             excluir sua conta não apaga automaticamente os feedbacks enviados.
           </Text>
         </View>
+        {calendarSupported && (
+          <View className="gap-2">
+            <Text variant="label">Agenda, se você conectar</Text>
+            <Text>
+              Consultamos apenas horários ocupados para sugerir foco. A conexão
+              e as sugestões ficam no aparelho, sem dados de agenda nos
+              relatórios.
+            </Text>
+            <Text variant="caption">
+              Desconectar remove a conexão local e os lembretes. Para retirar a
+              permissão concedida, use sua Conta Google.
+            </Text>
+          </View>
+        )}
         <View className="gap-2">
           <Text variant="label">Sua decisão fica registrada</Text>
           <Text>

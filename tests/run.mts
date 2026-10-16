@@ -18,3 +18,4 @@ import "#tests/permissionScreen.test.ts";
 import "#tests/collectionSettings.test.ts";
 import "#tests/feedback.test.ts";
 import "#tests/sharing.test.ts";
+import "#tests/calendar.test.ts";

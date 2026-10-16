@@ -2,6 +2,8 @@ import { Switch, View } from "react-native";
 import Timer from "lucide-react-native/icons/timer";
 
 import { AnalyticsSettings } from "#src/analytics/AnalyticsSettings";
+import { CalendarSettings } from "#src/calendar/CalendarSettings";
+import type { CalendarSnapshot } from "#src/calendar/integration";
 import { Card } from "#src/components/ui/Card";
 import { ChoiceGroup } from "#src/components/ui/ChoiceGroup";
 import { Text } from "#src/components/ui/Text";
@@ -28,6 +30,7 @@ type Props = {
   notificationBusy: boolean;
   notificationsSupported: boolean;
   onNotificationsChange: (enabled: boolean) => void;
+  calendarState: CalendarSnapshot;
 };
 
 export function SettingsScreen({
@@ -42,6 +45,7 @@ export function SettingsScreen({
   notificationBusy,
   notificationsSupported,
   onNotificationsChange,
+  calendarState,
 }: Props) {
   return (
     <>
@@ -149,6 +153,11 @@ export function SettingsScreen({
           </View>
         )}
       </Card>
+      <CalendarSettings
+        state={calendarState}
+        accent={accent}
+        reducedMotion={preferences.reduceMotion || systemReducedMotion}
+      />
       <ReportingSettings accent={accent} />
       <AnalyticsSettings accent={accent} />
       <TourReplayCard accent={accent} onReplay={onReplayTour} />
