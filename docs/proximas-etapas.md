@@ -1,6 +1,6 @@
 # Próximas etapas — escopo e critérios
 
-Atualizado em 15/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
+Atualizado em 19/10/2026. Este documento detalha decisões abertas e critérios de futuras entregas. Status e prioridades estão somente no [Plano de ação](plano-de-acao.md); confirmação de testes em [Verificação](verificacao.md).
 
 ## Dados, contas e segurança
 
@@ -74,9 +74,11 @@ A autorização atual por proprietário não concede acesso entre contas. A futu
 
 ## Atividade para a sessão de foco
 
-Campo opcional e curto para informar o que o usuário deseja fazer (exemplo: “Ler um capítulo”). Preservar início rápido sem preenchimento obrigatório. Definir se o texto pertence à sessão atual ou a uma lista reutilizável, quando pode ser editado e se aparece no histórico.
+Entregue em 19/10/2026: botão discreto próximo ao timer abre bottom sheet com nome opcional de até 60 caracteres. Salvar mantém a tarefa nos próximos ciclos; limpar o campo ou escolher “Continuar sem tarefa” remove somente a seleção atual. Fechar sem salvar descarta o rascunho. Edição fica disponível entre sessões; pausa não libera alteração. Não há lista, projeto ou cadastro separado de tarefas.
 
-Planejar limite de tamanho, limpeza e persistência local; sincronização deve seguir a escolha de conta e modelo de dados definidos para esta entrega. Não incluir texto livre em eventos de analytics, diagnósticos, compartilhamento ou notificações de tela bloqueada automaticamente. Esse campo não existe ainda.
+Cada foco concluído guarda uma cópia do nome. Descanso, pausa ou reinício não criam conquistas; trocar/remover tarefa não renomeia o histórico. Registros antigos continuam sem tarefa. Progresso exibe pizza por **quantidade de ciclos concluídos**, considerando o histórico salvo de até 1.000 ciclos: cinco tarefas mais frequentes, demais em “Outras tarefas” e focos não nomeados em “Sem tarefa”. Nomes iguais, desconsiderando maiúsculas/minúsculas, são agrupados; renomear cria outra atribuição nos próximos ciclos. A legenda informa quantidade e percentual sem depender apenas da cor.
+
+O campo é dado funcional: fica no dispositivo sem login e acompanha estado/sessões na conta com login, seguindo a autorização por UID. Não compõe eventos de Analytics, diagnósticos, imagem de compartilhamento, widget ou notificações. Próxima avaliação: compreensão do formulário e utilidade do gráfico no aparelho físico, incluindo teclado, fonte ampliada, fechamento sem salvar, pausa/retomada e sincronização da conta.
 
 ## Nova animação do Nino na interface de entrada
 

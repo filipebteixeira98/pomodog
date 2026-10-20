@@ -1,6 +1,14 @@
+import { normalizeTask } from "#src/domain/focusTask.ts";
+
 export type Mode = "focus" | "break";
-export type Session = { id: string; endedAt: number; seconds: number };
+export type Session = {
+  id: string;
+  endedAt: number;
+  seconds: number;
+  task?: string;
+};
 export type Timer = {
+  task?: string;
   mode: Mode;
   status: "idle" | "running" | "paused" | "completed";
   duration: number;
@@ -19,6 +27,7 @@ export const initialTimer: Timer = {
 };
 
 export type Action =
+  | { type: "setTask"; task: string }
   | { type: "start"; now: number }
   | { type: "pause"; now: number }
   | { type: "tick"; now: number; nextDuration?: number }
@@ -38,6 +47,7 @@ export function reconcile(
     id: String(timer.deadline),
     endedAt: timer.deadline,
     seconds: timer.duration,
+    ...(timer.task ? { task: timer.task } : {}),
   };
   const nextMode: Mode = timer.mode === "focus" ? "break" : "focus";
   const duration = nextDuration ?? timer.duration;
@@ -57,6 +67,12 @@ export function reconcile(
 
 export function timerReducer(timer: Timer, action: Action): Timer {
   switch (action.type) {
+    case "setTask": {
+      if (timer.status === "running" || timer.status === "paused") return timer;
+      const { task: previous, ...rest } = timer;
+      const task = normalizeTask(action.task);
+      return task === previous ? timer : { ...rest, ...(task ? { task } : {}) };
+    }
     case "restore":
       return reconcile(action.value, action.now, action.nextDuration);
     case "tick":
@@ -128,15 +144,19 @@ export function parseTimer(raw: unknown): Timer | null {
   for (const candidate of t.sessions.slice(-1000)) {
     if (!validSession(candidate) || seen.has(candidate.id)) continue;
     seen.add(candidate.id);
+    const task = normalizeTask(candidate.task);
     sessions.push({
       id: candidate.id,
       endedAt: candidate.endedAt,
       seconds: candidate.seconds,
+      ...(task ? { task } : {}),
     });
   }
   // Retire saved demo sessions without adding them to focus history.
   if (t.demo === true) return { ...initialTimer, sessions };
+  const task = normalizeTask(t.task);
   return {
+    ...(task ? { task } : {}),
     mode: t.mode,
     status: t.status,
     duration: t.duration,

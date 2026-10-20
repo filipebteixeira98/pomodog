@@ -1,6 +1,6 @@
 # Privacidade e adequação à LGPD
 
-Atualizado em 15/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
+Atualizado em 19/10/2026. Fonte das decisões sobre bases legais, retenção, direitos e transferências internacionais. Implementação não equivale a conformidade integral: identificação do responsável, contratos, operações de atendimento e publicação da política continuam necessários. Eventos específicos ficam em [Analytics](analytics.md), filtros em [Sentry](sentry.md) e evidências em [Verificação](verificacao.md).
 
 ## Inventário e bases a validar
 
@@ -119,3 +119,9 @@ Aceitação antes de distribuição pública: responsável/contato verdadeiros; 
 - [Analytics Admin API — submitUserDeletion](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/properties/submitUserDeletion), [migração da API encerrada](https://developers.google.com/analytics/devguides/config/userdeletion/migration).
 - [Sentry — atendimento de exclusão e limites](https://www.sentry.help/en/articles/16187006-how-do-i-complete-a-gdpr-erasure-request-for-a-user-in-sentry).
 - [Google Play — dados, política e exclusão](https://support.google.com/googleplay/android-developer/answer/10144311?hl=en).
+
+## Nome opcional da tarefa
+
+Desde 19/10/2026, o usuário pode nomear seu foco com até 60 caracteres. A seleção e a cópia do nome nos ciclos concluídos ficam no armazenamento privado local; com login, acompanham estado e sessões no Firestore da própria conta. A finalidade é identificar focos e calcular a distribuição de ciclos em Progresso; não depende da autorização opcional de telemetria. Evitar inserir informações sensíveis no nome.
+
+O texto não é incluído nos eventos Analytics, diagnósticos Sentry, widget, avisos na tela bloqueada ou imagem de progresso compartilhada. Exclusão local/da conta inclui o campo por já fazer parte de estado e sessões. Alterar a seleção não remove nomes dos ciclos anteriores; apagar o histórico continua usando o fluxo existente de exclusão de dados. O dashboard considera até os 1.000 ciclos disponíveis localmente; esse limite não é uma política de retenção por idade no Firestore.

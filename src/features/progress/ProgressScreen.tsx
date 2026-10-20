@@ -11,6 +11,7 @@ import {
   summarizeStreak,
 } from "#src/domain/progress";
 import { StreakCard } from "#src/features/progress/StreakCard";
+import { TaskProgressCard } from "#src/features/progress/TaskProgressCard";
 import { ProgressShareButton } from "#src/features/sharing/ProgressShareButton";
 import type { Session } from "#src/timer";
 
@@ -105,6 +106,7 @@ export function ProgressScreen({
           Minutos por dia · escala ajustada ao maior valor
         </Text>
       </Card>
+      <TaskProgressCard sessions={completed} />
       <Card>
         <Text variant="heading">Pequenas conquistas</Text>
         {recent.length === 0 ? (
@@ -124,6 +126,7 @@ export function ProgressScreen({
             >
               <PawPrint color={accent} size={19} />
               <View className="flex-1">
+                {session.task && <Text variant="label">{session.task}</Text>}
                 <Text variant="label">
                   {Math.round(session.seconds / 60)} minutos para você
                 </Text>

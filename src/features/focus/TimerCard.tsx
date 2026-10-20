@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pressable, View } from "react-native";
 import Bone from "lucide-react-native/icons/bone";
+import ListTodo from "lucide-react-native/icons/list-todo";
 import Pause from "lucide-react-native/icons/pause";
 import Play from "lucide-react-native/icons/play";
 
@@ -22,6 +23,7 @@ type Props = {
   onToggle: () => void;
   onReset: () => void;
   onFeed: () => string | null;
+  onEditTask: () => void;
 };
 
 function sessionCopy(timer: Timer) {
@@ -43,6 +45,7 @@ export function TimerCard({
   onToggle,
   onReset,
   onFeed,
+  onEditTask,
 }: Props) {
   const [petMessage, setPetMessage] = useState<string | null>(null);
   const reaction = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -154,6 +157,33 @@ export function TimerCard({
           style={{ backgroundColor: accent, width: `${progress}%` }}
         />
       </View>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={
+          timer.task
+            ? "Tarefa: " + timer.task + ". Alterar tarefa"
+            : "Adicionar tarefa"
+        }
+        accessibilityHint={
+          busy
+            ? "Disponível ao terminar ou reiniciar a sessão"
+            : "Opcional. Defina o foco dos seus próximos ciclos"
+        }
+        accessibilityState={{ disabled: busy || !ready }}
+        disabled={busy || !ready}
+        onPress={onEditTask}
+        className="mb-3 min-h-11 w-full max-w-[340px] flex-row items-center justify-center gap-2 rounded-xl bg-soft px-3 py-2"
+      >
+        <ListTodo size={18} color={accent} />
+        <Text
+          variant="caption"
+          numberOfLines={2}
+          className="shrink"
+          style={{ color: accent }}
+        >
+          {timer.task ?? "Adicionar tarefa"}
+        </Text>
+      </Pressable>
       <View
         ref={tourTargets?.action}
         collapsable={false}

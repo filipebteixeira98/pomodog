@@ -35,6 +35,7 @@ import { localSession, type CustomerSession } from "#src/domain/customer";
 import { themes } from "#src/domain/preferences";
 import { FeedbackSheet } from "#src/features/feedback/FeedbackSheet";
 import { FocusScreen } from "#src/features/focus/FocusScreen";
+import { TaskSheet } from "#src/features/focus/TaskSheet";
 import { Onboarding } from "#src/features/onboarding/Onboarding";
 import { NotificationsScreen } from "#src/features/permissions/NotificationsScreen";
 import { saveCollectionChoice } from "#src/features/privacy/collectionChoice";
@@ -107,6 +108,7 @@ export function Pomodog({
   const [updatesDismissed, setUpdatesDismissed] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showTask, setShowTask] = useState(false);
   const [showFeedbackToast, setShowFeedbackToast] = useState(false);
   const dismissFeedbackToast = useCallback(
     () => setShowFeedbackToast(false),
@@ -162,6 +164,7 @@ export function Pomodog({
       setShowNotifications(false);
       setConfirmErase(false);
       setShowFeedback(false);
+      setShowTask(false);
       setShowFeedbackToast(false);
       setDataNotice("Os dados locais foram apagados.");
     } catch {
@@ -200,7 +203,9 @@ export function Pomodog({
         <View
           className="w-full max-w-[640px] flex-1 self-center"
           pointerEvents={
-            tourStep !== null || showFeedback || showCalendar ? "none" : "auto"
+            tourStep !== null || showFeedback || showCalendar || showTask
+              ? "none"
+              : "auto"
           }
           aria-hidden={
             showOnboarding ||
@@ -208,6 +213,7 @@ export function Pomodog({
             confirmErase ||
             showFeedback ||
             showCalendar ||
+            showTask ||
             tourStep !== null
           }
           accessibilityElementsHidden={
@@ -216,6 +222,7 @@ export function Pomodog({
             confirmErase ||
             showFeedback ||
             showCalendar ||
+            showTask ||
             tourStep !== null
           }
           importantForAccessibility={
@@ -224,6 +231,7 @@ export function Pomodog({
             confirmErase ||
             showFeedback ||
             showCalendar ||
+            showTask ||
             tourStep !== null
               ? "no-hide-descendants"
               : "auto"
@@ -263,6 +271,7 @@ export function Pomodog({
                   onToggle={model.toggle}
                   onFeed={model.feedPet}
                   onReset={() => setConfirmReset(true)}
+                  onEditTask={() => setShowTask(true)}
                 />
                 {(model.timer.status === "idle" ||
                   model.timer.status === "completed") && (
@@ -355,6 +364,15 @@ export function Pomodog({
           accent={accent}
           reducedMotion={reducedMotion}
         />
+        {showTask && (
+          <TaskSheet
+            task={model.timer.task}
+            accent={accent}
+            reducedMotion={reducedMotion}
+            onSave={model.setTask}
+            onClose={() => setShowTask(false)}
+          />
+        )}
         {showCalendar && (
           <CalendarSettingsSheet
             state={calendarState}

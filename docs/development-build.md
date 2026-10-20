@@ -157,3 +157,15 @@ Referências: [FreeBusy](https://developers.google.com/workspace/calendar/api/v3
 8. Teste Agora não, desligamento dos lembretes, desconexão, recusa/revogação no Google, rede indisponível, saída/troca de conta e exclusão local/de conta. Não deve reaparecer sugestão/aviso da conexão anterior após uma resposta atrasada.
 
 O Google decide quais eventos bloqueiam FreeBusy; múltiplas agendas não estão incluídas. O Android pode adiar avisos, e compromissos alterados após a consulta só serão considerados ao retornar/atualizar. Validação com respostas sintéticas não comprova autorização real da conta.
+
+## Tarefa do foco e gráfico por ciclos
+
+Entrega JavaScript de 19/10/2026; usa os módulos do development build existente, sem novo módulo nativo. As regras compatíveis com `task` opcional foram publicadas no Firebase de desenvolvimento.
+
+1. Sem login, adicionar tarefa em Foco, salvar e reabrir o app. Conferir limite de 60 caracteres, espaços, teclado, botão de salvar e fonte ampliada.
+2. Editar e fechar pelo X, toque fora, arraste ou Voltar: o rascunho não deve substituir o nome salvo. Remover por campo vazio ou Continuar sem tarefa deve afetar somente os próximos ciclos.
+3. Iniciar, pausar e retomar um foco, também pelos controles da notificação. Tarefa permanece visível e indisponível para edição até concluir/reiniciar. Finalização em segundo plano/retomada não pode duplicar o ciclo nem perder o nome.
+4. Concluir focos com duas tarefas e sem tarefa. Descanso/reset não aumentam a contagem. Em Progresso, conferir pizza, legenda, contagens e percentuais; o cálculo usa ciclos, não minutos, e considera o histórico salvo, não somente sete dias.
+5. Usar histórico anterior sem nomes, uma categoria única, nomes longos e mais de cinco tarefas; conferir Sem tarefa, círculo completo e Outras tarefas, sem corte de texto com fonte ampliada/TalkBack.
+6. Com conta de teste, sincronizar, reabrir e conferir campos opcionais em estado/sessões. Testar importação de visitante, troca/saída de conta e exclusão. Usar somente dados fictícios; outra conta não deve acessar os registros.
+7. Conferir que Analytics, diagnósticos, widget, notificações e PNG compartilhado não contêm nomes das tarefas. A autorização de telemetria não altera a disponibilidade deste recurso.

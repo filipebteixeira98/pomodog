@@ -55,6 +55,7 @@ async function readRemote(uid: string) {
     id: decodeURIComponent(item.id),
     endedAt: item.data().endedAt,
     seconds: item.data().seconds,
+    ...(item.data().task !== undefined ? { task: item.data().task } : {}),
   }));
   const remote = state.exists()
     ? parseSavedPrototype({
@@ -86,6 +87,7 @@ async function writeSnapshot(user: User, saved: SavedPrototype) {
       batch.set(sessionRef(uid, session.id), {
         endedAt: Math.trunc(session.endedAt),
         seconds: Math.trunc(session.seconds),
+        ...(session.task ? { task: session.task } : {}),
       });
     }
     await batch.commit();

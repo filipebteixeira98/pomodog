@@ -1,6 +1,6 @@
 # Arquitetura atual
 
-Atualizado em 15/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
+Atualizado em 19/10/2026. Estrutura, mecanismos e decisões vigentes; status em [Plano de ação](plano-de-acao.md), evidências em [Verificação](verificacao.md).
 
 ## Responsabilidades
 
@@ -237,3 +237,13 @@ Analytics mede transições efetivas fora do reducer, nunca ticks; considera o m
 - [tailwind-merge e compatibilidade](https://github.com/dcastil/tailwind-merge)
 
 Documentação consultada via Context7; versões instaladas registradas no lockfile.
+
+## Tarefas e distribuição de ciclos
+
+`Timer.task` contém a seleção opcional; `Session.task` é a cópia registrada ao concluir um foco. A ação `setTask` recusa mudanças durante execução/pausa; reset e alternância de modo conservam a seleção. `normalizeTask` limita a 60 caracteres, remove controles de texto e normaliza espaços. O parser aceita registros anteriores e ignora metadado de tarefa inválido sem descartar o ciclo válido. A chave local e a versão do armazenamento permanecem compatíveis.
+
+`TaskSheet` reutiliza `components/ui/BottomSheet` e `BottomSheetTextInput`; fechar descarta o rascunho. `usePomodoro` persiste também mudanças de tarefa. O caminho Headless JS usa o mesmo reducer/parser, preservando o campo ao pausar/retomar por notificação; payloads da notificação e projeção do widget continuam sem texto da tarefa. Não houve mudança em Kotlin ou nova dependência.
+
+Firestore mantém a seleção em `users/{uid}/state/main.timer.task` e o nome por ciclo em `users/{uid}/sessions/{id}.task`, sem coleção de tarefas. Campos são opcionais, validados por tipo/tamanho/conteúdo; somente o proprietário lê/grava. Registros existentes não são reatribuídos. Ao unir históricos, um nome já registrado é preservado mesmo quando uma cópia antiga da mesma sessão não contém o campo. As regras compatíveis foram publicadas somente no projeto de desenvolvimento `pomodog-dev-2026`.
+
+`summarizeTasks` exclui conclusões futuras, agrupa nomes sem distinguir maiúsculas/minúsculas e ordena pela contagem. Conserva os totais ao agrupar excedentes após as cinco primeiras tarefas; “Sem tarefa” permanece separado. `TaskProgressCard` desenha a pizza com `react-native-svg` já instalado, incluindo círculo completo para categoria única, legenda acessível, contagens e percentuais. A janela é todo o histórico salvo (até 1.000 ciclos), explicitamente diferente dos indicadores dos últimos sete dias. O compartilhamento continua no último card e recebe somente agregados numéricos.

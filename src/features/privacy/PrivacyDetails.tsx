@@ -53,8 +53,8 @@ export function PrivacyDetails({
         <View className="gap-2">
           <Text variant="label">Seu progresso</Text>
           <Text>
-            Sem login, foco e preferências ficam neste dispositivo. Ao entrar na
-            sua conta, seu nome, e-mail, progresso e preferências são
+            Sem login, progresso, tarefas e preferências ficam neste
+            dispositivo. Ao entrar, esses dados, seu nome e e-mail são
             armazenados na sua conta.
           </Text>
         </View>

@@ -11,7 +11,15 @@ import {
 test("widget projects only bounded focus times and durations, without session or account identity", () => {
   const timer = {
     ...initialTimer,
-    sessions: [{ id: "private-identifier", endedAt: 1000, seconds: 1500 }],
+    task: "private-task",
+    sessions: [
+      {
+        id: "private-identifier",
+        endedAt: 1000,
+        seconds: 1500,
+        task: "private-task",
+      },
+    ],
   };
   assert.deepEqual(JSON.parse(widgetPayload(timer)), [[1000, 1500]]);
   assert.equal(widgetPayload(timer).includes("private"), false);

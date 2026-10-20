@@ -192,6 +192,7 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     timer.duration,
     timer.mode,
     timer.sessions,
+    timer.task,
   ]);
 
   useEffect(() => {
@@ -383,6 +384,9 @@ export function usePomodoro(user: User | null = null, accountLocked = false) {
     busy: busy || accountLocked,
     storageError,
     configure,
+    setTask: (task: string) => {
+      if (ready && !locked()) dispatch({ type: "setTask", task });
+    },
     updatePreferences,
     toggle: () => {
       if (ready && !locked())

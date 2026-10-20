@@ -65,8 +65,8 @@ try {
       createdAt: 1,
       updatedAt: 1,
     },
-    { endedAt: 1, seconds: 900 },
-    validState,
+    { endedAt: 1, seconds: 900, task: "Estudar inglês" },
+    { ...validState, timer: { ...initialTimer, task: "Estudar inglês" } },
   ];
   for (let i = 0; i < paths.length; i++) {
     const ref = (db: (typeof clients)[number]) => doc(db, paths[i].join("/"));
@@ -83,6 +83,30 @@ try {
       await denied(setDoc(ref(intruder), data[i]));
   }
   const state = doc(clients[0], "users/alice/state/main");
+  const session = doc(clients[0], "users/alice/sessions/task");
+  for (const task of ["Ler", "Estudar inglês 📚", "a".repeat(60)]) {
+    await setDoc(session, { endedAt: 1, seconds: 1500, task });
+    assert.equal((await getDoc(session)).data()!.task, task);
+    await setDoc(state, { ...validState, timer: { ...initialTimer, task } });
+    assertions += 2;
+  }
+  for (const task of [
+    "",
+    " ",
+    " Ler ",
+    "a".repeat(61),
+    1,
+    null,
+    "Ler\n",
+    "Ler\u0000",
+    "Ler\u202e",
+  ]) {
+    await denied(setDoc(session, { endedAt: 1, seconds: 1500, task }));
+    await denied(
+      setDoc(state, { ...validState, timer: { ...initialTimer, task } }),
+    );
+  }
+  await deleteDoc(session);
   for (const snapshot of [
     validState,
     { ...validState, petCare: { lastFedAt: 1, lastMessageId: "start:0" } },

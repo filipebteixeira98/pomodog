@@ -13,3 +13,5 @@ Evidências visuais de etapas de desenvolvimento, preservadas sem exclusão. Nã
 - `agenda-bottom-sheet-android-2026-10-15.png` e `agenda-bottom-sheet-teclado-android-2026-10-15.png` mostram a agenda no novo painel e o horário do lembrete acima do teclado, no emulador Android API 35. São evidências de interface, sem OAuth aceito ou acesso a compromissos reais; as capturas anteriores de formulário/sugestão da agenda registram a apresentação anterior.
 
 Novas capturas devem identificar data/revisão no nome ou registro de evidência. Antes de usar materiais na loja, gerar imagens da versão realmente distribuída.
+
+- `tarefa-bottom-sheet-web-2026-10-19.png` e `tarefas-progresso-web-2026-10-19.png` mostram o formulário e a pizza no Chrome isolado, com dados fictícios. `tarefa-bottom-sheet-android-2026-10-19.png` registra a abertura real do painel no emulador API 35. A validação nativa foi parcial; limites estão em [Verificação](../verificacao.md).

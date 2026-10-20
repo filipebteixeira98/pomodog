@@ -9,7 +9,8 @@ service cloud.firestore {
     }
     function validTimer(timer) {
       return timer is map
-        && timer.keys().hasOnly(['mode', 'status', 'duration', 'remaining', 'deadline', 'sessions'])
+        && timer.keys().hasOnly(['mode', 'status', 'duration', 'remaining', 'deadline', 'sessions', 'task'])
+        && (!('task' in timer) || validTask(timer.task))
         && timer.mode in ['focus', 'break']
         && timer.status in ['idle', 'running', 'paused', 'completed']
         && timer.duration is number && timer.duration > 0 && timer.duration <= 7200
@@ -18,6 +19,11 @@ service cloud.firestore {
         && (timer.status != 'idle' || timer.remaining == timer.duration)
         && (timer.status != 'completed' || timer.remaining == 0)
         && (timer.status == 'running' ? validTimestamp(timer.deadline) : timer.deadline == null);
+    }
+    function validTask(task) {
+      return task is string && task.size() > 0 && task.size() <= 60
+        && !task.matches('.*[\\x00-\\x1F\\x7F-\\x9F\\x{202A}-\\x{202E}\\x{2066}-\\x{2069}].*')
+        && task.matches('\\S(.*\\S)?');
     }
     function validPreferences(preferences) {
       return preferences is map
@@ -61,7 +67,8 @@ service cloud.firestore {
       match /sessions/{sessionId} {
         allow read, delete: if owner(uid);
         allow create, update: if owner(uid)
-          && request.resource.data.keys().hasOnly(['endedAt', 'seconds'])
+          && request.resource.data.keys().hasOnly(['endedAt', 'seconds', 'task'])
+          && (!('task' in request.resource.data) || validTask(request.resource.data.task))
           && request.resource.data.endedAt is int
           && validTimestamp(request.resource.data.endedAt)
           && request.resource.data.seconds is int

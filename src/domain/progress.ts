@@ -1,5 +1,32 @@
 import { dayKey, type Session } from "#src/timer.ts";
 
+/** Count completed cycles in the saved history; keep unassigned and overflow distinct. */
+export function summarizeTasks(sessions: Session[], now = Date.now()) {
+  const tasks = new Map<string, { id: string; label: string; count: number }>();
+  let unassigned = 0;
+  for (const session of sessions) {
+    if (session.endedAt > now) continue;
+    if (!session.task) {
+      unassigned++;
+      continue;
+    }
+    const id = `task:${session.task.toLocaleLowerCase("pt-BR")}`;
+    const entry = tasks.get(id) ?? { id, label: session.task, count: 0 };
+    entry.count++;
+    tasks.set(id, entry);
+  }
+  const sorted = [...tasks.values()].sort(
+    (a, b) => b.count - a.count || a.label.localeCompare(b.label, "pt-BR"),
+  );
+  const groups = sorted.slice(0, 5);
+  const other = sorted.slice(5).reduce((sum, task) => sum + task.count, 0);
+  if (other)
+    groups.push({ id: "other", label: "Outras tarefas", count: other });
+  if (unassigned)
+    groups.push({ id: "unassigned", label: "Sem tarefa", count: unassigned });
+  return groups;
+}
+
 export function summarizeDay(sessions: Session[], date = Date.now()) {
   const completed = sessions.filter(
     (session) => dayKey(session.endedAt) === dayKey(date),

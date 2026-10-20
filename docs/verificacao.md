@@ -1,8 +1,18 @@
 # Verificação — evidências vigentes
 
-Consolidado em 15/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
+Consolidado em 19/10/2026. Registra o que foi verificado e seus limites; status de funcionalidades fica no [Plano de ação](plano-de-acao.md).
 
 ## Última verificação de código
+
+Na entrega de tarefas por ciclo em 19/10/2026, TypeScript, **166 testes**, export web, formatação dos arquivos TypeScript e verificação do diff passaram. Sete testes novos cobrem normalização/limite do nome, conclusão após pausa/retomada e restauração, imutabilidade do histórico, compatibilidade de registros antigos, classificação pela quantidade de ciclos, agrupamento das categorias excedentes, importação de conta (incluindo cópia antiga da mesma sessão sem metadado) e ausência do texto em payloads de uso/compartilhamento. O teste de projeção do widget também passou com nomes presentes no timer e nas sessões, preservando somente horários/durações.
+
+O emulador local do Firestore aprovou **116 verificações**, incluindo acesso exclusivo pelo proprietário, campos opcionais `task`, limites/tipos/conteúdo, compatibilidade sem tarefa e bloqueio para outro usuário/visitante. As regras foram compiladas e publicadas no projeto de desenvolvimento `pomodog-dev-2026`. Isso não substitui testar sincronização autenticada em vários dispositivos; nenhum registro de tarefa pessoal foi criado remotamente nesta verificação.
+
+Chrome isolado, com histórico fictício, conferiu salvar, normalizar espaços, persistir, editar, cancelar com Escape mantendo o texto salvo, remover a seleção e apresentar o gráfico em 390 × 844 e 320 × 740. A pizza mostrou seis ciclos de Ler, quatro de Estudar, dois de Trabalho e três sem tarefa: **15 ciclos**, com contagens/percentuais, sem overflow horizontal ou exceções da aplicação. Também passaram estados sem ciclos, círculo completo com categoria única, mais de cinco tarefas e nome longo. O teste identificou que Escape não chegava ao painel com o campo focado; o listener compartilhado passou para a fase de captura e o fluxo completo passou após a correção. [Formulário web](screenshots/tarefa-bottom-sheet-web-2026-10-19.png) e [pizza em Progresso](screenshots/tarefas-progresso-web-2026-10-19.png).
+
+O APK debug x86_64 compilou com JDK 17. No emulador Android 15/API 35 isolado, foram inspecionados Foco com o novo controle, abertura do painel, campo acima do teclado, ocultação do teclado e salvamento de um nome no controle principal. [Painel Android](screenshots/tarefa-bottom-sheet-android-2026-10-19.png). Após reinicializações, o emulador apresentou inicialização instável; a conferência nativa completa de edição, gestos, restauração e gráfico não foi concluída. Não afirmar validação completa do fluxo nativo, de desempenho ou em aparelho físico. O APK ARM64 anterior foi preservado/restaurado; o emulador e Metro usados para esta entrega foram encerrados, sem alterar o Metro pessoal, dados reais ou modo debug de Analytics.
+
+O roteiro pendente inclui aparelho físico, TalkBack/fonte ampliada, pausa/retomada por notificação com tarefa e sincronização/isolamento/exclusão com contas de teste, conforme [Development build](development-build.md#tarefa-do-foco-e-gráfico-por-ciclos). O histórico legado foi mantido e não houve nova dependência ou alteração em Kotlin.
 
 Na migração da configuração de Google Agenda para bottom sheet em 15/10/2026, TypeScript, **159 testes**, export web, formatação dos arquivos TypeScript e verificação do diff passaram. A base visual foi extraída para `components/ui/BottomSheet` e reaproveitada no feedback, sem nova dependência, módulo nativo ou mudança no serviço de agenda. O aviso sobre consulta ao abrir/retomar foi removido da interface e as descrições foram encurtadas.
 

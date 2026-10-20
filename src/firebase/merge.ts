@@ -21,7 +21,13 @@ export function mergeAccountData(
   const sessions = new Map<string, Session>();
   for (const source of [remote, account, guest]) {
     for (const session of source?.timer.sessions ?? []) {
-      sessions.set(session.id, session);
+      const previous = sessions.get(session.id);
+      sessions.set(
+        session.id,
+        !session.task && previous?.task
+          ? { ...session, task: previous.task }
+          : session,
+      );
     }
   }
   const sorted = [...sessions.values()]

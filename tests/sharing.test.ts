@@ -27,6 +27,7 @@ test("shared progress uses completed focus, includes streak beyond seven days an
     id: `private-session-${index}`,
     endedAt: new Date(2026, 9, 14 - index, 12).getTime(),
     seconds: 1500,
+    task: "Nome privado da tarefa",
   }));
   sessions.push({ id: "pending", endedAt: now + 1000, seconds: 1500 });
   const snapshot = sharedProgress(sessions, now);

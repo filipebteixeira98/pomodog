@@ -69,11 +69,12 @@ export function BottomSheet({
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") close();
     };
-    if (Platform.OS === "web") document.addEventListener("keydown", escape);
+    if (Platform.OS === "web")
+      document.addEventListener("keydown", escape, true);
     return () => {
       back.remove();
       if (Platform.OS === "web")
-        document.removeEventListener("keydown", escape);
+        document.removeEventListener("keydown", escape, true);
     };
   }, [close]);
 
@@ -86,7 +87,7 @@ export function BottomSheet({
         opacity={0.4}
         pressBehavior={busy ? "none" : "close"}
         accessibilityLabel={closeLabel}
-        accessibilityHint="Toque fora para voltar aos ajustes"
+        accessibilityHint="Toque fora para fechar o painel"
       />
     ),
     [busy, closeLabel],
