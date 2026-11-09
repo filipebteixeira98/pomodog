@@ -1,93 +1,109 @@
 # Pomodog
 
-Protótipo funcional de um companheiro de foco: timer Pomodoro, cachorro animado, onboarding, personalização discreta e progresso sem punições. Interface em português, modo local e integração opcional com Google/Firebase em desenvolvimento.
+A Pomodoro companion that helps you build a steady focus routine with Nino, an animated dog.
 
-## Experimentar
+## 🐾 About
 
-Requer Node.js 24 e npm. Dependências registradas em `package-lock.json`.
+Pomodog is in beta, with a Brazilian Portuguese interface. Android is the primary platform; the web app provides a preview of the experience.
+
+- Configurable focus and break sessions, with pause, resume and recovery after backgrounding.
+- Optional task names, charts of completed cycles, daily and weekly statistics, and focus streaks.
+- An animated companion with optional feeding, gentle encouragement and reduced-motion support.
+- Android session notifications with countdown and pause/resume controls, plus a home screen progress widget.
+- Local use without an account, optional Google sign-in, Firestore synchronization and account deletion.
+- Progress sharing through PNG cards and feedback through PostHog Surveys.
+- Experimental Google Calendar suggestions on Android; validation with a real calendar remains pending.
+
+Diagnostics and usage analytics are optional and disabled by default, including when using the app without an account.
+
+## 🧰 Stack
+
+- Expo SDK 57, React Native 0.86 and TypeScript.
+- NativeWind/Tailwind CSS, Poppins and Lucide icons.
+- Reanimated, React Native SVG and Gorhom Bottom Sheet.
+- Firebase Authentication, Firestore and Firebase Analytics.
+- Sentry for diagnostics and PostHog for feedback surveys.
+
+## 💻 Development
+
+Node.js 24 and npm are required. Install the locked dependencies and start the web preview:
 
 ```sh
 npm ci
 npm run web
 ```
 
-Abra o endereço exibido no terminal e toque em **Começar a focar**. Ajuste as durações em **Ajustes** e acompanhe as sessões em **Progresso**.
+Open the address printed in the terminal.
 
-Na primeira abertura, a introdução mostra três passos curtos. É possível pular. A introdução aparece novamente após apagar os dados locais em Perfil. Uma sessão restaurada em andamento não é interrompida pelo onboarding automático. Na última etapa, **Mostrar como funciona** abre um tour opcional dos controles reais. Você também pode acessá-lo em **Ajustes → Rever tour guiado**.
-
-Para abrir no Android com development build (expo-dev-client):
+For Android, configure JDK 17 and the Android SDK, then connect a device with USB debugging enabled or start an emulator:
 
 ```sh
 npm run android
 ```
 
-O projeto usa Expo SDK 57, React Native 0.86 e TypeScript. O fluxo de notificações usa development build; siga [o guia de instalação e validação](docs/development-build.md). A exportação do JavaScript Android não equivale a gerar ou testar um APK.
-
-## Funcionalidades
-
-- Foco de 15, 25 ou 50 minutos e descanso de 5, 10 ou 15 minutos.
-- Início, pausa, retomada e reinício com confirmação de descarte.
-- Contagem baseada no horário final, recuperada ao retornar ao aplicativo ou reabri-lo.
-- Nino (nome provisório): cachorro vetorial original com entrada animada, respiração do tronco, cabeça e patas articuladas, cauda animada e diálogos no onboarding.
-- Três cores de interface e coleira; opção de reduzir movimento, respeitando também a configuração do sistema.
-- Sessões de foco concluídas, minutos do dia e histórico dos últimos sete dias; armazenamento das últimas 1.000 sessões.
-- Preferências e sessão atual salvas no dispositivo. Descansos não contam como foco.
-- Onboarding por swipe nos dois sentidos, indicação “Deslize para explorar”, pontos acessíveis e botão de entrada apenas na última etapa; permite pular e mantém a conclusão salva. Animações seguem Ajustes e sistema.
-- Navegação inferior com Foco, Progresso, Ajustes e Perfil. Entrada Google e sincronização Firebase implementadas; validação completa com login real ainda pendente.
-- Exclusão de dados locais com confirmação em Perfil; dados ilegíveis são preservados e o salvamento fica suspenso até recuperação explícita.
-- Ícone do Nino, versões adaptativa/monocromática para Android e splash nativa configurada; validação visual em release pendente.
-- Poppins empacotada, ícones Lucide e estilos Tailwind via NativeWind para Android e web.
-
-## Limites desta versão
-
-- Aviso local opcional de conclusão em **Ajustes → Avisar ao terminar** (Android/iOS). Requer permissão; agendamento é feito no sistema e pode funcionar com a tela bloqueada. Economia de bateria, permissões, modo silencioso e restrições do sistema podem atrasar ou silenciar o aviso. Não há garantia de alarme exato; validar esta entrega em dispositivo antes de um teste prolongado. Na web, o controle não é exibido.
-- Sem LoFi, pagamentos ou telemetria de uso. Bibliotecas musicais ainda precisam ser selecionadas e ter suas licenças verificadas.
-- Sem conta, dados pertencem à instalação/navegador. A integração de contas usa somente o projeto Firebase de desenvolvimento; produção e exclusão de conta ainda estão pendentes.
-- Ainda não publicado, sem APK ou distribuição na loja. O endereço local depende do servidor em execução.
-
-## Verificação
+This builds and installs the development client and starts Metro. On subsequent runs, start Metro with:
 
 ```sh
-npm run typecheck
-npm test
-npm run format:check
-npm run export:web
-npm run export:android
+npm start
 ```
 
-Os 47 testes cobrem passagem do tempo em segundo plano, pausa/retomada, restauração, conclusão única, exclusão de descansos e migração segura de demonstrações antigas, migração de dados antigos, onboarding persistido, dados inválidos, progresso entre datas locais, identidade, exportação e exclusão serializada sem sobrescrever registros corrompidos, e idempotência de agendamento de notificações.
+Use the installed development build for native features; Expo Go does not include the required native modules. Rebuild after changing native dependencies or config plugins. See the [Android development guide](docs/development-build.md) for setup, connection troubleshooting and device checks.
 
-`npm audit` identificou 12 avisos moderados na árvore de ferramentas do Expo, relacionados à dependência transitiva `uuid` por `xcode`. A sugestão automática envolve downgrade incompatível com o SDK instalado; não foi aplicada. Reavaliar antes de distribuição.
+## ✅ Validation
 
-## Organização
+```sh
+npm run typecheck       # TypeScript checks
+npm test                # Unit tests
+npm run format:check    # Formatting and sorted imports
+npm run export:web      # Web production export
+npm run export:android  # Android JavaScript export
+```
 
-- `App.tsx`: fontes e providers; `src/Pomodog.tsx`: composição das telas.
-- `src/features/`: foco, progresso, ajustes e onboarding.
-- `src/components/ui/`: componentes reutilizáveis por composição.
-- `src/hooks/`, `src/domain/` e `src/storage/`: estado, regras e persistência separados da interface.
-- `src/Dog.tsx` e `src/features/mascot/`: composição, ilustração original e animação articulada do mascote.
-- `src/timer.ts`: regras do timer e validação do estado salvo.
-- `tests/timer.test.ts`: testes das regras de tempo.
-- [Documentação](docs/README.md): índice de produto, arquitetura, planejamento, guias técnicos e evidências.
+Firestore rules can be checked with `npm run test:rules`; this requires the Firebase CLI and a compatible Java runtime. Android JavaScript exports do not produce an APK or replace device validation.
 
-## Histórico de desenvolvimento
+Use Conventional Commits in English. `npm run format` formats the project and sorts imports.
 
-Repositório privado: [filipebteixeira98/pomodog](https://github.com/filipebteixeira98/pomodog). Commits incrementais seguem Conventional Commits, em inglês. Use `npm run format` para formatar alterações e ordenar imports automaticamente e execute os checks antes de cada commit.
+## ⚙️ Configuration
 
-Configuração baseada na documentação do Expo consultada via Context7: [templates](https://github.com/expo/expo/blob/main/docs/pages/more/create-expo.mdx) e [suporte web](https://github.com/expo/expo/blob/main/docs/pages/workflow/web.mdx).
+| File                                                | Purpose                                                  |
+| --------------------------------------------------- | -------------------------------------------------------- |
+| `app.json`                                          | App metadata, branding and native config plugins.        |
+| `src/firebase/client.ts` and `google-services.json` | Firebase client and Android SDK configuration.           |
+| `src/google/client.ts`                              | Google sign-in OAuth client settings.                    |
+| `firebase.json` and `firestore.rules`               | Firebase services and access rules for each user's data. |
 
-## Assets da marca
+The repository currently targets the development Firebase project. Production configuration is a separate release task. Optional source map uploads use a Sentry build token; see the [Sentry guide](docs/sentry.md).
 
-Fonte vetorial e PNGs em `assets/brand/`. Para regenerar: `npm run assets:generate`. Veja a [prancha de revisão](assets/brand/preview.png). Ícone e splash nativa requerem novo build; Expo Go não reproduz integralmente a splash final.
+## 🗂️ Structure
 
-### Executar no Android pessoal
+```text
+App.tsx                  # Fonts and application providers
+src/
+├── Pomodog.tsx          # Screen composition and navigation
+├── features/            # Screens, mascot and user flows
+├── components/          # Shared UI components
+├── domain/              # Progress, tasks and other domain rules
+├── hooks/               # Timer state and lifecycle coordination
+├── firebase/            # Authentication and account synchronization
+├── storage/             # Local persistence
+└── timer.ts             # Timer reducer and saved-state validation
+plugins/                 # Expo config plugins and Android native features
+scripts/                 # Brand assets and source map uploads
+tests/                   # Unit tests and Firestore rule checks
+docs/                    # Product, architecture, guides and verification evidence
+```
 
-O fluxo de notificações agora usa development build, com expo-dev-client instalado. Siga [o guia de instalação e validação](docs/development-build.md). `npm run android` compila e instala no aparelho conectado; `npm start` inicia o Metro para o cliente próprio.
+## 📚 Documentation
 
-## Diagnóstico de erros
+Detailed project documentation is currently in Portuguese.
 
-Sentry integrado para erros JavaScript e crashes Java/Kotlin Android (validação física pendente). Envio opcional em Ajustes, desligado por padrão e independente da conta. [Configuração, privacidade e validação](docs/sentry.md). Reinstale development build após adicionar o SDK; uploads de source maps de release exigem SENTRY_AUTH_TOKEN no ambiente de build.
+| Document                              | Purpose                                     |
+| ------------------------------------- | ------------------------------------------- |
+| [Documentation index](docs/README.md) | Find the guide for each topic.              |
+| [Architecture](docs/arquitetura.md)   | Modules, data flow and native integrations. |
+| [Roadmap](docs/plano-de-acao.md)      | Feature status, priorities and next steps.  |
+| [Verification](docs/verificacao.md)   | Confirmed checks, evidence and limitations. |
+| [Security](docs/seguranca.md)         | Security review and remaining checks.       |
+| [Privacy](docs/privacidade.md)        | Data handling, consent and retention work.  |
 
-### Source maps
-
-`npm run sentry:export:web` e `npm run sentry:export:android` geram bundles/mapas privados. `npm run sentry:check` verifica os IDs; `npm run sentry:upload` envia após configurar o token de build em `.env.sentry-build-plugin` (veja o arquivo `.example`). Mapas de APK são enviados pelo plugin Gradle no build de release. [Instruções e pendências](docs/sentry.md).
+Release readiness, remaining device checks and production setup are tracked in the roadmap.
