@@ -43,12 +43,39 @@ npm run android
 
 Use the installed development build instead of Expo Go. For subsequent sessions, run `npm start`. See the [Android setup guide](docs/development-build.md) for details.
 
+## ⚙️ Configuration
+
+Regular local development does not require a `.env` file. Firebase settings are in `src/firebase/client.ts` and `google-services.json`; Google sign-in settings are in `src/google/client.ts`. These currently target the development project. App metadata and native plugins are configured in `app.json`.
+
+| Variable            | Purpose                                                 |
+| ------------------- | ------------------------------------------------------- |
+| `JAVA_HOME`         | Path to JDK 17 for Android builds.                      |
+| `ANDROID_HOME`      | Path to the Android SDK.                                |
+| `SENTRY_AUTH_TOKEN` | Optional build secret for uploading Sentry source maps. |
+
+`npm run sentry:upload` reads `SENTRY_AUTH_TOKEN` from the build environment or `.env.sentry-build-plugin` (ignored by Git). Create the latter from `.env.sentry-build-plugin.example` when needed. Keep the token out of commits and `EXPO_PUBLIC_*` variables. See the [Sentry guide](docs/sentry.md).
+
 ## ✅ Checks
 
 ```sh
 npm run typecheck
 npm test
 npm run format:check
+```
+
+## 🗂️ Structure
+
+```text
+App.tsx               # Application providers
+src/Pomodog.tsx       # Screen composition and navigation
+src/features/         # Screens and user flows
+src/components/       # Shared UI components
+src/domain/           # Business rules
+assets/               # Branding and bundled resources
+plugins/              # Expo plugins and Android native features
+scripts/              # Asset generation and source map uploads
+tests/                # Unit tests and Firestore rule checks
+docs/                 # Guides, architecture and roadmap
 ```
 
 ## 📚 Documentation
