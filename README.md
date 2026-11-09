@@ -1,109 +1,56 @@
-# Pomodog
+<p align="center">
+  <img src="assets/brand/icon.png" alt="Pomodog logo featuring Nino" width="88" height="88" />
+</p>
 
-A Pomodoro companion that helps you build a steady focus routine with Nino, an animated dog.
+<h1 align="center">Pomodog</h1>
 
-## 🐾 About
+<p align="center">
+  A friendly Pomodoro companion for building a steady focus routine.<br />
+  <strong>Beta · Android · Brazilian Portuguese interface</strong>
+</p>
 
-Pomodog is in beta, with a Brazilian Portuguese interface. Android is the primary platform; the web app provides a preview of the experience.
+## 🐾 Features
 
-- Configurable focus and break sessions, with pause, resume and recovery after backgrounding.
-- Optional task names, charts of completed cycles, daily and weekly statistics, and focus streaks.
-- An animated companion with optional feeding, gentle encouragement and reduced-motion support.
-- Android session notifications with countdown and pause/resume controls, plus a home screen progress widget.
-- Local use without an account, optional Google sign-in, Firestore synchronization and account deletion.
-- Progress sharing through PNG cards and feedback through PostHog Surveys.
-- Experimental Google Calendar suggestions on Android; validation with a real calendar remains pending.
+- Focus and break sessions with pause, resume and background recovery.
+- Nino, an animated dog with gentle encouragement and reduced-motion support.
+- Optional tasks, focus streaks and progress charts.
+- Android session notifications, countdown controls and a home screen widget.
+- Offline use, optional Google sign-in and account synchronization.
 
-Diagnostics and usage analytics are optional and disabled by default, including when using the app without an account.
+Diagnostics and usage analytics are optional and disabled by default.
 
-## 🧰 Stack
+<p align="center">
+  <img src="docs/screenshots/tarefas-progresso-web-2026-10-19.png" alt="Pomodog progress screen showing completed cycles grouped by task" width="260" /><br />
+  <em>Progress preview with sample data.</em>
+</p>
 
-- Expo SDK 57, React Native 0.86 and TypeScript.
-- NativeWind/Tailwind CSS, Poppins and Lucide icons.
-- Reanimated, React Native SVG and Gorhom Bottom Sheet.
-- Firebase Authentication, Firestore and Firebase Analytics.
-- Sentry for diagnostics and PostHog for feedback surveys.
+Built with Expo, React Native, TypeScript, NativeWind and Firebase.
 
 ## 💻 Development
 
-Node.js 24 and npm are required. Install the locked dependencies and start the web preview:
+Requires Node.js 24 and npm. Start the web preview:
 
 ```sh
 npm ci
 npm run web
 ```
 
-Open the address printed in the terminal.
-
-For Android, configure JDK 17 and the Android SDK, then connect a device with USB debugging enabled or start an emulator:
+For Android, configure JDK 17 and the Android SDK, then connect a device or start an emulator:
 
 ```sh
 npm run android
 ```
 
-This builds and installs the development client and starts Metro. On subsequent runs, start Metro with:
+Use the installed development build instead of Expo Go. For subsequent sessions, run `npm start`. See the [Android setup guide](docs/development-build.md) for details.
+
+## ✅ Checks
 
 ```sh
-npm start
-```
-
-Use the installed development build for native features; Expo Go does not include the required native modules. Rebuild after changing native dependencies or config plugins. See the [Android development guide](docs/development-build.md) for setup, connection troubleshooting and device checks.
-
-## ✅ Validation
-
-```sh
-npm run typecheck       # TypeScript checks
-npm test                # Unit tests
-npm run format:check    # Formatting and sorted imports
-npm run export:web      # Web production export
-npm run export:android  # Android JavaScript export
-```
-
-Firestore rules can be checked with `npm run test:rules`; this requires the Firebase CLI and a compatible Java runtime. Android JavaScript exports do not produce an APK or replace device validation.
-
-Use Conventional Commits in English. `npm run format` formats the project and sorts imports.
-
-## ⚙️ Configuration
-
-| File                                                | Purpose                                                  |
-| --------------------------------------------------- | -------------------------------------------------------- |
-| `app.json`                                          | App metadata, branding and native config plugins.        |
-| `src/firebase/client.ts` and `google-services.json` | Firebase client and Android SDK configuration.           |
-| `src/google/client.ts`                              | Google sign-in OAuth client settings.                    |
-| `firebase.json` and `firestore.rules`               | Firebase services and access rules for each user's data. |
-
-The repository currently targets the development Firebase project. Production configuration is a separate release task. Optional source map uploads use a Sentry build token; see the [Sentry guide](docs/sentry.md).
-
-## 🗂️ Structure
-
-```text
-App.tsx                  # Fonts and application providers
-src/
-├── Pomodog.tsx          # Screen composition and navigation
-├── features/            # Screens, mascot and user flows
-├── components/          # Shared UI components
-├── domain/              # Progress, tasks and other domain rules
-├── hooks/               # Timer state and lifecycle coordination
-├── firebase/            # Authentication and account synchronization
-├── storage/             # Local persistence
-└── timer.ts             # Timer reducer and saved-state validation
-plugins/                 # Expo config plugins and Android native features
-scripts/                 # Brand assets and source map uploads
-tests/                   # Unit tests and Firestore rule checks
-docs/                    # Product, architecture, guides and verification evidence
+npm run typecheck
+npm test
+npm run format:check
 ```
 
 ## 📚 Documentation
 
-Detailed project documentation is currently in Portuguese.
-
-| Document                              | Purpose                                     |
-| ------------------------------------- | ------------------------------------------- |
-| [Documentation index](docs/README.md) | Find the guide for each topic.              |
-| [Architecture](docs/arquitetura.md)   | Modules, data flow and native integrations. |
-| [Roadmap](docs/plano-de-acao.md)      | Feature status, priorities and next steps.  |
-| [Verification](docs/verificacao.md)   | Confirmed checks, evidence and limitations. |
-| [Security](docs/seguranca.md)         | Security review and remaining checks.       |
-| [Privacy](docs/privacidade.md)        | Data handling, consent and retention work.  |
-
-Release readiness, remaining device checks and production setup are tracked in the roadmap.
+See the [documentation index](docs/README.md) for architecture, configuration, privacy and verification. The [roadmap](docs/plano-de-acao.md) tracks feature status and release work. Detailed guides are in Portuguese.
